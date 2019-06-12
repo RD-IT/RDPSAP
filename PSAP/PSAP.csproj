@@ -1,0 +1,1442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D7364EE9-C86B-42E0-B9B1-D7614B4CEE5B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PSAP</RootNamespace>
+    <AssemblyName>PSAP</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.BonusSkins.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeParser.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v15.2.Extensions, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 10.0\ReportViewer\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="PsapUserControlLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\PSAPUserControlLibrary\PSAPUserControlLibrary\bin\Debug\PsapUserControlLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UtilityLibrary">
+      <HintPath>..\..\工具软件\插件\UtilityLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking">
+      <HintPath>..\..\工具软件\插件\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLL\BSBLL\BSBLL.cs" />
+    <Compile Include="BLL\BSBLL\FrmDataQueryDesignBLL.cs" />
+    <Compile Include="BLL\BSBLL\FrmLoginBLL.cs" />
+    <Compile Include="BLL\BSBLL\FrmMainBLL.cs" />
+    <Compile Include="BLL\BSBLL\FrmOrganizationStruBLL.cs" />
+    <Compile Include="BLL\BSBLL\FrmRightBLL.cs" />
+    <Compile Include="BLL\SALEBLL\FrmAddRemarksBLL.cs" />
+    <Compile Include="BLL\SALEBLL\FrmProjectDocumentBLL.cs" />
+    <Compile Include="DAO\BSDAO\BaseSQL.cs" />
+    <Compile Include="DAO\BSDAO\BSCommon.cs" />
+    <Compile Include="DAO\BSDAO\FrmBomManagementDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmBussinessCategoryDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmBussinessInfoDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmCollectionTypeDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmCommonDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmDataQueryDesignDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmLoginDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmOrganizationStruDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmPartsCodeDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmRightDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmMainDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmSystemDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmInventoryAdjustmentsDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmInventoryMoveDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmOrderApplyDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmReturnedGoodsReportDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmSpecialWarehouseReceiptDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmSpecialWarehouseWarrantDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmWarehouseNowInfoDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmWarehouseReceiptDAO.cs" />
+    <Compile Include="DAO\PBDAO\FrmPBDesignBomDAO.cs" />
+    <Compile Include="DAO\PBDAO\FrmPBDesignBom_PSDAO.cs" />
+    <Compile Include="DAO\PBDAO\FrmProductionScheduleDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmApprovalDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmDocumentTempletDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmOrderDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmPayTypeDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmPrReqApplyDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmPrReqDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmWarehouseWarrantDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmSettlementDAO.cs" />
+    <Compile Include="DAO\PURDAO\FrmWarehouseWarrantApplyDAO.cs" />
+    <Compile Include="DAO\SADAO\FrmDeliveryDetailDAO.cs" />
+    <Compile Include="DAO\SADAO\FrmQuotationInfoDAO.cs" />
+    <Compile Include="DAO\SADAO\FrmSalesOrderDAO.cs" />
+    <Compile Include="DAO\SADAO\FrmSettleAccountsDAO.cs" />
+    <Compile Include="DAO\SADAO\FrmStnModuleDAO.cs" />
+    <Compile Include="DAO\SADAO\FrmStnSummaryDAO.cs" />
+    <Compile Include="DAO\SALEDAO\FrmAddRemarksDAO.cs" />
+    <Compile Include="DAO\SALEDAO\FrmProjectDocumentDAO.cs" />
+    <Compile Include="ENTITY\BSENTITY\bomManagement.cs" />
+    <Compile Include="ENTITY\BSENTITY\BomMateriel.cs" />
+    <Compile Include="ENTITY\BSENTITY\BomMaterieState.cs" />
+    <Compile Include="ENTITY\BSENTITY\BussinessBaseInfo.cs" />
+    <Compile Include="ENTITY\BSENTITY\BussinessCategory.cs" />
+    <Compile Include="ENTITY\BSENTITY\BussinessDetailInfo.cs" />
+    <Compile Include="ENTITY\BSENTITY\BussinessFinancialInfo.cs" />
+    <Compile Include="ENTITY\BSENTITY\Button.cs" />
+    <Compile Include="ENTITY\BSENTITY\CountryCodeManagement.cs" />
+    <Compile Include="ENTITY\BSENTITY\DataHeaderSetting.cs" />
+    <Compile Include="ENTITY\BSENTITY\DataSetting.cs" />
+    <Compile Include="ENTITY\BSENTITY\LanguageCategory.cs" />
+    <Compile Include="ENTITY\BSENTITY\LanguageSetting.cs" />
+    <Compile Include="ENTITY\BSENTITY\QuerySql.cs" />
+    <Compile Include="ENTITY\BSENTITY\QuerySqlParameter.cs" />
+    <Compile Include="ENTITY\BSENTITY\Theme.cs" />
+    <Compile Include="ENTITY\BSENTITY\ThemeDetail.cs" />
+    <Compile Include="ENTITY\FrmUserInfoDAO.cs" />
+    <Compile Include="dsPSAP.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsPSAP.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ENTITY\BSENTITY\Department.cs" />
+    <Compile Include="ENTITY\BSENTITY\Menu.cs" />
+    <Compile Include="ENTITY\BSENTITY\MenuButton.cs" />
+    <Compile Include="ENTITY\BSENTITY\Role.cs" />
+    <Compile Include="ENTITY\BSENTITY\RoleMenu.cs" />
+    <Compile Include="ENTITY\BSENTITY\RoleUser.cs" />
+    <Compile Include="ENTITY\BSENTITY\UnitCatg.cs" />
+    <Compile Include="ENTITY\BSENTITY\UserInfo.cs" />
+    <Compile Include="ENTITY\BSENTITY\UserMenuButton.cs" />
+    <Compile Include="ENTITY\PURENTITY\PPurCategory.cs" />
+    <Compile Include="ENTITY\PURENTITY\PrReqHead.cs" />
+    <Compile Include="ENTITY\PURENTITY\PrReqList.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSAPCommon\CommonHandler.cs" />
+    <Compile Include="PSAPCommon\ControlHandler.cs" />
+    <Compile Include="PSAPCommon\DataTypeConvert.cs" />
+    <Compile Include="PSAPCommon\EncryptMD5.cs" />
+    <Compile Include="PSAPCommon\ExceptionHandler.cs" />
+    <Compile Include="PSAPCommon\FileHandler.cs" />
+    <Compile Include="PSAPCommon\FormAutoSize.cs" />
+    <Compile Include="PSAPCommon\FtpOperations.cs" />
+    <Compile Include="PSAPCommon\GetLanguageSet.cs" />
+    <Compile Include="PSAPCommon\IconHelper.cs" />
+    <Compile Include="PSAPCommon\LogHandler.cs" />
+    <Compile Include="PSAPCommon\MessageHandler.cs" />
+    <Compile Include="PSAPCommon\psapCommon.cs" />
+    <Compile Include="PSAPCommon\ReportHandler.cs" />
+    <Compile Include="PSAPCommon\SocketHandler.cs" />
+    <Compile Include="PSAPCommon\SystemHandler.cs" />
+    <Compile Include="PSAPCommon\SystemInfo.cs" />
+    <Compile Include="PSAPCommon\TreeSelectOptimize.cs" />
+    <Compile Include="PSAPCommon\ViewHandler.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="VIEW\BSVIEW\FrmBomImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomImport.Designer.cs">
+      <DependentUpon>FrmBomImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomManagement.Designer.cs">
+      <DependentUpon>FrmBomManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomNegativeExpand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomNegativeExpand.Designer.cs">
+      <DependentUpon>FrmBomNegativeExpand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomPositiveExpand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBomPositiveExpand.Designer.cs">
+      <DependentUpon>FrmBomPositiveExpand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessInfo_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessInfo_New.Designer.cs">
+      <DependentUpon>FrmBussinessInfo_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmCollectionType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmCollectionType.Designer.cs">
+      <DependentUpon>FrmCollectionType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmCollectionTypeList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmCollectionTypeList.Designer.cs">
+      <DependentUpon>FrmCollectionTypeList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmCurrencyCate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmCurrencyCate.Designer.cs">
+      <DependentUpon>FrmCurrencyCate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDeliveryLocation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDeliveryLocation.Designer.cs">
+      <DependentUpon>FrmDeliveryLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmLanguageBSDAO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmLanguageBSDAO.Designer.cs">
+      <DependentUpon>FrmLanguageBSDAO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmLanguageText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmLanguageText.Designer.cs">
+      <DependentUpon>FrmLanguageText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_MenuManagement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_MenuManagement.Designer.cs">
+      <DependentUpon>FrmRight_MenuManagement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_New.Designer.cs">
+      <DependentUpon>FrmRight_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_Role.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_Role.Designer.cs">
+      <DependentUpon>FrmRight_Role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_UserMenuButton.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight_UserMenuButton.Designer.cs">
+      <DependentUpon>FrmRight_UserMenuButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\CommonVIEW\FrmInputDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\CommonVIEW\FrmInputDate.Designer.cs">
+      <DependentUpon>FrmInputDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\CommonVIEW\FrmInputNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\CommonVIEW\FrmInputNumber.Designer.cs">
+      <DependentUpon>FrmInputNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmQueryStockDurationTotal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmQueryStockDurationTotal.Designer.cs">
+      <DependentUpon>FrmQueryStockDurationTotal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmReturnedGoodsReport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmReturnedGoodsReport.Designer.cs">
+      <DependentUpon>FrmReturnedGoodsReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmReturnedGoodsReportQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmReturnedGoodsReportQuery.Designer.cs">
+      <DependentUpon>FrmReturnedGoodsReportQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseReceipt.Designer.cs">
+      <DependentUpon>FrmSpecialWarehouseReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseReceiptQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseReceiptQuery.Designer.cs">
+      <DependentUpon>FrmSpecialWarehouseReceiptQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseWarrant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseWarrant.Designer.cs">
+      <DependentUpon>FrmSpecialWarehouseWarrant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseWarrantQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmSpecialWarehouseWarrantQuery.Designer.cs">
+      <DependentUpon>FrmSpecialWarehouseWarrantQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmLanguageINVDAO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmLanguageINVDAO.Designer.cs">
+      <DependentUpon>FrmLanguageINVDAO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseNowInfo_Bom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseNowInfo_Bom.Designer.cs">
+      <DependentUpon>FrmWarehouseNowInfo_Bom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantList_NoSettlement.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantList_NoSettlement.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrantList_NoSettlement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom.Designer.cs">
+      <DependentUpon>FrmPBDesignBom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBomQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBomQuery.Designer.cs">
+      <DependentUpon>FrmPBDesignBomQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_InputNumber.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_InputNumber.Designer.cs">
+      <DependentUpon>FrmPBDesignBom_InputNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_PS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_PS.Designer.cs">
+      <DependentUpon>FrmPBDesignBom_PS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionSchedule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionSchedule.Designer.cs">
+      <DependentUpon>FrmProductionSchedule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionScheduleBom_InputMulti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionScheduleBom_InputMulti.Designer.cs">
+      <DependentUpon>FrmProductionScheduleBom_InputMulti.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionScheduleBom_InputSingle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionScheduleBom_InputSingle.Designer.cs">
+      <DependentUpon>FrmProductionScheduleBom_InputSingle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionScheduleQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionScheduleQuery.Designer.cs">
+      <DependentUpon>FrmProductionScheduleQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionSchedule_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmProductionSchedule_Drag.Designer.cs">
+      <DependentUpon>FrmProductionSchedule_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmSelectSalesOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmSelectSalesOrder.Designer.cs">
+      <DependentUpon>FrmSelectSalesOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmLanguagePURDAO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmLanguagePURDAO.Designer.cs">
+      <DependentUpon>FrmLanguagePURDAO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing.Designer.cs">
+      <DependentUpon>FrmOrderList_NoWarehousing.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing_Days.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing_Days.Designer.cs">
+      <DependentUpon>FrmOrderList_NoWarehousing_Days.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmTest_WF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmTest_WF.Designer.cs">
+      <DependentUpon>FrmTest_WF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SALEVIEW\FrmAddRemarks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SALEVIEW\FrmAddRemarks.Designer.cs">
+      <DependentUpon>FrmAddRemarks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SALEVIEW\FrmProjectDocument.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SALEVIEW\FrmProjectDocument.Designer.cs">
+      <DependentUpon>FrmProjectDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmDeliveryDetail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmDeliveryDetail.Designer.cs">
+      <DependentUpon>FrmDeliveryDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationApply.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationApply.Designer.cs">
+      <DependentUpon>FrmQuotationApply.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationInfo.Designer.cs">
+      <DependentUpon>FrmQuotationInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationInfoQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationInfoQuery.Designer.cs">
+      <DependentUpon>FrmQuotationInfoQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationInfo_History.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmQuotationInfo_History.Designer.cs">
+      <DependentUpon>FrmQuotationInfo_History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSalesOrder_History.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSalesOrder_History.Designer.cs">
+      <DependentUpon>FrmSalesOrder_History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSalesOrderQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSalesOrderQuery.Designer.cs">
+      <DependentUpon>FrmSalesOrderQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSalesOrder_NoSettle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSalesOrder_NoSettle.Designer.cs">
+      <DependentUpon>FrmSalesOrder_NoSettle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSelectQuotationInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSelectQuotationInfo.Designer.cs">
+      <DependentUpon>FrmSelectQuotationInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSelectStnModule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSelectStnModule.Designer.cs">
+      <DependentUpon>FrmSelectStnModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSettleAccounts_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSettleAccounts_Drag.Designer.cs">
+      <DependentUpon>FrmSettleAccounts_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSettleAccountsQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmSettleAccountsQuery.Designer.cs">
+      <DependentUpon>FrmSettleAccountsQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnModule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnModule.Designer.cs">
+      <DependentUpon>FrmStnModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnSummary.Designer.cs">
+      <DependentUpon>FrmStnSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnSummary_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnSummary_Drag.Designer.cs">
+      <DependentUpon>FrmStnSummary_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnSummary_Query.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SAVIEW\FrmStnSummary_Query.Designer.cs">
+      <DependentUpon>FrmStnSummary_Query.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmBrandCatg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmBrandCatg.Designer.cs">
+      <DependentUpon>FrmBrandCatg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessCategory.Designer.cs">
+      <DependentUpon>FrmBussinessCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessCategory_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessCategory_New.Designer.cs">
+      <DependentUpon>FrmBussinessCategory_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmBussinessInfo.Designer.cs">
+      <DependentUpon>FrmBussinessInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmChangePassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmChangePassword.Designer.cs">
+      <DependentUpon>FrmChangePassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDataQueryDesign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDataQueryDesign.Designer.cs">
+      <DependentUpon>FrmDataQueryDesign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDepartment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDepartment.Designer.cs">
+      <DependentUpon>FrmDepartment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDepartment_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDepartment_New.Designer.cs">
+      <DependentUpon>FrmDepartment_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmLogin.designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmMain.designer.cs">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmMainTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmMainTool.Designer.cs">
+      <DependentUpon>FrmMainTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmManufactureInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmManufactureInfo.Designer.cs">
+      <DependentUpon>FrmManufactureInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmOrganizationStru.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmOrganizationStru.Designer.cs">
+      <DependentUpon>FrmOrganizationStru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmProjectList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmProjectList.Designer.cs">
+      <DependentUpon>FrmProjectList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmQueryCondition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmQueryCondition.Designer.cs">
+      <DependentUpon>FrmQueryCondition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDataQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmDataQuery.Designer.cs">
+      <DependentUpon>FrmDataQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRepertoryInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRepertoryInfo.Designer.cs">
+      <DependentUpon>FrmRepertoryInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmShelfInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmShelfInfo.Designer.cs">
+      <DependentUpon>FrmShelfInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmStnList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmStnList.Designer.cs">
+      <DependentUpon>FrmStnList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUnitCatg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUnitCatg.Designer.cs">
+      <DependentUpon>FrmUnitCatg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUnitCatg_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUnitCatg_New.Designer.cs">
+      <DependentUpon>FrmUnitCatg_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUserInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUserInfo.Designer.cs">
+      <DependentUpon>FrmUserInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRight.Designer.cs">
+      <DependentUpon>FrmRight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUserInfo_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmUserInfo_New.Designer.cs">
+      <DependentUpon>FrmUserInfo_New.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmWarehouseReceiptType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmWarehouseReceiptType.Designer.cs">
+      <DependentUpon>FrmWarehouseReceiptType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmWarehouseWarrantType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmWarehouseWarrantType.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrantType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryAdjustments_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryAdjustments_Drag.Designer.cs">
+      <DependentUpon>FrmInventoryAdjustments_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryAdjustmentsQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryAdjustmentsQuery.Designer.cs">
+      <DependentUpon>FrmInventoryAdjustmentsQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryMove_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryMove_Drag.Designer.cs">
+      <DependentUpon>FrmInventoryMove_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryMoveQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmInventoryMoveQuery.Designer.cs">
+      <DependentUpon>FrmInventoryMoveQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseNowInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseNowInfo.Designer.cs">
+      <DependentUpon>FrmWarehouseNowInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.Designer.cs">
+      <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmOrderApply.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmOrderApply.Designer.cs">
+      <DependentUpon>FrmOrderApply.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceipt_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceipt_Drag.Designer.cs">
+      <DependentUpon>FrmWarehouseReceipt_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptQuery.Designer.cs">
+      <DependentUpon>FrmWarehouseReceiptQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantQuery.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrantQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant_Drag.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrant_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmApprovalList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmApprovalList.Designer.cs">
+      <DependentUpon>FrmApprovalList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderApproval.Designer.cs">
+      <DependentUpon>FrmOrderApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderListAndWarehouseWarrantList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderListAndWarehouseWarrantList.Designer.cs">
+      <DependentUpon>FrmOrderListAndWarehouseWarrantList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderList_Overplus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderList_Overplus.Designer.cs">
+      <DependentUpon>FrmOrderList_Overplus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrder_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrder_Drag.Designer.cs">
+      <DependentUpon>FrmOrder_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.Designer.cs">
+      <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmApprovalType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmApprovalType.Designer.cs">
+      <DependentUpon>FrmApprovalType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmBaseEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmBaseEdit.Designer.cs">
+      <DependentUpon>FrmBaseEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrder.Designer.cs">
+      <DependentUpon>FrmOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderListQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderListQuery.Designer.cs">
+      <DependentUpon>FrmOrderListQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderQuery.Designer.cs">
+      <DependentUpon>FrmOrderQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPayType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPayType.Designer.cs">
+      <DependentUpon>FrmPayType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPayTypeList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPayTypeList.Designer.cs">
+      <DependentUpon>FrmPayTypeList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReq.Designer.cs">
+      <DependentUpon>FrmPrReq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqApply.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqApply.Designer.cs">
+      <DependentUpon>FrmPrReqApply.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqListAndOrderList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqListAndOrderList.Designer.cs">
+      <DependentUpon>FrmPrReqListAndOrderList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqList_Overplus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqList_Overplus.Designer.cs">
+      <DependentUpon>FrmPrReqList_Overplus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqQuery.Designer.cs">
+      <DependentUpon>FrmPrReqQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPurCategory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPurCategory.Designer.cs">
+      <DependentUpon>FrmPurCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.Designer.cs">
+      <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlementQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlementQuery.Designer.cs">
+      <DependentUpon>FrmSettlementQuery.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlement_Drag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlement_Drag.Designer.cs">
+      <DependentUpon>FrmSettlement_Drag.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\GridBottom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\GridBottom.Designer.cs">
+      <DependentUpon>GridBottom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\REPORT\FrmDocumentTemplet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\REPORT\FrmDocumentTemplet.Designer.cs">
+      <DependentUpon>FrmDocumentTemplet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\REPORT\FrmPrintPreview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\REPORT\FrmPrintPreview.Designer.cs">
+      <DependentUpon>FrmPrintPreview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmPartsCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmPartsCode.Designer.cs">
+      <DependentUpon>FrmPartsCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmPartsCodeImport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmPartsCodeImport.Designer.cs">
+      <DependentUpon>FrmPartsCodeImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\SYSVIEW\FrmSystemSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SYSVIEW\FrmSystemSet.Designer.cs">
+      <DependentUpon>FrmSystemSet.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBomImport.resx">
+      <DependentUpon>FrmBomImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBomManagement.resx">
+      <DependentUpon>FrmBomManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBomNegativeExpand.resx">
+      <DependentUpon>FrmBomNegativeExpand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBomPositiveExpand.resx">
+      <DependentUpon>FrmBomPositiveExpand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBussinessInfo_New.resx">
+      <DependentUpon>FrmBussinessInfo_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmCollectionType.resx">
+      <DependentUpon>FrmCollectionType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmCollectionTypeList.resx">
+      <DependentUpon>FrmCollectionTypeList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmCurrencyCate.resx">
+      <DependentUpon>FrmCurrencyCate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmDeliveryLocation.resx">
+      <DependentUpon>FrmDeliveryLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmLanguageBSDAO.resx">
+      <DependentUpon>FrmLanguageBSDAO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmLanguageText.resx">
+      <DependentUpon>FrmLanguageText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_MenuManagement.resx">
+      <DependentUpon>FrmRight_MenuManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_New.resx">
+      <DependentUpon>FrmRight_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_Role.resx">
+      <DependentUpon>FrmRight_Role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_UserMenuButton.resx">
+      <DependentUpon>FrmRight_UserMenuButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\CommonVIEW\FrmInputDate.resx">
+      <DependentUpon>FrmInputDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\CommonVIEW\FrmInputNumber.resx">
+      <DependentUpon>FrmInputNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmQueryStockDurationTotal.resx">
+      <DependentUpon>FrmQueryStockDurationTotal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmReturnedGoodsReport.resx">
+      <DependentUpon>FrmReturnedGoodsReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmReturnedGoodsReportQuery.resx">
+      <DependentUpon>FrmReturnedGoodsReportQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmSpecialWarehouseReceipt.resx">
+      <DependentUpon>FrmSpecialWarehouseReceipt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmSpecialWarehouseReceiptQuery.resx">
+      <DependentUpon>FrmSpecialWarehouseReceiptQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmSpecialWarehouseWarrant.resx">
+      <DependentUpon>FrmSpecialWarehouseWarrant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmLanguageINVDAO.resx">
+      <DependentUpon>FrmLanguageINVDAO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmSpecialWarehouseWarrantQuery.resx">
+      <DependentUpon>FrmSpecialWarehouseWarrantQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseNowInfo_Bom.resx">
+      <DependentUpon>FrmWarehouseNowInfo_Bom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantList_NoSettlement.resx">
+      <DependentUpon>FrmWarehouseWarrantList_NoSettlement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBom.resx">
+      <DependentUpon>FrmPBDesignBom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBomQuery.resx">
+      <DependentUpon>FrmPBDesignBomQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBom_InputNumber.resx">
+      <DependentUpon>FrmPBDesignBom_InputNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBom_PS.resx">
+      <DependentUpon>FrmPBDesignBom_PS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionSchedule.resx">
+      <DependentUpon>FrmProductionSchedule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionScheduleBom_InputMulti.resx">
+      <DependentUpon>FrmProductionScheduleBom_InputMulti.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionScheduleBom_InputSingle.resx">
+      <DependentUpon>FrmProductionScheduleBom_InputSingle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionScheduleQuery.resx">
+      <DependentUpon>FrmProductionScheduleQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionSchedule_Drag.resx">
+      <DependentUpon>FrmProductionSchedule_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmSelectSalesOrder.resx">
+      <DependentUpon>FrmSelectSalesOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmLanguagePURDAO.resx">
+      <DependentUpon>FrmLanguagePURDAO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing.resx">
+      <DependentUpon>FrmOrderList_NoWarehousing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing_Days.resx">
+      <DependentUpon>FrmOrderList_NoWarehousing_Days.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmTest_WF.resx">
+      <DependentUpon>FrmTest_WF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SALEVIEW\FrmAddRemarks.resx">
+      <DependentUpon>FrmAddRemarks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SALEVIEW\FrmProjectDocument.resx">
+      <DependentUpon>FrmProjectDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmDeliveryDetail.resx">
+      <DependentUpon>FrmDeliveryDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmQuotationApply.resx">
+      <DependentUpon>FrmQuotationApply.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmQuotationInfo.resx">
+      <DependentUpon>FrmQuotationInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmQuotationInfoQuery.resx">
+      <DependentUpon>FrmQuotationInfoQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmQuotationInfo_History.resx">
+      <DependentUpon>FrmQuotationInfo_History.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSalesOrder_History.resx">
+      <DependentUpon>FrmSalesOrder_History.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSalesOrderQuery.resx">
+      <DependentUpon>FrmSalesOrderQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSalesOrder_NoSettle.resx">
+      <DependentUpon>FrmSalesOrder_NoSettle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSelectQuotationInfo.resx">
+      <DependentUpon>FrmSelectQuotationInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSelectStnModule.resx">
+      <DependentUpon>FrmSelectStnModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSettleAccounts_Drag.resx">
+      <DependentUpon>FrmSettleAccounts_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmSettleAccountsQuery.resx">
+      <DependentUpon>FrmSettleAccountsQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmStnModule.resx">
+      <DependentUpon>FrmStnModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmStnSummary.resx">
+      <DependentUpon>FrmStnSummary.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmStnSummary_Drag.resx">
+      <DependentUpon>FrmStnSummary_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SAVIEW\FrmStnSummary_Query.resx">
+      <DependentUpon>FrmStnSummary_Query.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SWVIEW\FrmBrandCatg.resx">
+      <DependentUpon>FrmBrandCatg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBussinessCategory.resx">
+      <DependentUpon>FrmBussinessCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBussinessCategory_New.resx">
+      <DependentUpon>FrmBussinessCategory_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmBussinessInfo.resx">
+      <DependentUpon>FrmBussinessInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmChangePassword.resx">
+      <DependentUpon>FrmChangePassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmDataQueryDesign.resx">
+      <DependentUpon>FrmDataQueryDesign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmDepartment.resx">
+      <DependentUpon>FrmDepartment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmDepartment_New.resx">
+      <DependentUpon>FrmDepartment_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmMain.resx">
+      <DependentUpon>FrmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmMainTool.resx">
+      <DependentUpon>FrmMainTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmManufactureInfo.resx">
+      <DependentUpon>FrmManufactureInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmOrganizationStru.resx">
+      <DependentUpon>FrmOrganizationStru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmProjectList.resx">
+      <DependentUpon>FrmProjectList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmQueryCondition.resx">
+      <DependentUpon>FrmQueryCondition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmDataQuery.resx">
+      <DependentUpon>FrmDataQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRepertoryInfo.resx">
+      <DependentUpon>FrmRepertoryInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmShelfInfo.resx">
+      <DependentUpon>FrmShelfInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmStnList.resx">
+      <DependentUpon>FrmStnList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmUnitCatg.resx">
+      <DependentUpon>FrmUnitCatg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmUnitCatg_New.resx">
+      <DependentUpon>FrmUnitCatg_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmUserInfo.resx">
+      <DependentUpon>FrmUserInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRight.resx">
+      <DependentUpon>FrmRight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmUserInfo_New.resx">
+      <DependentUpon>FrmUserInfo_New.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmWarehouseReceiptType.resx">
+      <DependentUpon>FrmWarehouseReceiptType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmWarehouseWarrantType.resx">
+      <DependentUpon>FrmWarehouseWarrantType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmInventoryAdjustments_Drag.resx">
+      <DependentUpon>FrmInventoryAdjustments_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmInventoryAdjustmentsQuery.resx">
+      <DependentUpon>FrmInventoryAdjustmentsQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmInventoryMove_Drag.resx">
+      <DependentUpon>FrmInventoryMove_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmInventoryMoveQuery.resx">
+      <DependentUpon>FrmInventoryMoveQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseNowInfo.resx">
+      <DependentUpon>FrmWarehouseNowInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.resx">
+      <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.resx">
+      <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmOrderApply.resx">
+      <DependentUpon>FrmOrderApply.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceipt_Drag.resx">
+      <DependentUpon>FrmWarehouseReceipt_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceiptQuery.resx">
+      <DependentUpon>FrmWarehouseReceiptQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrant.resx">
+      <DependentUpon>FrmWarehouseWarrant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantQuery.resx">
+      <DependentUpon>FrmWarehouseWarrantQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrant_Drag.resx">
+      <DependentUpon>FrmWarehouseWarrant_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmApprovalList.resx">
+      <DependentUpon>FrmApprovalList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderApproval.resx">
+      <DependentUpon>FrmOrderApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderListAndWarehouseWarrantList.resx">
+      <DependentUpon>FrmOrderListAndWarehouseWarrantList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderList_Overplus.resx">
+      <DependentUpon>FrmOrderList_Overplus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrder_Drag.resx">
+      <DependentUpon>FrmOrder_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqApproval.resx">
+      <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmApprovalType.resx">
+      <DependentUpon>FrmApprovalType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmBaseEdit.resx">
+      <DependentUpon>FrmBaseEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrder.resx">
+      <DependentUpon>FrmOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderListQuery.resx">
+      <DependentUpon>FrmOrderListQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderQuery.resx">
+      <DependentUpon>FrmOrderQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPayType.resx">
+      <DependentUpon>FrmPayType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPayTypeList.resx">
+      <DependentUpon>FrmPayTypeList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReq.resx">
+      <DependentUpon>FrmPrReq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqApply.resx">
+      <DependentUpon>FrmPrReqApply.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqListAndOrderList.resx">
+      <DependentUpon>FrmPrReqListAndOrderList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqList_Overplus.resx">
+      <DependentUpon>FrmPrReqList_Overplus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqQuery.resx">
+      <DependentUpon>FrmPrReqQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPurCategory.resx">
+      <DependentUpon>FrmPurCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlementApproval.resx">
+      <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlementQuery.resx">
+      <DependentUpon>FrmSettlementQuery.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlement_Drag.resx">
+      <DependentUpon>FrmSettlement_Drag.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\GridBottom.resx">
+      <DependentUpon>GridBottom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\REPORT\FrmDocumentTemplet.resx">
+      <DependentUpon>FrmDocumentTemplet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\REPORT\FrmPrintPreview.resx">
+      <DependentUpon>FrmPrintPreview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\REPORT\Report111.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SWVIEW\FrmPartsCode.resx">
+      <DependentUpon>FrmPartsCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SWVIEW\FrmPartsCodeImport.resx">
+      <DependentUpon>FrmPartsCodeImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SYSVIEW\FrmSystemSet.resx">
+      <DependentUpon>FrmSystemSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="dsPSAP.xsc">
+      <DependentUpon>dsPSAP.xsd</DependentUpon>
+    </None>
+    <None Include="dsPSAP.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsPSAP.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="dsPSAP.xss">
+      <DependentUpon>dsPSAP.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PSAPCommon\PsapUserControlLibrary.dll" />
+    <Content Include="PSAPCommon\UtilityLibrary.dll" />
+    <Content Include="PSAPCommon\WeifenLuo.WinFormsUI.Docking.dll" />
+    <Content Include="Resources\229.png" />
+    <None Include="Resources\543.png" />
+    <None Include="Resources\345.png" />
+    <None Include="Resources\742.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PRINT\BSPRINT\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SQLDMO">
+      <Guid>{10010001-E260-11CF-AE68-00AA004A34D5}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
