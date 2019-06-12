@@ -977,6 +977,12 @@
     <Compile Include="VIEW\SWVIEW\FrmPartsCodeImport.Designer.cs">
       <DependentUpon>FrmPartsCodeImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\SYSVIEW\FrmSystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SYSVIEW\FrmSystem.Designer.cs">
+      <DependentUpon>FrmSystem.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\SYSVIEW\FrmSystemSet.cs">
       <SubType>Form</SubType>
     </Compile>
