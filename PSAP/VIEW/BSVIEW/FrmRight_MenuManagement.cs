@@ -30,6 +30,8 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private string parentMenuTextStr = "";
 
+        private string currentFocusedStr = "";
+
         public FrmRight_MenuManagement()
         {
             InitializeComponent();
@@ -57,6 +59,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.MasterBindingSource = bSMenu;
                     editForm.MasterEditPanel = pnlEdit;
                     //editForm.PrimaryKeyControl = textMenuText;
+                    editForm.RefreshToSetPosition = true;
                     editForm.BrowseXtraGridView = gridViewMenu;
                     editForm.CheckControl += CheckControl;
                     editForm.QueryDataAfter += QueryDataAfter;
@@ -109,13 +112,13 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (textMenuText.Text.Trim() == "")
             {
-                MessageHandler.ShowMessageBox(tsmiCdmcbnwk.Text );// ("菜单名称不能为空，请重新操作。");
+                MessageHandler.ShowMessageBox(tsmiCdmcbnwk.Text);// ("菜单名称不能为空，请重新操作。");
                 textMenuText.Focus();
                 return false;
             }
-            if(DataTypeConvert.GetString(gridViewMenu.GetFocusedDataRow()["MenuName"])== DataTypeConvert.GetString(gridViewMenu.GetFocusedDataRow()["ParentMenuName"]))
+            if (DataTypeConvert.GetString(gridViewMenu.GetFocusedDataRow()["MenuName"]) == DataTypeConvert.GetString(gridViewMenu.GetFocusedDataRow()["ParentMenuName"]))
             {
-                MessageHandler.ShowMessageBox(tsmiSjcdbnh.Text );// ("上级菜单不能和当前菜单相同，请重新操作。");
+                MessageHandler.ShowMessageBox(tsmiSjcdbnh.Text);// ("上级菜单不能和当前菜单相同，请重新操作。");
                 searchParentMenuName.Focus();
                 return false;
             }
@@ -130,19 +133,30 @@ namespace PSAP.VIEW.BSVIEW
         {
             treeListMenu.ExpandAll();
             searchParentMenuName.Properties.DataSource = FrmRightDAO.QueryMenuList();
+            if (currentFocusedStr != "")
+            {
+                for (int i = 0; i < gridViewMenu.DataRowCount; i++)
+                {
+                    if (DataTypeConvert.GetString(gridViewMenu.GetDataRow(i)["MenuName"]) == currentFocusedStr)
+                    {
+                        gridViewMenu.FocusedRowHandle = i;
+                        break;
+                    }
+                }
+                currentFocusedStr = "";
+            }            
         }
 
         /// <summary>
         /// 保存行之前的回调方法
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="cmd"></param>
-        /// <returns></returns>
         public bool SaveRowBefore(DataRow dr, SqlCommand cmd)
         {
             if (dr.RowState == DataRowState.Added)
+            {
                 dr["MenuOrder"] = FrmRightDAO.GetMaxMenuOrder(cmd, DataTypeConvert.GetString(dr["ParentMenuName"]));
-
+                currentFocusedStr = DataTypeConvert.GetString(dr["MenuName"]);
+            }
             return true;
         }
 

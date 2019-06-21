@@ -86,6 +86,15 @@ namespace PSAP.DAO.BSDAO
         }
 
         /// <summary>
+        /// 查询单条物料信息
+        /// </summary>
+        public DataTable QuerySinglePartsCode(string codeFileNameStr)
+        {
+            string sqlStr = string.Format("select * from SW_PartsCode where CodeFileName = '{0}'", codeFileNameStr);
+            return BaseSQL.GetTableBySql(sqlStr);
+        }
+
+        /// <summary>
         /// 查询单位信息表
         /// </summary>
         public DataTable QueryUnitCatg(bool addAllItem)

@@ -68,10 +68,10 @@ namespace PSAP.VIEW.BSVIEW
                 ControlHandler.DevExpressStyle_ChangeControlLocation(checkAll.LookAndFeel.ActiveSkinName, new List<Control> { checkAll });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateCurrentDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateCurrentDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateCurrentDateEnd.DateTime = nowDate.Date;
                 datePlanDateBegin.DateTime = nowDate.Date;
-                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DefaultDays);
+                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPlanDate.Checked = false;
 
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
@@ -557,7 +557,8 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                int type = SystemInfo.ProductionScheduleBOMType;
+                //int type = SystemInfo.ProductionScheduleBOMType;
+                int type = 3;
 
                 if (type == 3)
                 {

@@ -41,10 +41,10 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateSettlementDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateSettlementDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSettlementDateEnd.DateTime = nowDate.Date;
                 datePayDateBegin.DateTime = nowDate.Date;
-                datePayDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DefaultDays);
+                datePayDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPayDate.Checked = false;
 
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);

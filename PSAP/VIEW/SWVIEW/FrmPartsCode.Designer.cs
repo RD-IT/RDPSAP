@@ -55,9 +55,11 @@
             this.dataColBfree1 = new System.Data.DataColumn();
             this.dataColBfree2 = new System.Data.DataColumn();
             this.dataColBfree3 = new System.Data.DataColumn();
+            this.dataColIsBuy = new System.Data.DataColumn();
             this.bSPartsCode = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.checkIsBuy = new DevExpress.XtraEditors.CheckEdit();
             this.labUnit = new DevExpress.XtraEditors.LabelControl();
             this.lookUpUnit = new DevExpress.XtraEditors.LookUpEdit();
             this.lookUpMachiningLevel = new DevExpress.XtraEditors.LookUpEdit();
@@ -134,12 +136,15 @@
             this.tsmiGgxh = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWlbb = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDw = new System.Windows.Forms.ToolStripMenuItem();
+            this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repCheckIsBuy = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dSPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpUnit.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpMachiningLevel.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpFinish.Properties)).BeginInit();
@@ -165,6 +170,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).BeginInit();
             this.cms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
             this.SuspendLayout();
             // 
             // dSPartsCode
@@ -199,7 +205,8 @@
             this.dataColGetTime,
             this.dataColBfree1,
             this.dataColBfree2,
-            this.dataColBfree3});
+            this.dataColBfree3,
+            this.dataColIsBuy});
             this.TablePartsCode.TableName = "PartsCode";
             this.TablePartsCode.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TablePartsCode_TableNewRow);
             // 
@@ -329,6 +336,12 @@
             // 
             this.dataColBfree3.ColumnName = "Bfree3";
             // 
+            // dataColIsBuy
+            // 
+            this.dataColIsBuy.Caption = "是否购买";
+            this.dataColIsBuy.ColumnName = "IsBuy";
+            this.dataColIsBuy.DataType = typeof(short);
+            // 
             // bSPartsCode
             // 
             this.bSPartsCode.DataMember = "PartsCode";
@@ -339,11 +352,12 @@
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
-            this.pnlToolBar.Size = new System.Drawing.Size(1370, 40);
+            this.pnlToolBar.Size = new System.Drawing.Size(1924, 40);
             this.pnlToolBar.TabIndex = 3;
             // 
             // pnlEdit
             // 
+            this.pnlEdit.Controls.Add(this.checkIsBuy);
             this.pnlEdit.Controls.Add(this.labUnit);
             this.pnlEdit.Controls.Add(this.lookUpUnit);
             this.pnlEdit.Controls.Add(this.lookUpMachiningLevel);
@@ -381,8 +395,21 @@
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(1370, 209);
+            this.pnlEdit.Size = new System.Drawing.Size(1924, 209);
             this.pnlEdit.TabIndex = 7;
+            // 
+            // checkIsBuy
+            // 
+            this.checkIsBuy.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSPartsCode, "IsBuy", true));
+            this.checkIsBuy.EnterMoveNextControl = true;
+            this.checkIsBuy.Location = new System.Drawing.Point(435, 161);
+            this.checkIsBuy.Name = "checkIsBuy";
+            this.checkIsBuy.Properties.Caption = "是否购买";
+            this.checkIsBuy.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkIsBuy.Properties.ValueChecked = ((short)(1));
+            this.checkIsBuy.Properties.ValueUnchecked = ((short)(0));
+            this.checkIsBuy.Size = new System.Drawing.Size(97, 19);
+            this.checkIsBuy.TabIndex = 17;
             // 
             // labUnit
             // 
@@ -603,7 +630,7 @@
             this.textTel.Location = new System.Drawing.Point(872, 160);
             this.textTel.Name = "textTel";
             this.textTel.Size = new System.Drawing.Size(160, 20);
-            this.textTel.TabIndex = 18;
+            this.textTel.TabIndex = 19;
             // 
             // labTel
             // 
@@ -620,7 +647,7 @@
             this.textDesigner.Location = new System.Drawing.Point(615, 160);
             this.textDesigner.Name = "textDesigner";
             this.textDesigner.Size = new System.Drawing.Size(160, 20);
-            this.textDesigner.TabIndex = 17;
+            this.textDesigner.TabIndex = 18;
             // 
             // labDesigner
             // 
@@ -786,7 +813,7 @@
             this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGrid.Location = new System.Drawing.Point(0, 249);
             this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(1370, 416);
+            this.pnlGrid.Size = new System.Drawing.Size(1924, 416);
             this.pnlGrid.TabIndex = 8;
             // 
             // gridCrlPartsCode
@@ -796,7 +823,9 @@
             this.gridCrlPartsCode.Location = new System.Drawing.Point(2, 2);
             this.gridCrlPartsCode.MainView = this.gridViewPartsCode;
             this.gridCrlPartsCode.Name = "gridCrlPartsCode";
-            this.gridCrlPartsCode.Size = new System.Drawing.Size(1366, 412);
+            this.gridCrlPartsCode.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repCheckIsBuy});
+            this.gridCrlPartsCode.Size = new System.Drawing.Size(1920, 412);
             this.gridCrlPartsCode.TabIndex = 0;
             this.gridCrlPartsCode.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPartsCode});
@@ -822,6 +851,7 @@
             this.colIsLongPeriod,
             this.colIsPrecious,
             this.colIsPreprocessing,
+            this.colIsBuy,
             this.colDesigner,
             this.colTel,
             this.colGetTime,
@@ -1018,7 +1048,7 @@
             this.colDesigner.FieldName = "Designer";
             this.colDesigner.Name = "colDesigner";
             this.colDesigner.Visible = true;
-            this.colDesigner.VisibleIndex = 17;
+            this.colDesigner.VisibleIndex = 18;
             this.colDesigner.Width = 100;
             // 
             // colTel
@@ -1028,7 +1058,7 @@
             this.colTel.FieldName = "Tel";
             this.colTel.Name = "colTel";
             this.colTel.Visible = true;
-            this.colTel.VisibleIndex = 18;
+            this.colTel.VisibleIndex = 19;
             this.colTel.Width = 120;
             // 
             // colGetTime
@@ -1040,7 +1070,7 @@
             this.colGetTime.FieldName = "GetTime";
             this.colGetTime.Name = "colGetTime";
             this.colGetTime.Visible = true;
-            this.colGetTime.VisibleIndex = 19;
+            this.colGetTime.VisibleIndex = 20;
             this.colGetTime.Width = 130;
             // 
             // colBfree1
@@ -1127,10 +1157,29 @@
             this.tsmiDw.Size = new System.Drawing.Size(256, 22);
             this.tsmiDw.Text = "单位不能为空，请重新操作。";
             // 
+            // colIsBuy
+            // 
+            this.colIsBuy.AppearanceHeader.Options.UseTextOptions = true;
+            this.colIsBuy.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colIsBuy.ColumnEdit = this.repCheckIsBuy;
+            this.colIsBuy.FieldName = "IsBuy";
+            this.colIsBuy.Name = "colIsBuy";
+            this.colIsBuy.Visible = true;
+            this.colIsBuy.VisibleIndex = 17;
+            this.colIsBuy.Width = 60;
+            // 
+            // repCheckIsBuy
+            // 
+            this.repCheckIsBuy.AutoHeight = false;
+            this.repCheckIsBuy.Name = "repCheckIsBuy";
+            this.repCheckIsBuy.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.repCheckIsBuy.ValueChecked = ((short)(1));
+            this.repCheckIsBuy.ValueUnchecked = ((short)(0));
+            // 
             // FrmPartsCode
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1370, 665);
+            this.ClientSize = new System.Drawing.Size(1924, 665);
             this.Controls.Add(this.pnlGrid);
             this.Controls.Add(this.pnlEdit);
             this.Controls.Add(this.pnlToolBar);
@@ -1145,6 +1194,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpUnit.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpMachiningLevel.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpFinish.Properties)).EndInit();
@@ -1170,6 +1220,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).EndInit();
             this.cms.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1281,5 +1332,9 @@
         internal System.Windows.Forms.ToolStripMenuItem tsmiGgxh;
         internal System.Windows.Forms.ToolStripMenuItem tsmiWlbb;
         internal System.Windows.Forms.ToolStripMenuItem tsmiDw;
+        private System.Data.DataColumn dataColIsBuy;
+        private DevExpress.XtraEditors.CheckEdit checkIsBuy;
+        private DevExpress.XtraGrid.Columns.GridColumn colIsBuy;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckIsBuy;
     }
 }

@@ -1179,8 +1179,8 @@
             this.ClientSize = new System.Drawing.Size(1264, 729);
             this.Controls.Add(this.pnlLeft);
             this.Name = "FrmStnSummary";
-            this.TabText = "工位信息登记";
-            this.Text = "工位信息登记";
+            this.TabText = "工位描述登记";
+            this.Text = "工位描述登记";
             this.Activated += new System.EventHandler(this.FrmStnSummary_Activated);
             this.Load += new System.EventHandler(this.FrmStnSummary_Load);
             this.Shown += new System.EventHandler(this.FrmStnSummary_Shown);

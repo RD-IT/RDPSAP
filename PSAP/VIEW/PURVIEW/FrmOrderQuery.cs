@@ -61,10 +61,10 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpPayTypeNo.DataSource = commonDAO.QueryPayType(false);
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateOrderDateEnd.DateTime = nowDate.Date;
                 datePlanDateBegin.DateTime = nowDate.Date;
-                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DefaultDays);
+                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPlanDate.Checked = false;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;

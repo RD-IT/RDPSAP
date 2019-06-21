@@ -76,7 +76,7 @@ namespace PSAP.VIEW.BSVIEW
                 ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateIADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateIADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateIADateEnd.DateTime = nowDate.Date;
 
                 DataTable repertoryTable = commonDAO.QueryRepertoryInfo(false);
@@ -950,6 +950,12 @@ namespace PSAP.VIEW.BSVIEW
                 List<DataRow> drs = e.Data.GetData(typeof(List<DataRow>)) as List<DataRow>;
                 if (drs != null)
                 {
+                    if (drs.Count > SystemInfo.FormDragDropMaxRecordCount)
+                    {
+                        MessageHandler.ShowMessageBox(string.Format("拖拽记录的最大数量为{0}，请重新操作。", SystemInfo.FormDragDropMaxRecordCount));
+                        return;
+                    }
+
                     WNowInfoToInvAdjust_DragOrder(sender, drs);
                     ClearAlreadyDragWNowInfo();
                 }

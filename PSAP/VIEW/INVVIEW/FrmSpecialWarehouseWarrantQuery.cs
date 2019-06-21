@@ -35,7 +35,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateSWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateSWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSWWDateEnd.DateTime = nowDate.Date;
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);

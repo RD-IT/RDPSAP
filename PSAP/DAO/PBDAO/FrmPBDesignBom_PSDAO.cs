@@ -42,7 +42,7 @@ namespace PSAP.DAO.PBDAO
                 sqlStr += string.Format(" and Brand = '{0}'", brandStr);
             }
 
-            sqlStr = string.Format("select AutoId, CodeNo, CodeFileName, CodeName, CatgName, CodeSpec, CodeWeight, MaterialVersion, Material, Brand, Finish, MachiningLevel, Unit, IsPreferred,  IsLongPeriod, IsPrecious, IsPreprocessing, Designer, GetTime from SW_PartsCode where {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select AutoId, CodeNo, CodeFileName, CodeName, CatgName, CodeSpec, CodeWeight, Material, Brand, Unit, IsPreferred,  IsLongPeriod, IsPrecious, IsPreprocessing, Designer, GetTime, IsBuy from SW_PartsCode where {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -542,7 +542,7 @@ namespace PSAP.DAO.PBDAO
             {
                 sqlStr += string.Format(" and BomListAutoId = {0}", bomListAutoId);
             }
-            sqlStr = string.Format("select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, IsAll, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where {0} Order by bom.AutoId", sqlStr);
+            sqlStr = string.Format("select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, bom.IsBuy, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where {0} Order by bom.AutoId", sqlStr);
 
             //sqlStr = string.Format("select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, IsAll from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName where {0} union all select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, IsAll from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName where bom.BomListAutoId in (select AbsorbedAutoId from DesignBomListAbsorbe where MainAutoId = {1})", sqlStr, bomListAutoId);
             BaseSQL.Query(sqlStr, queryDataTable);
@@ -553,7 +553,7 @@ namespace PSAP.DAO.PBDAO
         /// </summary>
         public void QueryProductionScheduleBom_HaveChildren(DataTable queryDataTable, string salesOrderNoStr, int bomListAutoId)
         {
-            string sqlStr = string.Format("with cte as ( select list.AutoId from PB_DesignBomList as list where AutoId = {1} and SalesOrderNo = '{0}' union all select list.AutoId from cte join PB_DesignBomList as list on cte.AutoId = list.ParentId ) select bom.AutoId, BomListAutoId, MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, IsAll, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where BomListAutoId in (select AutoId from cte) and RemainQty > 0 Order by BomListAutoId,bom.AutoId", salesOrderNoStr, bomListAutoId);
+            string sqlStr = string.Format("with cte as ( select list.AutoId from PB_DesignBomList as list where AutoId = {1} and SalesOrderNo = '{0}' union all select list.AutoId from cte join PB_DesignBomList as list on cte.AutoId = list.ParentId ) select bom.AutoId, BomListAutoId, MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, bom.IsBuy, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where BomListAutoId in (select AutoId from cte) and RemainQty > 0 Order by BomListAutoId,bom.AutoId", salesOrderNoStr, bomListAutoId);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -587,7 +587,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 保存生产计划Bom信息
         /// </summary>
-        public bool SaveProductionScheduleBom(int bomListAutoId, int psBomAutoId, int isAll, DateTime planDate, double remainQty)
+        public bool SaveProductionScheduleBom(int bomListAutoId, int psBomAutoId, int isAll, DateTime planDate, double remainQty, int isBuy, int isChildLevel)
         {
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -611,7 +611,7 @@ namespace PSAP.DAO.PBDAO
 
                         int resultInt = 0;
                         string errorText = "";
-                        string logStr = string.Format("保存生产计划Bom信息：[BomListAutoId]的值[{0}],[是否统一]的值[{1}],[需求日期]的值[{2}],[需求数量]的值[{3}]。", bomListAutoId, isAll, planDate.ToString("yyyy-MM-dd"), remainQty);
+                        string logStr = string.Format("保存生产计划Bom信息：[BomListAutoId]的值[{0}],[是否统一]的值[{1}],[需求日期]的值[{2}],[需求数量]的值[{3}],[是否购买]的值[{4}]。", bomListAutoId, isAll, planDate.ToString("yyyy-MM-dd"), remainQty, isBuy);
                         LogHandler.RecordLog(cmd, logStr);
 
                         SqlCommand cmd_proc = new SqlCommand("", conn, trans);
@@ -625,17 +625,44 @@ namespace PSAP.DAO.PBDAO
                         p4.Value = planDate;
                         SqlParameter p5 = new SqlParameter("@RemainQty", SqlDbType.Float);
                         p5.Value = remainQty;
-                        SqlParameter p6 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                        p6.Value = SystemInfo.user.EmpName;
-                        SqlParameter p7 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
-                        p7.Value = SystemInfo.HostIpAddress;
-                        IDataParameter[] updateParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7 };
+                        SqlParameter p6 = new SqlParameter("@IsBuy", SqlDbType.Int);
+                        p6.Value = isBuy;
+                        SqlParameter p7 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
+                        p7.Value = SystemInfo.user.EmpName;
+                        SqlParameter p8 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
+                        p8.Value = SystemInfo.HostIpAddress;
+                        IDataParameter[] updateParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7, p8 };
                         BaseSQL.RunProcedure(cmd_proc, "P_PSBom_Insert", updateParas, out resultInt, out errorText);
                         if (resultInt != 1)
                         {
                             trans.Rollback();
                             MessageHandler.ShowMessageBox("保存生产计划Bom信息错误--" + errorText);
                             return false;
+                        }
+
+                        if (isChildLevel == 1)
+                        {
+                            SqlCommand cmd_proclevel = new SqlCommand("", conn, trans);
+                            SqlParameter para1 = new SqlParameter("@BomListAutoId", SqlDbType.Int);
+                            para1.Value = bomListAutoId;
+                            SqlParameter para2 = new SqlParameter("@IsAll", SqlDbType.Int);
+                            para2.Value = isAll;
+                            SqlParameter para3 = new SqlParameter("@PlanDate", SqlDbType.DateTime);
+                            para3.Value = planDate;
+                            SqlParameter para4 = new SqlParameter("@ParentRemainQty", SqlDbType.Float);
+                            para4.Value = remainQty;
+                            SqlParameter para5 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
+                            para5.Value = SystemInfo.user.EmpName;
+                            SqlParameter para6 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
+                            para6.Value = SystemInfo.HostIpAddress;
+                            IDataParameter[] updateParameters = new IDataParameter[] { para1, para2, para3, para4, para5, para6 };
+                            BaseSQL.RunProcedure(cmd_proclevel, "P_PSBom_Insert_SubLevel", updateParameters, out resultInt, out errorText);
+                            if (resultInt != 1)
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox("保存子级生产计划Bom信息错误--" + errorText);
+                                return false;
+                            }
                         }
 
                         trans.Commit();
@@ -686,11 +713,13 @@ namespace PSAP.DAO.PBDAO
                             p4.Value = planDate;
                             SqlParameter p5 = new SqlParameter("@RemainQty", SqlDbType.Float);
                             p5.Value = remainQty;
-                            SqlParameter p6 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            p6.Value = SystemInfo.user.EmpName;
-                            SqlParameter p7 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
-                            p7.Value = SystemInfo.HostIpAddress;
-                            IDataParameter[] updateParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7 };
+                            SqlParameter p6 = new SqlParameter("@IsBuy", SqlDbType.Int);
+                            p6.Value = -1;
+                            SqlParameter p7 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
+                            p7.Value = SystemInfo.user.EmpName;
+                            SqlParameter p8 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
+                            p8.Value = SystemInfo.HostIpAddress;
+                            IDataParameter[] updateParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7, p8 };
                             BaseSQL.RunProcedure(cmd_proc, "P_PSBom_Insert", updateParas, out resultInt, out errorText);
                             if (resultInt != 1)
                             {

@@ -135,7 +135,11 @@ namespace PSAP.BLL.BSBLL
                     if (DataTypeConvert.GetString(tnSub.Tag) == "button")
                     {
                         //将设定的用户“按钮”权限保存到数据库
-                        FrmRightDAO.AddSqlStatement_SaveUserMenuButton(DataTypeConvert.GetInt(dgvTmp.GetFocusedDataRow()[0]), FrmRightDAO.GetMenuButtonId(DataTypeConvert.GetString(tnSub.ParentNode["MenuName"]), DataTypeConvert.GetString(tnSub["MenuName"])));
+                        DataRow dr = dgvTmp.GetFocusedDataRow();
+                        string menuname = DataTypeConvert.GetString(tnSub.ParentNode["MenuName"]);
+                        string mn = DataTypeConvert.GetString(tnSub["MenuName"]);
+
+                        FrmRightDAO.AddSqlStatement_SaveUserMenuButton(DataTypeConvert.GetInt(dgvTmp.GetFocusedDataRow()[0]), FrmRightDAO.GetMenuButtonId(menuname, mn));
                     }
                     else
                     {

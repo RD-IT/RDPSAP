@@ -58,6 +58,7 @@
             this.dataColListModuleAutoId = new System.Data.DataColumn();
             this.dataColSMNo = new System.Data.DataColumn();
             this.dataColFunctionDesc = new System.Data.DataColumn();
+            this.dataColFunctionDetail = new System.Data.DataColumn();
             this.bindingSource_StnSummaryList = new System.Windows.Forms.BindingSource(this.components);
             this.pnlBottom = new DevExpress.XtraEditors.PanelControl();
             this.gridBottomOrderHead = new PSAP.VIEW.BSVIEW.GridBottom();
@@ -74,9 +75,8 @@
             this.colAutoQuotationNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSMNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFunctionDesc = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colListModuleAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.dataColFunctionDetail = new System.Data.DataColumn();
             this.colFunctionDetail = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colListModuleAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).BeginInit();
@@ -374,6 +374,11 @@
             this.dataColFunctionDesc.Caption = "功能简述";
             this.dataColFunctionDesc.ColumnName = "FunctionDesc";
             // 
+            // dataColFunctionDetail
+            // 
+            this.dataColFunctionDetail.Caption = "详细功能";
+            this.dataColFunctionDetail.ColumnName = "FunctionDetail";
+            // 
             // bindingSource_StnSummaryList
             // 
             this.bindingSource_StnSummaryList.DataMember = "StnSummaryList";
@@ -441,12 +446,10 @@
             this.gridViewStnSummaryList.OptionsBehavior.Editable = false;
             this.gridViewStnSummaryList.OptionsBehavior.ReadOnly = true;
             this.gridViewStnSummaryList.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridViewStnSummaryList.OptionsView.AllowCellMerge = true;
             this.gridViewStnSummaryList.OptionsView.ColumnAutoWidth = false;
             this.gridViewStnSummaryList.OptionsView.EnableAppearanceOddRow = true;
             this.gridViewStnSummaryList.OptionsView.ShowFooter = true;
             this.gridViewStnSummaryList.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridViewStnSummaryList_RowClick);
-            this.gridViewStnSummaryList.CellMerge += new DevExpress.XtraGrid.Views.Grid.CellMergeEventHandler(this.gridViewStnSummaryList_CellMerge);
             this.gridViewStnSummaryList.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewStnSummaryList_CustomDrawRowIndicator);
             this.gridViewStnSummaryList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridViewStnSummaryList_KeyDown);
             // 
@@ -547,16 +550,6 @@
             this.colFunctionDesc.VisibleIndex = 7;
             this.colFunctionDesc.Width = 200;
             // 
-            // colListModuleAutoId
-            // 
-            this.colListModuleAutoId.FieldName = "ListModuleAutoId";
-            this.colListModuleAutoId.Name = "colListModuleAutoId";
-            // 
-            // dataColFunctionDetail
-            // 
-            this.dataColFunctionDetail.Caption = "详细功能";
-            this.dataColFunctionDetail.ColumnName = "FunctionDetail";
-            // 
             // colFunctionDetail
             // 
             this.colFunctionDetail.AppearanceHeader.Options.UseTextOptions = true;
@@ -568,6 +561,11 @@
             this.colFunctionDetail.VisibleIndex = 8;
             this.colFunctionDetail.Width = 300;
             // 
+            // colListModuleAutoId
+            // 
+            this.colListModuleAutoId.FieldName = "ListModuleAutoId";
+            this.colListModuleAutoId.Name = "colListModuleAutoId";
+            // 
             // FrmStnSummary_Query
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -576,8 +574,8 @@
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnltop);
             this.Name = "FrmStnSummary_Query";
-            this.TabText = "工位信息查询";
-            this.Text = "工位信息查询";
+            this.TabText = "工位描述查询";
+            this.Text = "工位描述查询";
             this.Load += new System.EventHandler(this.FrmStnSummary_Query_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).EndInit();
             this.pnltop.ResumeLayout(false);

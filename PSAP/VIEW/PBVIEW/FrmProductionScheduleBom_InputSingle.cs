@@ -60,6 +60,17 @@ namespace PSAP.VIEW.BSVIEW
                 double psBomRemainQty = DataTypeConvert.GetDouble(designBomListTable.Rows[0]["PSBomRemainQty"]);
                 textRemainQty.Text = DataTypeConvert.GetString(remainQty);
                 textOKRemainQty.Text = DataTypeConvert.GetString(psBomRemainQty);
+                bool hasLevel = DataTypeConvert.GetBoolean(designBomListTable.Rows[0]["HasLevel"]);
+
+                DataTable partsCodeTable = commonDAO.QuerySinglePartsCode(textMaterielNo.Text);
+                if (partsCodeTable.Rows.Count == 0)
+                {
+                    MessageHandler.ShowMessageBox("没有查询到当前要操作的物料基础信息，请重新操作。");
+                    this.DialogResult = DialogResult.Cancel;
+                    this.Close();
+                }
+                int isBuy = DataTypeConvert.GetInt(partsCodeTable.Rows[0]["IsBuy"]);
+
 
                 if (psBomAutoId == 0)
                 {
@@ -72,40 +83,64 @@ namespace PSAP.VIEW.BSVIEW
 
                     if (psBomRemainQty == 0)
                     {
-                        radioType.ReadOnly = false;
-                        //radioType.EditValue = 1;
-                        radioType.SelectedIndex = 0;
                         spinRemainQty.Value = DataTypeConvert.GetDecimal(remainQty);
                         spinRemainQty.Properties.MaxValue = DataTypeConvert.GetDecimal(remainQty);
                         spinRemainQty.Properties.MinValue = 0;
-                        spinRemainQty.ReadOnly = true;
                     }
                     else
                     {
-                        radioType.ReadOnly = true;
-                        //radioType.EditValue = 0;
-                        radioType.SelectedIndex = 1;
                         spinRemainQty.Value = DataTypeConvert.GetDecimal(remainQty - psBomRemainQty);
                         spinRemainQty.Properties.MaxValue = DataTypeConvert.GetDecimal(remainQty - psBomRemainQty);
                         spinRemainQty.Properties.MinValue = 0;
                     }
 
+                    if (isBuy == 0)
+                    {
+                        radioType.SelectedIndex = 1;
+                        radioType.ReadOnly = true;
+                    }
+                    else
+                    {
+                        radioType.SelectedIndex = 0;
+                        radioType.ReadOnly = false;
+                    }
+
                     datePlanDate.DateTime = BaseSQL.GetServerDateTime().Date.AddDays(14);
+
+                    labLevel.Visible = hasLevel;
+                    radioLevel.Visible = hasLevel;
+                    radioLevel.SelectedIndex = 0;
                 }
                 else
                 {
                     DataTable psBomTable = bomDAO.QueryProductionScheduleBom(psBomAutoId);
-                    int isall = DataTypeConvert.GetInt(designBomListTable.Rows[0]["IsAll"]);
-                    radioType.ReadOnly = false;
-                    radioType.SelectedIndex = isall==1?0:1;
+                    //int isall = DataTypeConvert.GetInt(designBomListTable.Rows[0]["IsAll"]);
+                    //radioType.ReadOnly = false;
+                    //radioType.SelectedIndex = isall == 1 ? 0 : 1;
+
+                    radioType.SelectedIndex = DataTypeConvert.GetInt(psBomTable.Rows[0]["IsBuy"]) == 1 ? 0 : 1;
                     spinRemainQty.Value = DataTypeConvert.GetDecimal(psBomTable.Rows[0]["RemainQty"]);
-                    if (radioType.SelectedIndex == 0 && spinRemainQty.Value < DataTypeConvert.GetDecimal(remainQty - psBomRemainQty))
+                    if (spinRemainQty.Value < DataTypeConvert.GetDecimal(remainQty - psBomRemainQty))
                     {
                         spinRemainQty.Value = DataTypeConvert.GetDecimal(remainQty - psBomRemainQty);
                     }
                     spinRemainQty.Properties.MaxValue = DataTypeConvert.GetDecimal(remainQty - psBomRemainQty);
-                    spinRemainQty.ReadOnly = isall==1;
+                    //spinRemainQty.ReadOnly = isall == 1;
+
+                    if (isBuy == 0)
+                    {
+                        radioType.ReadOnly = true;
+                    }
+                    else
+                    {
+                        radioType.ReadOnly = false;
+                    }
+
                     datePlanDate.DateTime = DataTypeConvert.GetDateTime(psBomTable.Rows[0]["PlanDate"]);
+
+                    labLevel.Visible = false;
+                    radioLevel.Visible = false;
+                    radioLevel.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -133,13 +168,10 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                int isAll = DataTypeConvert.GetInt(radioType.EditValue);
-                if(DataTypeConvert.GetDouble(spinRemainQty.Value) == DataTypeConvert.GetDouble(textRemainQty.Text))
-                {
-                    isAll = 1;
-                }
+                int isBuy = DataTypeConvert.GetInt(radioType.EditValue);
+                int isChildLevel = DataTypeConvert.GetInt(radioLevel.EditValue);
 
-                if (bomDAO.SaveProductionScheduleBom(bomListAutoId, psBomAutoId, isAll, datePlanDate.DateTime, DataTypeConvert.GetDouble(spinRemainQty.Value)))
+                if (bomDAO.SaveProductionScheduleBom(bomListAutoId, psBomAutoId, 0, datePlanDate.DateTime, DataTypeConvert.GetDouble(spinRemainQty.Value), isBuy, isChildLevel))
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -156,15 +188,15 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void radioType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(radioType.SelectedIndex == 0)
-            {
-                spinRemainQty.Value = DataTypeConvert.GetDecimal(textRemainQty.Text);
-                spinRemainQty.ReadOnly = true;
-            }
-            else
-            {
-                spinRemainQty.ReadOnly = false;
-            }
+            //if(radioType.SelectedIndex == 0)
+            //{
+            //    spinRemainQty.Value = DataTypeConvert.GetDecimal(textRemainQty.Text);
+            //    spinRemainQty.ReadOnly = true;
+            //}
+            //else
+            //{
+            //    spinRemainQty.ReadOnly = false;
+            //}
         }
     }
 }

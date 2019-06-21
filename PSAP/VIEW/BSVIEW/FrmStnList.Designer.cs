@@ -37,8 +37,11 @@
             this.dataColProjectName = new System.Data.DataColumn();
             this.dataColStnNo = new System.Data.DataColumn();
             this.dataColRemark = new System.Data.DataColumn();
+            this.dataColStnText = new System.Data.DataColumn();
             this.bSStnList = new System.Windows.Forms.BindingSource(this.components);
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.textStnText = new DevExpress.XtraEditors.TextEdit();
+            this.labStnText = new DevExpress.XtraEditors.LabelControl();
             this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -54,6 +57,7 @@
             this.gridViewStnList = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colStnText = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colStnNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -68,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bSStnList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textStnText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).BeginInit();
@@ -100,7 +105,8 @@
             this.dataColProjectNo,
             this.dataColProjectName,
             this.dataColStnNo,
-            this.dataColRemark});
+            this.dataColRemark,
+            this.dataColStnText});
             this.TableStnList.TableName = "StnList";
             this.TableStnList.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TableStnList_TableNewRow);
             // 
@@ -129,6 +135,11 @@
             this.dataColRemark.Caption = "备注";
             this.dataColRemark.ColumnName = "Remark";
             // 
+            // dataColStnText
+            // 
+            this.dataColStnText.Caption = "站号名称";
+            this.dataColStnText.ColumnName = "StnText";
+            // 
             // bSStnList
             // 
             this.bSStnList.DataMember = "StnList";
@@ -136,6 +147,8 @@
             // 
             // pnlEdit
             // 
+            this.pnlEdit.Controls.Add(this.textStnText);
+            this.pnlEdit.Controls.Add(this.labStnText);
             this.pnlEdit.Controls.Add(this.searchLookUpProjectNo);
             this.pnlEdit.Controls.Add(this.textRemark);
             this.pnlEdit.Controls.Add(this.textStnNo);
@@ -148,11 +161,28 @@
             this.pnlEdit.Size = new System.Drawing.Size(784, 97);
             this.pnlEdit.TabIndex = 5;
             // 
+            // textStnText
+            // 
+            this.textStnText.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSStnList, "StnText", true));
+            this.textStnText.EnterMoveNextControl = true;
+            this.textStnText.Location = new System.Drawing.Point(319, 21);
+            this.textStnText.Name = "textStnText";
+            this.textStnText.Size = new System.Drawing.Size(160, 20);
+            this.textStnText.TabIndex = 1;
+            // 
+            // labStnText
+            // 
+            this.labStnText.Location = new System.Drawing.Point(255, 24);
+            this.labStnText.Name = "labStnText";
+            this.labStnText.Size = new System.Drawing.Size(48, 14);
+            this.labStnText.TabIndex = 17;
+            this.labStnText.Text = "站号名称";
+            // 
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSStnList, "ProjectNo", true));
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(339, 21);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(548, 21);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -161,7 +191,7 @@
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(160, 20);
-            this.searchLookUpProjectNo.TabIndex = 1;
+            this.searchLookUpProjectNo.TabIndex = 2;
             // 
             // searchLookUpProjectNoView
             // 
@@ -203,16 +233,16 @@
             // textRemark
             // 
             this.textRemark.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSStnList, "Remark", true));
-            this.textRemark.Location = new System.Drawing.Point(94, 55);
+            this.textRemark.Location = new System.Drawing.Point(75, 55);
             this.textRemark.Name = "textRemark";
-            this.textRemark.Size = new System.Drawing.Size(405, 20);
-            this.textRemark.TabIndex = 2;
+            this.textRemark.Size = new System.Drawing.Size(633, 20);
+            this.textRemark.TabIndex = 3;
             // 
             // textStnNo
             // 
             this.textStnNo.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSStnList, "StnNo", true));
             this.textStnNo.EnterMoveNextControl = true;
-            this.textStnNo.Location = new System.Drawing.Point(94, 21);
+            this.textStnNo.Location = new System.Drawing.Point(75, 21);
             this.textStnNo.Name = "textStnNo";
             this.textStnNo.Size = new System.Drawing.Size(160, 20);
             this.textStnNo.TabIndex = 0;
@@ -227,7 +257,7 @@
             // 
             // labProjectNo
             // 
-            this.labProjectNo.Location = new System.Drawing.Point(277, 24);
+            this.labProjectNo.Location = new System.Drawing.Point(497, 24);
             this.labProjectNo.Name = "labProjectNo";
             this.labProjectNo.Size = new System.Drawing.Size(36, 14);
             this.labProjectNo.TabIndex = 13;
@@ -267,6 +297,7 @@
             this.gridViewStnList.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.colAutoId,
             this.colProjectNo,
+            this.colStnText,
             this.colProjectName,
             this.colStnNo,
             this.colRemark});
@@ -294,8 +325,18 @@
             this.colProjectNo.FieldName = "ProjectNo";
             this.colProjectNo.Name = "colProjectNo";
             this.colProjectNo.Visible = true;
-            this.colProjectNo.VisibleIndex = 1;
-            this.colProjectNo.Width = 160;
+            this.colProjectNo.VisibleIndex = 2;
+            this.colProjectNo.Width = 120;
+            // 
+            // colStnText
+            // 
+            this.colStnText.AppearanceHeader.Options.UseTextOptions = true;
+            this.colStnText.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colStnText.FieldName = "StnText";
+            this.colStnText.Name = "colStnText";
+            this.colStnText.Visible = true;
+            this.colStnText.VisibleIndex = 1;
+            this.colStnText.Width = 130;
             // 
             // colProjectName
             // 
@@ -304,7 +345,7 @@
             this.colProjectName.FieldName = "ProjectName";
             this.colProjectName.Name = "colProjectName";
             this.colProjectName.Visible = true;
-            this.colProjectName.VisibleIndex = 2;
+            this.colProjectName.VisibleIndex = 3;
             this.colProjectName.Width = 160;
             // 
             // colStnNo
@@ -317,7 +358,7 @@
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "StnNo", "共计{0}条")});
             this.colStnNo.Visible = true;
             this.colStnNo.VisibleIndex = 0;
-            this.colStnNo.Width = 160;
+            this.colStnNo.Width = 120;
             // 
             // colRemark
             // 
@@ -326,7 +367,7 @@
             this.colRemark.FieldName = "Remark";
             this.colRemark.Name = "colRemark";
             this.colRemark.Visible = true;
-            this.colRemark.VisibleIndex = 3;
+            this.colRemark.VisibleIndex = 4;
             this.colRemark.Width = 200;
             // 
             // cms
@@ -387,6 +428,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textStnText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).EndInit();
@@ -435,5 +477,9 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiDzhxx;
         private System.Windows.Forms.ToolStripMenuItem tsmiZhbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiXmhbnwk;
+        private System.Data.DataColumn dataColStnText;
+        private DevExpress.XtraGrid.Columns.GridColumn colStnText;
+        private DevExpress.XtraEditors.TextEdit textStnText;
+        private DevExpress.XtraEditors.LabelControl labStnText;
     }
 }

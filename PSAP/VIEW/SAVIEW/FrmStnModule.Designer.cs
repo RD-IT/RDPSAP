@@ -254,7 +254,7 @@
             this.dockPnlLeft.Options.ShowMaximizeButton = false;
             this.dockPnlLeft.OriginalSize = new System.Drawing.Size(350, 200);
             this.dockPnlLeft.Size = new System.Drawing.Size(350, 729);
-            this.dockPnlLeft.Text = "功能模块列表";
+            this.dockPnlLeft.Text = "报价功能模块列表";
             // 
             // dockPanel1_Container
             // 
@@ -1090,8 +1090,8 @@
             this.Name = "FrmStnModule";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.TabText = "功能模块登记";
-            this.Text = "功能模块登记";
+            this.TabText = "报价模块登记";
+            this.Text = "报价模块登记";
             this.Activated += new System.EventHandler(this.FrmStnModule_Activated);
             this.Load += new System.EventHandler(this.FrmStnModule_Load);
             this.Shown += new System.EventHandler(this.FrmStnModule_Shown);

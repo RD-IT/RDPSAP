@@ -20,6 +20,7 @@ namespace PSAP.PSAPCommon
         /// 公司地址
         /// </summary>
         public static string CompAddress = "天津市 华苑产业区 物华道2号 海泰火炬创业园 B座101室";
+
         /// <summary>
         /// 公司邮编
         /// </summary>
@@ -36,6 +37,11 @@ namespace PSAP.PSAPCommon
         public static string CompFax = "86-22-83719776";
 
         /// <summary>
+        /// 公司邮箱
+        /// </summary>
+        public static string CompE_Mail = "";
+
+        /// <summary>
         /// 公司网址
         /// </summary>
         public static string CompWebSite = "www.rongda-tech.com";
@@ -49,6 +55,7 @@ namespace PSAP.PSAPCommon
         /// 工厂地址
         /// </summary>
         public static string PlantAddress = "天津市 西青学府工业区 学府西路2号 西区J4厂房 A座、B座";
+
         /// <summary>
         /// 工厂邮编
         /// </summary>
@@ -78,14 +85,11 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static string ServerDataBaseName = "PSAP";
 
-        /// <summary>
-        /// 数据库备份的路径，等以后有了系统参数移除静态变量
-        /// </summary>
-        public static string DataBaseBackupPath= "D:\\DATA\\";
-
         #endregion
 
         #region 系统参数
+
+        #region 常规
 
         /// <summary>
         /// 各种登记单查询的列表每页显示行数
@@ -93,14 +97,23 @@ namespace PSAP.PSAPCommon
         public static int OrderQueryGrid_PageRowCount = 500;
 
         /// <summary>
-        /// 各种登记单以下查询界面默认查询日期的时间段
+        /// 各种登记单查询界面默认查询日期的间隔天数
         /// </summary>
-        public static int OrderQueryDate_DefaultDays = 14;
+        public static int OrderQueryDate_DateIntervalDays = 14;
 
         /// <summary>
-        /// 采购订单里面的默认税率值
+        /// 页面拖拽的最大记录数
         /// </summary>
-        public static double OrderList_DefaultTax = 0.16;
+        public static int FormDragDropMaxRecordCount = 50;
+
+        /// <summary>
+        /// 可拖拽的窗体左侧停靠栏的默认宽度
+        /// </summary>
+        public static int DragForm_LeftDock_Width = 400;
+
+        #endregion
+
+        #region 销售
 
         /// <summary>
         /// 报价单里面的默认税率值
@@ -112,20 +125,43 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static double SalesOrder_DefaultTax = 0.16;
 
+        #endregion
+
+        #region 采购
+
+        /// <summary>
+        /// 采购订单里面的默认税率值
+        /// </summary>
+        public static double OrderList_DefaultTax = 0.16;
+
+        /// <summary>
+        /// 采购国内结账里面的默认税率值
+        /// </summary>
+        public static double Settlement_DefaultTax = 0.16;
+
+        /// <summary>
+        /// 查询采购未入库天数的接近计划到货日期的天数
+        /// </summary>
+        public static int OrderNoWarehousing_Days = 5;
+
         /// <summary>
         /// 请购单适用转换为采购订单，明细的合计总数是否可以超过原请购单的数量 
         /// </summary>
         public static bool PrReqApplyBeyondCountIsSave = false;
 
         /// <summary>
-        /// 采购订单适用转换为入库单，明细的合计总数是否可以超过原采购订单的数量 
-        /// </summary>
-        public static bool OrderApplyBeyondCountIsSave = false;
-
-        /// <summary>
         /// 入库单适用转换为采购结账单，明细的合计总数是否可以超过原入库单的数量 
         /// </summary>
         public static bool WarehouseWarrantApplyBeyondCountIsSave = false;
+
+        #endregion
+
+        #region 库存
+
+        /// <summary>
+        /// 采购订单适用转换为入库单，明细的合计总数是否可以超过原采购订单的数量 
+        /// </summary>
+        public static bool OrderApplyBeyondCountIsSave = false;
 
         /// <summary>
         /// 入库单是否可以修改入库日期
@@ -137,30 +173,12 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static bool WarehouseReceiptIsAlterDate = false;
 
-        /// <summary>
-        /// 采购国内结账里面的默认税率值
-        /// </summary>
-        public static double Settlement_DefaultTax = 0.16;
+        #endregion
 
-        /// <summary>
-        /// 可拖拽的窗体左侧停靠栏的默认宽度
-        /// </summary>
-        public static int DragForm_LeftDock_Width = 400;
-
-        /// <summary>
-        /// 查询采购未入库天数的接近计划到货日期的天数
-        /// </summary>
-        public static int OrderNoWarehousing_Days = 5;
-
-        /// <summary>
-        /// 生成计划单审批生成BOM信息：1 生成BOM第一级节点  2 生成BOM最末节点  3 系统提示选择1或者2
-        /// </summary>
-        public static int ProductionScheduleBOMType = 3;
-
-        /// <summary>
-        /// 消息提示框显示最大的行记录数
-        /// </summary>
-        public static int ToolTipDisplayMaxRowCount = 10;
+        ///// <summary>
+        ///// 生成计划单审批生成BOM信息：1 生成BOM第一级节点  2 生成BOM最末节点  3 系统提示选择1或者2
+        ///// </summary>
+        //public static int ProductionScheduleBOMType = 3;
 
         #endregion
 

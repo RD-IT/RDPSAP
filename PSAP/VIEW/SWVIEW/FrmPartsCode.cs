@@ -148,6 +148,7 @@ namespace PSAP.VIEW.BSVIEW
             e.Row["IsLongPeriod"] = false;
             e.Row["IsPrecious"] = false;
             e.Row["IsPreprocessing"] = false;
+            e.Row["IsBuy"] = 1;
             e.Row["GetTime"] = BaseSQL.GetServerDateTime();
 
         }

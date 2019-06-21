@@ -45,7 +45,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateSADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateSADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSADateEnd.DateTime = nowDate.Date;
 
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);

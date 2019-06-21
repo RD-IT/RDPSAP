@@ -104,11 +104,11 @@
             // labDesc
             // 
             this.labDesc.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.labDesc.Location = new System.Drawing.Point(52, 165);
+            this.labDesc.Location = new System.Drawing.Point(52, 158);
             this.labDesc.Name = "labDesc";
-            this.labDesc.Size = new System.Drawing.Size(274, 14);
+            this.labDesc.Size = new System.Drawing.Size(280, 28);
             this.labDesc.TabIndex = 13;
-            this.labDesc.Text = "(注：统一采购方式下，数量默认为设计Bom的数量)";
+            this.labDesc.Text = "(注：1 全部计划方式下，数量默认为设计Bom的数量\r\n       2 购买方式默认为物料基础信息的购买方式)";
             // 
             // labPlanDate
             // 
@@ -124,7 +124,7 @@
             this.labType.Name = "labType";
             this.labType.Size = new System.Drawing.Size(48, 14);
             this.labType.TabIndex = 7;
-            this.labType.Text = "采购方式";
+            this.labType.Text = "计划方式";
             // 
             // datePlanDate
             // 
@@ -176,9 +176,9 @@
             this.radioType.Properties.Appearance.Options.UseBackColor = true;
             this.radioType.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.radioType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "统一采购"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "分批采购")});
-            this.radioType.Size = new System.Drawing.Size(213, 29);
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "全部"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "部分")});
+            this.radioType.Size = new System.Drawing.Size(165, 29);
             this.radioType.TabIndex = 10;
             this.radioType.SelectedIndexChanged += new System.EventHandler(this.radioType_SelectedIndexChanged);
             // 

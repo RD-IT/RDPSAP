@@ -52,7 +52,7 @@ namespace PSAP.VIEW.BSVIEW
                 ControlHandler.DevExpressStyle_ChangeControlLocation(checkAll.LookAndFeel.ActiveSkinName, new List<Control> { checkAll });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWWDateEnd.DateTime = nowDate.Date;
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);

@@ -71,7 +71,7 @@ namespace PSAP.VIEW.BSVIEW
                 repItemCORCurrencyCate.DataSource = currencyCateTable;
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateRecordDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateRecordDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateRecordDateEnd.DateTime = nowDate.Date;
 
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);

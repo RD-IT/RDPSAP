@@ -611,8 +611,8 @@
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnltop);
             this.Name = "FrmPBDesignBomQuery";
-            this.TabText = "设计Bom信息查询";
-            this.Text = "设计Bom信息查询";
+            this.TabText = "制作Bom查询";
+            this.Text = "制作Bom查询";
             this.Load += new System.EventHandler(this.FrmPBDesignBomQuery_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_DesignBom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_DesignBom)).EndInit();

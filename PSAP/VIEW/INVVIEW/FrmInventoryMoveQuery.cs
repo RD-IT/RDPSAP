@@ -39,7 +39,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateIMDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateIMDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateIMDateEnd.DateTime = nowDate.Date;
 
                 lookUpInRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);

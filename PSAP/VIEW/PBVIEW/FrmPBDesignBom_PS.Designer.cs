@@ -80,7 +80,7 @@
             this.dataColumn3 = new System.Data.DataColumn();
             this.dataColumn4 = new System.Data.DataColumn();
             this.ColumnRemainQty = new System.Data.DataColumn();
-            this.dataColIsAll = new System.Data.DataColumn();
+            this.dataColIsBuy = new System.Data.DataColumn();
             this.dataColuPbBomNo = new System.Data.DataColumn();
             this.dataColuPlanDate = new System.Data.DataColumn();
             this.ColIsAbsorb = new System.Data.DataColumn();
@@ -91,7 +91,7 @@
             this.colCodeName2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRemainQty1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPlanDate = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colIsAll = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPbBomNo1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsAbsorb1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repCheckIsAbsorb = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
@@ -147,11 +147,8 @@
             this.dataColCatgName = new System.Data.DataColumn();
             this.dataColCodeSpec = new System.Data.DataColumn();
             this.dataColCodeWeight = new System.Data.DataColumn();
-            this.dataColMaterialVersion = new System.Data.DataColumn();
             this.dataColMaterial = new System.Data.DataColumn();
             this.dataColBrand = new System.Data.DataColumn();
-            this.dataColFinish = new System.Data.DataColumn();
-            this.dataColMachiningLevel = new System.Data.DataColumn();
             this.dataColUnit = new System.Data.DataColumn();
             this.dataColIsPreferred = new System.Data.DataColumn();
             this.dataColIsLongPeriod = new System.Data.DataColumn();
@@ -159,6 +156,7 @@
             this.dataColIsPreprocessing = new System.Data.DataColumn();
             this.dataColDesigner = new System.Data.DataColumn();
             this.dataColumn2 = new System.Data.DataColumn();
+            this.dataColuIsBuy = new System.Data.DataColumn();
             this.gridViewPartsCode = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeFileName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -167,16 +165,14 @@
             this.colCatgName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeSpec = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeWeight = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colMaterialVersion = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterial = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBrand = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colFinish = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colMachiningLevel = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colUnit = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPreferred = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsLongPeriod = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPrecious = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPreprocessing = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colIsBuy1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colDesigner = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colGetTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
@@ -296,7 +292,7 @@
             this.PageDesignBom.Controls.Add(this.pnlDesignBomToolBar);
             this.PageDesignBom.Name = "PageDesignBom";
             this.PageDesignBom.Size = new System.Drawing.Size(504, 536);
-            this.PageDesignBom.Text = "设计Bom登记";
+            this.PageDesignBom.Text = "制造Bom登记";
             // 
             // treeListDesignBom
             // 
@@ -328,6 +324,7 @@
             this.treeListDesignBom.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repCheckEditIsUse,
             this.repSpinRemainQty});
+            this.treeListDesignBom.RowHeight = 21;
             this.treeListDesignBom.Size = new System.Drawing.Size(504, 501);
             this.treeListDesignBom.TabIndex = 0;
             this.treeListDesignBom.GetNodeDisplayValue += new DevExpress.XtraTreeList.GetNodeDisplayValueEventHandler(this.treeListDesignBom_GetNodeDisplayValue);
@@ -693,7 +690,7 @@
             this.dataColumn3,
             this.dataColumn4,
             this.ColumnRemainQty,
-            this.dataColIsAll,
+            this.dataColIsBuy,
             this.dataColuPbBomNo,
             this.dataColuPlanDate,
             this.ColIsAbsorb});
@@ -725,11 +722,11 @@
             this.ColumnRemainQty.ColumnName = "RemainQty";
             this.ColumnRemainQty.DataType = typeof(double);
             // 
-            // dataColIsAll
+            // dataColIsBuy
             // 
-            this.dataColIsAll.Caption = "采购类型";
-            this.dataColIsAll.ColumnName = "IsAll";
-            this.dataColIsAll.DataType = typeof(short);
+            this.dataColIsBuy.Caption = "购买类型";
+            this.dataColIsBuy.ColumnName = "IsBuy";
+            this.dataColIsBuy.DataType = typeof(short);
             // 
             // dataColuPbBomNo
             // 
@@ -757,7 +754,7 @@
             this.colCodeName2,
             this.colRemainQty1,
             this.colPlanDate,
-            this.colIsAll,
+            this.colIsBuy,
             this.colPbBomNo1,
             this.colIsAbsorb1});
             this.gridViewPSBom.GridControl = this.gridControlPSBom;
@@ -834,17 +831,17 @@
             this.colPlanDate.VisibleIndex = 4;
             this.colPlanDate.Width = 80;
             // 
-            // colIsAll
+            // colIsBuy
             // 
-            this.colIsAll.AppearanceCell.Options.UseTextOptions = true;
-            this.colIsAll.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
-            this.colIsAll.AppearanceHeader.Options.UseTextOptions = true;
-            this.colIsAll.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colIsAll.FieldName = "IsAll";
-            this.colIsAll.Name = "colIsAll";
-            this.colIsAll.Visible = true;
-            this.colIsAll.VisibleIndex = 5;
-            this.colIsAll.Width = 60;
+            this.colIsBuy.AppearanceCell.Options.UseTextOptions = true;
+            this.colIsBuy.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Near;
+            this.colIsBuy.AppearanceHeader.Options.UseTextOptions = true;
+            this.colIsBuy.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colIsBuy.FieldName = "IsBuy";
+            this.colIsBuy.Name = "colIsBuy";
+            this.colIsBuy.Visible = true;
+            this.colIsBuy.VisibleIndex = 5;
+            this.colIsBuy.Width = 60;
             // 
             // colPbBomNo1
             // 
@@ -1191,6 +1188,7 @@
             this.treeListBom.OptionsView.ShowHorzLines = false;
             this.treeListBom.OptionsView.ShowVertLines = false;
             this.treeListBom.ParentFieldName = "ReParent";
+            this.treeListBom.RowHeight = 21;
             this.treeListBom.Size = new System.Drawing.Size(450, 536);
             this.treeListBom.TabIndex = 3;
             this.treeListBom.CustomDrawNodeIndicator += new DevExpress.XtraTreeList.CustomDrawNodeIndicatorEventHandler(this.treeListBom_CustomDrawNodeIndicator);
@@ -1352,18 +1350,16 @@
             this.dataColCatgName,
             this.dataColCodeSpec,
             this.dataColCodeWeight,
-            this.dataColMaterialVersion,
             this.dataColMaterial,
             this.dataColBrand,
-            this.dataColFinish,
-            this.dataColMachiningLevel,
             this.dataColUnit,
             this.dataColIsPreferred,
             this.dataColIsLongPeriod,
             this.dataColIsPrecious,
             this.dataColIsPreprocessing,
             this.dataColDesigner,
-            this.dataColumn2});
+            this.dataColumn2,
+            this.dataColuIsBuy});
             this.TablePartsCode.TableName = "PartsCode";
             // 
             // dataColumn1
@@ -1402,11 +1398,6 @@
             this.dataColCodeWeight.ColumnName = "CodeWeight";
             this.dataColCodeWeight.DataType = typeof(double);
             // 
-            // dataColMaterialVersion
-            // 
-            this.dataColMaterialVersion.Caption = "物料版本";
-            this.dataColMaterialVersion.ColumnName = "MaterialVersion";
-            // 
             // dataColMaterial
             // 
             this.dataColMaterial.Caption = "材料";
@@ -1417,18 +1408,6 @@
             // 
             this.dataColBrand.Caption = "品牌 ";
             this.dataColBrand.ColumnName = "Brand";
-            // 
-            // dataColFinish
-            // 
-            this.dataColFinish.Caption = "表面处理";
-            this.dataColFinish.ColumnName = "Finish";
-            this.dataColFinish.DataType = typeof(int);
-            // 
-            // dataColMachiningLevel
-            // 
-            this.dataColMachiningLevel.Caption = "加工等级";
-            this.dataColMachiningLevel.ColumnName = "MachiningLevel";
-            this.dataColMachiningLevel.DataType = typeof(int);
             // 
             // dataColUnit
             // 
@@ -1470,6 +1449,12 @@
             this.dataColumn2.ColumnName = "GetTime";
             this.dataColumn2.DataType = typeof(System.DateTime);
             // 
+            // dataColuIsBuy
+            // 
+            this.dataColuIsBuy.Caption = "购买类型";
+            this.dataColuIsBuy.ColumnName = "IsBuy";
+            this.dataColuIsBuy.DataType = typeof(short);
+            // 
             // gridViewPartsCode
             // 
             this.gridViewPartsCode.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -1480,16 +1465,14 @@
             this.colCatgName,
             this.colCodeSpec,
             this.colCodeWeight,
-            this.colMaterialVersion,
             this.colMaterial,
             this.colBrand,
-            this.colFinish,
-            this.colMachiningLevel,
             this.colUnit,
             this.colIsPreferred,
             this.colIsLongPeriod,
             this.colIsPrecious,
             this.colIsPreprocessing,
+            this.colIsBuy1,
             this.colDesigner,
             this.colGetTime});
             this.gridViewPartsCode.GridControl = this.gridCrlPartsCode;
@@ -1506,6 +1489,7 @@
             this.gridViewPartsCode.OptionsView.ShowFooter = true;
             this.gridViewPartsCode.OptionsView.ShowGroupPanel = false;
             this.gridViewPartsCode.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewBomMateriel_CustomDrawRowIndicator);
+            this.gridViewPartsCode.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridViewPSBom_CustomColumnDisplayText);
             this.gridViewPartsCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridViewPartsCode_KeyDown);
             this.gridViewPartsCode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewPartsCode_MouseDown);
             this.gridViewPartsCode.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gridViewPartsCode_MouseMove);
@@ -1576,15 +1560,6 @@
             this.colCodeWeight.VisibleIndex = 6;
             this.colCodeWeight.Width = 90;
             // 
-            // colMaterialVersion
-            // 
-            this.colMaterialVersion.AppearanceHeader.Options.UseTextOptions = true;
-            this.colMaterialVersion.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colMaterialVersion.FieldName = "MaterialVersion";
-            this.colMaterialVersion.Name = "colMaterialVersion";
-            this.colMaterialVersion.Visible = true;
-            this.colMaterialVersion.VisibleIndex = 7;
-            // 
             // colMaterial
             // 
             this.colMaterial.AppearanceHeader.Options.UseTextOptions = true;
@@ -1592,7 +1567,7 @@
             this.colMaterial.FieldName = "Material";
             this.colMaterial.Name = "colMaterial";
             this.colMaterial.Visible = true;
-            this.colMaterial.VisibleIndex = 8;
+            this.colMaterial.VisibleIndex = 7;
             // 
             // colBrand
             // 
@@ -1601,26 +1576,8 @@
             this.colBrand.FieldName = "Brand";
             this.colBrand.Name = "colBrand";
             this.colBrand.Visible = true;
-            this.colBrand.VisibleIndex = 9;
+            this.colBrand.VisibleIndex = 8;
             this.colBrand.Width = 90;
-            // 
-            // colFinish
-            // 
-            this.colFinish.AppearanceHeader.Options.UseTextOptions = true;
-            this.colFinish.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colFinish.FieldName = "Finish";
-            this.colFinish.Name = "colFinish";
-            this.colFinish.Visible = true;
-            this.colFinish.VisibleIndex = 10;
-            // 
-            // colMachiningLevel
-            // 
-            this.colMachiningLevel.AppearanceHeader.Options.UseTextOptions = true;
-            this.colMachiningLevel.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colMachiningLevel.FieldName = "MachiningLevel";
-            this.colMachiningLevel.Name = "colMachiningLevel";
-            this.colMachiningLevel.Visible = true;
-            this.colMachiningLevel.VisibleIndex = 11;
             // 
             // colUnit
             // 
@@ -1629,7 +1586,7 @@
             this.colUnit.FieldName = "Unit";
             this.colUnit.Name = "colUnit";
             this.colUnit.Visible = true;
-            this.colUnit.VisibleIndex = 12;
+            this.colUnit.VisibleIndex = 9;
             this.colUnit.Width = 60;
             // 
             // colIsPreferred
@@ -1639,7 +1596,7 @@
             this.colIsPreferred.FieldName = "IsPreferred";
             this.colIsPreferred.Name = "colIsPreferred";
             this.colIsPreferred.Visible = true;
-            this.colIsPreferred.VisibleIndex = 13;
+            this.colIsPreferred.VisibleIndex = 10;
             this.colIsPreferred.Width = 60;
             // 
             // colIsLongPeriod
@@ -1649,7 +1606,7 @@
             this.colIsLongPeriod.FieldName = "IsLongPeriod";
             this.colIsLongPeriod.Name = "colIsLongPeriod";
             this.colIsLongPeriod.Visible = true;
-            this.colIsLongPeriod.VisibleIndex = 14;
+            this.colIsLongPeriod.VisibleIndex = 11;
             this.colIsLongPeriod.Width = 60;
             // 
             // colIsPrecious
@@ -1659,7 +1616,7 @@
             this.colIsPrecious.FieldName = "IsPrecious";
             this.colIsPrecious.Name = "colIsPrecious";
             this.colIsPrecious.Visible = true;
-            this.colIsPrecious.VisibleIndex = 15;
+            this.colIsPrecious.VisibleIndex = 12;
             this.colIsPrecious.Width = 60;
             // 
             // colIsPreprocessing
@@ -1669,8 +1626,16 @@
             this.colIsPreprocessing.FieldName = "IsPreprocessing";
             this.colIsPreprocessing.Name = "colIsPreprocessing";
             this.colIsPreprocessing.Visible = true;
-            this.colIsPreprocessing.VisibleIndex = 16;
+            this.colIsPreprocessing.VisibleIndex = 13;
             this.colIsPreprocessing.Width = 60;
+            // 
+            // colIsBuy1
+            // 
+            this.colIsBuy1.FieldName = "IsBuy";
+            this.colIsBuy1.Name = "colIsBuy1";
+            this.colIsBuy1.Visible = true;
+            this.colIsBuy1.VisibleIndex = 14;
+            this.colIsBuy1.Width = 60;
             // 
             // colDesigner
             // 
@@ -1679,7 +1644,7 @@
             this.colDesigner.FieldName = "Designer";
             this.colDesigner.Name = "colDesigner";
             this.colDesigner.Visible = true;
-            this.colDesigner.VisibleIndex = 17;
+            this.colDesigner.VisibleIndex = 15;
             this.colDesigner.Width = 60;
             // 
             // colGetTime
@@ -1691,7 +1656,7 @@
             this.colGetTime.FieldName = "GetTime";
             this.colGetTime.Name = "colGetTime";
             this.colGetTime.Visible = true;
-            this.colGetTime.VisibleIndex = 18;
+            this.colGetTime.VisibleIndex = 16;
             this.colGetTime.Width = 90;
             // 
             // pnlTop
@@ -1858,8 +1823,8 @@
             this.Controls.Add(this.splitterLeft);
             this.Controls.Add(this.pnlLeft);
             this.Name = "FrmPBDesignBom_PS";
-            this.TabText = "设计生产计划登记";
-            this.Text = "设计生产计划登记";
+            this.TabText = "生产视图登记";
+            this.Text = "生产视图登记";
             this.Activated += new System.EventHandler(this.FrmPBDesignBom_PS_Activated);
             this.Load += new System.EventHandler(this.FrmPBDesignBom_PS_Load);
             this.Shown += new System.EventHandler(this.FrmPBDesignBom_PS_Shown);
@@ -1958,11 +1923,8 @@
         private System.Data.DataColumn dataColCatgName;
         private System.Data.DataColumn dataColCodeSpec;
         private System.Data.DataColumn dataColCodeWeight;
-        private System.Data.DataColumn dataColMaterialVersion;
         private System.Data.DataColumn dataColMaterial;
         private System.Data.DataColumn dataColBrand;
-        private System.Data.DataColumn dataColFinish;
-        private System.Data.DataColumn dataColMachiningLevel;
         private System.Data.DataColumn dataColUnit;
         private System.Data.DataColumn dataColIsPreferred;
         private System.Data.DataColumn dataColIsLongPeriod;
@@ -1980,11 +1942,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn colCatgName;
         private DevExpress.XtraGrid.Columns.GridColumn colCodeSpec;
         private DevExpress.XtraGrid.Columns.GridColumn colCodeWeight;
-        private DevExpress.XtraGrid.Columns.GridColumn colMaterialVersion;
         private DevExpress.XtraGrid.Columns.GridColumn colMaterial;
         private DevExpress.XtraGrid.Columns.GridColumn colBrand;
-        private DevExpress.XtraGrid.Columns.GridColumn colFinish;
-        private DevExpress.XtraGrid.Columns.GridColumn colMachiningLevel;
         private DevExpress.XtraGrid.Columns.GridColumn colUnit;
         private DevExpress.XtraGrid.Columns.GridColumn colIsPreferred;
         private DevExpress.XtraGrid.Columns.GridColumn colIsLongPeriod;
@@ -2064,7 +2023,7 @@
         private System.Data.DataColumn dataColumn3;
         private System.Data.DataColumn dataColumn4;
         private System.Data.DataColumn ColumnRemainQty;
-        private System.Data.DataColumn dataColIsAll;
+        private System.Data.DataColumn dataColIsBuy;
         private System.Data.DataColumn dataColuPbBomNo;
         private System.Data.DataColumn dataColuPlanDate;
         private System.Windows.Forms.BindingSource bindingSource_PSBom;
@@ -2076,7 +2035,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colCodeName2;
         private DevExpress.XtraGrid.Columns.GridColumn colRemainQty1;
         private DevExpress.XtraGrid.Columns.GridColumn colPlanDate;
-        private DevExpress.XtraGrid.Columns.GridColumn colIsAll;
+        private DevExpress.XtraGrid.Columns.GridColumn colIsBuy;
         private DevExpress.XtraGrid.Columns.GridColumn colPbBomNo1;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpReqDep;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchBussinessBaseNo;
@@ -2096,5 +2055,7 @@
         private System.Data.DataColumn ColIsAbsorb;
         private DevExpress.XtraGrid.Columns.GridColumn colIsAbsorb1;
         private DevExpress.XtraEditors.SimpleButton btnPreview;
+        private System.Data.DataColumn dataColuIsBuy;
+        private DevExpress.XtraGrid.Columns.GridColumn colIsBuy1;
     }
 }

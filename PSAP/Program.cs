@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Configuration;
 using PSAP.PSAPCommon;
+using PSAP.DAO.BSDAO;
 
 namespace PSAP.VIEW.BSVIEW
 {
@@ -28,6 +29,11 @@ namespace PSAP.VIEW.BSVIEW
                 //if (PSAPCommon.LoginInfo != null)
                 if (SystemInfo.user != null)
                 {
+                    //等系统正式启用再初始加载系统默认参数
+                    //new FrmSystemDAO().RefreshAllSystemParameter();
+                    //new FrmCompanyInfoDAO().RefreshCompanyInfo();
+
+
                     FrmMain frmMain = new FrmMain();
                     frmMain.WindowState = FormWindowState.Maximized;
                     Application.Run(frmMain);

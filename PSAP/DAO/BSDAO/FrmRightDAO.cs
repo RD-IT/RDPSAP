@@ -61,8 +61,22 @@ namespace PSAP.DAO.BSDAO
                             "where menuName like '" + strMenuName + "' and buttonName like '" + strButtonName + "'";
             DataTable dt = new DataTable();
             dt = BaseSQL.GetTableBySql(strSql);
-            return (int)dt.Rows[0]["AutoId"];
+            if (dt.Rows.Count == 0)
+            {
+                string sql = string.Format("select Count(*) from BS_Button where ButtonName = '{0}'", strButtonName);
+                string insertSql = "";
+                if (DataTypeConvert.GetInt(BaseSQL.GetSingle(sql)) == 0)
+                {
+                    insertSql = string.Format("Insert into BS_Button (ButtonName, ButtonText) values ('{0}', '{1}')", strButtonName, "");
+                    BaseSQL.ExecuteSql(insertSql);
+                }
 
+                insertSql = string.Format("Insert Into BS_MenuButton (MenuName, ButtonName) values ('{0}', '{1}')", strMenuName, strButtonName);
+                BaseSQL.ExecuteSql(insertSql);
+                dt = BaseSQL.GetTableBySql(strSql);
+            }
+
+            return (int)dt.Rows[0]["AutoId"];
         }
 
         /// <summary> 

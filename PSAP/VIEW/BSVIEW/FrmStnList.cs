@@ -87,6 +87,12 @@ namespace PSAP.VIEW.BSVIEW
                 textStnNo.Focus();
                 return false;
             }
+            if (textStnText.Text.Trim() == "")
+            {
+                MessageHandler.ShowMessageBox("站号名称不能为空，请重新操作。");
+                textStnText.Focus();
+                return false;
+            }
             if (searchLookUpProjectNo.Text.Trim() == "")
             {
                 MessageHandler.ShowMessageBox(tsmiXmhbnwk.Text);// ("项目号不能为空，请重新操作。");

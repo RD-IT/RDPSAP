@@ -12,12 +12,13 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace PSAP.VIEW.BSVIEW
 {
-    public partial class FrmSalesOrder_NoSettle : DockContent
+    public partial class FrmStnModuleQuery : DockContent
     {
         #region 私有变量
 
         FrmCommonDAO commonDAO = new FrmCommonDAO();
-        FrmSalesOrderDAO soDAO = new FrmSalesOrderDAO();
+        FrmStnModuleDAO smDAO = new FrmStnModuleDAO();
+        FrmStnSummaryDAO ssDAO = new FrmStnSummaryDAO();
 
         /// <summary>
         /// 最后一次查询的SQL
@@ -28,7 +29,7 @@ namespace PSAP.VIEW.BSVIEW
 
         #region 构造方法
 
-        public FrmSalesOrder_NoSettle()
+        public FrmStnModuleQuery()
         {
             InitializeComponent();
         }
@@ -40,23 +41,18 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 窗体加载事件
         /// </summary>
-        private void FrmSalesOrder_NoSettle_Load(object sender, EventArgs e)
+        private void FrmStnModuleQuery_Load(object sender, EventArgs e)
         {
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateSalesOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
-                dateSalesOrderDateEnd.DateTime = nowDate.Date;
+                dateGetTimeBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
+                dateGetTimeEnd.DateTime = nowDate.Date;
 
-                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
-                searchLookUpBussinessBaseNo.Text = "全部";
-                searchProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
-                searchProjectNo.Text = "全部";
+                searchLookUpStnModule.Properties.DataSource = ssDAO.QueryStnModule(true);
+                searchLookUpStnModule.Text = "全部";
                 lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-
-                repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
-                repLookUpCollectionTypeNo.DataSource = commonDAO.QueryCollectionType(false);
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -71,7 +67,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 确定行号
         /// </summary>
-        private void gridViewSalesOrder_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
+        private void gridViewStnModuleListInfo_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
         {
             ControlHandler.GridView_CustomDrawRowIndicator(e);
         }
@@ -79,7 +75,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 获取单元格显示的信息
         /// </summary>
-        private void gridViewSalesOrder_KeyDown(object sender, KeyEventArgs e)
+        private void gridViewStnModuleListInfo_KeyDown(object sender, KeyEventArgs e)
         {
             try
             {
@@ -98,31 +94,29 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if (dateSalesOrderDateBegin.EditValue == null || dateSalesOrderDateEnd.EditValue == null)
+                if (dateGetTimeBegin.EditValue == null || dateGetTimeEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("登记日期不能为空，请设置后重新进行查询。");
-                    if (dateSalesOrderDateBegin.EditValue == null)
-                        dateSalesOrderDateBegin.Focus();
+                    if (dateGetTimeBegin.EditValue == null)
+                        dateGetTimeBegin.Focus();
                     else
-                        dateSalesOrderDateEnd.Focus();
+                        dateGetTimeEnd.Focus();
                     return;
                 }
+                string getDateBeginStr = dateGetTimeBegin.DateTime.ToString("yyyy-MM-dd");
+                string getDateEndStr = dateGetTimeEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
-                string recordDateBeginStr = dateSalesOrderDateBegin.DateTime.ToString("yyyy-MM-dd");
-                string recordDateEndStr = dateSalesOrderDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
-
-                string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                string projectNoStr = searchProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchProjectNo.EditValue) : "";
+                string smNoStr = DataTypeConvert.GetString(searchLookUpStnModule.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpStnModule.EditValue) : "";
                 string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
                 string commonStr = textCommon.Text.Trim();
 
-                dataSet_SalesOrder.Tables[0].Rows.Clear();
+                dataSet_StnModuleListInfo.Tables[0].Clear();
 
-                string querySqlStr = soDAO.QuerySalesOrder_NoSettle_SQL(recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, projectNoStr, empNameStr, commonStr);
+                string querySqlStr = smDAO.QueryStnModuleList_SQL(getDateBeginStr, getDateEndStr, smNoStr, empNameStr, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 
-                gridBottomOrderHead.QueryGridData(ref dataSet_SalesOrder, "SalesOrder", querySqlStr, countSqlStr, true);
+                gridBottomOrderHead.QueryGridData(ref dataSet_StnModuleListInfo, "StnModuleListInfo", querySqlStr, countSqlStr, true);
             }
             catch (Exception ex)
             {
@@ -137,11 +131,11 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                //FileHandler.SaveDevGridControlExportToExcel(gridViewSalesOrder);
+                //FileHandler.SaveDevGridControlExportToExcel(gridViewStnSummaryList);
                 if (gridBottomOrderHead.pageCount <= 1)
-                    FileHandler.SaveDevGridControlExportToExcel(gridViewSalesOrder);
+                    FileHandler.SaveDevGridControlExportToExcel(gridViewStnModuleListInfo);
                 else
-                    commonDAO.SaveExcel_QueryAllData(dataSet_SalesOrder.Tables[0], lastQuerySqlStr, gridViewSalesOrder);
+                    commonDAO.SaveExcel_QueryAllData(dataSet_StnModuleListInfo.Tables[0], lastQuerySqlStr, gridViewStnModuleListInfo);
             }
             catch (Exception ex)
             {
@@ -152,16 +146,15 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 双击查询明细
         /// </summary>
-        private void gridViewSalesOrder_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
+        private void gridViewStnModuleListInfo_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
         {
             try
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
-                    string autoSalesOrderNoStr = DataTypeConvert.GetString(gridViewSalesOrder.GetFocusedDataRow()["AutoSalesOrderNo"]);
-                    FrmSalesOrder_History.queryAutoSalesOrderNoStr = autoSalesOrderNoStr;
-                    //FrmWarehouseWarrant_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmSalesOrder_History");
+                    string smNoStr = DataTypeConvert.GetString(gridViewStnModuleListInfo.GetFocusedDataRow()["SMNo"]);
+                    FrmStnModule.querySMNoStr = smNoStr;
+                    ViewHandler.ShowRightWindow("FrmStnModule");
                 }
             }
             catch (Exception ex)

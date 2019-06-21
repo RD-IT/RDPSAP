@@ -84,6 +84,11 @@ namespace PSAP.VIEW.BSVIEW
         public bool RowStateUnchangedIsSave = false;
 
         /// <summary>
+        /// 刷新方法进行定位当前编辑行
+        /// </summary>
+        public bool RefreshToSetPosition = false;
+
+        /// <summary>
         /// DataSet是主数据集
         /// </summary>
         private DataSet masterDataSet;
@@ -406,7 +411,9 @@ namespace PSAP.VIEW.BSVIEW
 
                         int posInt = masterBindingSource.Position;
                         btnRefresh_Click(null, null);
-                        masterBindingSource.Position = posInt;
+
+                        if (!RefreshToSetPosition)
+                            masterBindingSource.Position = posInt;
                         return true;
                     }
                     return false;

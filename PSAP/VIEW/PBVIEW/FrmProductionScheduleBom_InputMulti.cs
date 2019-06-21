@@ -61,13 +61,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (radioType.SelectedIndex == 0 && spinRemainQty.Value != 0)
                 {
-                    MessageHandler.ShowMessageBox("统一处理方式的计划数量请输入0。");
+                    MessageHandler.ShowMessageBox("全部计划方式的计划数量请输入0。");
                     return;
 
                 }
                 else if (radioType.SelectedIndex == 1 && spinRemainQty.Value == 0)
                 {
-                    MessageHandler.ShowMessageBox("分批处理方式的计划数量必须大于0。");
+                    MessageHandler.ShowMessageBox("部分计划方式的计划数量必须大于0。");
                     return;
                 }
 

@@ -57,10 +57,10 @@ namespace PSAP.VIEW.BSVIEW
                 ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateOrderDateEnd.DateTime = nowDate.Date;
                 datePlanDateBegin.DateTime = nowDate.Date;
-                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DefaultDays);
+                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPlanDate.Checked = false;
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);

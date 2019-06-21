@@ -46,7 +46,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateGetTimeBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateGetTimeBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateGetTimeEnd.DateTime = nowDate.Date;
 
                 searchLookUpStnModule.Properties.DataSource = ssDAO.QueryStnModule(true);
@@ -174,32 +174,32 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void gridViewStnSummaryList_CellMerge(object sender, DevExpress.XtraGrid.Views.Grid.CellMergeEventArgs e)
         {
-            try
-            {
-                GridView view = sender as GridView;
-                string firstColumnFieldName = "AutoId";
+            //try
+            //{
+            //    GridView view = sender as GridView;
+            //    string firstColumnFieldName = "AutoId";
 
-                switch (e.Column.FieldName)
-                {
-                    case "StnNo":
-                    case "StnDesc":
-                    case "GetTime":
-                    case "Prepared":
-                        {
-                            string valueFirstColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, firstColumnFieldName));
-                            string valueFirstColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, firstColumnFieldName));
-                            string valueOtherColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, e.Column.FieldName));
-                            string valueOtherColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, e.Column.FieldName));
-                            e.Merge = valueFirstColumn1 == valueFirstColumn2 && valueOtherColumn1 == valueOtherColumn2;
-                            e.Handled = true;
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(this.Text + "--设置Grid单元格合并错误。", ex);
-            }
+            //    switch (e.Column.FieldName)
+            //    {
+            //        case "StnNo":
+            //        case "StnDesc":
+            //        case "GetTime":
+            //        case "Prepared":
+            //            {
+            //                string valueFirstColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, firstColumnFieldName));
+            //                string valueFirstColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, firstColumnFieldName));
+            //                string valueOtherColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, e.Column.FieldName));
+            //                string valueOtherColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, e.Column.FieldName));
+            //                e.Merge = valueFirstColumn1 == valueFirstColumn2 && valueOtherColumn1 == valueOtherColumn2;
+            //                e.Handled = true;
+            //            }
+            //            break;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.HandleException(this.Text + "--设置Grid单元格合并错误。", ex);
+            //}
         }
 
         #endregion

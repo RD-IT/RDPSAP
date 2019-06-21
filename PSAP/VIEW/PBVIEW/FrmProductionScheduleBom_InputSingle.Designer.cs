@@ -41,12 +41,15 @@
             this.textPbBomNo = new DevExpress.XtraEditors.TextEdit();
             this.labPbBomNo = new DevExpress.XtraEditors.LabelControl();
             this.pnlPSBomInfo = new DevExpress.XtraEditors.PanelControl();
+            this.labDesc = new DevExpress.XtraEditors.LabelControl();
             this.labPlanDate = new DevExpress.XtraEditors.LabelControl();
             this.labType = new DevExpress.XtraEditors.LabelControl();
             this.datePlanDate = new DevExpress.XtraEditors.DateEdit();
             this.labelRemainQty = new DevExpress.XtraEditors.LabelControl();
             this.spinRemainQty = new DevExpress.XtraEditors.SpinEdit();
             this.radioType = new DevExpress.XtraEditors.RadioGroup();
+            this.radioLevel = new DevExpress.XtraEditors.RadioGroup();
+            this.labLevel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottom)).BeginInit();
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlDesignBom)).BeginInit();
@@ -61,6 +64,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinRemainQty.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radioType.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radioLevel.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBottom
@@ -183,6 +187,9 @@
             // 
             this.pnlPSBomInfo.Appearance.BackColor = System.Drawing.Color.White;
             this.pnlPSBomInfo.Appearance.Options.UseBackColor = true;
+            this.pnlPSBomInfo.Controls.Add(this.labLevel);
+            this.pnlPSBomInfo.Controls.Add(this.radioLevel);
+            this.pnlPSBomInfo.Controls.Add(this.labDesc);
             this.pnlPSBomInfo.Controls.Add(this.labPlanDate);
             this.pnlPSBomInfo.Controls.Add(this.labType);
             this.pnlPSBomInfo.Controls.Add(this.datePlanDate);
@@ -198,9 +205,18 @@
             this.pnlPSBomInfo.TabIndex = 1;
             this.pnlPSBomInfo.TabStop = true;
             // 
+            // labDesc
+            // 
+            this.labDesc.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.labDesc.Location = new System.Drawing.Point(64, 180);
+            this.labDesc.Name = "labDesc";
+            this.labDesc.Size = new System.Drawing.Size(358, 14);
+            this.labDesc.TabIndex = 14;
+            this.labDesc.Text = "(注：物料基础信息如果设定为不购买，则不能修改上面的购买方式)";
+            // 
             // labPlanDate
             // 
-            this.labPlanDate.Location = new System.Drawing.Point(76, 144);
+            this.labPlanDate.Location = new System.Drawing.Point(47, 138);
             this.labPlanDate.Name = "labPlanDate";
             this.labPlanDate.Size = new System.Drawing.Size(48, 14);
             this.labPlanDate.TabIndex = 8;
@@ -208,17 +224,17 @@
             // 
             // labType
             // 
-            this.labType.Location = new System.Drawing.Point(76, 38);
+            this.labType.Location = new System.Drawing.Point(47, 38);
             this.labType.Name = "labType";
             this.labType.Size = new System.Drawing.Size(48, 14);
             this.labType.TabIndex = 7;
-            this.labType.Text = "采购方式";
+            this.labType.Text = "购买方式";
             // 
             // datePlanDate
             // 
             this.datePlanDate.EditValue = null;
             this.datePlanDate.EnterMoveNextControl = true;
-            this.datePlanDate.Location = new System.Drawing.Point(148, 141);
+            this.datePlanDate.Location = new System.Drawing.Point(119, 135);
             this.datePlanDate.Name = "datePlanDate";
             this.datePlanDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -233,7 +249,7 @@
             // 
             // labelRemainQty
             // 
-            this.labelRemainQty.Location = new System.Drawing.Point(76, 94);
+            this.labelRemainQty.Location = new System.Drawing.Point(47, 88);
             this.labelRemainQty.Name = "labelRemainQty";
             this.labelRemainQty.Size = new System.Drawing.Size(48, 14);
             this.labelRemainQty.TabIndex = 5;
@@ -247,7 +263,7 @@
             0,
             0});
             this.spinRemainQty.EnterMoveNextControl = true;
-            this.spinRemainQty.Location = new System.Drawing.Point(148, 91);
+            this.spinRemainQty.Location = new System.Drawing.Point(119, 85);
             this.spinRemainQty.Name = "spinRemainQty";
             this.spinRemainQty.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -263,17 +279,40 @@
             // 
             this.radioType.EditValue = ((short)(1));
             this.radioType.EnterMoveNextControl = true;
-            this.radioType.Location = new System.Drawing.Point(165, 31);
+            this.radioType.Location = new System.Drawing.Point(122, 31);
             this.radioType.Name = "radioType";
             this.radioType.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
             this.radioType.Properties.Appearance.Options.UseBackColor = true;
             this.radioType.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.radioType.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "统一采购"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "分批采购")});
-            this.radioType.Size = new System.Drawing.Size(252, 29);
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "购买"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "不购买")});
+            this.radioType.Size = new System.Drawing.Size(137, 29);
             this.radioType.TabIndex = 10;
             this.radioType.SelectedIndexChanged += new System.EventHandler(this.radioType_SelectedIndexChanged);
+            // 
+            // radioLevel
+            // 
+            this.radioLevel.EditValue = ((short)(0));
+            this.radioLevel.EnterMoveNextControl = true;
+            this.radioLevel.Location = new System.Drawing.Point(367, 31);
+            this.radioLevel.Name = "radioLevel";
+            this.radioLevel.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+            this.radioLevel.Properties.Appearance.Options.UseBackColor = true;
+            this.radioLevel.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.radioLevel.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "本级别"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "所有下级")});
+            this.radioLevel.Size = new System.Drawing.Size(153, 29);
+            this.radioLevel.TabIndex = 15;
+            // 
+            // labLevel
+            // 
+            this.labLevel.Location = new System.Drawing.Point(320, 38);
+            this.labLevel.Name = "labLevel";
+            this.labLevel.Size = new System.Drawing.Size(24, 14);
+            this.labLevel.TabIndex = 16;
+            this.labLevel.Text = "级别";
             // 
             // FrmProductionScheduleBom_InputSingle
             // 
@@ -306,6 +345,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinRemainQty.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radioType.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radioLevel.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -331,5 +371,8 @@
         private DevExpress.XtraEditors.LabelControl labPlanDate;
         private DevExpress.XtraEditors.LabelControl labType;
         private DevExpress.XtraEditors.DateEdit datePlanDate;
+        private DevExpress.XtraEditors.LabelControl labDesc;
+        private DevExpress.XtraEditors.LabelControl labLevel;
+        private DevExpress.XtraEditors.RadioGroup radioLevel;
     }
 }

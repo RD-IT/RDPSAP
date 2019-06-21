@@ -663,6 +663,12 @@ namespace PSAP.VIEW.BSVIEW
                     }
                 }
 
+                if (codeFileNameList.Count > SystemInfo.FormDragDropMaxRecordCount)
+                {
+                    MessageHandler.ShowMessageBox(string.Format("拖拽记录的最大数量为{0}，请重新操作。", SystemInfo.FormDragDropMaxRecordCount));
+                    return;
+                }
+
                 if (codeFileNameList.Count > 0)
                 {
                     float qty = FrmPBDesignBom_InputNumber.Show_FrmPBDesignBom_InputNumber("输入增加数量", "增加数量", 1, salesOrderNoStr, codeFileNameList, true);
@@ -1017,10 +1023,10 @@ namespace PSAP.VIEW.BSVIEW
                     FrmProductionScheduleBom_InputMulti multiPSBomForm = new FrmProductionScheduleBom_InputMulti();
                     if (multiPSBomForm.ShowDialog() == DialogResult.OK)
                     {
-                        int isAll = DataTypeConvert.GetInt(multiPSBomForm.radioType.EditValue);
+                        //int isAll = DataTypeConvert.GetInt(multiPSBomForm.radioType.EditValue);
                         double remainQty = DataTypeConvert.GetDouble(multiPSBomForm.spinRemainQty.Value);
                         DateTime planDate = multiPSBomForm.datePlanDate.DateTime.Date;
-                        if (bomDAO.SaveMultiProductionScheduleBom(bomListAutoIdList, isAll, planDate, remainQty))
+                        if (bomDAO.SaveMultiProductionScheduleBom(bomListAutoIdList, 0, planDate, remainQty))
                         {
                             RefreshPSBomInfo();
                             ClearTreeListSelection_FocusedNode();
@@ -1145,15 +1151,15 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void gridViewPSBom_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
-            if (e.Column.FieldName == "IsAll")
+            if (e.Column.FieldName == "IsBuy")
             {
                 switch (e.Value.ToString())
                 {
                     case "0":
-                        e.DisplayText = "分批";
+                        e.DisplayText = "不购买";
                         break;
                     case "1":
-                        e.DisplayText = "统一";
+                        e.DisplayText = "购买";
                         break;
                 }
             }

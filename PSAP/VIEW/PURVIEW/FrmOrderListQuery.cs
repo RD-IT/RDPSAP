@@ -40,8 +40,8 @@ namespace PSAP.VIEW.BSVIEW
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 datePlanDateBegin.DateTime = nowDate.Date;
-                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DefaultDays);
-                dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
+                dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateOrderDateEnd.DateTime = nowDate.Date;
                 checkOrderDate.Checked = false;
 

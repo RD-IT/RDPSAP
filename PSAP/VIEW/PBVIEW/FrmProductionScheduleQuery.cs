@@ -35,10 +35,10 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DateTime nowDate = BaseSQL.GetServerDateTime();
-                dateCurrentDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DefaultDays);
+                dateCurrentDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateCurrentDateEnd.DateTime = nowDate.Date;
                 dateReqDateBegin.DateTime = nowDate.Date;
-                dateReqDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DefaultDays);
+                dateReqDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkReqDate.Checked = false;
 
                 lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);

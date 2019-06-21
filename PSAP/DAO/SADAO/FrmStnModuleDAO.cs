@@ -79,6 +79,36 @@ namespace PSAP.DAO.SADAO
         }
 
         /// <summary>
+        /// 查询功能模块信息的SQL（包括几个表关联的全部信息）
+        /// </summary>
+        public string QueryStnModuleList_SQL(string beginDateStr, string endDateStr, string smNoStr, string preparedStr, string commonStr, bool nullTable)
+        {
+            string sqlStr = " 1=1";
+            if (beginDateStr != "")
+            {
+                sqlStr += string.Format(" and GetTime between '{0}' and '{1}'", beginDateStr, endDateStr);
+            }
+            if (smNoStr != "")
+            {
+                sqlStr += string.Format(" and SMNo = '{0}'", smNoStr);
+            }
+            if (preparedStr != "")
+            {
+                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+            }
+            if (commonStr != "")
+            {
+                sqlStr += string.Format(" and (SMNo like '%{0}%' or FunctionDesc like '%{0}%' or FunctionDetail like '%{0}%' or DeliveryText like '%{0}%' or DetailFunctionDesc like '%{0}%' or MaterialName like '%{0}%' or MaterialBrand like '%{0}%' or MaterialDesc like '%{0}%' or MaterialCate like '%{0}%')", commonStr);
+            }
+            if (nullTable)
+            {
+                sqlStr += " and 1=2";
+            }
+            sqlStr = string.Format("select * from V_SA_StnModuleListInfo where {0} order by SMNo, DeliveryDetailNO, AutoId", sqlStr);
+            return sqlStr;
+        }
+
+        /// <summary>
         /// 保存功能模块信息
         /// </summary>
         public int SaveStnModule(DataRow headRow, string copySMNoStr, int StnSummaryListModule_AutoIdInt)
