@@ -61,6 +61,10 @@ namespace PSAP.VIEW.BSVIEW
             if (tmpStr != "")
                 spinLeftDockWidth.Value = DataTypeConvert.GetInt(tmpStr);
 
+            tmpStr = GetValue("Common", "EnableWorkFlowMessage");
+            if (tmpStr != "")
+                checkEnableWorkFlowMessage.EditValue = tmpStr;
+
             #endregion
 
             #region 销售
@@ -154,6 +158,7 @@ namespace PSAP.VIEW.BSVIEW
                 SetValue("Common", "DateIntervalDays", DataTypeConvert.GetString(spinDateIntervalDays.Value));
                 SetValue("Common", "FormDragDropMaxRecordCount", DataTypeConvert.GetString(spinFormDragDropMaxRecordCount.Value));
                 SetValue("Common", "LeftDockWidth", DataTypeConvert.GetString(spinLeftDockWidth.Value));
+                SetValue("Common", "EnableWorkFlowMessage", DataTypeConvert.GetString(checkEnableWorkFlowMessage.EditValue));
 
                 //销售
                 SetValue("Sale", "QuotationDefaultTax", DataTypeConvert.GetString(spinQuotationDefaultTax.Value));
@@ -163,13 +168,13 @@ namespace PSAP.VIEW.BSVIEW
                 SetValue("Purchase", "OrderListDefaultTax", DataTypeConvert.GetString(spinOrderListDefaultTax.Value));
                 SetValue("Purchase", "SettlementDefaultTax", DataTypeConvert.GetString(spinSettlementDefaultTax.Value));
                 SetValue("Purchase", "OrderNoWarehousingDays", DataTypeConvert.GetString(spinOrderNoWarehousingDays.Value));
-                SetValue("Purchase", "PrReqApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrReqApplyBeyondCountIsSave.EditValue)));
-                SetValue("Purchase", "WWApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWApplyBeyondCountIsSave.EditValue)));
+                SetValue("Purchase", "PrReqApplyBeyondCountIsSave", DataTypeConvert.GetString(checkPrReqApplyBeyondCountIsSave.EditValue));
+                SetValue("Purchase", "WWApplyBeyondCountIsSave", DataTypeConvert.GetString(checkWWApplyBeyondCountIsSave.EditValue));
 
                 //库存
-                SetValue("Warehouse", "OrderApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkOrderApplyBeyondCountIsSave.EditValue)));
-                SetValue("Warehouse", "WWIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWIsAlterDate.EditValue)));
-                SetValue("Warehouse", "WRIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWRIsAlterDate.EditValue)));
+                SetValue("Warehouse", "OrderApplyBeyondCountIsSave", DataTypeConvert.GetString(checkOrderApplyBeyondCountIsSave.EditValue));
+                SetValue("Warehouse", "WWIsAlterDate", DataTypeConvert.GetString(checkWWIsAlterDate.EditValue));
+                SetValue("Warehouse", "WRIsAlterDate", DataTypeConvert.GetString(checkWRIsAlterDate.EditValue));
 
                 //系统
                 SetValue("System", "BackupPath", textBackupPath.Text);
@@ -327,7 +332,6 @@ namespace PSAP.VIEW.BSVIEW
         #endregion
 
         #endregion
-
-
+        
     }
 }

@@ -11,6 +11,8 @@ using WeifenLuo.WinFormsUI.Docking;
 using System.Data.SqlClient;
 using System.Reflection;
 using PSAP.PSAPCommon;
+using PSAP.DAO.WORKFLOWDAO;
+using DevExpress.XtraBars.Alerter;
 
 namespace PSAP.VIEW.BSVIEW
 {
@@ -75,9 +77,21 @@ namespace PSAP.VIEW.BSVIEW
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            this.Text = "天津容大机电有限公司   [" + SystemInfo.user.DepartmentName + " - " + SystemInfo.user.EmpName + "]";
-            notifyIconMain.Text = "天津容大机电有限公司";
+            try
+            {
+                this.Text = "天津容大机电有限公司   [" + SystemInfo.user.DepartmentName + " - " + SystemInfo.user.EmpName + "]";
+                notifyIconMain.Text = "天津容大机电有限公司";
 
+                if (SystemInfo.EnableWorkFlowMessage)
+                {
+                    timerMessage.Start();
+                    timerMessage_Tick(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
+            }
         }
 
         //用于dock
@@ -420,6 +434,42 @@ namespace PSAP.VIEW.BSVIEW
         private void tsmiGcbh_Click(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// 定时消息提醒
+        /// </summary>
+        private void timerMessage_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                FrmQueryUserWorkFlowDAO userWFDAO = new FrmQueryUserWorkFlowDAO();
+                int count = userWFDAO.QueryUserWorkFlow();
+                if (count > 0)
+                {
+                    alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", count));
+                    //new AlertControl().Show(null, "消息提示", DataTypeConvert.GetString(msg));
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--定时消息提醒错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 查看消息的具体明细
+        /// </summary>
+        private void alertControlMessage_AlertClick(object sender, AlertClickEventArgs e)
+        {
+            try
+            {
+                ViewHandler.ShowRightWindow("FrmQueryUserWorkFlow");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--查看消息的具体明细错误。", ex);
+            }
         }
     }
 }

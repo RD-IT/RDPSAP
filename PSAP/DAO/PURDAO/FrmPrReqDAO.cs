@@ -1,4 +1,5 @@
 ﻿using PSAP.DAO.BSDAO;
+using PSAP.DAO.WORKFLOWDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
@@ -283,6 +284,16 @@ namespace PSAP.DAO.PURDAO
                         //保存日志到日志表中
                         string logStr = LogHandler.RecordLog_DataRow(cmd, "请购单", prReqHeadRow, "PrReqNo");
 
+                        if (SystemInfo.EnableWorkFlowMessage)
+                        {
+                            if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(prReqHeadRow["PrReqNo"]) }, "采购流程", "PUR_PrReqHead", 1, DataTypeConvert.GetInt(prReqHeadRow["ReqState"]), "", "", 1, false))
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
+                                return -1;
+                            }
+                        }
+
                         cmd.CommandText = "select * from PUR_PrReqHead where 1=2";
                         SqlDataAdapter adapterHead = new SqlDataAdapter(cmd);
                         DataTable tmpHeadTable = new DataTable();
@@ -293,7 +304,7 @@ namespace PSAP.DAO.PURDAO
                         SqlDataAdapter adapterList = new SqlDataAdapter(cmd);
                         DataTable tmpListTable = new DataTable();
                         adapterList.Fill(tmpListTable);
-                        BaseSQL.UpdateDataTable(adapterList, prReqListTable);
+                        BaseSQL.UpdateDataTable(adapterList, prReqListTable);                        
 
                         trans.Commit();
                         return 1;
@@ -629,12 +640,17 @@ namespace PSAP.DAO.PURDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1}, Closed='{2}', ClosedIp='{3}', ClosedTime='{4}' where PrReqNo in ({0})", prReqNoListStr, 3, SystemInfo.user.EmpName, SystemInfo.HostIpAddress, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         cmd.ExecuteNonQuery();
-
+                        
                         //保存日志到日志表中
                         DataRow[] prReqHeadRows = prReqHeadTable.Select("select=1");
                         for (int i = 0; i < prReqHeadRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "关闭", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                        }
+
+                        if (SystemInfo.EnableWorkFlowMessage)
+                        {
+                            new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, prReqNoListStr, 3, 1);
                         }
 
                         trans.Commit();
@@ -696,6 +712,11 @@ namespace PSAP.DAO.PURDAO
 
                             //保存日志到日志表中
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "取消关闭", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                            if (SystemInfo.EnableWorkFlowMessage)
+                            {
+                                new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, new List<string>() { DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]) }, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), 0);
+                            }
                         }
 
                         trans.Commit();

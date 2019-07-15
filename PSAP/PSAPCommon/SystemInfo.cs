@@ -111,6 +111,11 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static int DragForm_LeftDock_Width = 400;
 
+        /// <summary>
+        /// 启用流程消息提醒
+        /// </summary>
+        public static bool EnableWorkFlowMessage = true;
+
         #endregion
 
         #region 销售

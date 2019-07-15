@@ -177,6 +177,10 @@ namespace PSAP.DAO.BSDAO
             if (tmpStr != "")
                 SystemInfo.DragForm_LeftDock_Width = DataTypeConvert.GetInt(tmpStr);
 
+            tmpStr = GetValue(sysParameterTable, "Common", "EnableWorkFlowMessage");
+            if (tmpStr != "")
+                SystemInfo.EnableWorkFlowMessage = tmpStr == "1";
+
             #endregion
 
             #region 销售

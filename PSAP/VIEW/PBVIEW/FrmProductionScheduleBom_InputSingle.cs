@@ -15,7 +15,7 @@ namespace PSAP.VIEW.BSVIEW
     public partial class FrmProductionScheduleBom_InputSingle : DockContent
     {
         FrmCommonDAO commonDAO = new FrmCommonDAO();
-        FrmPBDesignBom_PSDAO bomDAO = new FrmPBDesignBom_PSDAO();
+        FrmPBDesignBom_PS_NewDAO bomDAO = new FrmPBDesignBom_PS_NewDAO();
 
         /// <summary>
         /// 设计Bom的ID
@@ -50,6 +50,7 @@ namespace PSAP.VIEW.BSVIEW
                     MessageHandler.ShowMessageBox("未查询到设计Bom的信息，请重新操作。");
                     this.DialogResult = DialogResult.Cancel;
                     this.Close();
+                    return;
                 }
 
                 textPbBomNo.Text = DataTypeConvert.GetString(designBomListTable.Rows[0]["PbBomNo"]);
@@ -62,15 +63,34 @@ namespace PSAP.VIEW.BSVIEW
                 textOKRemainQty.Text = DataTypeConvert.GetString(psBomRemainQty);
                 bool hasLevel = DataTypeConvert.GetBoolean(designBomListTable.Rows[0]["HasLevel"]);
 
-                DataTable partsCodeTable = commonDAO.QuerySinglePartsCode(textMaterielNo.Text);
-                if (partsCodeTable.Rows.Count == 0)
+                int isBuy = 1;
+                if (DataTypeConvert.GetInt(designBomListTable.Rows[0]["IsMaterial"]) == 2)
                 {
-                    MessageHandler.ShowMessageBox("没有查询到当前要操作的物料基础信息，请重新操作。");
-                    this.DialogResult = DialogResult.Cancel;
-                    this.Close();
+                    DataTable wpTable = new DataTable();
+                    bomDAO.QueryWorkProcess(wpTable, textMaterielNo.Text, "");
+                    if (wpTable.Rows.Count == 0)
+                    {
+                        MessageHandler.ShowMessageBox("没有查询到当前要操作的基本工序信息，请重新操作。");
+                        this.DialogResult = DialogResult.Cancel;
+                        this.Close();
+                        return;
+                    }
+                    isBuy = DataTypeConvert.GetInt(wpTable.Rows[0]["IsBuy"]);
+                    labMaterielNo.Text = "工序编号";
+                    labDesc.Text = "(注：基本工序信息如果设定为不购买，则不能修改上面的购买方式)";
                 }
-                int isBuy = DataTypeConvert.GetInt(partsCodeTable.Rows[0]["IsBuy"]);
-
+                else
+                {
+                    DataTable partsCodeTable = commonDAO.QuerySinglePartsCode(textMaterielNo.Text);
+                    if (partsCodeTable.Rows.Count == 0)
+                    {
+                        MessageHandler.ShowMessageBox("没有查询到当前要操作的物料基础信息，请重新操作。");
+                        this.DialogResult = DialogResult.Cancel;
+                        this.Close();
+                        return;
+                    }
+                    isBuy = DataTypeConvert.GetInt(partsCodeTable.Rows[0]["IsBuy"]);
+                }
 
                 if (psBomAutoId == 0)
                 {
@@ -79,6 +99,7 @@ namespace PSAP.VIEW.BSVIEW
                         MessageHandler.ShowMessageBox("已经计划的数量大于或者等于设计Bom的数量，不可以再输入生产计划信息，请重新操作。");
                         this.DialogResult = DialogResult.Cancel;
                         this.Close();
+                        return;
                     }
 
                     if (psBomRemainQty == 0)

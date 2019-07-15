@@ -63,6 +63,7 @@
             this.checkOrderApplyBeyondCountIsSave = new DevExpress.XtraEditors.CheckEdit();
             this.labOrderApplyBeyondCountIsSave = new DevExpress.XtraEditors.LabelControl();
             this.PageProduction = new DevExpress.XtraTab.XtraTabPage();
+            this.PageHumanAffair = new DevExpress.XtraTab.XtraTabPage();
             this.PageAccounting = new DevExpress.XtraTab.XtraTabPage();
             this.PageSystem = new DevExpress.XtraTab.XtraTabPage();
             this.textBackupPath = new DevExpress.XtraEditors.TextEdit();
@@ -78,7 +79,8 @@
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
             this.BtnSave = new DevExpress.XtraEditors.SimpleButton();
             this.pnlTabPage = new DevExpress.XtraEditors.PanelControl();
-            this.PageHumanAffair = new DevExpress.XtraTab.XtraTabPage();
+            this.checkEnableWorkFlowMessage = new DevExpress.XtraEditors.CheckEdit();
+            this.labEnableWorkFlowMessage = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabSystem)).BeginInit();
             this.xtraTabSystem.SuspendLayout();
             this.PageCommon.SuspendLayout();
@@ -108,6 +110,7 @@
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).BeginInit();
             this.pnlTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEnableWorkFlowMessage.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // xtraTabSystem
@@ -133,6 +136,8 @@
             // 
             // PageCommon
             // 
+            this.PageCommon.Controls.Add(this.checkEnableWorkFlowMessage);
+            this.PageCommon.Controls.Add(this.labEnableWorkFlowMessage);
             this.PageCommon.Controls.Add(this.spinLeftDockWidth);
             this.PageCommon.Controls.Add(this.labLeftDockWidth);
             this.PageCommon.Controls.Add(this.spinFormDragDropMaxRecordCount);
@@ -622,6 +627,13 @@
             this.PageProduction.Tag = "Production";
             this.PageProduction.Text = "生产";
             // 
+            // PageHumanAffair
+            // 
+            this.PageHumanAffair.Name = "PageHumanAffair";
+            this.PageHumanAffair.Size = new System.Drawing.Size(1043, 576);
+            this.PageHumanAffair.Tag = "HumanAffair";
+            this.PageHumanAffair.Text = "人事";
+            // 
             // PageAccounting
             // 
             this.PageAccounting.Name = "PageAccounting";
@@ -732,12 +744,25 @@
             this.pnlTabPage.Size = new System.Drawing.Size(1123, 582);
             this.pnlTabPage.TabIndex = 15;
             // 
-            // PageHumanAffair
+            // checkEnableWorkFlowMessage
             // 
-            this.PageHumanAffair.Name = "PageHumanAffair";
-            this.PageHumanAffair.Size = new System.Drawing.Size(0, 0);
-            this.PageHumanAffair.Tag = "HumanAffair";
-            this.PageHumanAffair.Text = "人事";
+            this.checkEnableWorkFlowMessage.Location = new System.Drawing.Point(233, 189);
+            this.checkEnableWorkFlowMessage.Name = "checkEnableWorkFlowMessage";
+            this.checkEnableWorkFlowMessage.Properties.Caption = "";
+            this.checkEnableWorkFlowMessage.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkEnableWorkFlowMessage.Properties.ValueChecked = "1";
+            this.checkEnableWorkFlowMessage.Properties.ValueGrayed = "0";
+            this.checkEnableWorkFlowMessage.Properties.ValueUnchecked = "0";
+            this.checkEnableWorkFlowMessage.Size = new System.Drawing.Size(31, 19);
+            this.checkEnableWorkFlowMessage.TabIndex = 13;
+            // 
+            // labEnableWorkFlowMessage
+            // 
+            this.labEnableWorkFlowMessage.Location = new System.Drawing.Point(36, 192);
+            this.labEnableWorkFlowMessage.Name = "labEnableWorkFlowMessage";
+            this.labEnableWorkFlowMessage.Size = new System.Drawing.Size(144, 14);
+            this.labEnableWorkFlowMessage.TabIndex = 12;
+            this.labEnableWorkFlowMessage.Text = "启用流程信息消息提醒功能";
             // 
             // FrmSystemSet
             // 
@@ -783,6 +808,7 @@
             this.pnlTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).EndInit();
             this.pnlTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.checkEnableWorkFlowMessage.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -839,5 +865,7 @@
         private DevExpress.XtraEditors.CheckEdit checkWWApplyBeyondCountIsSave;
         private DevExpress.XtraEditors.LabelControl labWWApplyBeyondCountIsSave;
         private DevExpress.XtraTab.XtraTabPage PageHumanAffair;
+        private DevExpress.XtraEditors.CheckEdit checkEnableWorkFlowMessage;
+        private DevExpress.XtraEditors.LabelControl labEnableWorkFlowMessage;
     }
 }

@@ -53,6 +53,8 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCjmywbc = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiTs = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerMessage = new System.Windows.Forms.Timer(this.components);
+            this.alertControlMessage = new DevExpress.XtraBars.Alerter.AlertControl(this.components);
             this.cMenuStripDocking.SuspendLayout();
             this.tsrMain.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
@@ -226,7 +228,7 @@
             this.tsmiCjmywbc,
             this.tsmiTs});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(317, 70);
+            this.cms.Size = new System.Drawing.Size(317, 48);
             // 
             // tsmiCjmywbc
             // 
@@ -240,6 +242,15 @@
             this.tsmiTs.Name = "tsmiTs";
             this.tsmiTs.Size = new System.Drawing.Size(316, 22);
             this.tsmiTs.Text = "提示";
+            // 
+            // timerMessage
+            // 
+            this.timerMessage.Interval = 600000;
+            this.timerMessage.Tick += new System.EventHandler(this.timerMessage_Tick);
+            // 
+            // alertControlMessage
+            // 
+            this.alertControlMessage.AlertClick += new DevExpress.XtraBars.Alerter.AlertClickEventHandler(this.alertControlMessage_AlertClick);
             // 
             // FrmMain
             // 
@@ -293,5 +304,7 @@
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiCjmywbc;
         private System.Windows.Forms.ToolStripMenuItem tsmiTs;
+        private System.Windows.Forms.Timer timerMessage;
+        private DevExpress.XtraBars.Alerter.AlertControl alertControlMessage;
     }
 }

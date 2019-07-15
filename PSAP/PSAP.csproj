@@ -60,6 +60,7 @@
     <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Diagram.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -70,18 +71,23 @@
     <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraDiagram.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGauges.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v15.2.Extensions, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraVerticalGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 10.0\ReportViewer\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="PsapUserControlLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\PSAPUserControlLibrary\PSAPUserControlLibrary\bin\Debug\PsapUserControlLibrary.dll</HintPath>
@@ -106,6 +112,7 @@
     <Reference Include="WeifenLuo.WinFormsUI.Docking">
       <HintPath>..\..\工具软件\插件\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLL\BSBLL\BSBLL.cs" />
@@ -141,6 +148,7 @@
     <Compile Include="DAO\INVDAO\FrmWarehouseReceiptDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmPBDesignBomDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmPBDesignBom_PSDAO.cs" />
+    <Compile Include="DAO\PBDAO\FrmPBDesignBom_PS_NewDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmProductionScheduleDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmApprovalDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmDocumentTempletDAO.cs" />
@@ -159,6 +167,11 @@
     <Compile Include="DAO\SADAO\FrmStnSummaryDAO.cs" />
     <Compile Include="DAO\SALEDAO\FrmAddRemarksDAO.cs" />
     <Compile Include="DAO\SALEDAO\FrmProjectDocumentDAO.cs" />
+    <Compile Include="DAO\WORKFLOWDAO\FrmQueryUserWorkFlowDAO.cs" />
+    <Compile Include="DAO\WORKFLOWDAO\FrmWorkFlowDataHandleDAO.cs" />
+    <Compile Include="DAO\WORKFLOWDAO\FrmWorkFlowEditDAO.cs" />
+    <Compile Include="DAO\WORKFLOWDAO\FrmWorkFlowModuleDAO.cs" />
+    <Compile Include="DAO\WORKFLOWDAO\FrmWorkFlowNToN_ConditionDAO.cs" />
     <Compile Include="ENTITY\BSENTITY\bomManagement.cs" />
     <Compile Include="ENTITY\BSENTITY\BomMateriel.cs" />
     <Compile Include="ENTITY\BSENTITY\BomMaterieState.cs" />
@@ -312,6 +325,12 @@
     <Compile Include="VIEW\BSVIEW\FrmRight_UserMenuButton.Designer.cs">
       <DependentUpon>FrmRight_UserMenuButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmWorkProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmWorkProcess.Designer.cs">
+      <DependentUpon>FrmWorkProcess.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\CommonVIEW\FrmInputDate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -402,6 +421,12 @@
     <Compile Include="VIEW\PBVIEW\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmListDesignBomWorkProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmListDesignBomWorkProcess.Designer.cs">
+      <DependentUpon>FrmListDesignBomWorkProcess.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\PBVIEW\FrmPBDesignBom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -425,6 +450,12 @@
     </Compile>
     <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_PS.Designer.cs">
       <DependentUpon>FrmPBDesignBom_PS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_PS_New.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPBDesignBom_PS_New.Designer.cs">
+      <DependentUpon>FrmPBDesignBom_PS_New.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\PBVIEW\FrmProductionSchedule.cs">
       <SubType>Form</SubType>
@@ -1014,6 +1045,42 @@
     <Compile Include="VIEW\SYSVIEW\FrmSystemSet.Designer.cs">
       <DependentUpon>FrmSystemSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmQueryUserWorkFlow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmQueryUserWorkFlow.Designer.cs">
+      <DependentUpon>FrmQueryUserWorkFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowDataHandle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowDataHandle.Designer.cs">
+      <DependentUpon>FrmWorkFlowDataHandle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowEdit.Designer.cs">
+      <DependentUpon>FrmWorkFlowEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowModule.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowModule.Designer.cs">
+      <DependentUpon>FrmWorkFlowModule.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowModuleProper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowModuleProper.Designer.cs">
+      <DependentUpon>FrmWorkFlowModuleProper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowNToN_Condition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\WORKFLOWVIEW\FrmWorkFlowNToN_Condition.Designer.cs">
+      <DependentUpon>FrmWorkFlowNToN_Condition.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -1073,6 +1140,9 @@
     <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_UserMenuButton.resx">
       <DependentUpon>FrmRight_UserMenuButton.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmWorkProcess.resx">
+      <DependentUpon>FrmWorkProcess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\CommonVIEW\FrmInputDate.resx">
       <DependentUpon>FrmInputDate.cs</DependentUpon>
     </EmbeddedResource>
@@ -1109,6 +1179,9 @@
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantList_NoSettlement.resx">
       <DependentUpon>FrmWarehouseWarrantList_NoSettlement.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmListDesignBomWorkProcess.resx">
+      <DependentUpon>FrmListDesignBomWorkProcess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBom.resx">
       <DependentUpon>FrmPBDesignBom.cs</DependentUpon>
     </EmbeddedResource>
@@ -1120,6 +1193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBom_PS.resx">
       <DependentUpon>FrmPBDesignBom_PS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmPBDesignBom_PS_New.resx">
+      <DependentUpon>FrmPBDesignBom_PS_New.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionSchedule.resx">
       <DependentUpon>FrmProductionSchedule.cs</DependentUpon>
@@ -1419,6 +1495,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\SYSVIEW\FrmSystemSet.resx">
       <DependentUpon>FrmSystemSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\WORKFLOWVIEW\FrmQueryUserWorkFlow.resx">
+      <DependentUpon>FrmQueryUserWorkFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\WORKFLOWVIEW\FrmWorkFlowDataHandle.resx">
+      <DependentUpon>FrmWorkFlowDataHandle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\WORKFLOWVIEW\FrmWorkFlowEdit.resx">
+      <DependentUpon>FrmWorkFlowEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\WORKFLOWVIEW\FrmWorkFlowModule.resx">
+      <DependentUpon>FrmWorkFlowModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\WORKFLOWVIEW\FrmWorkFlowModuleProper.resx">
+      <DependentUpon>FrmWorkFlowModuleProper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\WORKFLOWVIEW\FrmWorkFlowNToN_Condition.resx">
+      <DependentUpon>FrmWorkFlowNToN_Condition.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="dsPSAP.xsc">

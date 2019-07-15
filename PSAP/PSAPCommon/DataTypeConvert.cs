@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace PSAP.PSAPCommon
@@ -109,6 +110,21 @@ namespace PSAP.PSAPCommon
             else
                 return 0;
         }
-        
+
+        /// <summary>
+        /// 将颜色类型转换为字符串类型
+        /// </summary>
+        public static string ColorToString(Color color)
+        {
+            return ColorTranslator.ToHtml(color);
+        }
+
+        /// <summary>
+        /// 将字符串类型转换为颜色类型
+        /// </summary>
+        public static Color StringToColor(string colorStr)
+        {
+            return ColorTranslator.FromHtml(colorStr);
+        }
     }
 }

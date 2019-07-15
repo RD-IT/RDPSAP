@@ -60,6 +60,19 @@ namespace PSAP.DAO.BSDAO
         }
 
         /// <summary>
+        /// 查询角色信息
+        /// </summary>
+        public DataTable QueryRole(bool addAllItem)
+        {
+            string sqlStr = "select AutoId, RoleNo, RoleName from BS_Role order by AutoId";
+            if (addAllItem)
+            {
+                sqlStr = "select 0 as AutoId, '全部' as RoleNo, '全部' as RoleName union " + sqlStr;
+            }
+            return BaseSQL.GetTableBySql(sqlStr);
+        }
+
+        /// <summary>
         /// 查询采购类型（增加一个全部选项）
         /// </summary>
         public DataTable QueryPurCategory(bool addAllItem)

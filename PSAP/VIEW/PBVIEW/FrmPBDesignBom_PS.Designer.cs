@@ -292,7 +292,7 @@
             this.PageDesignBom.Controls.Add(this.pnlDesignBomToolBar);
             this.PageDesignBom.Name = "PageDesignBom";
             this.PageDesignBom.Size = new System.Drawing.Size(504, 536);
-            this.PageDesignBom.Text = "制造Bom登记";
+            this.PageDesignBom.Text = "制作Bom登记";
             // 
             // treeListDesignBom
             // 

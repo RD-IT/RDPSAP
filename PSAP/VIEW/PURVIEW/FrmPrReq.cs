@@ -1011,7 +1011,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 btnNew.Enabled = false;
                 btnSave.Tag = "保存";
-                btnSave.Text = f.tsmiXg.Text ;
+                btnSave.Text = f.tsmiBc.Text ;
                 btnCancel.Enabled = true;
                 btnDelete.Enabled = false;
             }
@@ -1019,7 +1019,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 btnNew.Enabled = true;
                  btnSave.Tag = "修改";
-               btnSave.Text = f.tsmiBj.Text ;
+               btnSave.Text = f.tsmiXg.Text ;
                 btnCancel.Enabled = false;
                 btnDelete.Enabled = true;                
             }

@@ -1,4 +1,5 @@
 ﻿using PSAP.DAO.BSDAO;
+using PSAP.DAO.WORKFLOWDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
@@ -308,6 +309,16 @@ namespace PSAP.DAO.PURDAO
 
                         //保存日志到日志表中
                         string logStr = LogHandler.RecordLog_DataRow(cmd, "采购订单", orderHeadRow, "OrderHeadNo");
+
+                        if (SystemInfo.EnableWorkFlowMessage)
+                        {
+                            if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(orderHeadRow["OrderHeadNo"]) }, "采购流程", "PUR_OrderHead", 1, DataTypeConvert.GetInt(orderHeadRow["ReqState"]), "", "", 1, false))
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
+                                return -1;
+                            }
+                        }
 
                         cmd.CommandText = "select * from PUR_OrderHead where 1=2";
                         SqlDataAdapter adapterHead = new SqlDataAdapter(cmd);
@@ -662,6 +673,11 @@ namespace PSAP.DAO.PURDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "采购订单", orderHeadRows[i], "OrderHeadNo", "关闭", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
+                        if (SystemInfo.EnableWorkFlowMessage)
+                        {
+                            new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, orderHeadNoListStr, 3, 1);
+                        }
+
                         trans.Commit();
                         orderHeadTable.AcceptChanges();
                         return true;
@@ -747,6 +763,11 @@ namespace PSAP.DAO.PURDAO
 
                                 //保存日志到日志表中
                                 string logStr = LogHandler.RecordLog_OperateRow(cmd, "采购订单", orderHeadTable.Rows[i], "OrderHeadNo", "取消关闭", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                if (SystemInfo.EnableWorkFlowMessage)
+                                {
+                                    new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, new List<string>() { orderHeadNoStr }, DataTypeConvert.GetInt(dr["ReqState"]), 0);
+                                }
                             }
                         }
 
