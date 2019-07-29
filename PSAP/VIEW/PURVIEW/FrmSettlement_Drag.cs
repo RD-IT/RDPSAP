@@ -194,6 +194,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSettlementDateBegin.EditValue == null || dateSettlementDateEnd.EditValue == null)
                 {
                     //MessageHandler.ShowMessageBox("结账日期不能为空，请设置后重新进行查询。");
@@ -381,6 +384,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewSettlementHead.GetFocusedDataRow() == null)
                     return;
 
@@ -483,6 +489,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewSettlementHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewSettlementHead.GetDataRow(headFocusedLineNo)["SettlementNo"]) == "")
@@ -517,6 +526,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_Settlement.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -554,6 +566,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_Settlement.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -566,9 +581,14 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (count == 1)
                 {
+                    ////弹出审批页面
+                    //FrmSettlementApproval frmSet = new FrmSettlementApproval(DataTypeConvert.GetString(dataSet_Settlement.Tables[0].Select("select=1")[0]["SettlementNo"]));
+                    //if (frmSet.ShowDialog() == DialogResult.OK)
+                    //    btnQuery_Click(null, null);
+
                     //弹出审批页面
-                    FrmSettlementApproval frmSet = new FrmSettlementApproval(DataTypeConvert.GetString(dataSet_Settlement.Tables[0].Select("select=1")[0]["SettlementNo"]));
-                    if (frmSet.ShowDialog() == DialogResult.OK)
+                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_Settlement.Tables[0].Select("select=1")[0]["SettlementNo"]));
+                    if (frmOrder.ShowDialog() == DialogResult.OK)
                         btnQuery_Click(null, null);
                 }
                 else
@@ -606,6 +626,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_Settlement.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -645,9 +668,22 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string settlementNoStr = "";
                 if (gridViewSettlementHead.GetFocusedDataRow() != null)
                     settlementNoStr = DataTypeConvert.GetString(gridViewSettlementHead.GetFocusedDataRow()["SettlementNo"]);
+
+                if (SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(gridViewSettlementHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
                 setDAO.PrintHandle(settlementNoStr, 1);
             }
             catch (Exception ex)
@@ -1020,6 +1056,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateWWDateBegin.EditValue == null || dateWWDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiRkrqbn.Text );// ("入库日期不能为空，请设置后重新进行查询。");

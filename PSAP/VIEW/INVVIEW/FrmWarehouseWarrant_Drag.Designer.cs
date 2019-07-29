@@ -2513,7 +2513,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 104;
             // 
             // searchLookUpProjectNoView
@@ -2602,12 +2602,12 @@
             // 
             // btnOrderQuery
             // 
-            this.btnOrderQuery.Location = new System.Drawing.Point(213, 73);
+            this.btnOrderQuery.Location = new System.Drawing.Point(243, 73);
             this.btnOrderQuery.Margin = new System.Windows.Forms.Padding(4);
             this.btnOrderQuery.Name = "btnOrderQuery";
             this.btnOrderQuery.Size = new System.Drawing.Size(75, 23);
             this.btnOrderQuery.TabIndex = 105;
-            this.btnOrderQuery.Text = "查询";
+            this.btnOrderQuery.Text = "采购查询";
             this.btnOrderQuery.Click += new System.EventHandler(this.btnOrderQuery_Click);
             // 
             // labProjectNo

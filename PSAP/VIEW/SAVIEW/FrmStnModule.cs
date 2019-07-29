@@ -161,6 +161,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dataSet_StnModule.Tables[0].Rows.Count == 0 || bindingSource_StnModule.Current == null)
                     return;
 
@@ -184,6 +187,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dataSet_StnModule.Tables[0].Rows.Count == 0 || bindingSource_StnModule.Current == null)
                     return;
                 DataRow focusedRow = gridViewDeliveryDetail.GetFocusedDataRow();
@@ -210,6 +216,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dataSet_StnModule.Tables[0].Rows.Count == 0 || bindingSource_StnModule.Current == null)
                     return;
                 DataRow focusedRow = gridViewDeliveryDetail.GetFocusedDataRow();
@@ -217,13 +226,13 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 string smNoStr = DataTypeConvert.GetString(gridViewStnModule.GetFocusedDataRow()["SMNo"]);
                 int autoIdInt = DataTypeConvert.GetInt(focusedRow["AutoId"]);
-                if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的记录吗？") != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的供货明细吗？") != DialogResult.Yes)
                 {
                     return;
                 }
                 if (new FrmDeliveryDetailDAO().DeleteDeliveryDetail(autoIdInt))
                 {
-                    MessageHandler.ShowMessageBox("删除成功。");
+                    MessageHandler.ShowMessageBox("删除供货明细成功。");
                     QueryDeliveryDetail(smNoStr);
                 }
             }
@@ -240,6 +249,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 FileHandler.SaveDevGridControlExportToExcel(gridViewDeliveryDetail);
             }
             catch (Exception ex)
@@ -347,6 +359,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow baseRow = TableStnModule.NewRow();
                 TableStnModule.Rows.Add(baseRow);
                 bindingSource_StnModule.MoveLast();
@@ -373,6 +388,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableStnModule.Rows.Count == 0 || bindingSource_StnModule.Current == null)
                     return;
 
@@ -451,6 +469,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_StnModule.Current != null)
                 {
                     bindingSource_StnModule.CancelEdit();
@@ -479,6 +500,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableStnModule.Rows.Count == 0 || bindingSource_StnModule.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有功能模块信息记录，不能进行删除。");
@@ -493,12 +517,13 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的记录吗？") != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的功能模块吗？") != DialogResult.Yes)
                 {
                     return;
                 }
                 if (smDAO.DeleteStnModule(smNoStr))
                 {
+                    MessageHandler.ShowMessageBox("删除功能模块成功。");
                     btnQuery_Click(null, null);
                     return;
                 }
@@ -518,6 +543,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow headRow;
                 string tmpSMNoStr = DataTypeConvert.GetString(textCommon.Tag);
                 if (tmpSMNoStr != "")
@@ -630,6 +658,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateGetTimeBegin.EditValue == null || dateGetTimeEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("登记日期不能为空，请设置后重新进行查询。");

@@ -147,6 +147,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateCurrentDateBegin.EditValue == null || dateCurrentDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("单据日期不能为空，请设置后重新进行查询。");
@@ -348,6 +351,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 //gridViewPrReqHead.PostEditor();
@@ -375,6 +381,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewPSchedule.GetFocusedDataRow() == null)
                     return;
 
@@ -474,6 +483,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewPSchedule.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewPSchedule.GetDataRow(headFocusedLineNo)["PsNo"]) == "")
@@ -507,6 +519,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PSchedule.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -542,6 +557,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PSchedule.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -596,6 +614,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PSchedule.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -635,6 +656,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string psNoStr = "";
                 if (gridViewPSchedule.GetFocusedDataRow() != null)
                     psNoStr = DataTypeConvert.GetString(gridViewPSchedule.GetFocusedDataRow()["PsNo"]);

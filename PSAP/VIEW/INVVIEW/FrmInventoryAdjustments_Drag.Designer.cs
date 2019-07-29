@@ -774,7 +774,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 202;
             // 
             // searchLookUpProjectNoView
@@ -820,7 +820,7 @@
             this.btnWNowInfoQuery.Name = "btnWNowInfoQuery";
             this.btnWNowInfoQuery.Size = new System.Drawing.Size(75, 23);
             this.btnWNowInfoQuery.TabIndex = 204;
-            this.btnWNowInfoQuery.Text = "查询";
+            this.btnWNowInfoQuery.Text = "库存查询";
             this.btnWNowInfoQuery.Click += new System.EventHandler(this.btnWNowInfoQuery_Click);
             // 
             // labProjectNo
@@ -1543,7 +1543,7 @@
             this.searchAdjustmentsProjectNo.Properties.NullText = "";
             this.searchAdjustmentsProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchAdjustmentsProjectNo.Properties.View = this.searchAdjustmentsProjectNoView;
-            this.searchAdjustmentsProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchAdjustmentsProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchAdjustmentsProjectNo.TabIndex = 3;
             // 
             // searchAdjustmentsProjectNoView
@@ -1586,7 +1586,7 @@
             // lookUpReqDep
             // 
             this.lookUpReqDep.EnterMoveNextControl = true;
-            this.lookUpReqDep.Location = new System.Drawing.Point(787, 14);
+            this.lookUpReqDep.Location = new System.Drawing.Point(817, 14);
             this.lookUpReqDep.Margin = new System.Windows.Forms.Padding(4);
             this.lookUpReqDep.Name = "lookUpReqDep";
             this.lookUpReqDep.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -1705,7 +1705,7 @@
             // 
             // labReqDep
             // 
-            this.labReqDep.Location = new System.Drawing.Point(743, 17);
+            this.labReqDep.Location = new System.Drawing.Point(773, 17);
             this.labReqDep.Margin = new System.Windows.Forms.Padding(4);
             this.labReqDep.Name = "labReqDep";
             this.labReqDep.Size = new System.Drawing.Size(36, 14);

@@ -171,6 +171,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateIADateBegin.EditValue == null || dateIADateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiTzrqbnwkcx.Text );// ("调整日期不能为空，请设置后重新进行查询。");
@@ -307,6 +310,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 //gridViewPrReqHead.PostEditor();
@@ -335,6 +341,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewIAHead.GetFocusedDataRow() == null)
                     return;
 
@@ -425,6 +434,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewIAHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewIAHead.GetDataRow(headFocusedLineNo)["InventoryAdjustmentsNo"]) == "")
@@ -459,6 +471,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_IA.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -496,6 +511,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string iaHeadNoStr = "";
                 if (gridViewIAHead.GetFocusedDataRow() != null)
                     iaHeadNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"]);
@@ -834,6 +852,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpRepertoryNo.EditValue) : "";
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text.Trim() : "";
                 string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";

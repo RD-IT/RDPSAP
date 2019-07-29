@@ -471,6 +471,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TableProductionSchedule.Rows.Clear();
                 DataRow baseRow = TableProductionSchedule.NewRow();
                 TableProductionSchedule.Rows.Add(baseRow);
@@ -494,6 +497,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableProductionSchedule.Rows.Count == 0 || bindingSource_PSchedule.Current == null)
                     return;
 
@@ -561,6 +567,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_PSchedule.Current != null)
                 {
                     bindingSource_PSchedule.CancelEdit();
@@ -582,6 +591,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableProductionSchedule.Rows.Count == 0 || bindingSource_PSchedule.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有生产计划记录，不能进行删除。");
@@ -640,6 +652,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TableProductionSchedule.Rows.Clear();
                 if (currentPsNoStr != "")
                 {
@@ -674,6 +689,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string psNoStr = "";
                 if (bindingSource_PSchedule.Current != null)
                     psNoStr = DataTypeConvert.GetString(((DataRowView)bindingSource_PSchedule.Current).Row["PsNo"]);
@@ -781,6 +799,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow headRow = ((DataRowView)bindingSource_PSchedule.Current).Row;
                 if (headRow == null || headRow.RowState == DataRowState.Added)
                 {
@@ -830,6 +851,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow headRow = ((DataRowView)bindingSource_PSchedule.Current).Row;
                 if (headRow == null || headRow.RowState == DataRowState.Added)
                 {
@@ -875,6 +899,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow headRow = ((DataRowView)bindingSource_PSchedule.Current).Row;
                 if (headRow == null || headRow.RowState == DataRowState.Added)
                 {
@@ -924,7 +951,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if(treeListPSBom.Nodes.Count > 0)
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                if (treeListPSBom.Nodes.Count > 0)
                 {
                     //treeListPSBom.ShowPrintPreview();
 

@@ -19,18 +19,15 @@ namespace PSAP.VIEW.BSVIEW
         FrmBussinessInfoDAO bussDAO = new FrmBussinessInfoDAO();
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmBussinessInfo_New()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmBussinessInfo_New_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -58,10 +55,23 @@ namespace PSAP.VIEW.BSVIEW
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
-
-                    lookUpBussinessCategory.Properties.DataSource = bussDAO.QueryBussinessCategory(false);
-                    lookUpCountryCode.Properties.DataSource = bussDAO.QueryCountryCode(false);
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmBussinessInfo_New_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                lookUpBussinessCategory.Properties.DataSource = bussDAO.QueryBussinessCategory(false);
+                lookUpCountryCode.Properties.DataSource = bussDAO.QueryCountryCode(false);
             }
             catch (Exception ex)
             {

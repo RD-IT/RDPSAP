@@ -101,6 +101,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSWRDateBegin.EditValue == null || dateSWRDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("预算外出库日期不能为空，请设置后重新进行查询。");
@@ -140,6 +143,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewSWRHead);
                 if (gridBottomOrderHead.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewSWRHead);

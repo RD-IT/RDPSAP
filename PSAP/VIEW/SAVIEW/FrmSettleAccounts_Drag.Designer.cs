@@ -2002,7 +2002,7 @@
             this.btnPrReqQuery.Name = "btnPrReqQuery";
             this.btnPrReqQuery.Size = new System.Drawing.Size(75, 23);
             this.btnPrReqQuery.TabIndex = 205;
-            this.btnPrReqQuery.Text = "查询";
+            this.btnPrReqQuery.Text = "订单查询";
             this.btnPrReqQuery.Click += new System.EventHandler(this.btnPrReqQuery_Click);
             // 
             // dateSODateEnd

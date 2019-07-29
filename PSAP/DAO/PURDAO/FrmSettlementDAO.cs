@@ -78,7 +78,9 @@ namespace PSAP.DAO.PURDAO
                     sqlStr += string.Format(" and WarehouseState in (1,4)");
                 else
                 {
-                    sqlStr = string.Format("select PUR_SettlementHead.* from PUR_SettlementHead left join PUR_ApprovalType on PUR_SettlementHead.ApprovalType = PUR_ApprovalType.TypeNo where {0} and PUR_SettlementHead.WarehouseState in (1, 4) and( (PUR_ApprovalType.ApprovalCat = 0 and exists (select * from (select top 1 * from F_SettlementNoApprovalList(PUR_SettlementHead.SettlementNo, PUR_SettlementHead.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or (PUR_ApprovalType.ApprovalCat = 1 and exists (select * from F_SettlementNoApprovalList(PUR_SettlementHead.SettlementNo, PUR_SettlementHead.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+                    //sqlStr = string.Format("select PUR_SettlementHead.* from PUR_SettlementHead left join PUR_ApprovalType on PUR_SettlementHead.ApprovalType = PUR_ApprovalType.TypeNo where {0} and PUR_SettlementHead.WarehouseState in (1, 4) and( (PUR_ApprovalType.ApprovalCat = 0 and exists (select * from (select top 1 * from F_SettlementNoApprovalList(PUR_SettlementHead.SettlementNo, PUR_SettlementHead.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or (PUR_ApprovalType.ApprovalCat = 1 and exists (select * from F_SettlementNoApprovalList(PUR_SettlementHead.SettlementNo, PUR_SettlementHead.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+
+                    sqlStr = string.Format("select Head.* from PUR_SettlementHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where {0} and Head.WarehouseState in (1, 4) and ((PUR_ApprovalType.ApprovalCat = 0 and exists (select * from(select top 1 * from F_OrderNoApprovalList(Head.SettlementNo, Head.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or(PUR_ApprovalType.ApprovalCat = 1 and exists(select * from F_OrderNoApprovalList(Head.SettlementNo, Head.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
                     return sqlStr;
                 }
             }
@@ -418,7 +420,7 @@ namespace PSAP.DAO.PURDAO
                                 Set_WWHead_End(cmd, orderListTable);
 
                                 string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
-                                cmd.CommandText = string.Format("select * from F_SettlementNoApprovalList('{0}','{1}') Order by AppSequence", settlementNoStr, approvalTypeStr);
+                                cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", settlementNoStr, approvalTypeStr);
                                 DataTable listTable = new DataTable();
                                 SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
                                 listadpt.Fill(listTable);
@@ -443,7 +445,7 @@ namespace PSAP.DAO.PURDAO
                                         break;
                                 }
 
-                                cmd.CommandText = string.Format("Insert into PUR_SettlementApprovalInfo(SettlementNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", settlementNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", settlementNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                                 cmd.ExecuteNonQuery();
 
                                 if (listTable.Rows.Count == 1 || approvalCatInt == 2)
@@ -510,7 +512,7 @@ namespace PSAP.DAO.PURDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
-                        cmd.CommandText = string.Format("Delete from PUR_SettlementApprovalInfo where SettlementNo in ({0})", SettlementNoListStr);
+                        cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", SettlementNoListStr);
                         cmd.ExecuteNonQuery();
                         cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState=1 where SettlementNo in ({0})", SettlementNoListStr);
                         cmd.ExecuteNonQuery();

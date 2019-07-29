@@ -44,6 +44,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 bindingSource_CompanyInfo.EndEdit();
                 DataRow headRow = ((DataRowView)bindingSource_CompanyInfo.Current).Row;
                 if (companyDAO.SaveCompanyInfo(headRow))

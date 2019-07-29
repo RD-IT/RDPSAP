@@ -20,6 +20,7 @@ namespace PSAP.ENTITY.BSENTITY
         private string bfree3;
         private string bfree4;
         private string bfree5;
+        private int buttonPower;
         private string roleNo;
         private string roleName;
         private string lanuage;
@@ -164,6 +165,19 @@ namespace PSAP.ENTITY.BSENTITY
             set
             {
                 bfree5 = value;
+            }
+        }
+
+        public int ButtonPower
+        {
+            get
+            {
+                return buttonPower;
+            }
+
+            set
+            {
+                buttonPower = value;
             }
         }
 

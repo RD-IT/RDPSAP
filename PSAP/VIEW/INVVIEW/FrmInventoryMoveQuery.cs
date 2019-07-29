@@ -95,6 +95,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateIMDateBegin.EditValue == null || dateIMDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiYdrqbnwkcx.Text);// ("移动日期不能为空，请设置后重新进行查询。");
@@ -133,6 +136,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewIMHead);
                 if (gridBottomIM.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewIMHead);

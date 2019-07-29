@@ -163,6 +163,9 @@ namespace PSAP.VIEW.BSVIEW
                             textParentAutoSalesOrderNo.Visible = true;
                             labParentProjectNo.Visible = true;
                             textParentProjectNo.Visible = true;
+
+                            dr["ProjectNo"] = ParentProjectNo;
+                            searchProjectName.EditValue = ParentProjectNo;
                         }
                         else
                         {
@@ -319,6 +322,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow newRow = TableSalesOrder.NewRow();
                 TableSalesOrder.Rows.Add(newRow);
                 bindingSource_SalesOrder.MoveLast();
@@ -344,6 +350,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableSalesOrder.Rows.Count == 0 || bindingSource_SalesOrder.Current == null)
                     return;
 
@@ -433,6 +442,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_SalesOrder.Current != null)
                 {
                     bindingSource_SalesOrder.CancelEdit();
@@ -469,6 +481,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableSalesOrder.Rows.Count == 0 || bindingSource_SalesOrder.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有销售订单记录，不能进行删除。");
@@ -556,6 +571,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string autoSalesOrderNoStr = "";
                 if (bindingSource_SalesOrder.Current != null)
                     autoSalesOrderNoStr = DataTypeConvert.GetString(((DataRowView)bindingSource_SalesOrder.Current).Row["AutoSalesOrderNo"]);
@@ -574,6 +592,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableSalesOrder.Rows.Count == 0 || bindingSource_SalesOrder.Current == null)
                 {
                     MessageHandler.ShowMessageBox("请选择要生成COR的销售订单。");
@@ -698,6 +719,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSalesOrderDateBegin.EditValue == null || dateSalesOrderDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("登记日期不能为空，请设置后重新进行查询。");

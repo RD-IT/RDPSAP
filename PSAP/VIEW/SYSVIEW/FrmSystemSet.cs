@@ -65,6 +65,14 @@ namespace PSAP.VIEW.BSVIEW
             if (tmpStr != "")
                 checkEnableWorkFlowMessage.EditValue = tmpStr;
 
+            tmpStr = GetValue("Common", "MessageInterval");
+            if (tmpStr != "")
+                spinMessageInterval.Value = DataTypeConvert.GetInt(tmpStr);
+
+            tmpStr = GetValue("Common", "ApproveAfterPrint");
+            if (tmpStr != "")
+                checkApproveAfterPrint.EditValue = tmpStr;
+
             #endregion
 
             #region 销售
@@ -80,6 +88,10 @@ namespace PSAP.VIEW.BSVIEW
             #endregion
 
             #region 采购
+
+            tmpStr = GetValue("Purchase", "PrReqIsAlterPSBomAutoId");
+            if (tmpStr != "")
+                checkPrReqIsAlterPSBomAutoId.EditValue = tmpStr;
 
             tmpStr = GetValue("Purchase", "OrderListDefaultTax");
             if (tmpStr != "")
@@ -153,28 +165,34 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //常规
                 SetValue("Common", "PageRowCount", DataTypeConvert.GetString(spinPageRowCount.Value));
                 SetValue("Common", "DateIntervalDays", DataTypeConvert.GetString(spinDateIntervalDays.Value));
                 SetValue("Common", "FormDragDropMaxRecordCount", DataTypeConvert.GetString(spinFormDragDropMaxRecordCount.Value));
                 SetValue("Common", "LeftDockWidth", DataTypeConvert.GetString(spinLeftDockWidth.Value));
-                SetValue("Common", "EnableWorkFlowMessage", DataTypeConvert.GetString(checkEnableWorkFlowMessage.EditValue));
+                SetValue("Common", "EnableWorkFlowMessage", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkEnableWorkFlowMessage.EditValue)));
+                SetValue("Common", "MessageInterval", DataTypeConvert.GetString(spinMessageInterval.Value));
+                SetValue("Common", "ApproveAfterPrint", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkApproveAfterPrint.EditValue)));
 
                 //销售
                 SetValue("Sale", "QuotationDefaultTax", DataTypeConvert.GetString(spinQuotationDefaultTax.Value));
                 SetValue("Sale", "SalesOrderDefaultTax", DataTypeConvert.GetString(spinSalesOrderDefaultTax.Value));
 
                 //采购
+                SetValue("Purchase", "PrReqIsAlterPSBomAutoId", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrReqIsAlterPSBomAutoId.EditValue)));
                 SetValue("Purchase", "OrderListDefaultTax", DataTypeConvert.GetString(spinOrderListDefaultTax.Value));
                 SetValue("Purchase", "SettlementDefaultTax", DataTypeConvert.GetString(spinSettlementDefaultTax.Value));
                 SetValue("Purchase", "OrderNoWarehousingDays", DataTypeConvert.GetString(spinOrderNoWarehousingDays.Value));
-                SetValue("Purchase", "PrReqApplyBeyondCountIsSave", DataTypeConvert.GetString(checkPrReqApplyBeyondCountIsSave.EditValue));
-                SetValue("Purchase", "WWApplyBeyondCountIsSave", DataTypeConvert.GetString(checkWWApplyBeyondCountIsSave.EditValue));
+                SetValue("Purchase", "PrReqApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrReqApplyBeyondCountIsSave.EditValue)));
+                SetValue("Purchase", "WWApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWApplyBeyondCountIsSave.EditValue)));
 
                 //库存
-                SetValue("Warehouse", "OrderApplyBeyondCountIsSave", DataTypeConvert.GetString(checkOrderApplyBeyondCountIsSave.EditValue));
-                SetValue("Warehouse", "WWIsAlterDate", DataTypeConvert.GetString(checkWWIsAlterDate.EditValue));
-                SetValue("Warehouse", "WRIsAlterDate", DataTypeConvert.GetString(checkWRIsAlterDate.EditValue));
+                SetValue("Warehouse", "OrderApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkOrderApplyBeyondCountIsSave.EditValue)));
+                SetValue("Warehouse", "WWIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWIsAlterDate.EditValue)));
+                SetValue("Warehouse", "WRIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWRIsAlterDate.EditValue)));
 
                 //系统
                 SetValue("System", "BackupPath", textBackupPath.Text);
@@ -333,5 +351,12 @@ namespace PSAP.VIEW.BSVIEW
 
         #endregion
         
+        /// <summary>
+        /// 设定相关控件状态
+        /// </summary>
+        private void checkEnableWorkFlowMessage_CheckedChanged(object sender, EventArgs e)
+        {
+            spinMessageInterval.Properties.ReadOnly = !checkEnableWorkFlowMessage.Checked;
+        }
     }
 }

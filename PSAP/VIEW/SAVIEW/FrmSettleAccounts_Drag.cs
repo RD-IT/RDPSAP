@@ -162,6 +162,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSADateBegin.EditValue == null || dateSADateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("结账日期不能为空，请设置后重新进行查询。");
@@ -286,6 +289,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewSettleAccountsHead.GetFocusedDataRow() == null)
                     return;
 
@@ -366,6 +372,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewSettleAccountsHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewSettleAccountsHead.GetDataRow(headFocusedLineNo)["SettleAccountNo"]) == "")
@@ -400,6 +409,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_SettleAccounts.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -436,6 +448,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string settleAccountNoStr = "";
                 if (gridViewSettleAccountsHead.GetFocusedDataRow() != null)
                     settleAccountNoStr = DataTypeConvert.GetString(gridViewSettleAccountsHead.GetFocusedDataRow()["SettleAccountNo"]);
@@ -672,6 +687,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSODateBegin.EditValue == null || dateSODateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("登记日期不能为空，请设置后重新进行查询。");

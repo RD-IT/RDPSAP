@@ -379,7 +379,7 @@
             this.searchProjectNo.Properties.NullText = "";
             this.searchProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchProjectNo.Properties.View = this.searchAdjustmentsProjectNoView;
-            this.searchProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchProjectNo.TabIndex = 3;
             // 
             // searchAdjustmentsProjectNoView

@@ -71,6 +71,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 RefreshTreeList();
 
                 //treeListBom.OptionsBehavior.EnableFiltering = true;
@@ -140,6 +143,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 FileHandler.SaveTreeListControlExportToExcel(treeListBom);
             }
             catch (Exception ex)

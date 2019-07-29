@@ -62,6 +62,7 @@
             this.ColuNewQty = new System.Data.DataColumn();
             this.ColuIsMaterial = new System.Data.DataColumn();
             this.pnlDesignBomToolBar = new DevExpress.XtraEditors.PanelControl();
+            this.btnToPr = new DevExpress.XtraEditors.SimpleButton();
             this.btnWorkProcess = new DevExpress.XtraEditors.SimpleButton();
             this.btnPreview = new DevExpress.XtraEditors.SimpleButton();
             this.btnCollapse = new DevExpress.XtraEditors.SimpleButton();
@@ -87,6 +88,7 @@
             this.dataColuPbBomNo = new System.Data.DataColumn();
             this.dataColuPlanDate = new System.Data.DataColumn();
             this.ColIsAbsorb = new System.Data.DataColumn();
+            this.ColPrReqNo = new System.Data.DataColumn();
             this.gridViewPSBom = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colAutoId1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBomListAutoId1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -98,6 +100,7 @@
             this.colPbBomNo1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsAbsorb1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repCheckIsAbsorb = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.colprReqNo1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repLookUpReqDep = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.repSearchBussinessBaseNo = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -204,6 +207,7 @@
             this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.barBtnInsertWorkProcess = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnDeleteWorkProcess = new DevExpress.XtraBars.BarButtonItem();
+            this.barBtnPrReq = new DevExpress.XtraBars.BarButtonItem();
             this.popupMenuDBom = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddle)).BeginInit();
             this.pnlMiddle.SuspendLayout();
@@ -561,6 +565,7 @@
             // 
             // pnlDesignBomToolBar
             // 
+            this.pnlDesignBomToolBar.Controls.Add(this.btnToPr);
             this.pnlDesignBomToolBar.Controls.Add(this.btnWorkProcess);
             this.pnlDesignBomToolBar.Controls.Add(this.btnPreview);
             this.pnlDesignBomToolBar.Controls.Add(this.btnCollapse);
@@ -574,6 +579,16 @@
             this.pnlDesignBomToolBar.Name = "pnlDesignBomToolBar";
             this.pnlDesignBomToolBar.Size = new System.Drawing.Size(569, 35);
             this.pnlDesignBomToolBar.TabIndex = 1;
+            // 
+            // btnToPr
+            // 
+            this.btnToPr.Location = new System.Drawing.Point(405, 6);
+            this.btnToPr.Name = "btnToPr";
+            this.btnToPr.Size = new System.Drawing.Size(60, 23);
+            this.btnToPr.TabIndex = 213;
+            this.btnToPr.TabStop = false;
+            this.btnToPr.Text = "生成请购";
+            this.btnToPr.Click += new System.EventHandler(this.btnToPr_Click);
             // 
             // btnWorkProcess
             // 
@@ -738,7 +753,8 @@
             this.dataColIsBuy,
             this.dataColuPbBomNo,
             this.dataColuPlanDate,
-            this.ColIsAbsorb});
+            this.ColIsAbsorb,
+            this.ColPrReqNo});
             this.TablePSBom.TableName = "PSBom";
             // 
             // ColuAutoId
@@ -790,6 +806,11 @@
             this.ColIsAbsorb.ColumnName = "IsAbsorb";
             this.ColIsAbsorb.DataType = typeof(short);
             // 
+            // ColPrReqNo
+            // 
+            this.ColPrReqNo.Caption = "采购单号";
+            this.ColPrReqNo.ColumnName = "PrReqNo";
+            // 
             // gridViewPSBom
             // 
             this.gridViewPSBom.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -801,7 +822,8 @@
             this.colPlanDate,
             this.colIsBuy,
             this.colPbBomNo1,
-            this.colIsAbsorb1});
+            this.colIsAbsorb1,
+            this.colprReqNo1});
             this.gridViewPSBom.GridControl = this.gridControlPSBom;
             this.gridViewPSBom.IndicatorWidth = 40;
             this.gridViewPSBom.Name = "gridViewPSBom";
@@ -818,6 +840,7 @@
             this.gridViewPSBom.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridViewPSBom_RowClick);
             this.gridViewPSBom.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewBomMateriel_CustomDrawRowIndicator);
             this.gridViewPSBom.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridViewPSBom_CustomColumnDisplayText);
+            this.gridViewPSBom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridViewPSBom_MouseDown);
             // 
             // colAutoId1
             // 
@@ -917,6 +940,16 @@
             this.repCheckIsAbsorb.ValueChecked = ((short)(1));
             this.repCheckIsAbsorb.ValueGrayed = ((short)(0));
             this.repCheckIsAbsorb.ValueUnchecked = ((short)(0));
+            // 
+            // colprReqNo1
+            // 
+            this.colprReqNo1.AppearanceHeader.Options.UseTextOptions = true;
+            this.colprReqNo1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colprReqNo1.FieldName = "PrReqNo";
+            this.colprReqNo1.Name = "colprReqNo1";
+            this.colprReqNo1.Visible = true;
+            this.colprReqNo1.VisibleIndex = 8;
+            this.colprReqNo1.Width = 120;
             // 
             // repLookUpReqDep
             // 
@@ -1069,7 +1102,7 @@
             this.btnAlterPSBom.Size = new System.Drawing.Size(60, 23);
             this.btnAlterPSBom.TabIndex = 302;
             this.btnAlterPSBom.TabStop = false;
-            this.btnAlterPSBom.Text = "修改";
+            this.btnAlterPSBom.Text = "修改计划";
             this.btnAlterPSBom.Click += new System.EventHandler(this.btnAlterPSBom_Click);
             // 
             // btnDeleteBom
@@ -1079,7 +1112,7 @@
             this.btnDeleteBom.Size = new System.Drawing.Size(60, 23);
             this.btnDeleteBom.TabIndex = 303;
             this.btnDeleteBom.TabStop = false;
-            this.btnDeleteBom.Text = "删除";
+            this.btnDeleteBom.Text = "删除计划";
             this.btnDeleteBom.Click += new System.EventHandler(this.btnDeleteBom_Click);
             // 
             // btnPlan
@@ -1887,8 +1920,9 @@
             this.barManagerPS.Form = this;
             this.barManagerPS.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.barBtnInsertWorkProcess,
-            this.barBtnDeleteWorkProcess});
-            this.barManagerPS.MaxItemId = 4;
+            this.barBtnDeleteWorkProcess,
+            this.barBtnPrReq});
+            this.barManagerPS.MaxItemId = 5;
             // 
             // barDockControlTop
             // 
@@ -1968,11 +2002,19 @@
             this.barBtnDeleteWorkProcess.Name = "barBtnDeleteWorkProcess";
             this.barBtnDeleteWorkProcess.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnDeleteWorkProcess_ItemClick);
             // 
+            // barBtnPrReq
+            // 
+            this.barBtnPrReq.Caption = "请购单";
+            this.barBtnPrReq.Id = 4;
+            this.barBtnPrReq.Name = "barBtnPrReq";
+            this.barBtnPrReq.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barBtnPrReq_ItemClick);
+            // 
             // popupMenuDBom
             // 
             this.popupMenuDBom.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barBtnInsertWorkProcess),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barBtnDeleteWorkProcess)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.barBtnDeleteWorkProcess),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barBtnPrReq)});
             this.popupMenuDBom.Manager = this.barManagerPS;
             this.popupMenuDBom.Name = "popupMenuDBom";
             // 
@@ -2244,5 +2286,9 @@
         private DevExpress.XtraBars.Docking.DockManager dockManagerLeft;
         private DevExpress.XtraBars.Docking.DockPanel dockPnlLeft;
         private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
+        private System.Data.DataColumn ColPrReqNo;
+        private DevExpress.XtraGrid.Columns.GridColumn colprReqNo1;
+        private DevExpress.XtraEditors.SimpleButton btnToPr;
+        private DevExpress.XtraBars.BarButtonItem barBtnPrReq;
     }
 }

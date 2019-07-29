@@ -218,7 +218,9 @@ namespace PSAP.DAO.PURDAO
         /// </summary>
         public void QueryPrReqHead(DataTable queryDataTable, string prReqNoStr)
         {
-            string sqlStr = string.Format("select PUR_PrReqHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from PUR_PrReqHead left join PUR_ApprovalType on PUR_PrReqHead.ApprovalType=PUR_ApprovalType.TypeNo where PrReqNo='{0}'", prReqNoStr);
+            //string sqlStr = string.Format("select PUR_PrReqHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from PUR_PrReqHead left join PUR_ApprovalType on PUR_PrReqHead.ApprovalType=PUR_ApprovalType.TypeNo where PrReqNo='{0}'", prReqNoStr);
+
+            string sqlStr = string.Format("select Head.AutoId, Head.PrReqNo as OrderHeadNo, Head.ReqDate as OrderHeadDate, Head.ReqDep, Head.ReqState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.PrReqNo, Head.ReqState from PUR_PrReqHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where PrReqNo = '{0}'", prReqNoStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -236,7 +238,9 @@ namespace PSAP.DAO.PURDAO
         /// </summary>
         public void QueryWarehouseWarrantHead(DataTable queryDataTable, string wwHeadNoStr)
         {
-            string sqlStr = string.Format("select INV_WarehouseWarrantHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from INV_WarehouseWarrantHead left join PUR_ApprovalType on INV_WarehouseWarrantHead.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseWarrant = '{0}'", wwHeadNoStr);
+            //string sqlStr = string.Format("select INV_WarehouseWarrantHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from INV_WarehouseWarrantHead left join PUR_ApprovalType on INV_WarehouseWarrantHead.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseWarrant = '{0}'", wwHeadNoStr);
+
+            string sqlStr = string.Format("select Head.AutoId, Head.WarehouseWarrant as OrderHeadNo, Head.WarehouseWarrantDate as OrderHeadDate, Head.ReqDep, Head.WarehouseState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.WarehouseWarrant, Head.WarehouseState from INV_WarehouseWarrantHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseWarrant = '{0}'", wwHeadNoStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -254,7 +258,9 @@ namespace PSAP.DAO.PURDAO
         /// </summary>
         public void QueryWarehouseReceiptHead(DataTable queryDataTable,string wrHeadNoStr)
         {
-            string sqlStr = string.Format("select INV_WarehouseReceiptHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from INV_WarehouseReceiptHead left join PUR_ApprovalType on INV_WarehouseReceiptHead.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseReceipt = '{0}'", wrHeadNoStr);
+            //string sqlStr = string.Format("select INV_WarehouseReceiptHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from INV_WarehouseReceiptHead left join PUR_ApprovalType on INV_WarehouseReceiptHead.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseReceipt = '{0}'", wrHeadNoStr);
+
+            string sqlStr = string.Format("select Head.AutoId, Head.WarehouseReceipt as OrderHeadNo, Head.WarehouseReceiptDate as OrderHeadDate, Head.ReqDep, Head.WarehouseState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.WarehouseReceipt, Head.WarehouseState from INV_WarehouseReceiptHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseReceipt = '{0}'", wrHeadNoStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -272,7 +278,9 @@ namespace PSAP.DAO.PURDAO
         /// </summary>
         public void QuerySettlementHead(DataTable queryDataTable,string settlementNoStr)
         {
-            string sqlStr = string.Format("select PUR_SettlementHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from PUR_SettlementHead left join PUR_ApprovalType on PUR_SettlementHead.ApprovalType = PUR_ApprovalType.TypeNo where SettlementNo = '{0}'", settlementNoStr);
+            //string sqlStr = string.Format("select PUR_SettlementHead.*, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat from PUR_SettlementHead left join PUR_ApprovalType on PUR_SettlementHead.ApprovalType = PUR_ApprovalType.TypeNo where SettlementNo = '{0}'", settlementNoStr);
+
+            string sqlStr = string.Format("select Head.AutoId, Head.SettlementNo as OrderHeadNo, Head.SettlementDate as OrderHeadDate, Head.ReqDep, Head.WarehouseState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.SettlementNo, Head.WarehouseState from PUR_SettlementHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where SettlementNo = '{0}'", settlementNoStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 

@@ -411,7 +411,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 4;
             // 
             // searchLookUpProjectNoView

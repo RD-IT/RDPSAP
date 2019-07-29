@@ -42,13 +42,13 @@ namespace PSAP.DAO.BSDAO
 
                         if (clearPurchase)//采购模块
                         {
-                            cmd.CommandText = "Delete From PUR_SettlementApprovalInfo"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Delete From PUR_SettlementApprovalInfo"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_SettlementList"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_SettlementHead"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_OrderApprovalInfo"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_OrderList"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_OrderHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_PrApprovalInfo"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Delete From PUR_PrApprovalInfo"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_PrReqList"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From PUR_PrReqHead"; cmd.ExecuteNonQuery();
                         }
@@ -68,10 +68,10 @@ namespace PSAP.DAO.BSDAO
                             cmd.CommandText = "Delete From INV_SpecialWarehouseReceiptHead"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From INV_SpecialWarehouseWarrantList"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From INV_SpecialWarehouseWarrantHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseReceiptApprovalInfo"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Delete From INV_WarehouseReceiptApprovalInfo"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From INV_WarehouseReceiptList"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From INV_WarehouseReceiptHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseApprovalInfo"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Delete From INV_WarehouseApprovalInfo"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From INV_WarehouseWarrantList"; cmd.ExecuteNonQuery();
                             cmd.CommandText = "Delete From INV_WarehouseWarrantHead"; cmd.ExecuteNonQuery();
                         }
@@ -181,6 +181,10 @@ namespace PSAP.DAO.BSDAO
             if (tmpStr != "")
                 SystemInfo.EnableWorkFlowMessage = tmpStr == "1";
 
+            tmpStr = GetValue(sysParameterTable, "Common", "ApproveAfterPrint");
+            if (tmpStr != "")
+                SystemInfo.ApproveAfterPrint = tmpStr == "1";
+
             #endregion
 
             #region 销售
@@ -196,6 +200,10 @@ namespace PSAP.DAO.BSDAO
             #endregion
 
             #region 采购
+
+            tmpStr = GetValue(sysParameterTable, "Purchase", "PrReqIsAlterPSBomAutoId");
+            if(tmpStr != "")
+                SystemInfo.PrReqIsAlter_PSBomAutoId = tmpStr == "1";
 
             tmpStr = GetValue(sysParameterTable, "Purchase", "OrderListDefaultTax");
             if (tmpStr != "")
@@ -277,6 +285,15 @@ namespace PSAP.DAO.BSDAO
         }
 
         /// <summary>
+        /// 查询单个系统参数值
+        /// </summary>
+        public static object QuerySystemParameter_Single(string moduleCateStr, string keyStr)
+        {
+            string sqlStr = string.Format("select ParameterValue from BS_SysParameter where ModuleCate = '{0}' and ParameterKey = '{1}'", moduleCateStr, keyStr);
+            return BaseSQL.GetSingle(sqlStr);
+        }
+
+        /// <summary>
         /// 保存系统参数表
         /// </summary>
         public bool SaveSystemParameter(DataTable queryDataTable)
@@ -295,6 +312,8 @@ namespace PSAP.DAO.BSDAO
                         DataTable tmpHeadTable = new DataTable();
                         adapterHead.Fill(tmpHeadTable);
                         BaseSQL.UpdateDataTable(adapterHead, queryDataTable);
+
+                        cmd.CommandText = "update BS_DataCurrentNode set isEnd = 1";
 
                         trans.Commit();
                         return true;

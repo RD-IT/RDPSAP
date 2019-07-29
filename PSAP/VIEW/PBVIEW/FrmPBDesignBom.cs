@@ -157,6 +157,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 QueryPartsCodeInfo();
                 QueryBOMInfo();
             }
@@ -195,10 +198,20 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            if (salesOrderNoStr != "")
+            try
             {
-                RefreshSalesOrderInfo();
-                RefreshDesignBomInfo(null);
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                if (salesOrderNoStr != "")
+                {
+                    RefreshSalesOrderInfo();
+                    RefreshDesignBomInfo(null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--刷新信息错误。", ex);
             }
         }
 
@@ -683,6 +696,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TreeListNode focusedNode = OperateDesignBomCheck();
                 if (focusedNode == null)
                     return;
@@ -715,6 +731,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 List<TreeListNode> nodeList = OperateMultiDesignBomCheck();
                 if (nodeList.Count == 0)
                     return;
@@ -755,6 +774,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 List<TreeListNode> nodeList = OperateMultiDesignBomCheck();
                 if (nodeList.Count == 0)
                     return;
@@ -791,6 +813,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 List<TreeListNode> nodeList = OperateMultiDesignBomCheck();
                 if (nodeList.Count == 0)
                     return;

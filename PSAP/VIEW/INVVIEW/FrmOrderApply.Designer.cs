@@ -255,7 +255,7 @@
             // searchLookUpBussinessBaseNo
             // 
             this.searchLookUpBussinessBaseNo.EnterMoveNextControl = true;
-            this.searchLookUpBussinessBaseNo.Location = new System.Drawing.Point(472, 74);
+            this.searchLookUpBussinessBaseNo.Location = new System.Drawing.Point(502, 74);
             this.searchLookUpBussinessBaseNo.Name = "searchLookUpBussinessBaseNo";
             this.searchLookUpBussinessBaseNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -319,7 +319,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 7;
             this.searchLookUpProjectNo.TabStop = false;
             // 
@@ -374,7 +374,7 @@
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(707, 74);
+            this.textCommon.Location = new System.Drawing.Point(737, 74);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
             this.textCommon.TabIndex = 9;
@@ -499,7 +499,7 @@
             // 
             // labBussinessBaseNo
             // 
-            this.labBussinessBaseNo.Location = new System.Drawing.Point(418, 77);
+            this.labBussinessBaseNo.Location = new System.Drawing.Point(448, 77);
             this.labBussinessBaseNo.Name = "labBussinessBaseNo";
             this.labBussinessBaseNo.Size = new System.Drawing.Size(48, 14);
             this.labBussinessBaseNo.TabIndex = 35;
@@ -515,7 +515,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(641, 77);
+            this.labCommon.Location = new System.Drawing.Point(671, 77);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 48;

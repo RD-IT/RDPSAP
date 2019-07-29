@@ -542,7 +542,7 @@ namespace PSAP.DAO.PBDAO
             {
                 sqlStr += string.Format(" and BomListAutoId = {0}", bomListAutoId);
             }
-            sqlStr = string.Format("select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, bom.IsBuy, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where {0} Order by bom.AutoId", sqlStr);
+            sqlStr = string.Format("select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, bom.IsBuy, PrReqNo, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where {0} Order by bom.AutoId", sqlStr);
 
             //sqlStr = string.Format("select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, IsAll from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName where {0} union all select bom.AutoId, bom.BomListAutoId, bom.MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, IsAll from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName where bom.BomListAutoId in (select AbsorbedAutoId from DesignBomListAbsorbe where MainAutoId = {1})", sqlStr, bomListAutoId);
             BaseSQL.Query(sqlStr, queryDataTable);
@@ -553,7 +553,7 @@ namespace PSAP.DAO.PBDAO
         /// </summary>
         public void QueryProductionScheduleBom_HaveChildren(DataTable queryDataTable, string salesOrderNoStr, int bomListAutoId)
         {
-            string sqlStr = string.Format("with cte as ( select list.AutoId from PB_DesignBomList as list where AutoId = {1} and SalesOrderNo = '{0}' union all select list.AutoId from cte join PB_DesignBomList as list on cte.AutoId = list.ParentId ) select bom.AutoId, BomListAutoId, MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, bom.IsBuy, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where BomListAutoId in (select AutoId from cte) and RemainQty > 0 Order by BomListAutoId,bom.AutoId", salesOrderNoStr, bomListAutoId);
+            string sqlStr = string.Format("with cte as ( select list.AutoId from PB_DesignBomList as list where AutoId = {1} and SalesOrderNo = '{0}' union all select list.AutoId from cte join PB_DesignBomList as list on cte.AutoId = list.ParentId ) select bom.AutoId, BomListAutoId, MaterielNo as CodeFileName, CodeName, PbBomNo, RemainQty, PlanDate, bom.IsBuy, PrReqNo, case when IsNull(absorb.AutoId, 0) = 0 then 0 else 1 end IsAbsorb from PB_ProductionScheduleBom as bom left join SW_PartsCode as pc on bom.MaterielNo = pc.CodeFileName left join PB_ScheduleAbsorbe as absorb on bom.AutoId = absorb.MainAutoId where BomListAutoId in (select AutoId from cte) and RemainQty > 0 Order by BomListAutoId,bom.AutoId", salesOrderNoStr, bomListAutoId);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -607,6 +607,14 @@ namespace PSAP.DAO.PBDAO
                                 trans.Rollback();
                                 return false;
                             }
+                        }
+
+                        cmd.CommandText = string.Format("Select PrReqNo from PB_ProductionScheduleBom where AutoId = {0}", psBomAutoId);
+                        if (DataTypeConvert.GetString(cmd.ExecuteScalar()) != "")
+                        {
+                            trans.Rollback();
+                            MessageHandler.ShowMessageBox("当前修改的生产计划信息已经生成请购单，不可以进行操作。");
+                            return false;
                         }
 
                         int resultInt = 0;
@@ -775,6 +783,14 @@ namespace PSAP.DAO.PBDAO
                                 trans.Rollback();
                                 return false;
                             }
+                        }
+
+                        cmd.CommandText = string.Format("Select Count(*) from PB_ProductionScheduleBom where AutoId in ({0}) and IsNull(PrReqNo, '') != ''", sqlwhere.Substring(0, sqlwhere.Length - 1));
+                        if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0)
+                        {
+                            trans.Rollback();
+                            MessageHandler.ShowMessageBox("当前选中的生产计划信息已经生成请购单，不可以进行操作。");
+                            return false;
                         }
 
                         foreach (int psBomAutoId in psBomAutoIdList)

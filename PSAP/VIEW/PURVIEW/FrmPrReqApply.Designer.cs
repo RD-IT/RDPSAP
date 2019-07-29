@@ -233,7 +233,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 7;
             this.searchLookUpProjectNo.TabStop = false;
             // 
@@ -289,7 +289,7 @@
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(484, 74);
+            this.textCommon.Location = new System.Drawing.Point(514, 74);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
             this.textCommon.TabIndex = 8;
@@ -414,7 +414,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(418, 77);
+            this.labCommon.Location = new System.Drawing.Point(448, 77);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 28;

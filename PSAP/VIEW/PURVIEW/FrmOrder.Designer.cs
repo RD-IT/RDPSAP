@@ -503,7 +503,10 @@
             "待审批",
             "审批",
             "关闭",
-            "审批中"});
+            "审批中",
+            "提交",
+            "拒绝"});
+            this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
             this.comboBoxReqState.TabIndex = 5;
             // 

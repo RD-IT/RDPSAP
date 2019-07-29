@@ -252,6 +252,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (btnEditAutoQuotationNo.Text != "")
                 {
                     string autoQuotationNoStr = btnEditAutoQuotationNo.Text;
@@ -337,6 +340,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (btnEditAutoQuotationNo.Text.Trim() == "")
                 {
                     MessageHandler.ShowMessageBox("请先查询报价单号，确定要操作的报价单，再进行工位信息登记。");
@@ -364,6 +370,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableStnList.Rows.Count == 0 || bindingSource_StnList.Current == null)
                     return;
 
@@ -414,6 +423,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_StnList.Current != null)
                 {
                     bindingSource_StnList.CancelEdit();
@@ -435,6 +447,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableStnList.Rows.Count == 0 || bindingSource_StnList.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有工位信息记录，不能进行删除。");
@@ -539,6 +554,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_StnList.Current == null)
                 {
                     MessageHandler.ShowMessageBox("请选择要操作的工位信息。");
@@ -570,6 +588,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableStnListModule.Rows.Count == 0 || bindingSource_StnListModule.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有工位功能模块记录，不能进行删除。");
@@ -620,6 +641,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow focusedRow = gridViewModuleList.GetFocusedDataRow();
                 if (focusedRow == null)
                 {
@@ -653,6 +677,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow focusedRow = gridViewModuleList.GetFocusedDataRow();
                 if (focusedRow == null)
                 {
@@ -749,6 +776,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 FileHandler.SaveDevGridControlExportToExcel(gridViewDeliveryDetail);
             }
             catch (Exception ex)

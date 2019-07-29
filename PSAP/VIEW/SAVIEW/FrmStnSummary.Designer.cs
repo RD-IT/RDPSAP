@@ -823,7 +823,7 @@
             this.btnModuleSelect.Name = "btnModuleSelect";
             this.btnModuleSelect.Size = new System.Drawing.Size(75, 23);
             this.btnModuleSelect.TabIndex = 52;
-            this.btnModuleSelect.Text = "选择";
+            this.btnModuleSelect.Text = "选择模块";
             this.btnModuleSelect.Click += new System.EventHandler(this.btnModuleSelect_Click);
             // 
             // btnModuleEdit
@@ -834,7 +834,7 @@
             this.btnModuleEdit.Size = new System.Drawing.Size(75, 23);
             this.btnModuleEdit.TabIndex = 105;
             this.btnModuleEdit.TabStop = false;
-            this.btnModuleEdit.Text = "编辑";
+            this.btnModuleEdit.Text = "编辑模块";
             this.btnModuleEdit.Click += new System.EventHandler(this.btnModuleEdit_Click);
             // 
             // btnModuleDelete
@@ -843,7 +843,7 @@
             this.btnModuleDelete.Name = "btnModuleDelete";
             this.btnModuleDelete.Size = new System.Drawing.Size(75, 23);
             this.btnModuleDelete.TabIndex = 51;
-            this.btnModuleDelete.Text = "删除";
+            this.btnModuleDelete.Text = "删除模块";
             this.btnModuleDelete.Click += new System.EventHandler(this.btnModuleDelete_Click);
             // 
             // splitterLeft

@@ -172,7 +172,7 @@
             // 
             this.checkOverplus.EditValue = true;
             this.checkOverplus.EnterMoveNextControl = true;
-            this.checkOverplus.Location = new System.Drawing.Point(910, 14);
+            this.checkOverplus.Location = new System.Drawing.Point(942, 14);
             this.checkOverplus.Name = "checkOverplus";
             this.checkOverplus.Properties.Caption = "剩余数量大于0";
             this.checkOverplus.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -191,7 +191,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 4;
             // 
             // searchLookUpProjectNoView
@@ -319,7 +319,10 @@
             "待审批",
             "审批",
             "关闭",
-            "审批中"});
+            "审批中",
+            "提交",
+            "拒绝"});
+            this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
             this.comboBoxReqState.TabIndex = 6;
             // 

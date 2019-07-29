@@ -116,6 +116,16 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static bool EnableWorkFlowMessage = true;
 
+        /// <summary>
+        /// 审批通过后才能打印
+        /// </summary>
+        public static bool ApproveAfterPrint = true;
+
+        /// <summary>
+        /// 是否检查用户按钮权限
+        /// </summary>
+        public static bool IsCheckUserButtonPower = true;
+
         #endregion
 
         #region 销售
@@ -133,6 +143,11 @@ namespace PSAP.PSAPCommon
         #endregion
 
         #region 采购
+
+        /// <summary>
+        /// 是否可以修改生产计划生产的请购单
+        /// </summary>
+        public static bool PrReqIsAlter_PSBomAutoId = false;
 
         /// <summary>
         /// 采购订单里面的默认税率值

@@ -89,6 +89,11 @@ namespace PSAP.VIEW.BSVIEW
         public bool RefreshToSetPosition = false;
 
         /// <summary>
+        /// 新增行数据插入到底部最后一行  true为新增行到最后一行，false为新增行到第一行
+        /// </summary>
+        public bool DataRowInsertBottom = true;
+
+        /// <summary>
         /// DataSet是主数据集
         /// </summary>
         private DataSet masterDataSet;
@@ -288,8 +293,8 @@ namespace PSAP.VIEW.BSVIEW
             {
                 labContent.Visible = false;
                 textContent.Visible = false;
-                btnPrevious.Visible = false;
-                btnNext.Visible = false;
+                btnExpand.Visible = false;
+                btnCollapse.Visible = false;
             }
         }
 
@@ -300,9 +305,20 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = masterDataSet.Tables[0].NewRow();
-                masterDataSet.Tables[0].Rows.Add(dr);
-                masterBindingSource.MoveLast();
+                if (DataRowInsertBottom)
+                {
+                    masterDataSet.Tables[0].Rows.Add(dr);
+                    masterBindingSource.MoveLast();
+                }
+                else
+                {
+                    masterDataSet.Tables[0].Rows.InsertAt(dr, 0);
+                    masterBindingSource.MoveFirst();
+                }
 
                 if (NewAfter != null)
                     NewAfter();
@@ -331,6 +347,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                        return;
+
                     if (masterBindingSource.Current != null)
                     {
                         newState = false;
@@ -361,7 +380,10 @@ namespace PSAP.VIEW.BSVIEW
             }
             else//保存
             {
-                if(btnSave_Click())
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
+                if (btnSave_Click())
                     pnlButton.Focus();
             }
         }
@@ -403,6 +425,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (dr.RowState != DataRowState.Unchanged || RowStateUnchangedIsSave)
                 {
+                    bool isAdded = dr.RowState == DataRowState.Added;
                     if (DoSave(dr))
                     {
                         newState = false;
@@ -412,7 +435,12 @@ namespace PSAP.VIEW.BSVIEW
                         int posInt = masterBindingSource.Position;
                         btnRefresh_Click(null, null);
 
-                        if (!RefreshToSetPosition)
+                        if (RefreshToSetPosition)
+                        {
+                            if (!isAdded)
+                                masterBindingSource.Position = posInt;
+                        }
+                        else
                             masterBindingSource.Position = posInt;
                         return true;
                     }
@@ -447,6 +475,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
                 if (masterBindingSource.Current != null)
                 {
                     masterBindingSource.CancelEdit();
@@ -474,6 +505,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
                 //if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的记录吗？") != DialogResult.Yes)
                 if (MessageHandler.ShowMessageBox_YesNo(f.tsmiQdyscxddjlm.Text) != DialogResult.Yes)
                 {
@@ -505,6 +539,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
                 masterDataSet.Tables[0].Clear();
                 BaseSQL.Query(Sql, masterDataSet.Tables[0]);
                 if (QueryDataAfter != null)
@@ -527,6 +564,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
                 FileHandler.SaveDevGridControlExportToExcel(browseXtraGridView);
                 pnlButton.Focus();
             }
@@ -805,8 +845,8 @@ namespace PSAP.VIEW.BSVIEW
             btnDelete.Enabled = state;
             btnRefresh.Enabled = state;
             btnSaveExcel.Enabled = state;
-            btnPrevious.Enabled = state;
-            btnNext.Enabled = state;
+            btnExpand.Enabled = state;
+            btnCollapse.Enabled = state;
             EditState = !state;
 
             if (buttonList.Count > 0)
@@ -834,7 +874,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 向上查找输入的信息
         /// </summary>
-        private void btnPrevious_Click(object sender, EventArgs e)
+        private void btnExpand_Click(object sender, EventArgs e)
         {
             try
             {
@@ -884,7 +924,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 向下查找输入的信息
         /// </summary>
-        private void btnNext_Click(object sender, EventArgs e)
+        private void btnCollapse_Click(object sender, EventArgs e)
         {
             try
             {

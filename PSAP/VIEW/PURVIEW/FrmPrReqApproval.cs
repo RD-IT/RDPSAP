@@ -137,16 +137,34 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 dataSet_PrReq.Tables[0].Rows[0]["Select"] = true;
-                int successCountInt = 0;
-                if (!prReqDAO.PrReqApprovalInfo_Multi(dataSet_PrReq.Tables[0], ref successCountInt))
-                {
 
-                }
-                if (successCountInt > 0)
+                FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                wfDataHandle.orderNameStr = "请购单";
+                wfDataHandle.dataNoList = new List<string>() { prReqNoStr };
+                wfDataHandle.workFlowTypeText = "采购流程";
+                wfDataHandle.tableNameStr = "PUR_PrReqHead";
+                wfDataHandle.moduleTypeInt = 2;
+                if (wfDataHandle.ShowDialog() == DialogResult.OK)
                 {
-                    MessageHandler.ShowMessageBox(tsmiSpcg.Text);// ("审批成功。");
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    int nodeIdInt = wfDataHandle.nodeIdInt;
+                    string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                    string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                    int approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+
+                    int successCountInt = 0;
+                    if (!prReqDAO.PrReqApprovalInfo_Multi(dataSet_PrReq.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                    {
+
+                    }
+                    if (successCountInt > 0)
+                    {
+                        if (approverResultInt == 1)
+                            MessageHandler.ShowMessageBox("审批成功。");
+                        else
+                            MessageHandler.ShowMessageBox("审批拒绝。");
+                        this.DialogResult = DialogResult.OK;
+                        this.Close();
+                    }
                 }
             }
             catch (Exception ex)

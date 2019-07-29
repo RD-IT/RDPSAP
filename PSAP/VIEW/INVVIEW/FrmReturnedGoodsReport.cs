@@ -167,6 +167,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateRGRDateBegin.EditValue == null || dateRGRDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("退货日期不能为空，请设置后重新进行查询。");
@@ -328,6 +331,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 gridViewRGRHead.AddNewRow();
@@ -354,6 +360,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewRGRHead.GetFocusedDataRow() == null)
                     return;
 
@@ -484,6 +493,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewRGRHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewRGRHead.GetDataRow(headFocusedLineNo)["ReturnedGoodsReportNo"]) == "")
@@ -517,6 +529,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_RGR.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -552,6 +567,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_RGR.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -600,6 +618,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_RGR.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -636,9 +657,22 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string rgrHeadNoStr = "";
                 if (gridViewRGRHead.GetFocusedDataRow() != null)
                     rgrHeadNoStr = DataTypeConvert.GetString(gridViewRGRHead.GetFocusedDataRow()["ReturnedGoodsReportNo"]);
+
+                if (SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(gridViewRGRHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
                 rgrDAO.PrintHandle(rgrHeadNoStr, 1);
             }
             catch (Exception ex)

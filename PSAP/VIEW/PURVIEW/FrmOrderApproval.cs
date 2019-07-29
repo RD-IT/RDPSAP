@@ -46,19 +46,20 @@ namespace PSAP.VIEW.BSVIEW
                 switch(orderHeadNoStr.Substring(0,2))
                 {
                     case "PR"://请购单
-
+                        approvalDAO.QueryPrReqHead(dataSet_Order.Tables[0], orderHeadNoStr);
                         break;
                     case "PO"://采购订单
                         approvalDAO.QueryOrderHead(dataSet_Order.Tables[0], orderHeadNoStr);
                         break;
-                    case "WW"://入库单
+                    case "PS"://采购结账单
+                        approvalDAO.QuerySettlementHead(dataSet_Order.Tables[0], orderHeadNoStr);
+                        break;
 
+                    case "WW"://入库单
+                        approvalDAO.QueryWarehouseWarrantHead(dataSet_Order.Tables[0], orderHeadNoStr);
                         break;
                     case "WR"://材料出库单
-
-                        break;
-                    case "PS"://采购结账单
-
+                        approvalDAO.QueryWarehouseReceiptHead(dataSet_Order.Tables[0], orderHeadNoStr);
                         break;
                     case "SW"://预算外入库单
                         approvalDAO.QuerySpecialWarehouseWarrantHead(dataSet_Order.Tables[0], orderHeadNoStr);
@@ -165,22 +166,66 @@ namespace PSAP.VIEW.BSVIEW
             {
                 dataSet_Order.Tables[0].Rows[0]["Select"] = true;
                 int successCountInt = 0;
+                int approverResultInt = 1;
                 switch (orderHeadNoStr.Substring(0, 2))
                 {
-                    case "PR"://请购单
-                        new FrmPrReqDAO().PrReqApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
+                    case "PR":
+                        #region 请购单
+                        {
+                            FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                            wfDataHandle.orderNameStr = "请购单";
+                            wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
+                            wfDataHandle.workFlowTypeText = "采购流程";
+                            wfDataHandle.tableNameStr = "PUR_PrReqHead";
+                            wfDataHandle.moduleTypeInt = 2;
+                            if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                            {
+                                int nodeIdInt = wfDataHandle.nodeIdInt;
+                                string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                                string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                                approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+
+                                if (!new FrmPrReqDAO().PrReqApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                                {
+
+                                }
+                            }
+                        }
+                        #endregion
                         break;
-                    case "PO"://采购订单
-                        new FrmOrderDAO().OrderApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
+                    case "PO":
+                        #region 采购订单
+                        {
+                            FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                            wfDataHandle.orderNameStr = "采购订单";
+                            wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
+                            wfDataHandle.workFlowTypeText = "采购流程";
+                            wfDataHandle.tableNameStr = "PUR_OrderHead";
+                            wfDataHandle.moduleTypeInt = 2;
+                            if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                            {
+                                int nodeIdInt = wfDataHandle.nodeIdInt;
+                                string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                                string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                                approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+
+                                if (!new FrmOrderDAO().OrderApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                                {
+
+                                }
+                            }
+                        }
+                        #endregion
                         break;
+                    case "PS"://采购结账单
+                        new FrmSettlementDAO().SettlementApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
+                        break;
+
                     case "WW"://入库单
                         new FrmWarehouseWarrantDAO().WWApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
                         break;
                     case "WR"://材料出库单
                         new FrmWarehouseReceiptDAO().WRApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
-                        break;
-                    case "PS"://采购结账单
-                        new FrmSettlementDAO().SettlementApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
                         break;
                     case "SW"://预算外入库单
                         new FrmSpecialWarehouseWarrantDAO().SWWApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
@@ -192,9 +237,13 @@ namespace PSAP.VIEW.BSVIEW
                         new FrmReturnedGoodsReportDAO().RGRApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
                         break;
                 }
+
                 if (successCountInt > 0)
                 {
-                    MessageHandler.ShowMessageBox(f.tsmiSpcg.Text);// ("审批成功。");
+                    if (approverResultInt == 1)
+                        MessageHandler.ShowMessageBox("审批成功。");
+                    else
+                        MessageHandler.ShowMessageBox("审批拒绝。");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }

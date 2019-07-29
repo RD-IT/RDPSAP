@@ -89,6 +89,7 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCdmcbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSjcdbnh = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataColVisible = new System.Data.DataColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bSMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableMenu)).BeginInit();
@@ -135,7 +136,8 @@
             this.dataColFormText,
             this.dataColMenuOrder,
             this.dataColParentMenuName,
-            this.dataColParentMenuText});
+            this.dataColParentMenuText,
+            this.dataColVisible});
             this.TableMenu.TableName = "Menu";
             this.TableMenu.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TableMenu_TableNewRow);
             // 
@@ -635,6 +637,12 @@
             this.tsmiSjcdbnh.Size = new System.Drawing.Size(316, 22);
             this.tsmiSjcdbnh.Text = "上级菜单不能和当前菜单相同，请重新操作。";
             // 
+            // dataColVisible
+            // 
+            this.dataColVisible.Caption = "是否显示";
+            this.dataColVisible.ColumnName = "Visible";
+            this.dataColVisible.DataType = typeof(short);
+            // 
             // FrmRight_MenuManagement
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -742,5 +750,6 @@
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiCdmcbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiSjcdbnh;
+        private System.Data.DataColumn dataColVisible;
     }
 }

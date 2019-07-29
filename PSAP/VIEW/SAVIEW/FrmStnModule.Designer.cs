@@ -472,7 +472,7 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(350, 0);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(658, 729);
+            this.pnlRight.Size = new System.Drawing.Size(883, 729);
             this.pnlRight.TabIndex = 1;
             // 
             // xtraTabBottom
@@ -481,7 +481,7 @@
             this.xtraTabBottom.Location = new System.Drawing.Point(0, 230);
             this.xtraTabBottom.Name = "xtraTabBottom";
             this.xtraTabBottom.SelectedTabPage = this.PageDeliveryDetail;
-            this.xtraTabBottom.Size = new System.Drawing.Size(658, 499);
+            this.xtraTabBottom.Size = new System.Drawing.Size(883, 499);
             this.xtraTabBottom.TabIndex = 9;
             this.xtraTabBottom.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageDeliveryDetail});
@@ -491,7 +491,7 @@
             this.PageDeliveryDetail.Controls.Add(this.gridControlDeliveryDetail);
             this.PageDeliveryDetail.Controls.Add(this.pnlBottomToolBar);
             this.PageDeliveryDetail.Name = "PageDeliveryDetail";
-            this.PageDeliveryDetail.Size = new System.Drawing.Size(652, 470);
+            this.PageDeliveryDetail.Size = new System.Drawing.Size(877, 470);
             this.PageDeliveryDetail.Text = "供货明细列表";
             // 
             // gridControlDeliveryDetail
@@ -503,7 +503,7 @@
             this.gridControlDeliveryDetail.Name = "gridControlDeliveryDetail";
             this.gridControlDeliveryDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repMemoDeliveryText});
-            this.gridControlDeliveryDetail.Size = new System.Drawing.Size(652, 430);
+            this.gridControlDeliveryDetail.Size = new System.Drawing.Size(877, 430);
             this.gridControlDeliveryDetail.TabIndex = 7;
             this.gridControlDeliveryDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewDeliveryDetail});
@@ -852,7 +852,7 @@
             this.pnlBottomToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlBottomToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlBottomToolBar.Name = "pnlBottomToolBar";
-            this.pnlBottomToolBar.Size = new System.Drawing.Size(652, 40);
+            this.pnlBottomToolBar.Size = new System.Drawing.Size(877, 40);
             this.pnlBottomToolBar.TabIndex = 0;
             // 
             // btnSaveExcel
@@ -872,7 +872,7 @@
             this.btnDDDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDDDelete.TabIndex = 203;
             this.btnDDDelete.TabStop = false;
-            this.btnDDDelete.Text = "删除";
+            this.btnDDDelete.Text = "删除供货单";
             this.btnDDDelete.Click += new System.EventHandler(this.btnDDDelete_Click);
             // 
             // btnDDSave
@@ -882,7 +882,7 @@
             this.btnDDSave.Size = new System.Drawing.Size(75, 23);
             this.btnDDSave.TabIndex = 202;
             this.btnDDSave.TabStop = false;
-            this.btnDDSave.Text = "修改";
+            this.btnDDSave.Text = "修改供货单";
             this.btnDDSave.Click += new System.EventHandler(this.btnDDSave_Click);
             // 
             // btnDDNew
@@ -892,7 +892,7 @@
             this.btnDDNew.Size = new System.Drawing.Size(75, 23);
             this.btnDDNew.TabIndex = 201;
             this.btnDDNew.TabStop = false;
-            this.btnDDNew.Text = "新增";
+            this.btnDDNew.Text = "新增供货单";
             this.btnDDNew.Click += new System.EventHandler(this.btnDDNew_Click);
             // 
             // pnlEdit
@@ -910,7 +910,7 @@
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(658, 190);
+            this.pnlEdit.Size = new System.Drawing.Size(883, 190);
             this.pnlEdit.TabIndex = 8;
             // 
             // textPrepared
@@ -1025,7 +1025,7 @@
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
-            this.pnlToolBar.Size = new System.Drawing.Size(658, 40);
+            this.pnlToolBar.Size = new System.Drawing.Size(883, 40);
             this.pnlToolBar.TabIndex = 7;
             // 
             // btnCopy
@@ -1082,7 +1082,7 @@
             // FrmStnModule
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1008, 729);
+            this.ClientSize = new System.Drawing.Size(1233, 729);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.dockPnlLeft);
             this.MaximizeBox = false;

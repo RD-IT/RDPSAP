@@ -61,15 +61,18 @@ namespace PSAP.VIEW.BSVIEW
                 ExceptionHandler.HandleException(this.Text + "--根据选择显示零件名称错误。", ex);
             }
         }
-        
+
         /// <summary>
-        /// 
+        /// 正向查询零件的Bom信息
         /// </summary>
         private void btnQuery_Click(object sender, EventArgs e)
         {
             try
             {
-                if(DataTypeConvert.GetString(searchCodeFileName.EditValue)=="")
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                if (DataTypeConvert.GetString(searchCodeFileName.EditValue)=="")
                 {
                     MessageHandler.ShowMessageBox("请选择要查询的零件编号。");
                     searchCodeFileName.Focus();
@@ -91,6 +94,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 FileHandler.SaveTreeListControlExportToExcel(treeListBom);
             }
             catch (Exception ex)

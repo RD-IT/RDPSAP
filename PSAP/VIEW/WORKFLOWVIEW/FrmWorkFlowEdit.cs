@@ -117,6 +117,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = dSWorkFlow.Tables[0].NewRow();
                 dSWorkFlow.Tables[0].Rows.Add(dr);
                 bSWorkFlow.MoveLast();
@@ -141,6 +144,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                        return;
+
                     if (bSWorkFlow.Current == null)
                         return;
                     DataRow headRow = ((DataRowView)bSWorkFlow.Current).Row;
@@ -160,6 +166,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                        return;
+
                     bSWorkFlow.EndEdit();
                     DataRow headRow = ((DataRowView)bSWorkFlow.Current).Row;
 
@@ -211,7 +220,7 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            btnRefresh_Click(null, null);
+            btnRefresh_Click(sender, e);
         }
 
         /// <summary>
@@ -221,6 +230,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableWorkFlow.Rows.Count == 0 || bSWorkFlow.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有模块流程记录，不能进行删除。");
@@ -272,6 +284,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 dSWorkFlow.Tables[0].Clear();
                 if (currentAutoIdInt != 0)
                 {
@@ -302,6 +317,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataTable tmpTable = new DataTable();
                 wfEditDAO.QueryWorkFlow_UpOne(tmpTable, currentAutoIdInt);
                 if (tmpTable.Rows.Count > 0)
@@ -326,6 +344,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataTable tmpTable = new DataTable();
                 wfEditDAO.QueryWorkFlow_DownOne(tmpTable, currentAutoIdInt);
                 if (tmpTable.Rows.Count > 0)
@@ -656,7 +677,7 @@ namespace PSAP.VIEW.BSVIEW
                             searchLookUpFlowModuleId.EditValue = null;
                             memoText.ReadOnly = true;
                             memoText.Text = dConn.Text;
-                            btnText.Enabled = true;
+                            btnEtc.Enabled = true;
                             autoId = DataTypeConvert.GetInt(dConn.CustomStyleId);
 
                             if (autoId > 0)
@@ -717,7 +738,7 @@ namespace PSAP.VIEW.BSVIEW
 
                             memoText.ReadOnly = true;
                             memoText.Text = "";
-                            btnText.Enabled = false;
+                            btnEtc.Enabled = false;
                             dshape.CanRotate = false;
                             autoId = DataTypeConvert.GetInt(dshape.CustomStyleId);
 
@@ -780,7 +801,7 @@ namespace PSAP.VIEW.BSVIEW
                     searchLookUpFlowModuleId.EditValue = null;
                     memoText.ReadOnly = true;
                     memoText.Text = "";
-                    btnText.Enabled = false;
+                    btnEtc.Enabled = false;
                     lookUpCreator.EditValue = null;
                     dateGetTime.EditValue = null;
 
@@ -814,7 +835,7 @@ namespace PSAP.VIEW.BSVIEW
                                 switch (diagramMain.SelectedItems[0].GetType().ToString())
                                 {
                                     case "DevExpress.XtraDiagram.DiagramConnector":
-                                        btnText.Focus();
+                                        btnEtc.Focus();
                                         break;
                                     case "DevExpress.XtraDiagram.DiagramShape":
                                         textContent.SelectAll();
@@ -997,7 +1018,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 设定节点和节点关系的条件
         /// </summary>
-        private void btnText_Click(object sender, EventArgs e)
+        private void btnEtc_Click(object sender, EventArgs e)
         {
             try
             {
@@ -1148,6 +1169,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (diagramMain.SelectedItems.Length == 0)
                 {
                     MessageHandler.ShowMessageBox("请选择要操作的节点。");
@@ -1194,6 +1218,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (diagramMain.SelectedItems.Length == 0)
                 {
                     MessageHandler.ShowMessageBox("请选择要操作的节点。");

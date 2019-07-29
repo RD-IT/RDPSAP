@@ -104,6 +104,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateRGRDateBegin.EditValue == null || dateRGRDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("退货日期不能为空，请设置后重新进行查询。");
@@ -144,6 +147,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewRGRHead);
                 if (gridBottomOrderHead.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewRGRHead);

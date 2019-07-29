@@ -1289,7 +1289,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 214;
             // 
             // searchLookUpProjectNoView
@@ -1340,11 +1340,11 @@
             // 
             // btnPrReqQuery
             // 
-            this.btnPrReqQuery.Location = new System.Drawing.Point(213, 73);
+            this.btnPrReqQuery.Location = new System.Drawing.Point(243, 73);
             this.btnPrReqQuery.Name = "btnPrReqQuery";
             this.btnPrReqQuery.Size = new System.Drawing.Size(75, 23);
             this.btnPrReqQuery.TabIndex = 212;
-            this.btnPrReqQuery.Text = "查询";
+            this.btnPrReqQuery.Text = "入库查询";
             this.btnPrReqQuery.Click += new System.EventHandler(this.btnPrReqQuery_Click);
             // 
             // dateWWDateEnd

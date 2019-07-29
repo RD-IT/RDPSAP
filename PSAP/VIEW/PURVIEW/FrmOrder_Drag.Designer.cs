@@ -144,6 +144,8 @@
             this.colPrepared = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colClosed = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlMiddleTop = new DevExpress.XtraEditors.PanelControl();
+            this.btnCancelSubmit = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSubmit = new DevExpress.XtraEditors.SimpleButton();
             this.btnPreview = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancelClose = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancelApprove = new DevExpress.XtraEditors.SimpleButton();
@@ -622,7 +624,10 @@
             "待审批",
             "审批",
             "关闭",
-            "审批中"});
+            "审批中",
+            "提交",
+            "拒绝"});
+            this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
             this.comboBoxReqState.TabIndex = 5;
             // 
@@ -1565,6 +1570,8 @@
             // 
             // pnlMiddleTop
             // 
+            this.pnlMiddleTop.Controls.Add(this.btnCancelSubmit);
+            this.pnlMiddleTop.Controls.Add(this.btnSubmit);
             this.pnlMiddleTop.Controls.Add(this.btnPreview);
             this.pnlMiddleTop.Controls.Add(this.btnCancelClose);
             this.pnlMiddleTop.Controls.Add(this.btnCancelApprove);
@@ -1581,9 +1588,29 @@
             this.pnlMiddleTop.Size = new System.Drawing.Size(1016, 34);
             this.pnlMiddleTop.TabIndex = 2;
             // 
+            // btnCancelSubmit
+            // 
+            this.btnCancelSubmit.Location = new System.Drawing.Point(410, 5);
+            this.btnCancelSubmit.Name = "btnCancelSubmit";
+            this.btnCancelSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelSubmit.TabIndex = 26;
+            this.btnCancelSubmit.TabStop = false;
+            this.btnCancelSubmit.Text = "取消提交";
+            this.btnCancelSubmit.Click += new System.EventHandler(this.btnCancelSubmit_Click);
+            // 
+            // btnSubmit
+            // 
+            this.btnSubmit.Location = new System.Drawing.Point(329, 5);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnSubmit.TabIndex = 25;
+            this.btnSubmit.TabStop = false;
+            this.btnSubmit.Text = "提交";
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(734, 5);
+            this.btnPreview.Location = new System.Drawing.Point(896, 5);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(75, 23);
             this.btnPreview.TabIndex = 24;
@@ -1593,7 +1620,7 @@
             // 
             // btnCancelClose
             // 
-            this.btnCancelClose.Location = new System.Drawing.Point(572, 5);
+            this.btnCancelClose.Location = new System.Drawing.Point(734, 5);
             this.btnCancelClose.Name = "btnCancelClose";
             this.btnCancelClose.Size = new System.Drawing.Size(75, 23);
             this.btnCancelClose.TabIndex = 23;
@@ -1603,7 +1630,7 @@
             // 
             // btnCancelApprove
             // 
-            this.btnCancelApprove.Location = new System.Drawing.Point(410, 5);
+            this.btnCancelApprove.Location = new System.Drawing.Point(572, 5);
             this.btnCancelApprove.Name = "btnCancelApprove";
             this.btnCancelApprove.Size = new System.Drawing.Size(75, 23);
             this.btnCancelApprove.TabIndex = 18;
@@ -1613,7 +1640,7 @@
             // 
             // btnPrReqApply
             // 
-            this.btnPrReqApply.Location = new System.Drawing.Point(653, 5);
+            this.btnPrReqApply.Location = new System.Drawing.Point(815, 5);
             this.btnPrReqApply.Name = "btnPrReqApply";
             this.btnPrReqApply.Size = new System.Drawing.Size(75, 23);
             this.btnPrReqApply.TabIndex = 17;
@@ -1623,7 +1650,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(491, 5);
+            this.btnClose.Location = new System.Drawing.Point(653, 5);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 16;
@@ -1633,7 +1660,7 @@
             // 
             // btnApprove
             // 
-            this.btnApprove.Location = new System.Drawing.Point(329, 5);
+            this.btnApprove.Location = new System.Drawing.Point(491, 5);
             this.btnApprove.Name = "btnApprove";
             this.btnApprove.Size = new System.Drawing.Size(75, 23);
             this.btnApprove.TabIndex = 14;
@@ -1928,6 +1955,7 @@
             this.colAmount.FieldName = "Amount";
             this.colAmount.Name = "colAmount";
             this.colAmount.OptionsColumn.AllowEdit = false;
+            this.colAmount.OptionsColumn.TabStop = false;
             this.colAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:N2}")});
             this.colAmount.Visible = true;
@@ -1995,7 +2023,7 @@
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "SumAmount", "{0:N2}")});
             this.colSumAmount.Visible = true;
             this.colSumAmount.VisibleIndex = 8;
-            this.colSumAmount.Width = 80;
+            this.colSumAmount.Width = 100;
             // 
             // colPlanDate1
             // 
@@ -2693,7 +2721,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 204;
             // 
             // searchLookUpProjectNoView
@@ -2779,11 +2807,11 @@
             // 
             // btnPrReqQuery
             // 
-            this.btnPrReqQuery.Location = new System.Drawing.Point(213, 73);
+            this.btnPrReqQuery.Location = new System.Drawing.Point(243, 73);
             this.btnPrReqQuery.Name = "btnPrReqQuery";
             this.btnPrReqQuery.Size = new System.Drawing.Size(75, 23);
             this.btnPrReqQuery.TabIndex = 205;
-            this.btnPrReqQuery.Text = "查询";
+            this.btnPrReqQuery.Text = "请购单查询";
             this.btnPrReqQuery.Click += new System.EventHandler(this.btnPrReqQuery_Click);
             // 
             // labProjectNo
@@ -3903,5 +3931,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiJjcxqgdmxsjcw;
         private System.Windows.Forms.ToolStripMenuItem tsmiSxtzqgdsjcw;
         private System.Windows.Forms.ToolStripMenuItem tsmiYzcgddzrxxmdxmh;
+        private DevExpress.XtraEditors.SimpleButton btnCancelSubmit;
+        private DevExpress.XtraEditors.SimpleButton btnSubmit;
     }
 }

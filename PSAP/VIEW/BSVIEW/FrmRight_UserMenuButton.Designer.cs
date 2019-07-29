@@ -39,6 +39,8 @@
             this.gridColDepartmentName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColRoleName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColRoleNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColButtonPower = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repCheckButtonPower = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.pnlLeftTop = new DevExpress.XtraEditors.PanelControl();
             this.txtUserName = new DevExpress.XtraEditors.TextEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
@@ -55,8 +57,8 @@
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.pnlRightTop = new DevExpress.XtraEditors.PanelControl();
             this.labMemo = new DevExpress.XtraEditors.LabelControl();
-            this.btnSub = new DevExpress.XtraEditors.SimpleButton();
-            this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCollapse = new DevExpress.XtraEditors.SimpleButton();
+            this.btnExpand = new DevExpress.XtraEditors.SimpleButton();
             this.cboRoleName = new DevExpress.XtraEditors.LookUpEdit();
             this.btnSaveRight = new DevExpress.XtraEditors.SimpleButton();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
@@ -64,12 +66,15 @@
             this.tsmiCxyhqxxxcw = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCxyhdqxsjcw = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYhqxycgbc = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.checkButtonPower = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlLeft)).BeginInit();
             this.pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlLeftGrid)).BeginInit();
             this.pnlLeftGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlUserList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserList)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckButtonPower)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlLeftTop)).BeginInit();
             this.pnlLeftTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtUserName.Properties)).BeginInit();
@@ -84,6 +89,7 @@
             this.pnlRightTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cboRoleName.Properties)).BeginInit();
             this.cms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkButtonPower.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlLeft
@@ -94,7 +100,7 @@
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(460, 577);
+            this.pnlLeft.Size = new System.Drawing.Size(530, 577);
             this.pnlLeft.TabIndex = 0;
             // 
             // pnlLeftGrid
@@ -103,7 +109,7 @@
             this.pnlLeftGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlLeftGrid.Location = new System.Drawing.Point(0, 88);
             this.pnlLeftGrid.Name = "pnlLeftGrid";
-            this.pnlLeftGrid.Size = new System.Drawing.Size(460, 489);
+            this.pnlLeftGrid.Size = new System.Drawing.Size(530, 489);
             this.pnlLeftGrid.TabIndex = 38;
             // 
             // gridControlUserList
@@ -112,7 +118,9 @@
             this.gridControlUserList.Location = new System.Drawing.Point(2, 2);
             this.gridControlUserList.MainView = this.dgvUserList;
             this.gridControlUserList.Name = "gridControlUserList";
-            this.gridControlUserList.Size = new System.Drawing.Size(456, 485);
+            this.gridControlUserList.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repCheckButtonPower});
+            this.gridControlUserList.Size = new System.Drawing.Size(526, 485);
             this.gridControlUserList.TabIndex = 0;
             this.gridControlUserList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.dgvUserList});
@@ -125,7 +133,8 @@
             this.gridColEmpName,
             this.gridColDepartmentName,
             this.gridColRoleName,
-            this.gridColRoleNo});
+            this.gridColRoleNo,
+            this.gridColButtonPower});
             this.dgvUserList.GridControl = this.gridControlUserList;
             this.dgvUserList.IndicatorWidth = 40;
             this.dgvUserList.Name = "dgvUserList";
@@ -176,7 +185,7 @@
             this.gridColDepartmentName.Name = "gridColDepartmentName";
             this.gridColDepartmentName.Visible = true;
             this.gridColDepartmentName.VisibleIndex = 2;
-            this.gridColDepartmentName.Width = 120;
+            this.gridColDepartmentName.Width = 100;
             // 
             // gridColRoleName
             // 
@@ -187,7 +196,7 @@
             this.gridColRoleName.Name = "gridColRoleName";
             this.gridColRoleName.Visible = true;
             this.gridColRoleName.VisibleIndex = 3;
-            this.gridColRoleName.Width = 120;
+            this.gridColRoleName.Width = 100;
             // 
             // gridColRoleNo
             // 
@@ -195,6 +204,27 @@
             this.gridColRoleNo.FieldName = "RoleNo";
             this.gridColRoleNo.Name = "gridColRoleNo";
             this.gridColRoleNo.Width = 60;
+            // 
+            // gridColButtonPower
+            // 
+            this.gridColButtonPower.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColButtonPower.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColButtonPower.Caption = "启用窗体按钮权限";
+            this.gridColButtonPower.ColumnEdit = this.repCheckButtonPower;
+            this.gridColButtonPower.FieldName = "ButtonPower";
+            this.gridColButtonPower.Name = "gridColButtonPower";
+            this.gridColButtonPower.Visible = true;
+            this.gridColButtonPower.VisibleIndex = 4;
+            this.gridColButtonPower.Width = 120;
+            // 
+            // repCheckButtonPower
+            // 
+            this.repCheckButtonPower.AutoHeight = false;
+            this.repCheckButtonPower.Name = "repCheckButtonPower";
+            this.repCheckButtonPower.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.repCheckButtonPower.ValueChecked = 1;
+            this.repCheckButtonPower.ValueGrayed = 0;
+            this.repCheckButtonPower.ValueUnchecked = 0;
             // 
             // pnlLeftTop
             // 
@@ -208,7 +238,7 @@
             this.pnlLeftTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlLeftTop.Location = new System.Drawing.Point(0, 0);
             this.pnlLeftTop.Name = "pnlLeftTop";
-            this.pnlLeftTop.Size = new System.Drawing.Size(460, 88);
+            this.pnlLeftTop.Size = new System.Drawing.Size(530, 88);
             this.pnlLeftTop.TabIndex = 37;
             // 
             // txtUserName
@@ -282,9 +312,9 @@
             this.pnlRight.Controls.Add(this.pnlRightTree);
             this.pnlRight.Controls.Add(this.pnlRightTop);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRight.Location = new System.Drawing.Point(460, 0);
+            this.pnlRight.Location = new System.Drawing.Point(530, 0);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(627, 577);
+            this.pnlRight.Size = new System.Drawing.Size(557, 577);
             this.pnlRight.TabIndex = 1;
             // 
             // pnlRightTree
@@ -293,7 +323,7 @@
             this.pnlRightTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRightTree.Location = new System.Drawing.Point(0, 88);
             this.pnlRightTree.Name = "pnlRightTree";
-            this.pnlRightTree.Size = new System.Drawing.Size(627, 489);
+            this.pnlRightTree.Size = new System.Drawing.Size(557, 489);
             this.pnlRightTree.TabIndex = 1;
             // 
             // tvwUserRight
@@ -313,7 +343,7 @@
             this.tvwUserRight.OptionsView.ShowHorzLines = false;
             this.tvwUserRight.OptionsView.ShowIndicator = false;
             this.tvwUserRight.OptionsView.ShowVertLines = false;
-            this.tvwUserRight.Size = new System.Drawing.Size(623, 485);
+            this.tvwUserRight.Size = new System.Drawing.Size(553, 485);
             this.tvwUserRight.TabIndex = 0;
             this.tvwUserRight.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeListRole_BeforeCheckNode);
             this.tvwUserRight.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeListRole_AfterCheckNode);
@@ -345,16 +375,18 @@
             // 
             // pnlRightTop
             // 
+            this.pnlRightTop.Controls.Add(this.checkButtonPower);
+            this.pnlRightTop.Controls.Add(this.labelControl2);
             this.pnlRightTop.Controls.Add(this.labMemo);
-            this.pnlRightTop.Controls.Add(this.btnSub);
-            this.pnlRightTop.Controls.Add(this.btnAdd);
+            this.pnlRightTop.Controls.Add(this.btnCollapse);
+            this.pnlRightTop.Controls.Add(this.btnExpand);
             this.pnlRightTop.Controls.Add(this.cboRoleName);
             this.pnlRightTop.Controls.Add(this.btnSaveRight);
             this.pnlRightTop.Controls.Add(this.labelControl1);
             this.pnlRightTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlRightTop.Location = new System.Drawing.Point(0, 0);
             this.pnlRightTop.Name = "pnlRightTop";
-            this.pnlRightTop.Size = new System.Drawing.Size(627, 88);
+            this.pnlRightTop.Size = new System.Drawing.Size(557, 88);
             this.pnlRightTop.TabIndex = 0;
             // 
             // labMemo
@@ -365,27 +397,27 @@
             this.labMemo.TabIndex = 105;
             this.labMemo.Text = "（注：蓝色字体的权限为当前用户的角色权限）";
             // 
-            // btnSub
+            // btnCollapse
             // 
-            this.btnSub.AllowFocus = false;
-            this.btnSub.Location = new System.Drawing.Point(47, 52);
-            this.btnSub.Name = "btnSub";
-            this.btnSub.Size = new System.Drawing.Size(23, 23);
-            this.btnSub.TabIndex = 104;
-            this.btnSub.TabStop = false;
-            this.btnSub.Text = "-";
-            this.btnSub.Click += new System.EventHandler(this.btnSub_Click);
+            this.btnCollapse.AllowFocus = false;
+            this.btnCollapse.Location = new System.Drawing.Point(47, 52);
+            this.btnCollapse.Name = "btnCollapse";
+            this.btnCollapse.Size = new System.Drawing.Size(23, 23);
+            this.btnCollapse.TabIndex = 104;
+            this.btnCollapse.TabStop = false;
+            this.btnCollapse.Text = "-";
+            this.btnCollapse.Click += new System.EventHandler(this.btnCollapse_Click);
             // 
-            // btnAdd
+            // btnExpand
             // 
-            this.btnAdd.AllowFocus = false;
-            this.btnAdd.Location = new System.Drawing.Point(18, 52);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(23, 23);
-            this.btnAdd.TabIndex = 103;
-            this.btnAdd.TabStop = false;
-            this.btnAdd.Text = "+";
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnExpand.AllowFocus = false;
+            this.btnExpand.Location = new System.Drawing.Point(18, 52);
+            this.btnExpand.Name = "btnExpand";
+            this.btnExpand.Size = new System.Drawing.Size(23, 23);
+            this.btnExpand.TabIndex = 103;
+            this.btnExpand.TabStop = false;
+            this.btnExpand.Text = "+";
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
             // cboRoleName
             // 
@@ -405,7 +437,7 @@
             // 
             // btnSaveRight
             // 
-            this.btnSaveRight.Location = new System.Drawing.Point(255, 16);
+            this.btnSaveRight.Location = new System.Drawing.Point(459, 16);
             this.btnSaveRight.Name = "btnSaveRight";
             this.btnSaveRight.Size = new System.Drawing.Size(75, 23);
             this.btnSaveRight.TabIndex = 21;
@@ -447,6 +479,22 @@
             this.tsmiYhqxycgbc.Size = new System.Drawing.Size(220, 22);
             this.tsmiYhqxycgbc.Text = "【用户权限】已成功保存。";
             // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(255, 20);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(108, 14);
+            this.labelControl2.TabIndex = 106;
+            this.labelControl2.Text = "启用窗体按钮权限：";
+            // 
+            // checkButtonPower
+            // 
+            this.checkButtonPower.Location = new System.Drawing.Point(375, 17);
+            this.checkButtonPower.Name = "checkButtonPower";
+            this.checkButtonPower.Properties.Caption = "";
+            this.checkButtonPower.Size = new System.Drawing.Size(28, 19);
+            this.checkButtonPower.TabIndex = 107;
+            // 
             // FrmRight_UserMenuButton
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -463,6 +511,7 @@
             this.pnlLeftGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlUserList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserList)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckButtonPower)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlLeftTop)).EndInit();
             this.pnlLeftTop.ResumeLayout(false);
             this.pnlLeftTop.PerformLayout();
@@ -479,6 +528,7 @@
             this.pnlRightTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cboRoleName.Properties)).EndInit();
             this.cms.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.checkButtonPower.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -517,8 +567,12 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColRoleName;
         private DevExpress.XtraGrid.Columns.GridColumn gridColRoleNo;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
-        private DevExpress.XtraEditors.SimpleButton btnSub;
-        private DevExpress.XtraEditors.SimpleButton btnAdd;
+        private DevExpress.XtraEditors.SimpleButton btnCollapse;
+        private DevExpress.XtraEditors.SimpleButton btnExpand;
         private DevExpress.XtraEditors.LabelControl labMemo;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColButtonPower;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckButtonPower;
+        private DevExpress.XtraEditors.CheckEdit checkButtonPower;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
     }
 }

@@ -38,6 +38,11 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         public static string newParentProjectNoStr = "";
 
+        /// <summary>
+        /// 修改锁
+        /// </summary>
+        private bool modifyLock = false;
+
         #endregion
 
         #region 构造方法
@@ -165,6 +170,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow baseRow = TableQuotationBaseInfo.NewRow();
                 TableQuotationBaseInfo.Rows.Add(baseRow);
                 bindingSource_BaseInfo.MoveLast();
@@ -198,6 +206,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
                     return;
 
@@ -324,6 +335,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_BaseInfo.Current != null)
                 {
                     bindingSource_BaseInfo.CancelEdit();
@@ -348,6 +362,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有报价信息记录，不能进行删除。");
@@ -387,6 +404,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string autoQuotationNoStr = "";
                 if (bindingSource_BaseInfo.Current != null)
                     autoQuotationNoStr = DataTypeConvert.GetString(((DataRowView)bindingSource_BaseInfo.Current).Row["AutoQuotationNo"]);
@@ -405,6 +425,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有报价信息记录，不能进行关闭。");
@@ -441,6 +464,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有报价信息记录，不能进行取消关闭。");
@@ -784,18 +810,37 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (modifyLock)
+                    return;
+
+                modifyLock = true;
+
+                double amountDouble = 0;
+                double taxDouble = 0;
+                double taxAmountDouble = 0;
+                double sumAmountDouble = 0;
                 switch (e.Column.FieldName)
                 {
                     case "Amount":
-                    case "Tax":
-                        double amountDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Amount"]);
-                        double taxDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Tax"]);
-                        double taxAmountDouble = Math.Round(amountDouble * taxDouble, 2, MidpointRounding.AwayFromZero);
-                        double sumAmountDouble = amountDouble + taxAmountDouble;
+                    case "Tax":                        
+                        amountDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Amount"]);
+                        taxDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Tax"]);
+                        taxAmountDouble = Math.Round(amountDouble * taxDouble, 2, MidpointRounding.AwayFromZero);
+                        sumAmountDouble = amountDouble + taxAmountDouble;
                         gridViewQuotationPriceInfo.SetRowCellValue(e.RowHandle, "TaxAmount", taxAmountDouble);
                         gridViewQuotationPriceInfo.SetRowCellValue(e.RowHandle, "SumAmount", sumAmountDouble);
                         break;
+                    case "SumAmount":
+                        sumAmountDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["SumAmount"]);
+                        taxDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Tax"]);
+                        amountDouble = Math.Round(sumAmountDouble / (1 + taxDouble), 2, MidpointRounding.AwayFromZero);
+                        taxAmountDouble = sumAmountDouble - amountDouble;
+                        gridViewQuotationPriceInfo.SetRowCellValue(e.RowHandle, "Amount", amountDouble);
+                        gridViewQuotationPriceInfo.SetRowCellValue(e.RowHandle, "TaxAmount", taxAmountDouble);
+                        break;
                 }
+
+                modifyLock = false;
             }
             catch (Exception ex)
             {
@@ -814,6 +859,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateRecordDateBegin.EditValue == null || dateRecordDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("登记日期不能为空，请设置后重新进行查询。");

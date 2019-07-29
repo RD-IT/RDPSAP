@@ -96,6 +96,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateIADateBegin.EditValue == null || dateIADateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiTzrqbnwkcx.Text );// ("调整日期不能为空，请设置后重新进行查询。");
@@ -134,6 +137,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewIAHead);
                 if (gridBottomIA.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewIAHead);

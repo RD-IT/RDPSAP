@@ -85,6 +85,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateDurBegin.EditValue == null || dateDurEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("期间日期不能为空，请设置后重新进行查询。");
@@ -120,6 +123,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewDurationStock);
                 if (gridBottomWNowInfo.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewDurationStock);

@@ -62,10 +62,16 @@ namespace PSAP.DAO.WORKFLOWDAO
                 cmd.ExecuteNonQuery();
 
                 int count = 0;
+                int autoIdInt = 0;
                 if (!allNewDataHandle)
                 {
-                    cmd.CommandText = string.Format("select Count(*) from BS_WorkFlowDataHandle where DataNo = '{0}' and NodeId = '{1}' and Approver = '{2}'", orderNo, nodeIdInt, approverStr);
-                    count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
+                    //cmd.CommandText = string.Format("select top 1 AutoId from BS_WorkFlowDataHandle where DataNo = '{0}' and NodeId = '{1}' and Approver = '{2}' order by AutoId desc", orderNo, nodeIdInt, approverStr);
+                    cmd.CommandText = string.Format("select top 1 AutoId from BS_WorkFlowDataHandle where DataNo = '{0}' and NodeId = '{1}' and ApproverResult = {2} order by AutoId desc", orderNo, nodeIdInt, approverResultInt);
+                    DataTable tempTable = BaseSQL.GetTableBySql(cmd);
+
+                    count = tempTable.Rows.Count;
+                    if (count > 0)
+                        autoIdInt = DataTypeConvert.GetInt(tempTable.Rows[0]["AutoId"]);
                 }
 
                 if (count == 0)//新增
@@ -75,7 +81,8 @@ namespace PSAP.DAO.WORKFLOWDAO
                 }
                 else//修改
                 {
-                    cmd.CommandText = string.Format("Update BS_WorkFlowDataHandle set FlowModuleId = '{3}', ApproverOption = '{4}', ApproverResult = {5}, ApproverTime = getdate() where DataNo = '{0}' and NodeId = '{1}' and Approver = '{2}'", orderNo, nodeIdInt, approverStr, flowModuleIdStr, approverOptionStr, approverResultInt);
+                    //cmd.CommandText = string.Format("Update BS_WorkFlowDataHandle set FlowModuleId = '{4}', ApproverOption = '{5}', ApproverResult = {6}, ApproverTime = getdate() where DataNo = '{0}' and NodeId = '{1}' and Approver = '{2}' and AutoId = {3}", orderNo, nodeIdInt, approverStr, autoIdInt, flowModuleIdStr, approverOptionStr, approverResultInt);
+                    cmd.CommandText = string.Format("Update BS_WorkFlowDataHandle set Approver = '{3}', FlowModuleId = '{4}', ApproverOption = '{5}', ApproverResult = {6}, ApproverTime = getdate() where DataNo = '{0}' and NodeId = '{1}' and AutoId = {2}", orderNo, nodeIdInt, autoIdInt, approverStr, flowModuleIdStr, approverOptionStr, approverResultInt);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -144,6 +151,15 @@ namespace PSAP.DAO.WORKFLOWDAO
         public void HandleDataCurrentNode_IsEnd(SqlCommand cmd, string orderNoListStr, int stateInt, int isEndInt)
         {
             cmd.CommandText = string.Format("update BS_DataCurrentNode set currentState = {1}, isEnd = {2} where DataNo in ({0})", orderNoListStr, stateInt, isEndInt);
+            cmd.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 删除单据的当前结点信息
+        /// </summary>
+        public void DeleteDataCurrentNode(SqlCommand cmd, string orderNoListStr)
+        {
+            cmd.CommandText = string.Format("Delete from BS_DataCurrentNode where DataNo in ({0})", orderNoListStr);
             cmd.ExecuteNonQuery();
         }
     }

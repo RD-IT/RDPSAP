@@ -99,6 +99,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSalesOrderDateBegin.EditValue == null || dateSalesOrderDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("登记日期不能为空，请设置后重新进行查询。");
@@ -138,6 +141,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewSalesOrder);
 
                 //int result = new CustomXtraMessageBoxForm().ShowMessageBox("请选择要存为 Excel 的查询记录：", new string[] { "当前页面记录", "全部查询记录", "取消" });

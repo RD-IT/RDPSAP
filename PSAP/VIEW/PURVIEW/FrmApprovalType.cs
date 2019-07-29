@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraGrid.Views.Base;
+using PSAP.DAO.BSDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
@@ -16,18 +17,15 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmApprovalType()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmApprovalType_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -50,6 +48,21 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmApprovalType_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                
             }
             catch (Exception ex)
             {
@@ -112,6 +125,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (!editForm.EditState)
                 {
                     DataRow dr = gridViewApprovalType.GetFocusedDataRow();

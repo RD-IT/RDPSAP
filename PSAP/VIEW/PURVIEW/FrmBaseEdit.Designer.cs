@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBaseEdit));
             this.pnlButton = new DevExpress.XtraEditors.PanelControl();
             this.btnSaveExcel = new DevExpress.XtraEditors.SimpleButton();
@@ -36,11 +37,11 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.btnNew = new DevExpress.XtraEditors.SimpleButton();
-            this.btnNext = new DevExpress.XtraEditors.SimpleButton();
-            this.btnPrevious = new DevExpress.XtraEditors.SimpleButton();
+            this.btnCollapse = new DevExpress.XtraEditors.SimpleButton();
+            this.btnExpand = new DevExpress.XtraEditors.SimpleButton();
             this.labContent = new DevExpress.XtraEditors.LabelControl();
             this.textContent = new DevExpress.XtraEditors.TextEdit();
-            this.cms = new System.Windows.Forms.ContextMenuStrip();
+            this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiSave = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiEdit = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlButton)).BeginInit();
@@ -60,8 +61,8 @@
             this.pnlButton.Controls.Add(this.btnCancel);
             this.pnlButton.Controls.Add(this.btnSave);
             this.pnlButton.Controls.Add(this.btnNew);
-            this.pnlButton.Controls.Add(this.btnNext);
-            this.pnlButton.Controls.Add(this.btnPrevious);
+            this.pnlButton.Controls.Add(this.btnCollapse);
+            this.pnlButton.Controls.Add(this.btnExpand);
             this.pnlButton.Controls.Add(this.labContent);
             this.pnlButton.Controls.Add(this.textContent);
             this.pnlButton.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -130,28 +131,30 @@
             this.btnNew.Text = "新增";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
-            // btnNext
+            // btnCollapse
             // 
-            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Image = ((System.Drawing.Image)(resources.GetObject("btnNext.Image")));
-            this.btnNext.Location = new System.Drawing.Point(1056, 7);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(26, 23);
-            this.btnNext.TabIndex = 202;
-            this.btnNext.ToolTip = "查找下一个";
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            this.btnCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCollapse.Image = ((System.Drawing.Image)(resources.GetObject("btnCollapse.Image")));
+            this.btnCollapse.Location = new System.Drawing.Point(1056, 7);
+            this.btnCollapse.Name = "btnCollapse";
+            this.btnCollapse.Size = new System.Drawing.Size(26, 23);
+            this.btnCollapse.TabIndex = 202;
+            this.btnCollapse.Text = "+";
+            this.btnCollapse.ToolTip = "查找下一个";
+            this.btnCollapse.Click += new System.EventHandler(this.btnCollapse_Click);
             // 
-            // btnPrevious
+            // btnExpand
             // 
-            this.btnPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrevious.Image = ((System.Drawing.Image)(resources.GetObject("btnPrevious.Image")));
-            this.btnPrevious.Location = new System.Drawing.Point(1024, 7);
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(26, 23);
-            this.btnPrevious.TabIndex = 201;
-            this.btnPrevious.TabStop = false;
-            this.btnPrevious.ToolTip = "查找上一个";
-            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            this.btnExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExpand.Image = ((System.Drawing.Image)(resources.GetObject("btnExpand.Image")));
+            this.btnExpand.Location = new System.Drawing.Point(1024, 7);
+            this.btnExpand.Name = "btnExpand";
+            this.btnExpand.Size = new System.Drawing.Size(26, 23);
+            this.btnExpand.TabIndex = 201;
+            this.btnExpand.TabStop = false;
+            this.btnExpand.Text = "-";
+            this.btnExpand.ToolTip = "查找上一个";
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
             // 
             // labContent
             // 
@@ -220,8 +223,8 @@
         public DevExpress.XtraEditors.SimpleButton btnSaveExcel;
         private DevExpress.XtraEditors.LabelControl labContent;
         private DevExpress.XtraEditors.TextEdit textContent;
-        private DevExpress.XtraEditors.SimpleButton btnPrevious;
-        private DevExpress.XtraEditors.SimpleButton btnNext;
+        private DevExpress.XtraEditors.SimpleButton btnExpand;
+        private DevExpress.XtraEditors.SimpleButton btnCollapse;
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiSave;
         internal System.Windows.Forms.ToolStripMenuItem tsmiEdit;

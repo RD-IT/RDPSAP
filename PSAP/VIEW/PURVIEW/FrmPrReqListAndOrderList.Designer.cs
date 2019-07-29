@@ -350,7 +350,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 4;
             // 
             // searchLookUpProjectNoView
@@ -477,7 +477,10 @@
             "待审批",
             "审批",
             "关闭",
-            "审批中"});
+            "审批中",
+            "提交",
+            "拒绝"});
+            this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
             this.comboBoxReqState.TabIndex = 5;
             // 

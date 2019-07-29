@@ -39,7 +39,7 @@ namespace PSAP.VIEW.BSVIEW
         public string tableNameStr = "";
 
         /// <summary>
-        /// 模块类型编号  1 登记 2 审核
+        /// 模块类型编号  1 制单 2 审核
         /// </summary>
         public int moduleTypeInt = 2;
 

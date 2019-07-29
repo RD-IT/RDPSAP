@@ -23,20 +23,22 @@ namespace PSAP.PSAPCommon
             switch (reqStateStr)
             {
                 case "1":
-                    //stateDescStr = "待审批";
-                    stateDescStr = f.tsmiDsp.Text;
+                    stateDescStr = "待审批";
                     break;
                 case "2":
-                    //stateDescStr = "审批";
-                    stateDescStr = f.tsmiSp.Text;
+                    stateDescStr = "审批";
                     break;
                 case "3":
-                    //stateDescStr = "关闭";
-                    stateDescStr = f.tsmiGb.Text;
+                    stateDescStr = "关闭";
                     break;
                 case "4":
-                    //stateDescStr = "审批中";
-                    stateDescStr = f.tsmiSpz.Text;
+                    stateDescStr = "审批中";
+                    break;
+                case "5":
+                    stateDescStr = "提交";
+                    break;
+                case "6":
+                    stateDescStr = "拒绝";
                     break;
             }
             return stateDescStr;
@@ -48,14 +50,27 @@ namespace PSAP.PSAPCommon
         public static int Get_OrderState_No(string stateDescStr)
         {
             int stateNoInt = 0;//全部
-            if (stateDescStr == f.tsmiDsp.Text)//待审批
-                stateNoInt = 1;
-            else if (stateDescStr == f.tsmiSp.Text)//审批
-                stateNoInt = 2;
-            else if (stateDescStr == f.tsmiGb.Text)//关闭
-                stateNoInt = 3;
-            else if (stateDescStr == f.tsmiSpz.Text)//审批中
-                stateNoInt = 4;
+            switch (stateDescStr)
+            {
+                case "待审批":
+                    stateNoInt = 1;
+                    break;
+                case "审批":
+                    stateNoInt = 2;
+                    break;
+                case "关闭":
+                    stateNoInt = 3;
+                    break;
+                case "审批中":
+                    stateNoInt = 4;
+                    break;
+                case "提交":
+                    stateNoInt = 5;
+                    break;
+                case "拒绝":
+                    stateNoInt = 6;
+                    break;
+            }
 
             return stateNoInt;
         }

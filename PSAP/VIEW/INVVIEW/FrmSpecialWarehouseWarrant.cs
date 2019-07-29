@@ -163,6 +163,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSWWDateBegin.EditValue == null || dateSWWDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox("预算外入库日期不能为空，请设置后重新进行查询。");
@@ -323,6 +326,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 gridViewSWWHead.AddNewRow();
@@ -349,6 +355,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewSWWHead.GetFocusedDataRow() == null)
                     return;
 
@@ -473,6 +482,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewSWWHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewSWWHead.GetDataRow(headFocusedLineNo)["SpecialWarehouseWarrant"]) == "")
@@ -506,6 +518,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_SWW.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -541,6 +556,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_SWW.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -589,6 +607,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_SWW.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -625,9 +646,22 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string swwHeadNoStr = "";
                 if (gridViewSWWHead.GetFocusedDataRow() != null)
                     swwHeadNoStr = DataTypeConvert.GetString(gridViewSWWHead.GetFocusedDataRow()["SpecialWarehouseWarrant"]);
+
+                if (SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(gridViewSWWHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
                 swwDAO.PrintHandle(swwHeadNoStr, 1);
             }
             catch (Exception ex)

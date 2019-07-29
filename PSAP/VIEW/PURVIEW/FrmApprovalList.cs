@@ -24,32 +24,17 @@ namespace PSAP.VIEW.BSVIEW
         FrmApprovalDAO approvalDAO = new FrmApprovalDAO();
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmApprovalList()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        public FrmApprovalList(string typeNo, string typeNoText)
-        {
-            InitializeComponent();
-            TypeNoStr = typeNo;
-            //this.Text = string.Format("审批类型【{0}】的信息设置", typeNoText);
-            this.Text = string.Format(tsmiSplx.Text + "【{0}】" + tsmiDxxsz.Text, typeNoText);
-        }
-
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmApprovalList_Load(object sender, EventArgs e)
-        {
             try
             {
-                FrmCommonDAO commonDAO = new FrmCommonDAO();
-                repItemLookUpTypeNo.DataSource = commonDAO.QueryApprovalType(false);
-                repItemLookUpApprover.DataSource = commonDAO.QueryUserInfo(false);
-
                 if (editForm == null)
                 {
                     editForm = new FrmBaseEdit();
@@ -75,6 +60,64 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        public FrmApprovalList(string typeNo, string typeNoText)
+        {
+            InitializeComponent();
+            TypeNoStr = typeNo;
+            //this.Text = string.Format("审批类型【{0}】的信息设置", typeNoText);
+            this.Text = string.Format(tsmiSplx.Text + "【{0}】" + tsmiDxxsz.Text, typeNoText);
+
+            try
+            {
+                if (editForm == null)
+                {
+                    editForm = new FrmBaseEdit();
+                    editForm.FormBorderStyle = FormBorderStyle.None;
+                    editForm.TopLevel = false;
+                    editForm.TableName = "PUR_ApprovalList";
+                    editForm.TableCaption = "审批信息设置";
+                    editForm.Sql = string.Format("select * from PUR_ApprovalList where typeNo='{0}' Order by AppSequence", TypeNoStr);
+                    editForm.PrimaryKeyColumn = "AutoId";
+                    editForm.MasterDataSet = dSApprovalList;
+                    editForm.MasterBindingSource = bSApprovalList;
+                    //editForm.MasterEditPanel = pnlEdit;
+                    editForm.BrowseXtraGridView = gridViewApprovalList;
+                    editForm.CheckControl += CheckControl;
+                    editForm.SaveRowBefore += SaveRowBefore;
+                    editForm.DeleteRowBefore += DeleteRowBefore;
+                    editForm.ButtonList.Add(btnUp);
+                    editForm.ButtonList.Add(btnDown);
+                    editForm.DeleteAfterRefresh = true;
+                    //editForm.btnSaveExcel.Visible = false;
+                    editForm.VisibleSearchContrl = false;
+                    this.pnlToolBar.Controls.Add(editForm);
+                    editForm.Dock = DockStyle.Fill;
+                    editForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmApprovalList_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                FrmCommonDAO commonDAO = new FrmCommonDAO();
+                repItemLookUpTypeNo.DataSource = commonDAO.QueryApprovalType(false);
+                repItemLookUpApprover.DataSource = commonDAO.QueryUserInfo(false);
             }
             catch (Exception ex)
             {
@@ -163,6 +206,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (!editForm.EditState)
                 {
                     DataRow dr = gridViewApprovalList.GetFocusedDataRow();
@@ -202,6 +248,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (!editForm.EditState)
                 {
                     DataRow dr = gridViewApprovalList.GetFocusedDataRow();

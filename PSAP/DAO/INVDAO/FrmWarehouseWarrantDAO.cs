@@ -159,7 +159,8 @@ namespace PSAP.DAO.INVDAO
                     sqlStr += string.Format(" and WarehouseState in (1,4)");
                 else
                 {
-                    sqlStr = string.Format("select INV_WarehouseWarrantHead.* from INV_WarehouseWarrantHead left join PUR_ApprovalType on INV_WarehouseWarrantHead.ApprovalType = PUR_ApprovalType.TypeNo where {0} and INV_WarehouseWarrantHead.WarehouseState in (1, 4) and( (PUR_ApprovalType.ApprovalCat = 0 and exists (select * from (select top 1 * from F_WarehouseWarrantNoApprovalList(INV_WarehouseWarrantHead.WarehouseWarrant, INV_WarehouseWarrantHead.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or (PUR_ApprovalType.ApprovalCat = 1 and exists (select * from F_WarehouseWarrantNoApprovalList(INV_WarehouseWarrantHead.WarehouseWarrant, INV_WarehouseWarrantHead.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+                    //sqlStr = string.Format("select INV_WarehouseWarrantHead.* from INV_WarehouseWarrantHead left join PUR_ApprovalType on INV_WarehouseWarrantHead.ApprovalType = PUR_ApprovalType.TypeNo where {0} and INV_WarehouseWarrantHead.WarehouseState in (1, 4) and( (PUR_ApprovalType.ApprovalCat = 0 and exists (select * from (select top 1 * from F_WarehouseWarrantNoApprovalList(INV_WarehouseWarrantHead.WarehouseWarrant, INV_WarehouseWarrantHead.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or (PUR_ApprovalType.ApprovalCat = 1 and exists (select * from F_WarehouseWarrantNoApprovalList(INV_WarehouseWarrantHead.WarehouseWarrant, INV_WarehouseWarrantHead.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+                    sqlStr = string.Format("select Head.* from INV_WarehouseWarrantHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where {0} and Head.WarehouseState in (1, 4) and ((PUR_ApprovalType.ApprovalCat = 0 and exists (select * from(select top 1 * from F_OrderNoApprovalList(Head.WarehouseWarrant, Head.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or(PUR_ApprovalType.ApprovalCat = 1 and exists(select * from F_OrderNoApprovalList(Head.WarehouseWarrant, Head.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
                     return sqlStr;
                 }
             }
@@ -501,7 +502,7 @@ namespace PSAP.DAO.INVDAO
                                 Set_OrderHead_End(cmd, orderListTable);
 
                                 string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
-                                cmd.CommandText = string.Format("select * from F_WarehouseWarrantNoApprovalList('{0}','{1}') Order by AppSequence", wwHeadNoStr, approvalTypeStr);
+                                cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", wwHeadNoStr, approvalTypeStr);
                                 DataTable listTable = new DataTable();
                                 SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
                                 listadpt.Fill(listTable);
@@ -526,7 +527,7 @@ namespace PSAP.DAO.INVDAO
                                         break;
                                 }
 
-                                cmd.CommandText = string.Format("Insert into INV_WarehouseApprovalInfo(WarehouseWarrant, Approver, ApproverTime) values ('{0}', {1}, '{2}')", wwHeadNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", wwHeadNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                                 cmd.ExecuteNonQuery();
 
                                 if (listTable.Rows.Count == 1 || approvalCatInt == 2)
@@ -617,7 +618,7 @@ namespace PSAP.DAO.INVDAO
                         SqlDataAdapter appradpt = new SqlDataAdapter(cmd);
                         appradpt.Fill(approcalWWTable);
 
-                        cmd.CommandText = string.Format("Delete from INV_WarehouseApprovalInfo where WarehouseWarrant in ({0})", wwHeadNoListStr);
+                        cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", wwHeadNoListStr);
                         cmd.ExecuteNonQuery();
                         cmd.CommandText = string.Format("Update INV_WarehouseWarrantHead set WarehouseState=1 where WarehouseWarrant in ({0})", wwHeadNoListStr);
                         cmd.ExecuteNonQuery();

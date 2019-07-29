@@ -112,6 +112,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateWRDateBegin.EditValue == null || dateWRDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiCkrqbnwkcx.Text );// ("出库日期不能为空，请设置后重新进行查询。");
@@ -154,6 +157,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewWRHead);
                 if (gridBottomOrderHead.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewWRHead);

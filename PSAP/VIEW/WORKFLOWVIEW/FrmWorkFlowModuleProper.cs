@@ -18,9 +18,40 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         FrmWorkFlowModuleDAO wfDAO = new FrmWorkFlowModuleDAO();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmWorkFlowModuleProper()
         {
             InitializeComponent();
+
+            try
+            {
+                if (editForm == null)
+                {
+                    editForm = new FrmBaseEdit();
+                    editForm.FormBorderStyle = FormBorderStyle.None;
+                    editForm.TopLevel = false;
+                    editForm.TableName = "BS_WorkFlowModuleProper";
+                    editForm.TableCaption = "审核流-模块字段";
+                    editForm.Sql = "select BS_WorkFlowModuleProper.*, BS_WorkFlowModule.FlowModuleText from BS_WorkFlowModuleProper left join BS_WorkFlowModule on BS_WorkFlowModuleProper.FlowModuleId = BS_WorkFlowModule.FlowModuleId order by AutoId";
+                    editForm.PrimaryKeyColumn = "AutoId";
+                    editForm.MasterDataSet = dSWorkFlowModuleProper;
+                    editForm.MasterBindingSource = bSWorkFlowModuleProper;
+                    editForm.MasterEditPanel = pnlEdit;
+                    //editForm.PrimaryKeyControl = textFlowModuleId;
+                    editForm.OtherNoChangeControl = new List<Control>() { searchLookUpFlowModuleId, textProperName, searchLookUplabProper };
+                    editForm.BrowseXtraGridView = gridViewWorkFlowModuleProper;
+                    //editForm.CheckControl += CheckControl;
+                    this.pnlToolBar.Controls.Add(editForm);
+                    editForm.Dock = DockStyle.Fill;
+                    editForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
         }
 
         /// <summary>
@@ -35,27 +66,6 @@ namespace PSAP.VIEW.BSVIEW
 
                 //repItemSearchFlowModuleId.DataSource = wfDAO.QueryWorkFlowModule(false);
                 repItemSearchProper.DataSource = wfDAO.QueryDataTypeView();
-
-                if (editForm == null)
-                {
-                    editForm = new FrmBaseEdit();
-                    editForm.FormBorderStyle = FormBorderStyle.None;
-                    editForm.TopLevel = false;
-                    editForm.TableName = "BS_WorkFlowModuleProper";
-                    editForm.TableCaption = "审核流-模块字段";
-                    editForm.Sql = "select BS_WorkFlowModuleProper.*, BS_WorkFlowModule.FlowModuleText from BS_WorkFlowModuleProper left join BS_WorkFlowModule on BS_WorkFlowModuleProper.FlowModuleId = BS_WorkFlowModule.FlowModuleId order by AutoId";
-                    editForm.PrimaryKeyColumn = "AutoId";
-                    editForm.MasterDataSet = dSWorkFlowModuleProper;
-                    editForm.MasterBindingSource = bSWorkFlowModuleProper;
-                    editForm.MasterEditPanel = pnlEdit;
-                    //editForm.PrimaryKeyControl = textFlowModuleId;
-                    editForm.OtherNoChangeControl = new List<Control>() { searchLookUpFlowModuleId, textProperName, searchLookUplabProper };                    
-                    editForm.BrowseXtraGridView = gridViewWorkFlowModuleProper;
-                    //editForm.CheckControl += CheckControl;
-                    this.pnlToolBar.Controls.Add(editForm);
-                    editForm.Dock = DockStyle.Fill;
-                    editForm.Show();
-                }
             }
             catch (Exception ex)
             {

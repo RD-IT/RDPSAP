@@ -150,6 +150,7 @@
     <Compile Include="DAO\PBDAO\FrmPBDesignBom_PSDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmPBDesignBom_PS_NewDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmProductionScheduleDAO.cs" />
+    <Compile Include="DAO\PBDAO\FrmPSBomToPrReqDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmApprovalDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmDocumentTempletDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmOrderDAO.cs" />
@@ -409,6 +410,18 @@
     <Compile Include="VIEW\INVVIEW\FrmWarehouseNowInfo_Bom.Designer.cs">
       <DependentUpon>FrmWarehouseNowInfo_Bom.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.Designer.cs">
+      <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantList_NoSettlement.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -487,6 +500,12 @@
     <Compile Include="VIEW\PBVIEW\FrmProductionSchedule_Drag.Designer.cs">
       <DependentUpon>FrmProductionSchedule_Drag.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPSBomToPrReq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PBVIEW\FrmPSBomToPrReq.Designer.cs">
+      <DependentUpon>FrmPSBomToPrReq.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\PBVIEW\FrmSelectSalesOrder.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -510,6 +529,18 @@
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing_Days.Designer.cs">
       <DependentUpon>FrmOrderList_NoWarehousing_Days.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.Designer.cs">
+      <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.Designer.cs">
+      <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmTest_WF.cs">
       <SubType>Form</SubType>
@@ -823,18 +854,6 @@
     <Compile Include="VIEW\INVVIEW\FrmWarehouseNowInfo.Designer.cs">
       <DependentUpon>FrmWarehouseNowInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.Designer.cs">
-      <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.Designer.cs">
-      <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
-    </Compile>
     <Compile Include="VIEW\INVVIEW\FrmOrderApply.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -900,12 +919,6 @@
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmOrder_Drag.Designer.cs">
       <DependentUpon>FrmOrder_Drag.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.Designer.cs">
-      <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmApprovalType.cs">
       <SubType>Form</SubType>
@@ -984,12 +997,6 @@
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmPurCategory.Designer.cs">
       <DependentUpon>FrmPurCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.Designer.cs">
-      <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmSettlementQuery.cs">
       <SubType>Form</SubType>
@@ -1176,6 +1183,12 @@
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseNowInfo_Bom.resx">
       <DependentUpon>FrmWarehouseNowInfo_Bom.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.resx">
+      <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.resx">
+      <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantList_NoSettlement.resx">
       <DependentUpon>FrmWarehouseWarrantList_NoSettlement.cs</DependentUpon>
     </EmbeddedResource>
@@ -1212,6 +1225,9 @@
     <EmbeddedResource Include="VIEW\PBVIEW\FrmProductionSchedule_Drag.resx">
       <DependentUpon>FrmProductionSchedule_Drag.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PBVIEW\FrmPSBomToPrReq.resx">
+      <DependentUpon>FrmPSBomToPrReq.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PBVIEW\FrmSelectSalesOrder.resx">
       <DependentUpon>FrmSelectSalesOrder.cs</DependentUpon>
     </EmbeddedResource>
@@ -1223,6 +1239,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing_Days.resx">
       <DependentUpon>FrmOrderList_NoWarehousing_Days.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqApproval.resx">
+      <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlementApproval.resx">
+      <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmTest_WF.resx">
       <DependentUpon>FrmTest_WF.cs</DependentUpon>
@@ -1382,12 +1404,6 @@
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseNowInfo.resx">
       <DependentUpon>FrmWarehouseNowInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.resx">
-      <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.resx">
-      <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmOrderApply.resx">
       <DependentUpon>FrmOrderApply.cs</DependentUpon>
     </EmbeddedResource>
@@ -1420,9 +1436,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmOrder_Drag.resx">
       <DependentUpon>FrmOrder_Drag.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqApproval.resx">
-      <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmApprovalType.resx">
       <DependentUpon>FrmApprovalType.cs</DependentUpon>
@@ -1462,9 +1475,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmPurCategory.resx">
       <DependentUpon>FrmPurCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlementApproval.resx">
-      <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlementQuery.resx">
       <DependentUpon>FrmSettlementQuery.cs</DependentUpon>

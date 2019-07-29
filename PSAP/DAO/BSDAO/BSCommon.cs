@@ -97,7 +97,7 @@ namespace PSAP.DAO.BSDAO
             {
                 sqlStr += string.Format(" and b.DepartmentName like '%{0}%'", strDepartmentName);
             }
-            sqlStr = string.Format("select a.autoID,a.loginID,a.empName,b.DepartmentName,d.RoleName,c.RoleNo from BS_UserInfo a left join BS_Department b on a.DepartmentNo=b.DepartmentNo left join BS_RoleUser c on a.AutoID=c.UserNo left join BS_Role d on c.RoleNo=d.RoleNo where {0}", sqlStr);
+            sqlStr = string.Format("select a.autoID,a.loginID,a.empName,b.DepartmentName,d.RoleName,c.RoleNo,a.ButtonPower from BS_UserInfo a left join BS_Department b on a.DepartmentNo=b.DepartmentNo left join BS_RoleUser c on a.AutoID=c.UserNo left join BS_Role d on c.RoleNo=d.RoleNo where {0}", sqlStr);
             return BaseSQL.GetTableBySql(sqlStr); ;
         }
 

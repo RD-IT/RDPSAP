@@ -22,32 +22,17 @@ namespace PSAP.VIEW.BSVIEW
         public string projectNoStr = "";
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmStnList()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        public FrmStnList(string pNoStr, string pNameStr)
-        {
-            InitializeComponent();
-            projectNoStr = pNoStr;
-            PSAP.BLL.BSBLL.BSBLL.language(f);
-            PSAP.BLL.BSBLL.BSBLL.language(this);
-            //this.Text = string.Format("项目【{0}】的站号信息", pNameStr);
-            this.Text = string.Format(tsmiXm.Text + "【{0}】" + tsmiDzhxx.Text, pNameStr);
-        }
-
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmStnList_Load(object sender, EventArgs e)
-        {
             try
             {
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
-
                 if (editForm == null)
                 {
                     editForm = new FrmBaseEdit();
@@ -68,6 +53,59 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        public FrmStnList(string pNoStr, string pNameStr)
+        {
+            InitializeComponent();
+            projectNoStr = pNoStr;
+            PSAP.BLL.BSBLL.BSBLL.language(f);
+            PSAP.BLL.BSBLL.BSBLL.language(this);
+            //this.Text = string.Format("项目【{0}】的站号信息", pNameStr);
+            this.Text = string.Format(tsmiXm.Text + "【{0}】" + tsmiDzhxx.Text, pNameStr);
+
+            try
+            {
+                if (editForm == null)
+                {
+                    editForm = new FrmBaseEdit();
+                    editForm.FormBorderStyle = FormBorderStyle.None;
+                    editForm.TopLevel = false;
+                    editForm.TableName = "BS_StnList";
+                    editForm.TableCaption = "站号";
+                    SetEditFormSQL();
+                    editForm.PrimaryKeyColumn = "AutoID";
+                    editForm.MasterDataSet = dSStnList;
+                    editForm.MasterBindingSource = bSStnList;
+                    editForm.MasterEditPanel = pnlEdit;
+                    editForm.PrimaryKeyControl = textStnNo;
+                    editForm.OtherNoChangeControl = new List<Control>() { searchLookUpProjectNo };
+                    editForm.BrowseXtraGridView = gridViewStnList;
+                    editForm.CheckControl += CheckControl;
+                    this.pnlToolBar.Controls.Add(editForm);
+                    editForm.Dock = DockStyle.Fill;
+                    editForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmStnList_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
             }
             catch (Exception ex)
             {

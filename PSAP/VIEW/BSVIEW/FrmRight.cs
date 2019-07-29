@@ -274,7 +274,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 dgvUserList.CurrentRow.Cells[4].Value = cboRoleName.Text;
                 dgvUserList.CurrentRow.Cells[5].Value = cboRoleName.SelectedValue;
-                FrmRightDAO.SaveRoleUser(cboRoleName.SelectedValue.ToString(), (int)dgvUserList.CurrentRow.Cells[0].Value);
+                FrmRightDAO.SaveRoleUser(cboRoleName.SelectedValue.ToString(), (int)dgvUserList.CurrentRow.Cells[0].Value, 0);
                 FrmRightDAO.GiveRoleAllButtonRight();
             }
             FrmRightBLL.SavePersonalRightFromTree(tvwUserRight, dgvUserList);//遍历树保存权限

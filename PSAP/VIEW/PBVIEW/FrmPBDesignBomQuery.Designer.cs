@@ -222,7 +222,7 @@
             // lookUpPrepared
             // 
             this.lookUpPrepared.EnterMoveNextControl = true;
-            this.lookUpPrepared.Location = new System.Drawing.Point(86, 44);
+            this.lookUpPrepared.Location = new System.Drawing.Point(80, 44);
             this.lookUpPrepared.Margin = new System.Windows.Forms.Padding(4);
             this.lookUpPrepared.Name = "lookUpPrepared";
             this.lookUpPrepared.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -234,7 +234,7 @@
             this.lookUpPrepared.Properties.DisplayMember = "EmpName";
             this.lookUpPrepared.Properties.NullText = "";
             this.lookUpPrepared.Properties.ValueMember = "EmpName";
-            this.lookUpPrepared.Size = new System.Drawing.Size(120, 20);
+            this.lookUpPrepared.Size = new System.Drawing.Size(150, 20);
             this.lookUpPrepared.TabIndex = 3;
             // 
             // labPrepared
@@ -249,7 +249,7 @@
             // searchLookUpCodeFileName
             // 
             this.searchLookUpCodeFileName.EnterMoveNextControl = true;
-            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(296, 14);
+            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(326, 14);
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -291,7 +291,7 @@
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(86, 14);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(80, 14);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -299,7 +299,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 0;
             // 
             // searchLookUpProjectNoView
@@ -341,7 +341,7 @@
             // 
             // labCodeFileName
             // 
-            this.labCodeFileName.Location = new System.Drawing.Point(230, 17);
+            this.labCodeFileName.Location = new System.Drawing.Point(260, 17);
             this.labCodeFileName.Name = "labCodeFileName";
             this.labCodeFileName.Size = new System.Drawing.Size(60, 14);
             this.labCodeFileName.TabIndex = 40;
@@ -358,7 +358,7 @@
             // checkIsUse
             // 
             this.checkIsUse.EnterMoveNextControl = true;
-            this.checkIsUse.Location = new System.Drawing.Point(471, 14);
+            this.checkIsUse.Location = new System.Drawing.Point(501, 14);
             this.checkIsUse.Name = "checkIsUse";
             this.checkIsUse.Properties.Caption = "包含停用";
             this.checkIsUse.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -368,7 +368,7 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(580, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(610, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 6;
@@ -378,7 +378,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(488, 43);
+            this.btnQuery.Location = new System.Drawing.Point(518, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 5;
@@ -388,14 +388,14 @@
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(296, 44);
+            this.textCommon.Location = new System.Drawing.Point(326, 44);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
             this.textCommon.TabIndex = 4;
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(230, 47);
+            this.labCommon.Location = new System.Drawing.Point(260, 47);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 22;

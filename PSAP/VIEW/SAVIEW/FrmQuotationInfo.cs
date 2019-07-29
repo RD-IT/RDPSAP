@@ -160,6 +160,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TableQuotationBaseInfo.Rows.Clear();
                 DataRow baseRow = TableQuotationBaseInfo.NewRow();
                 TableQuotationBaseInfo.Rows.Add(baseRow);
@@ -187,7 +190,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
                 if (btnSave.Text != "保存")
@@ -308,6 +311,12 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
+                    return;
+
                 if (bindingSource_BaseInfo.Current != null)
                 {
                     bindingSource_BaseInfo.CancelEdit();
@@ -329,6 +338,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有报价信息记录，不能进行删除。");
@@ -385,6 +397,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TableQuotationBaseInfo.Rows.Clear();
                 TableQuotationPriceInfo.Rows.Clear();
                 if (currentAutoQuotationNoStr != "")
@@ -420,6 +435,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string autoQuotationNoStr = "";
                 if (bindingSource_BaseInfo.Current != null)
                     autoQuotationNoStr = DataTypeConvert.GetString(((DataRowView)bindingSource_BaseInfo.Current).Row["AutoQuotationNo"]);

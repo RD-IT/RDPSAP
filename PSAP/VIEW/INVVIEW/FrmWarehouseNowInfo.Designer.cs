@@ -252,7 +252,7 @@
             // searchLookUpShelf
             // 
             this.searchLookUpShelf.EnterMoveNextControl = true;
-            this.searchLookUpShelf.Location = new System.Drawing.Point(675, 14);
+            this.searchLookUpShelf.Location = new System.Drawing.Point(705, 14);
             this.searchLookUpShelf.Name = "searchLookUpShelf";
             this.searchLookUpShelf.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -309,7 +309,7 @@
             // 
             // labelControl1
             // 
-            this.labelControl1.Location = new System.Drawing.Point(621, 17);
+            this.labelControl1.Location = new System.Drawing.Point(651, 17);
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(48, 14);
             this.labelControl1.TabIndex = 43;
@@ -394,7 +394,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 2;
             // 
             // searchLookUpProjectNoView

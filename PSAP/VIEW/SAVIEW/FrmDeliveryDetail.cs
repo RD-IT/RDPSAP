@@ -127,6 +127,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TableDeliveryDetail.Rows.Clear();
                 DataRow deliveryRow = TableDeliveryDetail.NewRow();
                 TableDeliveryDetail.Rows.Add(deliveryRow);
@@ -154,6 +157,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableDeliveryDetail.Rows.Count == 0 || bindingSource_DeliveryDetail.Current == null)
                     return;
 
@@ -256,6 +262,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (bindingSource_DeliveryDetail.Current != null)
                 {
                     bindingSource_DeliveryDetail.CancelEdit();
@@ -279,6 +288,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (TableDeliveryDetail.Rows.Count == 0 || bindingSource_DeliveryDetail.Current == null)
                 {
                     MessageHandler.ShowMessageBox("当前没有供货明细记录，不能进行删除。");
@@ -286,13 +298,13 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 DataRow headRow = ((DataRowView)bindingSource_DeliveryDetail.Current).Row;
 
-                if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的记录吗？") != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前的供货明细吗？") != DialogResult.Yes)
                 {
                     return;
                 }
                 if (ddDAO.DeleteDeliveryDetail(currentAutoIdInt))
                 {
-                    MessageHandler.ShowMessageBox("删除成功。");
+                    MessageHandler.ShowMessageBox("删除供货明细成功。");
                     TableDeliveryDetail.Rows.Clear();
                     TableMaterialDetail.Rows.Clear();
                     ddDAO.QueryDeliveryDetail_UpOne(TableDeliveryDetail, currentAutoIdInt, querySMNo);
@@ -331,6 +343,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TableDeliveryDetail.Rows.Clear();
                 TableMaterialDetail.Rows.Clear();
                 if (currentAutoIdInt != 0)
@@ -366,6 +381,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataTable tmpTable = new DataTable();
                 ddDAO.QueryDeliveryDetail_UpOne(tmpTable, currentAutoIdInt, querySMNo);
                 if (tmpTable.Rows.Count > 0)
@@ -390,6 +408,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataTable tmpTable = new DataTable();
                 ddDAO.QueryDeliveryDetail_DownOne(tmpTable, currentAutoIdInt, querySMNo);
                 if (tmpTable.Rows.Count > 0)

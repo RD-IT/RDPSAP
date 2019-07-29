@@ -19,24 +19,19 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmRight_Role()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(this);
             PSAP.BLL.BSBLL.BSBLL.language(f);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmRight_Role_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
                 {
-                    QueryMenuTreeList();
-
                     editForm = new FrmBaseEdit();
                     editForm.FormBorderStyle = FormBorderStyle.None;
                     editForm.TopLevel = false;
@@ -59,6 +54,21 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmRight_Role_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                QueryMenuTreeList();
             }
             catch (Exception ex)
             {
@@ -220,7 +230,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 扩展树节点
         /// </summary>
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnExpand_Click(object sender, EventArgs e)
         {
             treeListRole.ExpandAll();
         }
@@ -228,7 +238,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 收缩树节点
         /// </summary>
-        private void btnSub_Click(object sender, EventArgs e)
+        private void btnCollapse_Click(object sender, EventArgs e)
         {
             treeListRole.CollapseAll();
         }

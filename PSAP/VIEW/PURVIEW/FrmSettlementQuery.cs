@@ -179,6 +179,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateSettlementDateBegin.EditValue == null || dateSettlementDateEnd.EditValue == null)
                 {
                     //MessageHandler.ShowMessageBox("结账日期不能为空，请设置后重新进行查询。");
@@ -237,6 +240,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewSettlementHead);
                 if (gridBottomOrderHead.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewSettlementHead);

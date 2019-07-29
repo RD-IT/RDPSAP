@@ -59,13 +59,13 @@
             this.colMenuName1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.colParentMenuName1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.colParentMenuText1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.btnCollapse = new DevExpress.XtraEditors.SimpleButton();
+            this.btnExpand = new DevExpress.XtraEditors.SimpleButton();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiJsbhbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiJsmcbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiXzjsckqxcw = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.btnAdd = new DevExpress.XtraEditors.SimpleButton();
-            this.btnSub = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.dSRole)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableRole)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSRole)).BeginInit();
@@ -83,9 +83,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlTreeList)).BeginInit();
             this.pnlTreeList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.treeListRole)).BeginInit();
-            this.cms.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
+            this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
             // dSRole
@@ -354,6 +354,38 @@
             this.colParentMenuText1.FieldName = "ParentMenuText";
             this.colParentMenuText1.Name = "colParentMenuText1";
             // 
+            // panelControl1
+            // 
+            this.panelControl1.Controls.Add(this.btnCollapse);
+            this.panelControl1.Controls.Add(this.btnExpand);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelControl1.Location = new System.Drawing.Point(0, 0);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(400, 36);
+            this.panelControl1.TabIndex = 3;
+            // 
+            // btnCollapse
+            // 
+            this.btnCollapse.AllowFocus = false;
+            this.btnCollapse.Location = new System.Drawing.Point(35, 7);
+            this.btnCollapse.Name = "btnCollapse";
+            this.btnCollapse.Size = new System.Drawing.Size(23, 23);
+            this.btnCollapse.TabIndex = 102;
+            this.btnCollapse.TabStop = false;
+            this.btnCollapse.Text = "-";
+            this.btnCollapse.Click += new System.EventHandler(this.btnCollapse_Click);
+            // 
+            // btnExpand
+            // 
+            this.btnExpand.AllowFocus = false;
+            this.btnExpand.Location = new System.Drawing.Point(6, 7);
+            this.btnExpand.Name = "btnExpand";
+            this.btnExpand.Size = new System.Drawing.Size(23, 23);
+            this.btnExpand.TabIndex = 101;
+            this.btnExpand.TabStop = false;
+            this.btnExpand.Text = "+";
+            this.btnExpand.Click += new System.EventHandler(this.btnExpand_Click);
+            // 
             // cms
             // 
             this.cms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -380,38 +412,6 @@
             this.tsmiXzjsckqxcw.Name = "tsmiXzjsckqxcw";
             this.tsmiXzjsckqxcw.Size = new System.Drawing.Size(256, 22);
             this.tsmiXzjsckqxcw.Text = "选中角色查看权限错误。";
-            // 
-            // panelControl1
-            // 
-            this.panelControl1.Controls.Add(this.btnSub);
-            this.panelControl1.Controls.Add(this.btnAdd);
-            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl1.Location = new System.Drawing.Point(0, 0);
-            this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(400, 36);
-            this.panelControl1.TabIndex = 3;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.AllowFocus = false;
-            this.btnAdd.Location = new System.Drawing.Point(6, 7);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(23, 23);
-            this.btnAdd.TabIndex = 101;
-            this.btnAdd.TabStop = false;
-            this.btnAdd.Text = "+";
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnSub
-            // 
-            this.btnSub.AllowFocus = false;
-            this.btnSub.Location = new System.Drawing.Point(35, 7);
-            this.btnSub.Name = "btnSub";
-            this.btnSub.Size = new System.Drawing.Size(23, 23);
-            this.btnSub.TabIndex = 102;
-            this.btnSub.TabStop = false;
-            this.btnSub.Text = "-";
-            this.btnSub.Click += new System.EventHandler(this.btnSub_Click);
             // 
             // FrmRight_Role
             // 
@@ -442,9 +442,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlTreeList)).EndInit();
             this.pnlTreeList.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.treeListRole)).EndInit();
-            this.cms.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
+            this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -486,7 +486,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiJsmcbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiXzjsckqxcw;
         private DevExpress.XtraEditors.PanelControl panelControl1;
-        private DevExpress.XtraEditors.SimpleButton btnSub;
-        private DevExpress.XtraEditors.SimpleButton btnAdd;
+        private DevExpress.XtraEditors.SimpleButton btnCollapse;
+        private DevExpress.XtraEditors.SimpleButton btnExpand;
     }
 }

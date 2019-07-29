@@ -13,6 +13,7 @@ using System.Reflection;
 using PSAP.PSAPCommon;
 using PSAP.DAO.WORKFLOWDAO;
 using DevExpress.XtraBars.Alerter;
+using PSAP.DAO.BSDAO;
 
 namespace PSAP.VIEW.BSVIEW
 {
@@ -84,6 +85,9 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (SystemInfo.EnableWorkFlowMessage)
                 {
+                    int interval = DataTypeConvert.GetInt(FrmSystemDAO.QuerySystemParameter_Single("Common", "MessageInterval"));
+                    if (interval > 0)
+                        timerMessage.Interval = 60000 * interval;
                     timerMessage.Start();
                     timerMessage_Tick(null, null);
                 }
@@ -444,10 +448,13 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 FrmQueryUserWorkFlowDAO userWFDAO = new FrmQueryUserWorkFlowDAO();
-                int count = userWFDAO.QueryUserWorkFlow();
-                if (count > 0)
+
+                int userWFInt = userWFDAO.QueryUserWorkFlow_Count();
+                int rejectInt = userWFDAO.QueryRejectOrder_Count();
+
+                if (userWFInt + rejectInt > 0)
                 {
-                    alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", count));
+                    alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", userWFInt + rejectInt));
                     //new AlertControl().Show(null, "消息提示", DataTypeConvert.GetString(msg));
                 }
             }
@@ -465,6 +472,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 ViewHandler.ShowRightWindow("FrmQueryUserWorkFlow");
+                e.AlertForm.Close();
             }
             catch (Exception ex)
             {

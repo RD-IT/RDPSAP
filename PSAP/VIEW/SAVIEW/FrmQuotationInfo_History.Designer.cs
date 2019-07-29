@@ -615,7 +615,7 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(350, 0);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(1375, 542);
+            this.pnlRight.Size = new System.Drawing.Size(1061, 602);
             this.pnlRight.TabIndex = 0;
             // 
             // xtraTabBottom
@@ -624,7 +624,7 @@
             this.xtraTabBottom.Location = new System.Drawing.Point(0, 205);
             this.xtraTabBottom.Name = "xtraTabBottom";
             this.xtraTabBottom.SelectedTabPage = this.PagePriceInfo;
-            this.xtraTabBottom.Size = new System.Drawing.Size(1375, 337);
+            this.xtraTabBottom.Size = new System.Drawing.Size(1061, 397);
             this.xtraTabBottom.TabIndex = 9;
             this.xtraTabBottom.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PagePriceInfo,
@@ -634,7 +634,7 @@
             // 
             this.PagePriceInfo.Controls.Add(this.pnlBottom);
             this.PagePriceInfo.Name = "PagePriceInfo";
-            this.PagePriceInfo.Size = new System.Drawing.Size(1369, 308);
+            this.PagePriceInfo.Size = new System.Drawing.Size(1055, 368);
             this.PagePriceInfo.Text = "价格信息";
             // 
             // pnlBottom
@@ -644,7 +644,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBottom.Location = new System.Drawing.Point(0, 0);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1369, 308);
+            this.pnlBottom.Size = new System.Drawing.Size(1055, 368);
             this.pnlBottom.TabIndex = 8;
             // 
             // btnListAdd
@@ -671,7 +671,7 @@
             this.repDateQuotationDate,
             this.repSpinEditTax,
             this.repCheckIsPoUse});
-            this.gridControlQuotationPriceInfo.Size = new System.Drawing.Size(1365, 304);
+            this.gridControlQuotationPriceInfo.Size = new System.Drawing.Size(1051, 364);
             this.gridControlQuotationPriceInfo.TabIndex = 3;
             this.gridControlQuotationPriceInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewQuotationPriceInfo});
@@ -849,7 +849,6 @@
             this.colSumAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colSumAmount.FieldName = "SumAmount";
             this.colSumAmount.Name = "colSumAmount";
-            this.colSumAmount.OptionsColumn.AllowEdit = false;
             this.colSumAmount.OptionsColumn.TabStop = false;
             this.colSumAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "SumAmount", "{0:N2}")});
@@ -969,7 +968,7 @@
             this.PageCORInfo.Controls.Add(this.pnlCOR);
             this.PageCORInfo.Name = "PageCORInfo";
             this.PageCORInfo.PageVisible = false;
-            this.PageCORInfo.Size = new System.Drawing.Size(1369, 308);
+            this.PageCORInfo.Size = new System.Drawing.Size(1055, 308);
             this.PageCORInfo.Text = "COR信息";
             // 
             // pnlCOR
@@ -978,7 +977,7 @@
             this.pnlCOR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlCOR.Location = new System.Drawing.Point(0, 0);
             this.pnlCOR.Name = "pnlCOR";
-            this.pnlCOR.Size = new System.Drawing.Size(1369, 308);
+            this.pnlCOR.Size = new System.Drawing.Size(1055, 308);
             this.pnlCOR.TabIndex = 7;
             // 
             // gridControlCOR
@@ -993,7 +992,7 @@
             this.repItemCORBussinessBaseNo,
             this.repItemCORCurrencyCate,
             this.repItemCheckIsPoUse});
-            this.gridControlCOR.Size = new System.Drawing.Size(1365, 304);
+            this.gridControlCOR.Size = new System.Drawing.Size(1051, 304);
             this.gridControlCOR.TabIndex = 6;
             this.gridControlCOR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewCOR});
@@ -1304,7 +1303,7 @@
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(1375, 165);
+            this.pnlEdit.Size = new System.Drawing.Size(1061, 165);
             this.pnlEdit.TabIndex = 7;
             // 
             // textParentProjectNo
@@ -1636,7 +1635,7 @@
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
-            this.pnlToolBar.Size = new System.Drawing.Size(1375, 40);
+            this.pnlToolBar.Size = new System.Drawing.Size(1061, 40);
             this.pnlToolBar.TabIndex = 6;
             // 
             // btnRecover
@@ -1746,7 +1745,7 @@
             this.dockPnlLeft.Options.ShowCloseButton = false;
             this.dockPnlLeft.Options.ShowMaximizeButton = false;
             this.dockPnlLeft.OriginalSize = new System.Drawing.Size(350, 200);
-            this.dockPnlLeft.Size = new System.Drawing.Size(350, 542);
+            this.dockPnlLeft.Size = new System.Drawing.Size(350, 602);
             this.dockPnlLeft.Text = "历史报价单";
             // 
             // dockPanel1_Container
@@ -1755,7 +1754,7 @@
             this.dockPanel1_Container.Controls.Add(this.pnlLeftTop);
             this.dockPanel1_Container.Location = new System.Drawing.Point(4, 23);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(342, 515);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(342, 575);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // pnlLeftGrid
@@ -1764,7 +1763,7 @@
             this.pnlLeftGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlLeftGrid.Location = new System.Drawing.Point(0, 110);
             this.pnlLeftGrid.Name = "pnlLeftGrid";
-            this.pnlLeftGrid.Size = new System.Drawing.Size(342, 405);
+            this.pnlLeftGrid.Size = new System.Drawing.Size(342, 465);
             this.pnlLeftGrid.TabIndex = 5;
             // 
             // gridControlQuotation
@@ -1778,7 +1777,7 @@
             this.gridControlQuotation.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repSearchLookUpBussinessBaseNo,
             this.repLookUpQState});
-            this.gridControlQuotation.Size = new System.Drawing.Size(338, 401);
+            this.gridControlQuotation.Size = new System.Drawing.Size(338, 461);
             this.gridControlQuotation.TabIndex = 5;
             this.gridControlQuotation.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewQuotation});
@@ -2179,7 +2178,7 @@
             // FrmQuotationInfo_History
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1725, 542);
+            this.ClientSize = new System.Drawing.Size(1411, 602);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.dockPnlLeft);
             this.Name = "FrmQuotationInfo_History";

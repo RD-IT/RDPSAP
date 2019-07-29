@@ -148,12 +148,14 @@ namespace PSAP.DAO.BSDAO
         /// <summary>
         /// 保存为用户设定的角色
         /// </summary>
-        public static void SaveRoleUser(string strRoleNo, int intUserNo)
+        public static void SaveRoleUser(string strRoleNo, int intUserNo, int buttonPowerInt)
         {
             strSqlLlist.Clear();
             string strSql = @"delete from BS_RoleUser where UserNo= " + intUserNo + " ";
             strSqlLlist.Insert(0, strSql);
             strSql = @"insert into BS_RoleUser(RoleNo,UserNo) values('" + strRoleNo + "'," + intUserNo + ") ";
+            strSqlLlist.Add(strSql);
+            strSql = string.Format("Update BS_UserInfo set ButtonPower = {1} where AutoId = {0}", intUserNo, buttonPowerInt);
             strSqlLlist.Add(strSql);
 
             BaseSQL.ExecuteSqlTran(strSqlLlist);

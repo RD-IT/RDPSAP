@@ -95,6 +95,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 gridControlUserList.DataSource = BSCommon.getUserInfoList(txtLoginID.Text.Trim(), txtUserName.Text.Trim(), lookUpReqDep.Text.Trim() == "全部" ? "" : lookUpReqDep.Text.Trim());
             }
             catch (Exception ex)
@@ -119,19 +122,23 @@ namespace PSAP.VIEW.BSVIEW
                     //FrmMainBLL.SetMenuItemByRole(mnsRight, DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()[5]));//初始化用户权限
                     //FrmMainBLL.SetMenuItemByPersonal(mnsRight, DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()[0]));//初始化用户"个人"权限                    
                     tvwUserRight.UncheckAll();
-                    foreach(TreeListNode node in tvwUserRight.Nodes)
+                    foreach (TreeListNode node in tvwUserRight.Nodes)
                     {
                         node.Checked = true;
                         SetSubNodeTag(node);
                     }
-                    
-                    new FrmMainBLL().SetTreeListByRole(1, tvwUserRight, DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()[5]));
-                    new FrmMainBLL().SetTreeListByRole(2, tvwUserRight, DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()[0]));
+
+                    new FrmMainBLL().SetTreeListByRole(1, tvwUserRight, DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()["RoleNo"]));
+                    new FrmMainBLL().SetTreeListByRole(2, tvwUserRight, DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()["AutoId"]));
                     //FrmRightBLL.TreeGetNodeForMns(tvwUserRight, mnsRight);
-                    tvwUserRight.CollapseAll();
-                    string userNoStr = DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()[0]);
+                    //tvwUserRight.CollapseAll();
+
+                    string userNoStr = DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()["AutoId"]);
                     new FrmRightBLL().SetTreeListNodeState(tvwUserRight, userNoStr);
                     tvwUserRight.Refresh();
+
+                    cboRoleName.EditValue = DataTypeConvert.GetString(dgvUserList.GetFocusedDataRow()["RoleNo"]);
+                    checkButtonPower.Checked = DataTypeConvert.GetInt(dgvUserList.GetFocusedDataRow()["ButtonPower"]) == 1;
                 }
             }
             catch (Exception ex)
@@ -215,11 +222,15 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (!string.IsNullOrEmpty(DataTypeConvert.GetString(cboRoleName.EditValue)))
                 {
-                    dgvUserList.SetFocusedRowCellValue(dgvUserList.Columns[4], cboRoleName.Text);
-                    dgvUserList.SetFocusedRowCellValue(dgvUserList.Columns[5], cboRoleName.EditValue);
-                    FrmRightDAO.SaveRoleUser(cboRoleName.EditValue.ToString(), DataTypeConvert.GetInt(dgvUserList.GetFocusedDataRow()[0]));
+                    dgvUserList.SetFocusedRowCellValue(dgvUserList.Columns["RoleName"], cboRoleName.Text);
+                    dgvUserList.SetFocusedRowCellValue(dgvUserList.Columns["RoleNo"], cboRoleName.EditValue);
+                    dgvUserList.SetFocusedRowCellValue(gridColButtonPower, DataTypeConvert.GetInt(checkButtonPower.EditValue));
+                    FrmRightDAO.SaveRoleUser(cboRoleName.EditValue.ToString(), DataTypeConvert.GetInt(dgvUserList.GetFocusedDataRow()["AutoId"]), DataTypeConvert.GetInt(checkButtonPower.EditValue));
                     FrmRightDAO.GiveRoleAllButtonRight();
                 }
                 FrmRightBLL.SavePersonalRightFromTree(tvwUserRight, dgvUserList);//遍历树保存权限
@@ -260,7 +271,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 扩展树节点
         /// </summary>
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnExpand_Click(object sender, EventArgs e)
         {
             tvwUserRight.ExpandAll();
         }
@@ -268,7 +279,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 收缩树节点
         /// </summary>
-        private void btnSub_Click(object sender, EventArgs e)
+        private void btnCollapse_Click(object sender, EventArgs e)
         {
             tvwUserRight.CollapseAll();
         }

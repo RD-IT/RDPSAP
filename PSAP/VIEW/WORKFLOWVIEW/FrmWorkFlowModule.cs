@@ -16,16 +16,13 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         FrmWorkFlowModuleDAO wfDAO = new FrmWorkFlowModuleDAO();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmWorkFlowModule()
         {
             InitializeComponent();
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmWorkFlowModule_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -51,7 +48,20 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
 
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmWorkFlowModule_Load(object sender, EventArgs e)
+        {
+            try
+            {
                 lookUpFlowModuleTableName.Properties.DataSource = wfDAO.QueryModuleTableInfo();
                 lookUpModuleType.Properties.DataSource = wfDAO.QueryModuleType();
                 repLookUpModuleType.DataSource = wfDAO.QueryModuleType();
@@ -118,6 +128,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = gridViewWorkFlowModule.GetFocusedDataRow();
                 if (dr != null)
                 {

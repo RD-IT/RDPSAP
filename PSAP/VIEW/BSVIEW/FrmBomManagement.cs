@@ -141,6 +141,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow drHead = dSBom.Tables[0].NewRow();
                 dSBom.Tables[0].Rows.Add(drHead);
                 bSBomManagement.MoveLast();
@@ -166,6 +169,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dSBom.Tables[0].Rows.Count == 0 || bSBomManagement.Current == null)
                     return;
 
@@ -244,6 +250,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //treeListBom_FocusedNodeChanged(null, null);
 
                 if (bSBomManagement.Current != null)
@@ -273,6 +282,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dSBom.Tables[0].Rows.Count == 0)
                 {
                     MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text);// ("请在要操作的记录前面选中。");
@@ -302,6 +314,9 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
+            if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                return;
+
             treeListBom_FocusedNodeChanged(null, null);
         }
 
@@ -491,6 +506,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string codeFileNameStr = DataTypeConvert.GetString(searchCodeFileName.EditValue);
                 treeListBom.DataSource = bomDAO.QueryBomTreeList_MoreInfo(codeFileNameStr);
                 treeListBom.ExpandAll();
@@ -752,6 +770,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 FileHandler.SaveTreeListControlExportToExcel(treeListBom);
             }
             catch (Exception ex)

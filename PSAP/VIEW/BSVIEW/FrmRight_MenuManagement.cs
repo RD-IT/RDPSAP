@@ -32,17 +32,14 @@ namespace PSAP.VIEW.BSVIEW
 
         private string currentFocusedStr = "";
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmRight_MenuManagement()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmRight_MenuManagement_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -67,11 +64,23 @@ namespace PSAP.VIEW.BSVIEW
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
-
-                    lookUpFormName.Properties.DataSource = FrmRightBLL.InitFormNameDataTable();
-                    searchParentMenuName.Properties.DataSource = FrmRightDAO.QueryMenuList();
-                    
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmRight_MenuManagement_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                lookUpFormName.Properties.DataSource = FrmRightBLL.InitFormNameDataTable();
+                searchParentMenuName.Properties.DataSource = FrmRightDAO.QueryMenuList();
             }
             catch (Exception ex)
             {
@@ -176,6 +185,7 @@ namespace PSAP.VIEW.BSVIEW
             e.Row["MenuName"] = FrmRightBLL.getNewNodeId();
             e.Row["FormName"] = "";
             e.Row["FormText"] = "";
+            e.Row["Visible"] = 1;
             if (parentMenuNameStr != "")
             {
                 e.Row["ParentMenuName"] = parentMenuNameStr;

@@ -410,7 +410,7 @@ namespace PSAP.DAO.SADAO
             }
             if (commonStr != "")
             {
-                sqlStr += string.Format(" and (AutoSalesOrderNo like '%{0}%' or ProjectName like '%{0}%' or AutoQuotationNo like '%{0}%' or CustomerPoNo like '%{0}%' or CollectionTypeNo like '%{0}%' or ProjectLeader like '%{0}%' or Remark like '%{0}%' or ParentAutoSalesOrderNo like '%{0}%')", commonStr);
+                sqlStr += string.Format(" and (AutoSalesOrderNo like '%{0}%' or ProjectNo like '%{0}%' or ProjectName like '%{0}%' or AutoQuotationNo like '%{0}%' or CustomerPoNo like '%{0}%' or CollectionTypeNo like '%{0}%' or ProjectLeader like '%{0}%' or Remark like '%{0}%' or ParentAutoSalesOrderNo like '%{0}%' or ParentProjectNo like '%{0}%')", commonStr);
             }
 
             sqlStr = string.Format("select * from SA_SalesOrder where {0} order by AutoId", sqlStr);

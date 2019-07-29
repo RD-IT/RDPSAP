@@ -31,6 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.xtraTabSystem = new DevExpress.XtraTab.XtraTabControl();
             this.PageCommon = new DevExpress.XtraTab.XtraTabPage();
+            this.labMessageInterval = new DevExpress.XtraEditors.LabelControl();
+            this.spinMessageInterval = new DevExpress.XtraEditors.SpinEdit();
+            this.checkApproveAfterPrint = new DevExpress.XtraEditors.CheckEdit();
+            this.labApproveAfterPrint = new DevExpress.XtraEditors.LabelControl();
+            this.checkEnableWorkFlowMessage = new DevExpress.XtraEditors.CheckEdit();
+            this.labEnableWorkFlowMessage = new DevExpress.XtraEditors.LabelControl();
             this.spinLeftDockWidth = new DevExpress.XtraEditors.SpinEdit();
             this.labLeftDockWidth = new DevExpress.XtraEditors.LabelControl();
             this.spinFormDragDropMaxRecordCount = new DevExpress.XtraEditors.SpinEdit();
@@ -79,11 +85,14 @@
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
             this.BtnSave = new DevExpress.XtraEditors.SimpleButton();
             this.pnlTabPage = new DevExpress.XtraEditors.PanelControl();
-            this.checkEnableWorkFlowMessage = new DevExpress.XtraEditors.CheckEdit();
-            this.labEnableWorkFlowMessage = new DevExpress.XtraEditors.LabelControl();
+            this.checkPrReqIsAlterPSBomAutoId = new DevExpress.XtraEditors.CheckEdit();
+            this.labPrReqIsAlterPSBomAutoId = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabSystem)).BeginInit();
             this.xtraTabSystem.SuspendLayout();
             this.PageCommon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinMessageInterval.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkApproveAfterPrint.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEnableWorkFlowMessage.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinLeftDockWidth.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinFormDragDropMaxRecordCount.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinDateIntervalDays.Properties)).BeginInit();
@@ -110,7 +119,7 @@
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).BeginInit();
             this.pnlTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkEnableWorkFlowMessage.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPrReqIsAlterPSBomAutoId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // xtraTabSystem
@@ -136,6 +145,10 @@
             // 
             // PageCommon
             // 
+            this.PageCommon.Controls.Add(this.labMessageInterval);
+            this.PageCommon.Controls.Add(this.spinMessageInterval);
+            this.PageCommon.Controls.Add(this.checkApproveAfterPrint);
+            this.PageCommon.Controls.Add(this.labApproveAfterPrint);
             this.PageCommon.Controls.Add(this.checkEnableWorkFlowMessage);
             this.PageCommon.Controls.Add(this.labEnableWorkFlowMessage);
             this.PageCommon.Controls.Add(this.spinLeftDockWidth);
@@ -150,6 +163,88 @@
             this.PageCommon.Size = new System.Drawing.Size(1043, 576);
             this.PageCommon.Tag = "Common";
             this.PageCommon.Text = "常规";
+            // 
+            // labMessageInterval
+            // 
+            this.labMessageInterval.Location = new System.Drawing.Point(293, 192);
+            this.labMessageInterval.Name = "labMessageInterval";
+            this.labMessageInterval.Size = new System.Drawing.Size(84, 14);
+            this.labMessageInterval.TabIndex = 17;
+            this.labMessageInterval.Text = "消息间隔分钟数";
+            // 
+            // spinMessageInterval
+            // 
+            this.spinMessageInterval.EditValue = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.spinMessageInterval.Location = new System.Drawing.Point(393, 189);
+            this.spinMessageInterval.Name = "spinMessageInterval";
+            this.spinMessageInterval.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinMessageInterval.Properties.DisplayFormat.FormatString = "d";
+            this.spinMessageInterval.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinMessageInterval.Properties.EditFormat.FormatString = "d";
+            this.spinMessageInterval.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinMessageInterval.Properties.IsFloatValue = false;
+            this.spinMessageInterval.Properties.Mask.EditMask = "d";
+            this.spinMessageInterval.Properties.MaxValue = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.spinMessageInterval.Properties.MinValue = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.spinMessageInterval.Properties.ReadOnly = true;
+            this.spinMessageInterval.Size = new System.Drawing.Size(80, 20);
+            this.spinMessageInterval.TabIndex = 16;
+            // 
+            // checkApproveAfterPrint
+            // 
+            this.checkApproveAfterPrint.EditValue = "1";
+            this.checkApproveAfterPrint.Location = new System.Drawing.Point(246, 229);
+            this.checkApproveAfterPrint.Name = "checkApproveAfterPrint";
+            this.checkApproveAfterPrint.Properties.Caption = "";
+            this.checkApproveAfterPrint.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkApproveAfterPrint.Properties.ValueChecked = "1";
+            this.checkApproveAfterPrint.Properties.ValueGrayed = "0";
+            this.checkApproveAfterPrint.Properties.ValueUnchecked = "0";
+            this.checkApproveAfterPrint.Size = new System.Drawing.Size(31, 19);
+            this.checkApproveAfterPrint.TabIndex = 15;
+            // 
+            // labApproveAfterPrint
+            // 
+            this.labApproveAfterPrint.Location = new System.Drawing.Point(36, 232);
+            this.labApproveAfterPrint.Name = "labApproveAfterPrint";
+            this.labApproveAfterPrint.Size = new System.Drawing.Size(192, 14);
+            this.labApproveAfterPrint.TabIndex = 14;
+            this.labApproveAfterPrint.Text = "启用单据必须审批后才可以预览打印";
+            // 
+            // checkEnableWorkFlowMessage
+            // 
+            this.checkEnableWorkFlowMessage.EditValue = "0";
+            this.checkEnableWorkFlowMessage.Location = new System.Drawing.Point(246, 189);
+            this.checkEnableWorkFlowMessage.Name = "checkEnableWorkFlowMessage";
+            this.checkEnableWorkFlowMessage.Properties.Caption = "";
+            this.checkEnableWorkFlowMessage.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkEnableWorkFlowMessage.Properties.ValueChecked = "1";
+            this.checkEnableWorkFlowMessage.Properties.ValueGrayed = "0";
+            this.checkEnableWorkFlowMessage.Properties.ValueUnchecked = "0";
+            this.checkEnableWorkFlowMessage.Size = new System.Drawing.Size(31, 19);
+            this.checkEnableWorkFlowMessage.TabIndex = 13;
+            this.checkEnableWorkFlowMessage.CheckedChanged += new System.EventHandler(this.checkEnableWorkFlowMessage_CheckedChanged);
+            // 
+            // labEnableWorkFlowMessage
+            // 
+            this.labEnableWorkFlowMessage.Location = new System.Drawing.Point(36, 192);
+            this.labEnableWorkFlowMessage.Name = "labEnableWorkFlowMessage";
+            this.labEnableWorkFlowMessage.Size = new System.Drawing.Size(144, 14);
+            this.labEnableWorkFlowMessage.TabIndex = 12;
+            this.labEnableWorkFlowMessage.Text = "启用流程信息消息提醒功能";
             // 
             // spinLeftDockWidth
             // 
@@ -166,6 +261,7 @@
             this.spinLeftDockWidth.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.spinLeftDockWidth.Properties.EditFormat.FormatString = "d";
             this.spinLeftDockWidth.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinLeftDockWidth.Properties.IsFloatValue = false;
             this.spinLeftDockWidth.Properties.Mask.EditMask = "d";
             this.spinLeftDockWidth.Properties.MaxValue = new decimal(new int[] {
             800,
@@ -381,6 +477,8 @@
             // 
             // PagePurchase
             // 
+            this.PagePurchase.Controls.Add(this.checkPrReqIsAlterPSBomAutoId);
+            this.PagePurchase.Controls.Add(this.labPrReqIsAlterPSBomAutoId);
             this.PagePurchase.Controls.Add(this.checkWWApplyBeyondCountIsSave);
             this.PagePurchase.Controls.Add(this.labWWApplyBeyondCountIsSave);
             this.PagePurchase.Controls.Add(this.checkPrReqApplyBeyondCountIsSave);
@@ -398,7 +496,7 @@
             // 
             // checkWWApplyBeyondCountIsSave
             // 
-            this.checkWWApplyBeyondCountIsSave.Location = new System.Drawing.Point(411, 189);
+            this.checkWWApplyBeyondCountIsSave.Location = new System.Drawing.Point(411, 229);
             this.checkWWApplyBeyondCountIsSave.Name = "checkWWApplyBeyondCountIsSave";
             this.checkWWApplyBeyondCountIsSave.Properties.Caption = "";
             this.checkWWApplyBeyondCountIsSave.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -410,7 +508,7 @@
             // 
             // labWWApplyBeyondCountIsSave
             // 
-            this.labWWApplyBeyondCountIsSave.Location = new System.Drawing.Point(36, 192);
+            this.labWWApplyBeyondCountIsSave.Location = new System.Drawing.Point(36, 232);
             this.labWWApplyBeyondCountIsSave.Name = "labWWApplyBeyondCountIsSave";
             this.labWWApplyBeyondCountIsSave.Size = new System.Drawing.Size(348, 14);
             this.labWWApplyBeyondCountIsSave.TabIndex = 16;
@@ -418,7 +516,7 @@
             // 
             // checkPrReqApplyBeyondCountIsSave
             // 
-            this.checkPrReqApplyBeyondCountIsSave.Location = new System.Drawing.Point(411, 149);
+            this.checkPrReqApplyBeyondCountIsSave.Location = new System.Drawing.Point(411, 189);
             this.checkPrReqApplyBeyondCountIsSave.Name = "checkPrReqApplyBeyondCountIsSave";
             this.checkPrReqApplyBeyondCountIsSave.Properties.Caption = "";
             this.checkPrReqApplyBeyondCountIsSave.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -430,7 +528,7 @@
             // 
             // labPrReqApplyBeyondCountIsSave
             // 
-            this.labPrReqApplyBeyondCountIsSave.Location = new System.Drawing.Point(36, 152);
+            this.labPrReqApplyBeyondCountIsSave.Location = new System.Drawing.Point(36, 192);
             this.labPrReqApplyBeyondCountIsSave.Name = "labPrReqApplyBeyondCountIsSave";
             this.labPrReqApplyBeyondCountIsSave.Size = new System.Drawing.Size(336, 14);
             this.labPrReqApplyBeyondCountIsSave.TabIndex = 10;
@@ -443,7 +541,7 @@
             0,
             0,
             131072});
-            this.spinOrderListDefaultTax.Location = new System.Drawing.Point(204, 29);
+            this.spinOrderListDefaultTax.Location = new System.Drawing.Point(204, 69);
             this.spinOrderListDefaultTax.Name = "spinOrderListDefaultTax";
             this.spinOrderListDefaultTax.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -467,7 +565,7 @@
             // 
             // labOrderListDefaultTax
             // 
-            this.labOrderListDefaultTax.Location = new System.Drawing.Point(36, 32);
+            this.labOrderListDefaultTax.Location = new System.Drawing.Point(36, 72);
             this.labOrderListDefaultTax.Name = "labOrderListDefaultTax";
             this.labOrderListDefaultTax.Size = new System.Drawing.Size(120, 14);
             this.labOrderListDefaultTax.TabIndex = 8;
@@ -480,7 +578,7 @@
             0,
             0,
             0});
-            this.spinOrderNoWarehousingDays.Location = new System.Drawing.Point(292, 109);
+            this.spinOrderNoWarehousingDays.Location = new System.Drawing.Point(292, 149);
             this.spinOrderNoWarehousingDays.Name = "spinOrderNoWarehousingDays";
             this.spinOrderNoWarehousingDays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -504,7 +602,7 @@
             // 
             // labOrderNoWarehousingDays
             // 
-            this.labOrderNoWarehousingDays.Location = new System.Drawing.Point(36, 112);
+            this.labOrderNoWarehousingDays.Location = new System.Drawing.Point(36, 152);
             this.labOrderNoWarehousingDays.Name = "labOrderNoWarehousingDays";
             this.labOrderNoWarehousingDays.Size = new System.Drawing.Size(228, 14);
             this.labOrderNoWarehousingDays.TabIndex = 6;
@@ -517,7 +615,7 @@
             0,
             0,
             131072});
-            this.spinSettlementDefaultTax.Location = new System.Drawing.Point(204, 69);
+            this.spinSettlementDefaultTax.Location = new System.Drawing.Point(204, 109);
             this.spinSettlementDefaultTax.Name = "spinSettlementDefaultTax";
             this.spinSettlementDefaultTax.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -541,7 +639,7 @@
             // 
             // labSettlementDefaultTax
             // 
-            this.labSettlementDefaultTax.Location = new System.Drawing.Point(36, 72);
+            this.labSettlementDefaultTax.Location = new System.Drawing.Point(36, 112);
             this.labSettlementDefaultTax.Name = "labSettlementDefaultTax";
             this.labSettlementDefaultTax.Size = new System.Drawing.Size(132, 14);
             this.labSettlementDefaultTax.TabIndex = 4;
@@ -744,25 +842,25 @@
             this.pnlTabPage.Size = new System.Drawing.Size(1123, 582);
             this.pnlTabPage.TabIndex = 15;
             // 
-            // checkEnableWorkFlowMessage
+            // checkPrReqIsAlterPSBomAutoId
             // 
-            this.checkEnableWorkFlowMessage.Location = new System.Drawing.Point(233, 189);
-            this.checkEnableWorkFlowMessage.Name = "checkEnableWorkFlowMessage";
-            this.checkEnableWorkFlowMessage.Properties.Caption = "";
-            this.checkEnableWorkFlowMessage.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-            this.checkEnableWorkFlowMessage.Properties.ValueChecked = "1";
-            this.checkEnableWorkFlowMessage.Properties.ValueGrayed = "0";
-            this.checkEnableWorkFlowMessage.Properties.ValueUnchecked = "0";
-            this.checkEnableWorkFlowMessage.Size = new System.Drawing.Size(31, 19);
-            this.checkEnableWorkFlowMessage.TabIndex = 13;
+            this.checkPrReqIsAlterPSBomAutoId.Location = new System.Drawing.Point(236, 29);
+            this.checkPrReqIsAlterPSBomAutoId.Name = "checkPrReqIsAlterPSBomAutoId";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.Caption = "";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueChecked = "1";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueGrayed = "0";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueUnchecked = "0";
+            this.checkPrReqIsAlterPSBomAutoId.Size = new System.Drawing.Size(31, 19);
+            this.checkPrReqIsAlterPSBomAutoId.TabIndex = 19;
             // 
-            // labEnableWorkFlowMessage
+            // labPrReqIsAlterPSBomAutoId
             // 
-            this.labEnableWorkFlowMessage.Location = new System.Drawing.Point(36, 192);
-            this.labEnableWorkFlowMessage.Name = "labEnableWorkFlowMessage";
-            this.labEnableWorkFlowMessage.Size = new System.Drawing.Size(144, 14);
-            this.labEnableWorkFlowMessage.TabIndex = 12;
-            this.labEnableWorkFlowMessage.Text = "启用流程信息消息提醒功能";
+            this.labPrReqIsAlterPSBomAutoId.Location = new System.Drawing.Point(36, 32);
+            this.labPrReqIsAlterPSBomAutoId.Name = "labPrReqIsAlterPSBomAutoId";
+            this.labPrReqIsAlterPSBomAutoId.Size = new System.Drawing.Size(168, 14);
+            this.labPrReqIsAlterPSBomAutoId.TabIndex = 18;
+            this.labPrReqIsAlterPSBomAutoId.Text = "可以修改生产计划生成的请购单";
             // 
             // FrmSystemSet
             // 
@@ -778,6 +876,9 @@
             this.xtraTabSystem.ResumeLayout(false);
             this.PageCommon.ResumeLayout(false);
             this.PageCommon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinMessageInterval.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkApproveAfterPrint.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEnableWorkFlowMessage.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinLeftDockWidth.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinFormDragDropMaxRecordCount.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinDateIntervalDays.Properties)).EndInit();
@@ -808,7 +909,7 @@
             this.pnlTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).EndInit();
             this.pnlTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.checkEnableWorkFlowMessage.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPrReqIsAlterPSBomAutoId.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -867,5 +968,11 @@
         private DevExpress.XtraTab.XtraTabPage PageHumanAffair;
         private DevExpress.XtraEditors.CheckEdit checkEnableWorkFlowMessage;
         private DevExpress.XtraEditors.LabelControl labEnableWorkFlowMessage;
+        private DevExpress.XtraEditors.CheckEdit checkApproveAfterPrint;
+        private DevExpress.XtraEditors.LabelControl labApproveAfterPrint;
+        private DevExpress.XtraEditors.LabelControl labMessageInterval;
+        private DevExpress.XtraEditors.SpinEdit spinMessageInterval;
+        private DevExpress.XtraEditors.CheckEdit checkPrReqIsAlterPSBomAutoId;
+        private DevExpress.XtraEditors.LabelControl labPrReqIsAlterPSBomAutoId;
     }
 }

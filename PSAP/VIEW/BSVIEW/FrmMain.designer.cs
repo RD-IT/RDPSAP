@@ -250,6 +250,7 @@
             // 
             // alertControlMessage
             // 
+            this.alertControlMessage.AutoFormDelay = 20000;
             this.alertControlMessage.AlertClick += new DevExpress.XtraBars.Alerter.AlertClickEventHandler(this.alertControlMessage_AlertClick);
             // 
             // FrmMain

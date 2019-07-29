@@ -15,18 +15,15 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmDeliveryLocation()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmDeliveryLocation_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -48,6 +45,21 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmDeliveryLocation_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                
             }
             catch (Exception ex)
             {

@@ -190,6 +190,8 @@
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.splitterLeft = new DevExpress.XtraEditors.SplitterControl();
+            this.dataColPrReqNo = new System.Data.DataColumn();
+            this.colPrReqNo = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddle)).BeginInit();
             this.pnlMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlDesignBom)).BeginInit();
@@ -693,7 +695,8 @@
             this.dataColIsBuy,
             this.dataColuPbBomNo,
             this.dataColuPlanDate,
-            this.ColIsAbsorb});
+            this.ColIsAbsorb,
+            this.dataColPrReqNo});
             this.TablePSBom.TableName = "PSBom";
             // 
             // ColuAutoId
@@ -756,7 +759,8 @@
             this.colPlanDate,
             this.colIsBuy,
             this.colPbBomNo1,
-            this.colIsAbsorb1});
+            this.colIsAbsorb1,
+            this.colPrReqNo});
             this.gridViewPSBom.GridControl = this.gridControlPSBom;
             this.gridViewPSBom.IndicatorWidth = 40;
             this.gridViewPSBom.Name = "gridViewPSBom";
@@ -998,7 +1002,7 @@
             this.btnAlterPSBom.Size = new System.Drawing.Size(60, 23);
             this.btnAlterPSBom.TabIndex = 302;
             this.btnAlterPSBom.TabStop = false;
-            this.btnAlterPSBom.Text = "修改";
+            this.btnAlterPSBom.Text = "修改计划";
             this.btnAlterPSBom.Click += new System.EventHandler(this.btnAlterPSBom_Click);
             // 
             // btnDeleteBom
@@ -1008,7 +1012,7 @@
             this.btnDeleteBom.Size = new System.Drawing.Size(60, 23);
             this.btnDeleteBom.TabIndex = 303;
             this.btnDeleteBom.TabStop = false;
-            this.btnDeleteBom.Text = "删除";
+            this.btnDeleteBom.Text = "删除计划";
             this.btnDeleteBom.Click += new System.EventHandler(this.btnDeleteBom_Click);
             // 
             // btnPlan
@@ -1815,6 +1819,16 @@
             this.splitterLeft.TabIndex = 15;
             this.splitterLeft.TabStop = false;
             // 
+            // dataColPrReqNo
+            // 
+            this.dataColPrReqNo.Caption = "采购单号";
+            this.dataColPrReqNo.ColumnName = "PrReqNo";
+            // 
+            // colPrReqNo
+            // 
+            this.colPrReqNo.FieldName = "PrReqNo";
+            this.colPrReqNo.Name = "colPrReqNo";
+            // 
             // FrmPBDesignBom_PS
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2057,5 +2071,7 @@
         private DevExpress.XtraEditors.SimpleButton btnPreview;
         private System.Data.DataColumn dataColuIsBuy;
         private DevExpress.XtraGrid.Columns.GridColumn colIsBuy1;
+        private System.Data.DataColumn dataColPrReqNo;
+        private DevExpress.XtraGrid.Columns.GridColumn colPrReqNo;
     }
 }

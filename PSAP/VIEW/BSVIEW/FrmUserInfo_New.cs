@@ -18,19 +18,15 @@ namespace PSAP.VIEW.BSVIEW
         FrmCommonDAO commonDAO = new FrmCommonDAO();
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmUserInfo_New()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
 
-        }
-
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmUserInfo_New_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -53,9 +49,22 @@ namespace PSAP.VIEW.BSVIEW
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
-
-                    lookUpDept.Properties.DataSource = commonDAO.QueryDepartment_AllNode(false);
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmUserInfo_New_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                lookUpDept.Properties.DataSource = commonDAO.QueryDepartment_AllNode(false);
             }
             catch (Exception ex)
             {
@@ -80,15 +89,7 @@ namespace PSAP.VIEW.BSVIEW
                 MessageHandler.ShowMessageBox(tsmiYgxmbnwk.Text);// ("员工姓名不能为空，请重新操作。");
                 textEmpName.Focus();
                 return false;
-            }
-
-            int count = new FrmLoginDAO().QueryUserInfoCount(textLoginId.Text.Trim());
-            if (count > 0)
-            {
-                MessageHandler.ShowMessageBox("当前登陆名已经被使用，不可以重复，请重新输入登陆名。");
-                textLoginId.Focus();
-                return false;
-            }
+            }            
 
             return true;
         }
@@ -98,6 +99,14 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         public bool SaveRowBefore(DataRow dr, SqlCommand cmd)
         {
+            int count = new FrmLoginDAO().QueryUserInfoCount(cmd, textLoginId.Text.Trim(), DataTypeConvert.GetInt(dr["AutoId"]));
+            if (count > 0)
+            {
+                MessageHandler.ShowMessageBox("当前登陆名已经被使用，不可以重复，请重新输入登陆名。");
+                textLoginId.Focus();
+                return false;
+            }
+
             if (dr.RowState == DataRowState.Added)
             {
                 if (string.IsNullOrEmpty(textLoginPwd.Text))//初始密码与用户ID相同

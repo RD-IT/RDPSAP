@@ -16,17 +16,14 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         FrmCommonDAO commonDAO = new FrmCommonDAO();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmPartsCode()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmPartsCode_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -47,14 +44,27 @@ namespace PSAP.VIEW.BSVIEW
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
-
-                    searchLookUpMaterial.Properties.DataSource = commonDAO.QueryMaterialSelectLib(false);
-                    lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(false);
-                    lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(false);
-                    lookUpFinish.Properties.DataSource = commonDAO.QueryFinishCatg(false);
-                    lookUpMachiningLevel.Properties.DataSource = commonDAO.QueryLevelCatg(false);
-                    lookUpUnit.Properties.DataSource = commonDAO.QueryUnitCatg(false);
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmPartsCode_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                searchLookUpMaterial.Properties.DataSource = commonDAO.QueryMaterialSelectLib(false);
+                lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(false);
+                lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(false);
+                lookUpFinish.Properties.DataSource = commonDAO.QueryFinishCatg(false);
+                lookUpMachiningLevel.Properties.DataSource = commonDAO.QueryLevelCatg(false);
+                lookUpUnit.Properties.DataSource = commonDAO.QueryUnitCatg(false);
             }
             catch (Exception ex)
             {

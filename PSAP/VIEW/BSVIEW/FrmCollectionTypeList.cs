@@ -104,6 +104,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = dSCollectionTypeList.Tables[0].NewRow();
                 dSCollectionTypeList.Tables[0].Rows.Add(dr);
                 bSCollectionTypeList.MoveLast();
@@ -129,6 +132,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                        return;
+
                     Set_Button_State(false);
                     Set_EditZone_ControlReadOnly(false);
                     gridViewCollectionTypeList.Focus();
@@ -145,6 +151,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                        return;
+
                     int sumInt = DataTypeConvert.GetInt(TableCollectionTypeList.Compute("Sum(CollectionPercentum)", ""));
                     if (sumInt != 100)
                     {
@@ -180,7 +189,7 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            btnRefresh_Click(null, null);
+            btnRefresh_Click(sender, e);
         }
 
         /// <summary>
@@ -190,6 +199,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = ((DataRowView)bSCollectionTypeList.Current).Row;
                 ((DataRowView)bSCollectionTypeList.Current).Row.Delete();
             }
@@ -207,6 +219,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 dSCollectionTypeList.Tables[0].Clear();
                 collectionTypeDAO.QueryCollectionTypeList(dSCollectionTypeList.Tables[0], collectionTypeNoStr);
                 Set_Button_State(true);

@@ -1,4 +1,5 @@
-﻿using PSAP.DAO.PURDAO;
+﻿using PSAP.DAO.BSDAO;
+using PSAP.DAO.PURDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = dSPayTypeList.Tables[0].NewRow();
                 dSPayTypeList.Tables[0].Rows.Add(dr);
                 bSPayTypeList.MoveLast();
@@ -129,6 +133,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                        return;
+
                     Set_Button_State(false);
                     Set_EditZone_ControlReadOnly(false);
                     gridViewPayTypeList.Focus();
@@ -146,6 +153,9 @@ namespace PSAP.VIEW.BSVIEW
             {
                 try
                 {
+                    if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                        return;
+
                     int sumInt = DataTypeConvert.GetInt(TablePayTypeList.Compute("Sum(PayPercentum)", ""));
                     if (sumInt != 100)
                     {
@@ -181,7 +191,7 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            btnRefresh_Click(null, null);
+            btnRefresh_Click(sender, e);
         }
 
         /// <summary>
@@ -191,6 +201,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = ((DataRowView)bSPayTypeList.Current).Row;
                 ((DataRowView)bSPayTypeList.Current).Row.Delete();
             }
@@ -208,6 +221,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 dSPayTypeList.Tables[0].Clear();
                 payTypeDAO.QueryPayTypeList(dSPayTypeList.Tables[0], payTypeNoStr);
                 Set_Button_State(true);

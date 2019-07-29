@@ -42,7 +42,7 @@ namespace PSAP.VIEW.BSVIEW
 
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
         #endregion
-        
+
         #region 构造方法
 
         public FrmPrReq()
@@ -50,7 +50,7 @@ namespace PSAP.VIEW.BSVIEW
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(this);
             PSAP.BLL.BSBLL.BSBLL.language(f);
-            
+
         }
 
         #endregion
@@ -74,6 +74,7 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
                 lookUpPurCategory.ItemIndex = 0;
+
                 comboBoxReqState.SelectedIndex = 0;
                 lookUpApplicant.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpApplicant.EditValue = SystemInfo.user.EmpName;
@@ -95,8 +96,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+tsmiCtjz.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
             }
         }
 
@@ -130,8 +130,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--窗体激活事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+tsmiCtjh.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--窗体激活事件错误。", ex);
             }
         }
 
@@ -165,9 +164,12 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateReqDateBegin.EditValue == null || dateReqDateEnd.EditValue == null)
                 {
-                    MessageHandler.ShowMessageBox(tsmiQgrq.Text );// ("请购日期不能为空，请设置后重新进行查询。");
+                    MessageHandler.ShowMessageBox("请购日期不能为空，请设置后重新进行查询。");
                     if (dateReqDateBegin.EditValue == null)
                         dateReqDateBegin.Focus();
                     else
@@ -178,7 +180,7 @@ namespace PSAP.VIEW.BSVIEW
                 string reqDateEndStr = dateReqDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string purCategoryStr = lookUpPurCategory.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPurCategory.EditValue) : "";
-                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text); 
+                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text);
                 string empNameStr = lookUpApplicant.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpApplicant.EditValue) : "";
                 int approverInt = -1;
                 if (lookUpApprover.ItemIndex == 0)
@@ -196,8 +198,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiCxansjcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
@@ -219,7 +220,7 @@ namespace PSAP.VIEW.BSVIEW
                     {
                         if (headFocusedLineNo < gridViewPrReqHead.DataRowCount && gridViewPrReqHead.FocusedRowHandle != headFocusedLineNo && gridViewPrReqHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                         {
-                            MessageHandler.ShowMessageBox(tsmiDqqgdyjxg.Text );// ("当前请购单已经修改，请保存后再进行换行。");
+                            MessageHandler.ShowMessageBox("当前请购单已经修改，请保存后再进行换行。");
                             gridViewPrReqHead.FocusedRowHandle = headFocusedLineNo;
                         }
                         else if (headFocusedLineNo == gridViewPrReqHead.DataRowCount)
@@ -261,8 +262,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--主表聚焦行改变事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbjjhgb.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--主表聚焦行改变事件错误。", ex);
             }
         }
 
@@ -315,6 +315,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 //gridViewPrReqHead.PostEditor();
@@ -331,10 +334,9 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--新增按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiXzansj, ex);
+                ExceptionHandler.HandleException(this.Text + "--新增按钮事件错误。", ex);
             }
-        }        
+        }
 
         /// <summary>
         /// 保存按钮事件
@@ -343,6 +345,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewPrReqHead.GetFocusedDataRow() == null)
                     return;
 
@@ -362,38 +367,38 @@ namespace PSAP.VIEW.BSVIEW
                     DataRow headRow = gridViewPrReqHead.GetFocusedDataRow();
                     if (DataTypeConvert.GetString(headRow["ReqDep"]) == "")
                     {
-                        MessageHandler.ShowMessageBox(tsmiSqbmbnwkbc.Text);// ("申请部门不能为空，请填写后再进行保存。");
+                        MessageHandler.ShowMessageBox("申请部门不能为空，请填写后再进行保存。");
                         FocusedHeadView("ReqDep");
                         return;
                     }
                     if (DataTypeConvert.GetString(headRow["ProjectNo"]) == "")
                     {
-                        MessageHandler.ShowMessageBox(tsmiXmhbnwkbc.Text);// ("项目号不能为空，请填写后再进行保存。");
+                        MessageHandler.ShowMessageBox("项目号不能为空，请填写后再进行保存。");
                         FocusedHeadView("ProjectNo");
                         return;
                     }
                     if (DataTypeConvert.GetString(headRow["StnNo"]) == "")
                     {
-                        MessageHandler.ShowMessageBox(tsmiZhbnwkbc.Text );// ("站号不能为空，请填写后再进行保存。");
+                        MessageHandler.ShowMessageBox("站号不能为空，请填写后再进行保存。");
                         FocusedHeadView("StnNo");
                         return;
                     }
                     if (DataTypeConvert.GetString(headRow["PurCategory"]) == "")
                     {
-                        MessageHandler.ShowMessageBox(tsmiCglxbnwkbc.Text );// ("采购类型不能为空，请填写后再进行保存。");
+                        MessageHandler.ShowMessageBox("采购类型不能为空，请填写后再进行保存。");
                         FocusedHeadView("PurCategory");
                         return;
                     }
                     if (DataTypeConvert.GetString(headRow["ApprovalType"]) == "")
                     {
-                        MessageHandler.ShowMessageBox(tsmiSplxbnwkbc.Text );// ("审批类型不能为空，请填写后再进行保存。");
+                        MessageHandler.ShowMessageBox("审批类型不能为空，请填写后再进行保存。");
                         FocusedHeadView("ApprovalType");
                         return;
                     }
 
                     if (!commonDAO.StnNoIsContainProjectNo(DataTypeConvert.GetString(headRow["ProjectNo"]), DataTypeConvert.GetString(headRow["StnNo"])))
                     {
-                        MessageHandler.ShowMessageBox(tsmiSrdxmhbc.Text);// ("输入的站号不属于项目号，请重新填写后再进行保存。");
+                        MessageHandler.ShowMessageBox("输入的站号不属于项目号，请重新填写后再进行保存。");
                         FocusedHeadView("StnNo");
                         return;
                     }
@@ -408,8 +413,8 @@ namespace PSAP.VIEW.BSVIEW
                         }
                         if (DataTypeConvert.GetString(listRow["Qty"]) == "")
                         {
-                            MessageHandler.ShowMessageBox(tsmiSlbnwkbc.Text );// ("数量不能为空，请填写后再进行保存。");
-                            FocusedListView(true, "Qty",i);
+                            MessageHandler.ShowMessageBox("数量不能为空，请填写后再进行保存。");
+                            FocusedListView(true, "Qty", i);
                             return;
                         }
                     }
@@ -433,8 +438,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--保存按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiBcansj.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--保存按钮事件错误。", ex);
             }
         }
 
@@ -445,6 +449,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewPrReqHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(headFocusedLineNo)["PrReqNo"]) == "")
@@ -465,8 +472,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--取消按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiQxansj.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--取消按钮事件错误。", ex);
             }
         }
 
@@ -477,18 +483,20 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
-                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text );// ("请在要操作的记录前面选中。");
+                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text);// ("请在要操作的记录前面选中。");
                     return;
                 }
 
-                if (!CheckReqState_Multi(false, true, true, true))
+                if (!CheckReqState_Multi(false, true, true, true, true, false,""))
                     return;
 
-                //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要删除当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
-                if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQryscdqxzd.Text +"{0}"+f.tsmiTjlm.Text +"？", count)) != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要删除当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
                 {
                     return;
                 }
@@ -503,8 +511,78 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--删除按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiScansj.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--删除按钮事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 提交按钮事件
+        /// </summary>
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
+                if (count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
+                    return;
+                }
+
+                if (!CheckReqState_Multi(false, true, true, true, true, false, ""))
+                    return;
+
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要提交当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                {
+                    return;
+                }
+                if (!prReqDAO.SubmitPrReq_Multi(dataSet_PrReq.Tables[0]))
+                    btnQuery_Click(null, null);
+
+                ClearHeadGridAllSelect();
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--提交按钮事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 取消提交按钮事件 
+        /// </summary>
+        private void btnCancelSubmit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
+                if (count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
+                    return;
+                }
+
+                if (!CheckReqState_Multi(true, true, true, true, false, true, ""))
+                    return;
+
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消提交当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                {
+                    return;
+                }
+                if (!prReqDAO.CancelSubmitPrReq_Multi(dataSet_PrReq.Tables[0]))
+                    btnQuery_Click(null, null);
+
+                ClearHeadGridAllSelect();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--取消提交按钮事件错误。", ex);
             }
         }
 
@@ -515,41 +593,69 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
-                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text );// ("请在要操作的记录前面选中。");
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
                     return;
                 }
 
-                if (!CheckReqState_Multi(false, true, true, false))
+                if (!CheckReqState_Multi(true, true, true, false, false, true,"（请确保订单提交后再进行审批操作）"))
                     return;
 
                 if (count == 1)
                 {
+                    ////弹出审批页面
+                    //FrmPrReqApproval frmPrReq = new FrmPrReqApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
+                    //if (frmPrReq.ShowDialog() == DialogResult.OK)
+                    //    btnQuery_Click(null, null);
+
                     //弹出审批页面
-                    FrmPrReqApproval frmPrReq = new FrmPrReqApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
-                    if (frmPrReq.ShowDialog() == DialogResult.OK)
+                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
+                    if (frmOrder.ShowDialog() == DialogResult.OK)
                         btnQuery_Click(null, null);
                 }
                 else
                 {
-                    //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
-                     if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQdyspxzd.Text +"{0}"+f.tsmiTjlm.Text +"？", count)) != DialogResult.Yes)
-                   {
+                    if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                    {
                         return;
                     }
-
-                    int successCountInt = 0;
-                    //直接审批，不再谈页面
-                    if (!prReqDAO.PrReqApprovalInfo_Multi(dataSet_PrReq.Tables[0], ref successCountInt))
-                        btnQuery_Click(null, null);
-                    else
+                    List<string> dataNoList = new List<string>();
+                    DataRow[] drs = dataSet_PrReq.Tables[0].Select("select=1");
+                    for (int i = 0; i < drs.Length; i++)
                     {
-                        //MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
-                        MessageHandler.ShowMessageBox(string.Format(f.tsmiCgspl.Text +"{0}"+f.tsmiTjl.Text , successCountInt));
+                        dataNoList.Add(DataTypeConvert.GetString(drs[i]["PrReqNo"]));
                     }
 
+                    FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                    wfDataHandle.orderNameStr = "请购单";
+                    wfDataHandle.dataNoList = dataNoList;
+                    wfDataHandle.workFlowTypeText = "采购流程";
+                    wfDataHandle.tableNameStr = "PUR_PrReqHead";
+                    wfDataHandle.moduleTypeInt = 2;
+                    if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                    {
+                        int nodeIdInt = wfDataHandle.nodeIdInt;
+                        string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                        string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                        int approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+
+                        int successCountInt = 0;
+                        //直接审批，不再谈页面
+                        if (!prReqDAO.PrReqApprovalInfo_Multi(dataSet_PrReq.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                            btnQuery_Click(null, null);
+                        else
+                        {
+                            if (approverResultInt == 1)
+                                MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
+                            else
+                                MessageHandler.ShowMessageBox(string.Format("成功拒绝了{0}条记录。", successCountInt));
+                        }
+                    }
                 }
 
                 ClearHeadGridAllSelect();
@@ -558,30 +664,31 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--审批按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiSpansj.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--审批按钮事件错误。", ex);
             }
         }
 
         /// <summary>
-        /// 取消审批按钮事件
+        /// 取消审批按钮事件 
         /// </summary>
         private void btnCancelApprove_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
-                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text );// ("请在要操作的记录前面选中。");
+                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text);// ("请在要操作的记录前面选中。");
                     return;
                 }
 
-                if (!CheckReqState_Multi(true, false, true, false))
+                if (!CheckReqState_Multi(true, false, true, false, true, true, ""))
                     return;
 
-                //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
-                if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQdyqxspdq.Text+"{0}"+f.tsmiTjlm.Text +"？", count)) != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
                 {
                     return;
                 }
@@ -590,15 +697,13 @@ namespace PSAP.VIEW.BSVIEW
                     btnQuery_Click(null, null);
                 else
                 {
-                    //MessageHandler.ShowMessageBox(string.Format("成功取消审批了{0}条记录。", count));
-                    MessageHandler.ShowMessageBox(string.Format(f.tsmiCgqxspl.Text +"{0}"+f.tsmiTjl.Text , count));
+                    MessageHandler.ShowMessageBox(string.Format("成功取消审批了{0}条记录。", count));
                 }
                 ClearHeadGridAllSelect();
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--取消审批按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiQxspansj.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--取消审批按钮事件错误。", ex);
             }
         }
 
@@ -609,18 +714,20 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
-                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text );// ("请在要操作的记录前面选中。");
+                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text);// ("请在要操作的记录前面选中。");
                     return;
                 }
 
-                if (!CheckReqState_Multi(false, false, true, false))
+                if (!CheckReqState_Multi(false, true, true, true, false, false, ""))
                     return;
 
-                //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要关闭当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
-                if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQdygbdqxzd.Enabled +"{0}"+f.tsmiTjlm.Text +"？", count)) != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要关闭当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
                 {
                     return;
                 }
@@ -631,8 +738,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--关闭按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiGbansj.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--关闭按钮事件错误。", ex);
             }
         }
 
@@ -643,18 +749,20 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_PrReq.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
-                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text );// ("请在要操作的记录前面选中。");
+                    MessageHandler.ShowMessageBox(f.tsmiQzyczdjlq.Text);// ("请在要操作的记录前面选中。");
                     return;
                 }
 
-                if (!CheckReqState_Multi(true, true, false, true))
+                if (!CheckReqState_Multi(true, true, false, true, true, true, ""))
                     return;
 
-                //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消关闭当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
-                if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQdyqxgbdqxzd.Text +"{0}"+f.tsmiTjlm.Text +"？", count)) != DialogResult.Yes)
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消关闭当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
                 {
                     return;
                 }
@@ -665,8 +773,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--取消关闭按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiQxgbansj.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--取消关闭按钮事件错误。", ex);
             }
         }
 
@@ -677,6 +784,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //DataSet ds = new DataSet();
                 //DataTable dt1 = dataSet_PrReq.Tables[0].Clone();
                 //dt1.ImportRow(gridViewPrReqHead.GetFocusedDataRow());
@@ -689,15 +799,24 @@ namespace PSAP.VIEW.BSVIEW
                 string prReqNoStr = "";
                 if (gridViewPrReqHead.GetFocusedDataRow() != null)
                     prReqNoStr = DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"]);
+
+                if (SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(gridViewPrReqHead.GetFocusedDataRow()["ReqState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
                 prReqDAO.PrintHandle(prReqNoStr, 1);
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--打印预览操作错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiDyylczcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--打印预览操作错误。", ex);
             }
         }
-
+        
         ///// <summary>
         ///// 打印设计
         ///// </summary>
@@ -756,8 +875,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--子表新增一行事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbxzyhsjcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--子表新增一行事件错误。", ex);
             }
         }
 
@@ -776,8 +894,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--主表设定默认值错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbsdmrzcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--主表设定默认值错误。", ex);
             }
         }
 
@@ -793,8 +910,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--子表设定默认值错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbsdmrzcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--子表设定默认值错误。", ex);
             }
         }
 
@@ -810,11 +926,11 @@ namespace PSAP.VIEW.BSVIEW
                     if (!colPrReqListRemark.OptionsColumn.AllowEdit)
                         return;
 
-                    if (gridViewPrReqList.GetFocusedDataSourceRowIndex() >= gridViewPrReqList.DataRowCount - 1 && gridViewPrReqList.FocusedColumn.Name == "colPrReqListRemark")
+                    if (gridViewPrReqList.GetFocusedDataSourceRowIndex() >= gridViewPrReqList.DataRowCount - 1 && gridViewPrReqList.FocusedColumn == colPrReqListRemark)
                     {
                         ListNewRow();
                     }
-                    else if(gridViewPrReqList.FocusedColumn.Name == "colPrReqListRemark")
+                    else if (gridViewPrReqList.FocusedColumn == colPrReqListRemark)
                     {
                         gridViewPrReqList.FocusedRowHandle = gridViewPrReqList.FocusedRowHandle + 1;
                         FocusedListView(true, "CodeFileName", gridViewPrReqList.GetFocusedDataSourceRowIndex());
@@ -827,8 +943,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--子表按键事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbsdmrzcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--子表按键事件错误。", ex);
             }
         }
 
@@ -850,8 +965,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--删除子表中的一行错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiSczbzyhcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--删除子表中的一行错误。", ex);
             }
         }
 
@@ -862,15 +976,14 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if (e.Column.FieldName == "ProjectNo")
+                if (e.Column == colProjectNo)
                 {
                     BingStnListComboBox();
                 }
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--主表单元格值变化进行的操作错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbdygzbhjxdczcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--主表单元格值变化进行的操作错误。", ex);
             }
         }
 
@@ -901,8 +1014,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--子表单元格值变化进行的操作错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbdygzbhjxdczcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--子表单元格值变化进行的操作错误。", ex);
             }
         }
 
@@ -935,8 +1047,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--鼠标操作明细行事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiSbczmxhsj.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--鼠标操作明细行事件错误。", ex);
             }
         }
 
@@ -956,8 +1067,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--查询明细的下一级采购订单错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+tsmiCxmxrxyjcgdd.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--查询明细的下一级采购订单错误。", ex);
             }
         }
 
@@ -1011,21 +1121,22 @@ namespace PSAP.VIEW.BSVIEW
             {
                 btnNew.Enabled = false;
                 btnSave.Tag = "保存";
-                btnSave.Text = f.tsmiBc.Text ;
+                btnSave.Text = f.tsmiBc.Text;
                 btnCancel.Enabled = true;
                 btnDelete.Enabled = false;
             }
             else
             {
                 btnNew.Enabled = true;
-                 btnSave.Tag = "修改";
-               btnSave.Text = f.tsmiXg.Text ;
+                btnSave.Tag = "修改";
+                btnSave.Text = f.tsmiXg.Text;
                 btnCancel.Enabled = false;
-                btnDelete.Enabled = true;                
+                btnDelete.Enabled = true;
             }
+            btnSubmit.Enabled = !ret;
             btnApprove.Enabled = !ret;
             btnCancelApprove.Enabled = !ret;
-            btnClose.Enabled = !ret;            
+            btnClose.Enabled = !ret;
             btnCancelClose.Enabled = !ret;
             btnPreview.Enabled = !ret;
             btnListAdd.Enabled = ret;
@@ -1071,26 +1182,35 @@ namespace PSAP.VIEW.BSVIEW
             switch (reqState)
             {
                 case 2:
-                    //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
-                    MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text+"[{0}]"+tsmiYjsp.Text +tsmiBkycz.Text,
-                        DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
+                    MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
                     return false;
                 case 3:
-                    //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
-                    MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text+"[{0}]"+tsmiYjsp.Text +tsmiBkycz.Text, DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
+                    MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经关闭，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
                     return false;
                 case 4:
-                    //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
-                    MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text+"[{0}]"+tsmiYjspz.Text +tsmiBkycz.Text , DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
+                    MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
+                    return false;
+                case 5:
+                    MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经提交，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])));
                     return false;
             }
+
+            if (!SystemInfo.PrReqIsAlter_PSBomAutoId && gridViewPrReqHead.GetFocusedDataRow().RowState != DataRowState.Added)
+            {
+                if (prReqDAO.Query_PrReqList_PSBomAutoId(DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"])))
+                {
+                    MessageHandler.ShowMessageBox("请购单明细中包含由生产计划生成的信息，不可以操作。");
+                    return false;
+                }
+            }
+
             return true;
         }
 
         /// <summary>
         /// 检测当前选中的请购单状态是否可以操作
         /// </summary>
-        private bool CheckReqState_Multi(bool checkNoApprover, bool checkApprover, bool checkClosed, bool checkApproverBetween)
+        private bool CheckReqState_Multi(bool checkNoApprover, bool checkApprover, bool checkClosed, bool checkApproverBetween, bool checkSubmit, bool checkReject,string messageStr)
         {
             for (int i = 0; i < gridViewPrReqHead.DataRowCount; i++)
             {
@@ -1102,8 +1222,7 @@ namespace PSAP.VIEW.BSVIEW
                         case 1:
                             if (checkNoApprover)
                             {
-                                //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
-                                MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text+"[{0}]"+tsmiWsp.Text +tsmiBkycz.Text , DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
+                                MessageHandler.ShowMessageBox(string.Format("请购单[{0}]未审批，不可以操作。{1}", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"]), messageStr));
                                 gridViewPrReqHead.FocusedRowHandle = i;
                                 return false;
                             }
@@ -1111,8 +1230,7 @@ namespace PSAP.VIEW.BSVIEW
                         case 2:
                             if (checkApprover)
                             {
-                                //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
-                                MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text+"[{0}]"+tsmiYjsp.Text +tsmiBkycz.Text , DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
+                                MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批，不可以操作。{1}", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"]), messageStr));
                                 gridViewPrReqHead.FocusedRowHandle = i;
                                 return false;
                             }
@@ -1120,8 +1238,7 @@ namespace PSAP.VIEW.BSVIEW
                         case 3:
                             if (checkClosed)
                             {
-                                //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经关闭，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
-                                MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text+"[{0}]"+tsmiYjgb.Text +tsmiBkycz.Text , DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
+                                MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经关闭，不可以操作。{1}", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"]), messageStr));
                                 gridViewPrReqHead.FocusedRowHandle = i;
                                 return false;
                             }
@@ -1129,8 +1246,23 @@ namespace PSAP.VIEW.BSVIEW
                         case 4:
                             if (checkApproverBetween)
                             {
-                                //MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
-                                MessageHandler.ShowMessageBox(string.Format(tsmiQgd.Text +"[{0}]"+tsmiYjspz.Text +tsmiBkycz.Text , DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"])));
+                                MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经审批中，不可以操作。{1}", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"]), messageStr));
+                                gridViewPrReqHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                        case 5:
+                            if (checkSubmit)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经提交，不可以操作。{1}", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"]), messageStr));
+                                gridViewPrReqHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                        case 6:
+                            if (checkReject)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("请购单[{0}]已经拒绝，不可以操作。{1}", DataTypeConvert.GetString(gridViewPrReqHead.GetDataRow(i)["PrReqNo"]), messageStr));
                                 gridViewPrReqHead.FocusedRowHandle = i;
                                 return false;
                             }

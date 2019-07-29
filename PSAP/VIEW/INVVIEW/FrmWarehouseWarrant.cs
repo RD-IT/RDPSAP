@@ -155,6 +155,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (dateWWDateBegin.EditValue == null || dateWWDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiRkrqbnwkcx.Text);// ("入库日期不能为空，请设置后重新进行查询。");
@@ -298,6 +301,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 FrmOrderApply orderApplyForm = new FrmOrderApply();
                 if (orderApplyForm.ShowDialog() == DialogResult.OK)
                 {
@@ -318,6 +324,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewWWHead.GetFocusedDataRow() == null)
                     return;
 
@@ -407,6 +416,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (gridViewWWHead.GetDataRow(headFocusedLineNo).RowState != DataRowState.Unchanged)
                 {
                     if (DataTypeConvert.GetString(gridViewWWHead.GetDataRow(headFocusedLineNo)["WarehouseWarrant"]) == "")
@@ -439,6 +451,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_WW.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -476,6 +491,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_WW.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -488,9 +506,14 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (count == 1)
                 {
+                    ////弹出审批页面
+                    //FrmWarehouseWarrantApproval frmWW = new FrmWarehouseWarrantApproval(DataTypeConvert.GetString(dataSet_WW.Tables[0].Select("select=1")[0]["WarehouseWarrant"]));
+                    //if (frmWW.ShowDialog() == DialogResult.OK)
+                    //    btnQuery_Click(null, null);
+
                     //弹出审批页面
-                    FrmWarehouseWarrantApproval frmWW = new FrmWarehouseWarrantApproval(DataTypeConvert.GetString(dataSet_WW.Tables[0].Select("select=1")[0]["WarehouseWarrant"]));
-                    if (frmWW.ShowDialog() == DialogResult.OK)
+                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_WW.Tables[0].Select("select=1")[0]["WarehouseWarrant"]));
+                    if (frmOrder.ShowDialog() == DialogResult.OK)
                         btnQuery_Click(null, null);
                 }
                 else
@@ -527,6 +550,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int count = dataSet_WW.Tables[0].Select("select=1").Length;
                 if (count == 0)
                 {
@@ -566,9 +592,22 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 string wwHeadNoStr = "";
                 if (gridViewWWHead.GetFocusedDataRow() != null)
                     wwHeadNoStr = DataTypeConvert.GetString(gridViewWWHead.GetFocusedDataRow()["WarehouseWarrant"]);
+
+                if (SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(gridViewWWHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
                 wwDAO.PrintHandle(wwHeadNoStr, 1);
             }
             catch (Exception ex)

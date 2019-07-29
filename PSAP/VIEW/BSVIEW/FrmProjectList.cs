@@ -19,30 +19,26 @@ namespace PSAP.VIEW.BSVIEW
         FrmStnList stnList = null;
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmProjectList()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmProjectList_Load(object sender, EventArgs e)
-        {
             try
             {
-                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(false);
-
                 if (editForm == null)
                 {
                     editForm = new FrmBaseEdit();
                     editForm.FormBorderStyle = FormBorderStyle.None;
                     editForm.TopLevel = false;
+                    editForm.DataRowInsertBottom = false;
                     editForm.TableName = "BS_ProjectList";
                     editForm.TableCaption = "项目号";
-                    editForm.Sql = "select BS_ProjectList.*, BS_BussinessBaseInfo.BussinessBaseText from BS_ProjectList left join BS_BussinessBaseInfo on BS_ProjectList.BussinessBaseNo=BS_BussinessBaseInfo.BussinessBaseNo order by BS_ProjectList.AutoId";
+                    editForm.Sql = "select BS_ProjectList.*, BS_BussinessBaseInfo.BussinessBaseText from BS_ProjectList left join BS_BussinessBaseInfo on BS_ProjectList.BussinessBaseNo=BS_BussinessBaseInfo.BussinessBaseNo order by BS_ProjectList.AutoId desc";
                     editForm.PrimaryKeyColumn = "ProjectNo";
                     editForm.MasterDataSet = dSProjectList;
                     editForm.MasterBindingSource = bSProjectList;
@@ -55,16 +51,36 @@ namespace PSAP.VIEW.BSVIEW
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
 
-                    stnList = new FrmStnList("", "");
-                    stnList.Show(this.dockPanelStn);
-                    stnList.Dock = DockStyle.Fill;
-                    stnList.TopLevel = false;
-                    stnList.FormBorderStyle = FormBorderStyle.None;
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmProjectList_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                
+                stnList = new FrmStnList("", "");
+                stnList.Show(this.dockPanelStn);
+                stnList.Dock = DockStyle.Fill;
+                stnList.TopLevel = false;
+                stnList.FormBorderStyle = FormBorderStyle.None;
 
-                    this.dockPanelStn.Text = stnList.Text;
-                    this.dockPanelStn.TabText = stnList.Text;
-                    this.dockPanelStn.Controls.Add(stnList);
+                this.dockPanelStn.Text = stnList.Text;
+                this.dockPanelStn.TabText = stnList.Text;
+                this.dockPanelStn.Controls.Add(stnList);
+
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, btnStnList, false))
+                {
+                    dockPanelStn.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -116,6 +132,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //string projectNoStr = DataTypeConvert.GetString(gridViewProjectList.GetFocusedDataRow()["ProjectNo"]);
                 //FrmStnList.projectNoStr = projectNoStr;
                 //ViewHandler.ShowRightWindow("FrmStnList");
@@ -169,5 +188,6 @@ namespace PSAP.VIEW.BSVIEW
                 ExceptionHandler.HandleException(this.Text + "--" + f.tsmiDqxmhjjdsjcw.Text, ex);
             }
         }
+
     }
 }

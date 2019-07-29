@@ -3,6 +3,7 @@ using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace PSAP.DAO.BSDAO
@@ -40,6 +41,7 @@ namespace PSAP.DAO.BSDAO
                 SystemInfo.user.RoleNo = ds.Tables[0].Rows[0]["RoleNo"].ToString();
                 SystemInfo.user.RoleName = ds.Tables[0].Rows[0]["RoleName"].ToString();
                 SystemInfo.user.AutoId = (int)ds.Tables[0].Rows[0]["AutoId"];
+                SystemInfo.user.ButtonPower = DataTypeConvert.GetInt(ds.Tables[0].Rows[0]["ButtonPower"]);
                 SystemInfo.user.Lanuage = strLanuage;
                 return SystemInfo.user;
             }
@@ -64,10 +66,10 @@ namespace PSAP.DAO.BSDAO
         /// <summary>
         /// 查询该登陆ID的用户数量
         /// </summary>
-        public int QueryUserInfoCount(string loginIdStr)
+        public int QueryUserInfoCount(SqlCommand cmd, string loginIdStr, int autoIdInt)
         {
-            string sqlStr = string.Format("select Count(*) from BS_UserInfo where LoginId = '{0}'", loginIdStr);
-            int count = DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));
+            cmd.CommandText = string.Format("select Count(*) from BS_UserInfo where LoginId = '{0}' and AutoId != {1}", loginIdStr, autoIdInt);
+            int count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
             return count;
         }
     }

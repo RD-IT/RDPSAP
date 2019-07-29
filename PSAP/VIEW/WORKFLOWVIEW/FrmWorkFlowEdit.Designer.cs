@@ -138,7 +138,7 @@
             this.labFlowModuleId = new DevExpress.XtraEditors.LabelControl();
             this.memoText = new DevExpress.XtraEditors.MemoEdit();
             this.labCreator = new DevExpress.XtraEditors.LabelControl();
-            this.btnText = new DevExpress.XtraEditors.SimpleButton();
+            this.btnEtc = new DevExpress.XtraEditors.SimpleButton();
             this.labGetTime = new DevExpress.XtraEditors.LabelControl();
             this.dateGetTime = new DevExpress.XtraEditors.DateEdit();
             this.lookUpCreator = new DevExpress.XtraEditors.LookUpEdit();
@@ -946,7 +946,7 @@
             this.pnlProperty.Controls.Add(this.labFlowModuleId);
             this.pnlProperty.Controls.Add(this.memoText);
             this.pnlProperty.Controls.Add(this.labCreator);
-            this.pnlProperty.Controls.Add(this.btnText);
+            this.pnlProperty.Controls.Add(this.btnEtc);
             this.pnlProperty.Controls.Add(this.labGetTime);
             this.pnlProperty.Controls.Add(this.dateGetTime);
             this.pnlProperty.Controls.Add(this.lookUpCreator);
@@ -1003,16 +1003,16 @@
             this.labCreator.TabIndex = 13;
             this.labCreator.Text = "最后修改人";
             // 
-            // btnText
+            // btnEtc
             // 
-            this.btnText.Enabled = false;
-            this.btnText.Location = new System.Drawing.Point(261, 92);
-            this.btnText.Name = "btnText";
-            this.btnText.Size = new System.Drawing.Size(29, 23);
-            this.btnText.TabIndex = 13;
-            this.btnText.TabStop = false;
-            this.btnText.Text = "...";
-            this.btnText.Click += new System.EventHandler(this.btnText_Click);
+            this.btnEtc.Enabled = false;
+            this.btnEtc.Location = new System.Drawing.Point(261, 92);
+            this.btnEtc.Name = "btnEtc";
+            this.btnEtc.Size = new System.Drawing.Size(29, 23);
+            this.btnEtc.TabIndex = 13;
+            this.btnEtc.TabStop = false;
+            this.btnEtc.Text = "...";
+            this.btnEtc.Click += new System.EventHandler(this.btnEtc_Click);
             // 
             // labGetTime
             // 
@@ -1607,7 +1607,7 @@
         private DevExpress.XtraEditors.LabelControl labCreator;
         private DevExpress.XtraEditors.DateEdit dateGetTime;
         private DevExpress.XtraEditors.LookUpEdit lookUpCreator;
-        private DevExpress.XtraEditors.SimpleButton btnText;
+        private DevExpress.XtraEditors.SimpleButton btnEtc;
         private DevExpress.XtraTab.XtraTabControl TabControlDiagramInfo;
         private DevExpress.XtraTab.XtraTabPage PageProperty;
         private DevExpress.XtraTab.XtraTabPage PageHandle;

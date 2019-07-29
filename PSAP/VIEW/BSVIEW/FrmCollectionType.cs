@@ -1,4 +1,5 @@
-﻿using PSAP.PSAPCommon;
+﻿using PSAP.DAO.BSDAO;
+using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,18 +16,15 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmCollectionType()
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(f);
             PSAP.BLL.BSBLL.BSBLL.language(this);
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmCollectionType_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -49,6 +47,21 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmCollectionType_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                
             }
             catch (Exception ex)
             {
@@ -83,15 +96,25 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void btnCollectionTypeList_Click(object sender, EventArgs e)
         {
-            if (!editForm.EditState)
+            try
             {
-                DataRow dr = gridViewCollectionType.GetFocusedDataRow();
-                FrmCollectionTypeList ctList = new FrmCollectionTypeList(DataTypeConvert.GetString(dr["CollectionTypeNo"]), DataTypeConvert.GetString(dr["CollectionTypeNoText"]));
-                ctList.ShowDialog();
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                if (!editForm.EditState)
+                {
+                    DataRow dr = gridViewCollectionType.GetFocusedDataRow();
+                    FrmCollectionTypeList ctList = new FrmCollectionTypeList(DataTypeConvert.GetString(dr["CollectionTypeNo"]), DataTypeConvert.GetString(dr["CollectionTypeNoText"]));
+                    ctList.ShowDialog();
+                }
+                else
+                {
+                    MessageHandler.ShowMessageBox(f.tsmiQxbchzjx.Text);// ("请先保存后再进行其他操作。");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageHandler.ShowMessageBox(f.tsmiQxbchzjx.Text);// ("请先保存后再进行其他操作。");
+                ExceptionHandler.HandleException(this.Text + "--设定收款类型信息错误。", ex);
             }
         }
     }

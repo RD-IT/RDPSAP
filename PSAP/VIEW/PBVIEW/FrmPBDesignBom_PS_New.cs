@@ -234,6 +234,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 QueryPartsCodeInfo();
                 QueryBOMInfo();
             }
@@ -317,6 +320,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (salesOrderNoStr != "")
                 {
                     RefreshSalesOrderInfo();
@@ -740,6 +746,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TreeListNode focusedNode = OperateDesignBomCheck();
                 if (focusedNode == null)
                     return;
@@ -772,6 +781,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 List<TreeListNode> nodeList = OperateMultiDesignBomCheck();
                 if (nodeList.Count == 0)
                     return;
@@ -813,6 +825,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 List<TreeListNode> nodeList = OperateMultiDesignBomCheck();
                 if (nodeList.Count == 0)
                     return;
@@ -849,6 +864,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 List<TreeListNode> nodeList = OperateMultiDesignBomCheck();
                 if (nodeList.Count == 0)
                     return;
@@ -885,6 +903,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (treeListDesignBom.Nodes.Count > 0)
                 {
                     //treeListDesignBom.ShowPrintPreview();                    
@@ -938,6 +959,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TreeListNode focusedNode = treeListDesignBom.FocusedNode;
                 if (focusedNode == null)
                     return;
@@ -1004,11 +1028,13 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             barBtnInsertWorkProcess.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
                             barBtnDeleteWorkProcess.Visibility = DevExpress.XtraBars.BarItemVisibility.Always;
+                            barBtnPrReq.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
                         }
                         else
                         {
                             barBtnInsertWorkProcess.Visibility = DevExpress.XtraBars.BarItemVisibility.Always;
                             barBtnDeleteWorkProcess.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+                            barBtnPrReq.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
                         }
 
                         popupMenuDBom.ShowPopup(Control.MousePosition);
@@ -1066,6 +1092,64 @@ namespace PSAP.VIEW.BSVIEW
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(this.Text + "--右击菜单删除工序信息错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 查询生成计划相关联的请购单
+        /// </summary>
+        private void barBtnPrReq_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                DataRow focusedRow = gridViewPSBom.GetFocusedDataRow();
+                if (focusedRow == null || DataTypeConvert.GetString(focusedRow["PrReqNo"]) == "")
+                    return;
+
+                string prReqNoStr = DataTypeConvert.GetString(focusedRow["PrReqNo"]);
+                FrmPrReq.queryPrReqNo = prReqNoStr;
+                FrmPrReq.queryListAutoId = 0;
+                ViewHandler.ShowRightWindow("FrmPrReq");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--查询生成计划相关联的请购单错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 生产计划生成请购单信息
+        /// </summary>
+        private void btnToPr_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                TreeListNode focusedNode = OperateDesignBomCheck();
+                if (focusedNode == null)
+                    return;
+
+                if (DataTypeConvert.GetInt(focusedNode["IsUse"]) == 0)
+                {
+                    MessageHandler.ShowMessageBox("当前选中的设计Bom信息已经停用，不可以操作。");
+                    return;
+                }
+
+                FrmPSBomToPrReq.salesOrderNoStr = btnEditAutoSalesOrderNo.Text;
+                FrmPSBomToPrReq.projectNoStr = textProjectNo.Text;
+                FrmPSBomToPrReq.pbBomNoStr = DataTypeConvert.GetString(focusedNode["PbBomNo"]);
+                FrmPSBomToPrReq.bomListAutoIdInt = 0;
+
+                if (new FrmPSBomToPrReq().ShowDialog() == DialogResult.OK)
+                {
+                    treeListDesignBom_FocusedNodeChanged(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--生产计划生成请购单信息错误。", ex);
             }
         }
 
@@ -1148,6 +1232,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 TreeListMultiSelection NodeList = treeListDesignBom.Selection;
                 if (NodeList.Count == 1)
                 {
@@ -1213,12 +1300,21 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 DataRow dr = gridViewPSBom.GetFocusedDataRow();
                 if (dr == null)
                 {
                     MessageHandler.ShowMessageBox("请选择要修改的生产计划Bom信息。");
                     return;
                 }
+                if (DataTypeConvert.GetString(dr["PrReqNo"]) != "")
+                {
+                    MessageHandler.ShowMessageBox("当前修改的生产计划信息已经生成请购单，不可以进行操作。");
+                    return;
+                }
+
                 FrmProductionScheduleBom_InputSingle.bomListAutoId = DataTypeConvert.GetInt(dr["BomListAutoId"]);
                 FrmProductionScheduleBom_InputSingle.psBomAutoId = DataTypeConvert.GetInt(dr["AutoId"]);
                 FrmProductionScheduleBom_InputSingle psBomForm = new FrmProductionScheduleBom_InputSingle();
@@ -1240,6 +1336,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int[] rowint = gridViewPSBom.GetSelectedRows();
                 if (rowint.Length == 0)
                 {
@@ -1255,6 +1354,12 @@ namespace PSAP.VIEW.BSVIEW
                 foreach (int i in rowint)
                 {
                     psBomAutoIdList.Add(DataTypeConvert.GetInt(gridViewPSBom.GetDataRow(i)["AutoId"]));
+
+                    if (DataTypeConvert.GetString(gridViewPSBom.GetDataRow(i)["PrReqNo"]) != "")
+                    {
+                        MessageHandler.ShowMessageBox("当前选中的生产计划信息已经生成请购单，不可以进行操作。");
+                        return;
+                    }
                 }
                 if (psBomAutoIdList.Count == 0)
                 {
@@ -1313,6 +1418,33 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 点击生产计划信息列表事件
+        /// </summary>
+        private void gridViewPSBom_MouseDown(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    GridView view = sender as GridView;
+                    GridHitInfo hitInfo = view.CalcHitInfo(new Point(e.X, e.Y));
+                    gridViewPSBom.FocusedRowHandle = hitInfo.RowHandle;
+                    if (gridViewPSBom.GetFocusedDataRow() == null || DataTypeConvert.GetString(gridViewPSBom.GetFocusedDataRow()["PrReqNo"]) == "")
+                        return;
+
+                    barBtnInsertWorkProcess.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+                    barBtnDeleteWorkProcess.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+                    barBtnPrReq.Visibility = DevExpress.XtraBars.BarItemVisibility.Always;
+                    popupMenuDBom.ShowPopup(Control.MousePosition);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--点击生产计划信息列表事件错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 设定显示的信息
         /// </summary>
         private void gridViewPSBom_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
@@ -1343,6 +1475,6 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         #endregion
-        
+
     }
 }

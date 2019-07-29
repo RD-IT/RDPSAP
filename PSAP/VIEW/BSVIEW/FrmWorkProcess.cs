@@ -14,16 +14,13 @@ namespace PSAP.VIEW.BSVIEW
     {
         FrmBaseEdit editForm = null;
 
+        /// <summary>
+        /// 窗体构造函数
+        /// </summary>
         public FrmWorkProcess()
         {
             InitializeComponent();
-        }
 
-        /// <summary>
-        /// 窗体加载事件
-        /// </summary>
-        private void FrmWorkProcess_Load(object sender, EventArgs e)
-        {
             try
             {
                 if (editForm == null)
@@ -45,6 +42,21 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体构造函数错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        private void FrmWorkProcess_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                
             }
             catch (Exception ex)
             {

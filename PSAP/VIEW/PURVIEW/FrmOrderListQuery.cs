@@ -139,6 +139,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 if (datePlanDateBegin.EditValue == null || datePlanDateEnd.EditValue == null)
                 {
                     MessageHandler.ShowMessageBox(tsmiJhdhribnwk.Text );// ("计划到货日期不能为空，请设置后重新进行查询。");
@@ -195,6 +198,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 //FileHandler.SaveDevGridControlExportToExcel(gridViewPrReqHead);
                 if (gridBottomOrderHead.pageCount <= 1)
                     FileHandler.SaveDevGridControlExportToExcel(gridViewPrReqHead);

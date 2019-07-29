@@ -35,27 +35,52 @@ namespace PSAP.BLL.BSBLL
             }
         }
 
+        //public void InitTreeList(TreeList treeList)
+        //{
+        //    DataTable dt = FrmMainDAO.GetTopMenuData();//获取一级菜单数据
+        //    foreach (DataRow dr in dt.Rows)
+        //    {
+        //        TreeListNode node = treeList.Nodes.Add(new object[] { dr["MenuName"], dr["MenuText"] });
+        //        node.Checked = true;
+        //        node.Tag = "";
+        //        InitSubTreeListNode(node);
+        //    }
+        //}
+
         public void InitTreeList(TreeList treeList)
         {
-            DataTable dt = FrmMainDAO.GetTopMenuData();//获取一级菜单数据
-            foreach (DataRow dr in dt.Rows)
+            DataTable dt = FrmMainDAO.GetMenuData();//获取菜单数据
+            DataRow[] drs = dt.Select("IsNull(ParentMenuName, '') = ''");
+            foreach (DataRow dr in drs)
             {
                 TreeListNode node = treeList.Nodes.Add(new object[] { dr["MenuName"], dr["MenuText"] });
                 node.Checked = true;
                 node.Tag = "";
-                InitSubTreeListNode(node);
+                InitSubTreeListNode(dt, node);
             }
         }
 
-        public void InitSubTreeListNode(TreeListNode parentNode)
+        //public void InitSubTreeListNode(TreeListNode parentNode)
+        //{
+        //    DataTable dt = FrmMainDAO.GetChildMenuData(DataTypeConvert.GetString(parentNode[0]));
+        //    foreach (DataRow dr in dt.Rows)
+        //    {
+        //        TreeListNode node = parentNode.Nodes.Add(new object[] { dr["MenuName"], dr["MenuText"] });
+        //        node.Checked = false;
+        //        node.Tag = dr["FormName"].ToString();
+        //        InitSubTreeListNode(node);
+        //    }
+        //}
+
+        public void InitSubTreeListNode(DataTable menuDataTable, TreeListNode parentNode)
         {
-            DataTable dt = FrmMainDAO.GetChildMenuData(DataTypeConvert.GetString(parentNode[0]));
-            foreach (DataRow dr in dt.Rows)
+            DataRow[] drs = menuDataTable.Select(string.Format("IsNull(ParentMenuName, '') = '{0}'", parentNode[0]));
+            foreach (DataRow dr in drs)
             {
                 TreeListNode node = parentNode.Nodes.Add(new object[] { dr["MenuName"], dr["MenuText"] });
                 node.Checked = false;
                 node.Tag = dr["FormName"].ToString();
-                InitSubTreeListNode(node);
+                InitSubTreeListNode(menuDataTable, node);
             }
         }
 
@@ -189,17 +214,21 @@ namespace PSAP.BLL.BSBLL
                 {
                     ToolStripMenuItem subItem = new ToolStripMenuItem();
                     subItem.Name = dr["MenuName"].ToString();
-                    try
-                    {
-                        pItem.DropDownItems[subItem.Name].Enabled = true;
-                        pItem.DropDownItems[subItem.Name].Tag = pItem.DropDownItems[subItem.Name].Tag + ":Role";
 
-                        SetSubMenuItemByRole(pItem.DropDownItems[subItem.Name], strRoleNo);//
-
-                    }
-                    catch (Exception e)
+                    if (pItem.DropDownItems.IndexOfKey(subItem.Name) > -1)
                     {
-                        MessageBox.Show(e.Message);
+                        try
+                        {
+                            pItem.DropDownItems[subItem.Name].Enabled = true;
+                            pItem.DropDownItems[subItem.Name].Tag = pItem.DropDownItems[subItem.Name].Tag + ":Role";
+
+                            SetSubMenuItemByRole(pItem.DropDownItems[subItem.Name], strRoleNo);//
+
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show(e.Message);
+                        }
                     }
                 }
             }

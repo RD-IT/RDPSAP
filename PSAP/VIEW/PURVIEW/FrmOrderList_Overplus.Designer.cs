@@ -449,7 +449,7 @@
             // searchLookUpCodeFileName
             // 
             this.searchLookUpCodeFileName.EnterMoveNextControl = true;
-            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(593, 44);
+            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(623, 44);
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -499,7 +499,7 @@
             this.searchLookUpProjectNo.Properties.NullText = "";
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 10;
             // 
             // searchLookUpProjectNoView
@@ -554,7 +554,7 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(1040, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(1070, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 14;
@@ -642,7 +642,7 @@
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(824, 44);
+            this.textCommon.Location = new System.Drawing.Point(854, 44);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(120, 20);
             this.textCommon.TabIndex = 12;
@@ -679,7 +679,10 @@
             "待审批",
             "审批",
             "关闭",
-            "审批中"});
+            "审批中",
+            "提交",
+            "拒绝"});
+            this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
             this.comboBoxReqState.TabIndex = 5;
             // 
@@ -717,7 +720,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(959, 43);
+            this.btnQuery.Location = new System.Drawing.Point(989, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 13;
@@ -762,7 +765,7 @@
             // 
             // labCodeFileName
             // 
-            this.labCodeFileName.Location = new System.Drawing.Point(527, 47);
+            this.labCodeFileName.Location = new System.Drawing.Point(557, 47);
             this.labCodeFileName.Name = "labCodeFileName";
             this.labCodeFileName.Size = new System.Drawing.Size(60, 14);
             this.labCodeFileName.TabIndex = 35;
@@ -802,7 +805,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(758, 47);
+            this.labCommon.Location = new System.Drawing.Point(788, 47);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 14;

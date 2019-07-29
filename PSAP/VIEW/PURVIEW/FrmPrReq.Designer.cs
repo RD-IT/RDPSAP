@@ -110,6 +110,8 @@
             this.colApprover = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colClosed = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlMiddleTop = new DevExpress.XtraEditors.PanelControl();
+            this.btnCancelSubmit = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSubmit = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancelClose = new DevExpress.XtraEditors.SimpleButton();
             this.btnPreview = new DevExpress.XtraEditors.SimpleButton();
             this.btnCancelApprove = new DevExpress.XtraEditors.SimpleButton();
@@ -148,27 +150,6 @@
             this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
             this.pnlRight = new DevExpress.XtraEditors.PanelControl();
             this.splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
-            this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiQgdyjy = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiQgd = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiWsp = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiBkycz = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiYjsp = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiYjgb = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiYjspz = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiWcxdyc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCtjz = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCtjh = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiQgrq = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiDqqgdyjxg = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSqbmbnwkbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiXmhbnwkbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiZhbnwkbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCglxbnwkbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSplxbnwkbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSrdxmhbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSlbnwkbc = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiCxmxrxyjcgdd = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpApprover.Properties)).BeginInit();
@@ -212,7 +193,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.barManagerForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRight)).BeginInit();
             this.pnlRight.SuspendLayout();
-            this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnltop
@@ -279,7 +259,10 @@
             "待审批",
             "审批",
             "关闭",
-            "审批中"});
+            "审批中",
+            "提交",
+            "拒绝"});
+            this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
             this.comboBoxReqState.TabIndex = 4;
             // 
@@ -1000,6 +983,8 @@
             // 
             // pnlMiddleTop
             // 
+            this.pnlMiddleTop.Controls.Add(this.btnCancelSubmit);
+            this.pnlMiddleTop.Controls.Add(this.btnSubmit);
             this.pnlMiddleTop.Controls.Add(this.btnCancelClose);
             this.pnlMiddleTop.Controls.Add(this.btnPreview);
             this.pnlMiddleTop.Controls.Add(this.btnCancelApprove);
@@ -1015,19 +1000,39 @@
             this.pnlMiddleTop.Size = new System.Drawing.Size(985, 34);
             this.pnlMiddleTop.TabIndex = 1;
             // 
+            // btnCancelSubmit
+            // 
+            this.btnCancelSubmit.Location = new System.Drawing.Point(410, 5);
+            this.btnCancelSubmit.Name = "btnCancelSubmit";
+            this.btnCancelSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelSubmit.TabIndex = 15;
+            this.btnCancelSubmit.TabStop = false;
+            this.btnCancelSubmit.Text = "取消提交";
+            this.btnCancelSubmit.Click += new System.EventHandler(this.btnCancelSubmit_Click);
+            // 
+            // btnSubmit
+            // 
+            this.btnSubmit.Location = new System.Drawing.Point(329, 5);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnSubmit.TabIndex = 14;
+            this.btnSubmit.TabStop = false;
+            this.btnSubmit.Text = "提交";
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            // 
             // btnCancelClose
             // 
-            this.btnCancelClose.Location = new System.Drawing.Point(572, 5);
+            this.btnCancelClose.Location = new System.Drawing.Point(734, 5);
             this.btnCancelClose.Name = "btnCancelClose";
             this.btnCancelClose.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelClose.TabIndex = 22;
+            this.btnCancelClose.TabIndex = 19;
             this.btnCancelClose.TabStop = false;
             this.btnCancelClose.Text = "取消关闭";
             this.btnCancelClose.Click += new System.EventHandler(this.btnCancelClose_Click);
             // 
             // btnPreview
             // 
-            this.btnPreview.Location = new System.Drawing.Point(653, 5);
+            this.btnPreview.Location = new System.Drawing.Point(815, 5);
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(75, 23);
             this.btnPreview.TabIndex = 20;
@@ -1037,30 +1042,30 @@
             // 
             // btnCancelApprove
             // 
-            this.btnCancelApprove.Location = new System.Drawing.Point(410, 5);
+            this.btnCancelApprove.Location = new System.Drawing.Point(572, 5);
             this.btnCancelApprove.Name = "btnCancelApprove";
             this.btnCancelApprove.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelApprove.TabIndex = 19;
+            this.btnCancelApprove.TabIndex = 17;
             this.btnCancelApprove.TabStop = false;
             this.btnCancelApprove.Text = "取消审批";
             this.btnCancelApprove.Click += new System.EventHandler(this.btnCancelApprove_Click);
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(491, 5);
+            this.btnClose.Location = new System.Drawing.Point(653, 5);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 15;
+            this.btnClose.TabIndex = 18;
             this.btnClose.TabStop = false;
             this.btnClose.Text = "关闭";
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnApprove
             // 
-            this.btnApprove.Location = new System.Drawing.Point(329, 5);
+            this.btnApprove.Location = new System.Drawing.Point(491, 5);
             this.btnApprove.Name = "btnApprove";
             this.btnApprove.Size = new System.Drawing.Size(75, 23);
-            this.btnApprove.TabIndex = 14;
+            this.btnApprove.TabIndex = 16;
             this.btnApprove.TabStop = false;
             this.btnApprove.Text = "审批";
             this.btnApprove.Click += new System.EventHandler(this.btnApprove_Click);
@@ -1420,152 +1425,6 @@
             this.splitterControl1.TabIndex = 4;
             this.splitterControl1.TabStop = false;
             // 
-            // cms
-            // 
-            this.cms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiQgdyjy,
-            this.tsmiQgd,
-            this.tsmiWsp,
-            this.tsmiBkycz,
-            this.tsmiYjsp,
-            this.tsmiYjgb,
-            this.tsmiYjspz,
-            this.tsmiWcxdyc,
-            this.tsmiCtjz,
-            this.tsmiCtjh,
-            this.tsmiQgrq,
-            this.tsmiDqqgdyjxg,
-            this.tsmiSqbmbnwkbc,
-            this.tsmiXmhbnwkbc,
-            this.tsmiZhbnwkbc,
-            this.tsmiCglxbnwkbc,
-            this.tsmiSplxbnwkbc,
-            this.tsmiSrdxmhbc,
-            this.tsmiSlbnwkbc,
-            this.tsmiCxmxrxyjcgdd});
-            this.cms.Name = "cmsCommonHandler";
-            this.cms.Size = new System.Drawing.Size(365, 444);
-            // 
-            // tsmiQgdyjy
-            // 
-            this.tsmiQgdyjy.Name = "tsmiQgdyjy";
-            this.tsmiQgdyjy.Size = new System.Drawing.Size(364, 22);
-            this.tsmiQgdyjy.Text = "请购单已经有适用的采购订单记录，不可以操作。";
-            // 
-            // tsmiQgd
-            // 
-            this.tsmiQgd.Name = "tsmiQgd";
-            this.tsmiQgd.Size = new System.Drawing.Size(364, 22);
-            this.tsmiQgd.Text = "请购单";
-            // 
-            // tsmiWsp
-            // 
-            this.tsmiWsp.Name = "tsmiWsp";
-            this.tsmiWsp.Size = new System.Drawing.Size(364, 22);
-            this.tsmiWsp.Text = "未审批";
-            // 
-            // tsmiBkycz
-            // 
-            this.tsmiBkycz.Name = "tsmiBkycz";
-            this.tsmiBkycz.Size = new System.Drawing.Size(364, 22);
-            this.tsmiBkycz.Text = "，不可以操作。";
-            // 
-            // tsmiYjsp
-            // 
-            this.tsmiYjsp.Name = "tsmiYjsp";
-            this.tsmiYjsp.Size = new System.Drawing.Size(364, 22);
-            this.tsmiYjsp.Text = "已经审批";
-            // 
-            // tsmiYjgb
-            // 
-            this.tsmiYjgb.Name = "tsmiYjgb";
-            this.tsmiYjgb.Size = new System.Drawing.Size(364, 22);
-            this.tsmiYjgb.Text = "已经关闭";
-            // 
-            // tsmiYjspz
-            // 
-            this.tsmiYjspz.Name = "tsmiYjspz";
-            this.tsmiYjspz.Size = new System.Drawing.Size(364, 22);
-            this.tsmiYjspz.Text = "已经审批中";
-            // 
-            // tsmiWcxdyc
-            // 
-            this.tsmiWcxdyc.Name = "tsmiWcxdyc";
-            this.tsmiWcxdyc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiWcxdyc.Text = "未查询到要操作的请购单，请刷新后再进行操作。";
-            // 
-            // tsmiCtjz
-            // 
-            this.tsmiCtjz.Name = "tsmiCtjz";
-            this.tsmiCtjz.Size = new System.Drawing.Size(364, 22);
-            this.tsmiCtjz.Text = "窗体加载事件错误。";
-            // 
-            // tsmiCtjh
-            // 
-            this.tsmiCtjh.Name = "tsmiCtjh";
-            this.tsmiCtjh.Size = new System.Drawing.Size(364, 22);
-            this.tsmiCtjh.Text = "窗体激活事件错误。";
-            // 
-            // tsmiQgrq
-            // 
-            this.tsmiQgrq.Name = "tsmiQgrq";
-            this.tsmiQgrq.Size = new System.Drawing.Size(364, 22);
-            this.tsmiQgrq.Text = "请购日期不能为空，请设置后重新进行查询。";
-            // 
-            // tsmiDqqgdyjxg
-            // 
-            this.tsmiDqqgdyjxg.Name = "tsmiDqqgdyjxg";
-            this.tsmiDqqgdyjxg.Size = new System.Drawing.Size(364, 22);
-            this.tsmiDqqgdyjxg.Text = "\"当前请购单已经修改，请保存后再进行换行。\"";
-            // 
-            // tsmiSqbmbnwkbc
-            // 
-            this.tsmiSqbmbnwkbc.Name = "tsmiSqbmbnwkbc";
-            this.tsmiSqbmbnwkbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiSqbmbnwkbc.Text = "申请部门不能为空，请填写后再进行保存。";
-            // 
-            // tsmiXmhbnwkbc
-            // 
-            this.tsmiXmhbnwkbc.Name = "tsmiXmhbnwkbc";
-            this.tsmiXmhbnwkbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiXmhbnwkbc.Text = "项目号不能为空，请填写后再进行保存。";
-            // 
-            // tsmiZhbnwkbc
-            // 
-            this.tsmiZhbnwkbc.Name = "tsmiZhbnwkbc";
-            this.tsmiZhbnwkbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiZhbnwkbc.Text = "站号不能为空，请填写后再进行保存。";
-            // 
-            // tsmiCglxbnwkbc
-            // 
-            this.tsmiCglxbnwkbc.Name = "tsmiCglxbnwkbc";
-            this.tsmiCglxbnwkbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiCglxbnwkbc.Text = "采购类型不能为空，请填写后再进行保存。";
-            // 
-            // tsmiSplxbnwkbc
-            // 
-            this.tsmiSplxbnwkbc.Name = "tsmiSplxbnwkbc";
-            this.tsmiSplxbnwkbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiSplxbnwkbc.Text = "审批类型不能为空，请填写后再进行保存。";
-            // 
-            // tsmiSrdxmhbc
-            // 
-            this.tsmiSrdxmhbc.Name = "tsmiSrdxmhbc";
-            this.tsmiSrdxmhbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiSrdxmhbc.Text = "输入的站号不属于项目号，请重新填写后再进行保存。";
-            // 
-            // tsmiSlbnwkbc
-            // 
-            this.tsmiSlbnwkbc.Name = "tsmiSlbnwkbc";
-            this.tsmiSlbnwkbc.Size = new System.Drawing.Size(364, 22);
-            this.tsmiSlbnwkbc.Text = "数量不能为空，请填写后再进行保存。";
-            // 
-            // tsmiCxmxrxyjcgdd
-            // 
-            this.tsmiCxmxrxyjcgdd.Name = "tsmiCxmxrxyjcgdd";
-            this.tsmiCxmxrxyjcgdd.Size = new System.Drawing.Size(364, 22);
-            this.tsmiCxmxrxyjcgdd.Text = "查询明细的下一级采购订单错误。";
-            // 
             // FrmPrReq
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1625,7 +1484,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.barManagerForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRight)).EndInit();
             this.pnlRight.ResumeLayout(false);
-            this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1752,26 +1610,7 @@
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraEditors.PanelControl pnlRight;
         private DevExpress.XtraEditors.SplitterControl splitterControl1;
-        internal System.Windows.Forms.ContextMenuStrip cms;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiQgdyjy;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiQgd;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiWsp;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiBkycz;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiYjsp;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiYjgb;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiYjspz;
-        internal System.Windows.Forms.ToolStripMenuItem tsmiWcxdyc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiCtjz;
-        private System.Windows.Forms.ToolStripMenuItem tsmiCtjh;
-        private System.Windows.Forms.ToolStripMenuItem tsmiQgrq;
-        private System.Windows.Forms.ToolStripMenuItem tsmiDqqgdyjxg;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSqbmbnwkbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiXmhbnwkbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiZhbnwkbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiCglxbnwkbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSplxbnwkbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSrdxmhbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiSlbnwkbc;
-        private System.Windows.Forms.ToolStripMenuItem tsmiCxmxrxyjcgdd;
+        private DevExpress.XtraEditors.SimpleButton btnSubmit;
+        private DevExpress.XtraEditors.SimpleButton btnCancelSubmit;
     }
 }
