@@ -43,6 +43,7 @@ namespace PSAP.DAO.BSDAO
                 SystemInfo.user.AutoId = (int)ds.Tables[0].Rows[0]["AutoId"];
                 SystemInfo.user.ButtonPower = DataTypeConvert.GetInt(ds.Tables[0].Rows[0]["ButtonPower"]);
                 SystemInfo.user.Lanuage = strLanuage;
+                SystemInfo.user.IsDisable = DataTypeConvert.GetInt(ds.Tables[0].Rows[0]["IsDisable"]);
                 return SystemInfo.user;
             }
             else
@@ -57,10 +58,29 @@ namespace PSAP.DAO.BSDAO
         /// <returns></returns>
         public static DataTable GegLanguageCategory()
         {
-            DataTable dt;
-            string sql = "select LanguageName,LanguageText from BS_LanguageCategory";
-            dt=BaseSQL.GetTableBySql(sql);
-            return dt;
+            //DataTable dt;
+            //string sql = "select LanguageName,LanguageText from BS_LanguageCategory";
+            //dt=BaseSQL.GetTableBySql(sql);
+            //return dt;
+
+
+            DataTable table = new DataTable("table");
+            table.Columns.Add("LanguageName", Type.GetType("System.String"));
+            table.Columns.Add("LanguageText", Type.GetType("System.String"));
+
+            DataRow newRow;
+
+            newRow = table.NewRow();
+            newRow["LanguageName"] = "Chinese";
+            newRow["LanguageText"] = "简体中文";
+            table.Rows.Add(newRow);
+
+            //newRow = table.NewRow();
+            //newRow["LanguageName"] = "English";
+            //newRow["LanguageText"] = "English";
+            //table.Rows.Add(newRow);
+
+            return table;
         }
 
         /// <summary>

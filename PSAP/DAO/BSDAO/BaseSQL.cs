@@ -25,6 +25,32 @@ namespace PSAP.DAO.BSDAO
         #region 公用方法
 
         /// <summary>
+        /// 测试是否成功
+        /// </summary>
+        public static bool TestSqlConnection()
+        {
+            try
+            {
+                SqlConnection conn = new SqlConnection(BaseSQL.connectionString);
+                conn.Open();
+
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// 获得最大ID
         /// </summary>
         /// <param name="FieldName"></param>

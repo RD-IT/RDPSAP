@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using PSAP.PSAPCommon;
 using PSAP.DAO.BSDAO;
+using System.Diagnostics;
 
 namespace PSAP.VIEW.BSVIEW
 {
@@ -13,7 +14,6 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         [STAThread]
         static void Main()
-
         {
             Application.EnableVisualStyles();
             ConfigurationManager.RefreshSection("PSAP.Properties.Settings.PSAPConnectionString");//重新加载新的配置文件  
@@ -22,7 +22,7 @@ namespace PSAP.VIEW.BSVIEW
 
             DevExpress.UserSkins.BonusSkins.Register();
             DevExpress.Skins.SkinManager.EnableFormSkins();
-
+            
             FrmLogin frmLogin = new FrmLogin();
             if (frmLogin.ShowDialog() == DialogResult.OK)
             {
@@ -34,14 +34,27 @@ namespace PSAP.VIEW.BSVIEW
                     //new FrmCompanyInfoDAO().RefreshCompanyInfo();
                     new FrmMainDAO().RefreshUserButtonPower();
 
-
                     FrmMain frmMain = new FrmMain();
                     frmMain.WindowState = FormWindowState.Maximized;
                     Application.Run(frmMain);
 
                     if(SystemInfo.IsCheckServer)
                         new SocketHandler().DisconnectServer(SocketHandler.clientSocket);
+
+                    CloseAllProcess();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 关闭所有调用的进程
+        /// </summary>
+        private static void CloseAllProcess()
+        {
+            Process[] Pros = Process.GetProcessesByName("SWPreview");
+            foreach (Process p in Pros)
+            {
+                p.Kill();
             }
         }
     }

@@ -55,7 +55,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.ButtonList.Add(btnDown);
                     editForm.DeleteAfterRefresh = true;
                     //editForm.btnSaveExcel.Visible = false;
-                    editForm.VisibleSearchContrl = false;
+                    editForm.VisibleSearchControl = false;
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
@@ -96,7 +96,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.ButtonList.Add(btnDown);
                     editForm.DeleteAfterRefresh = true;
                     //editForm.btnSaveExcel.Visible = false;
-                    editForm.VisibleSearchContrl = false;
+                    editForm.VisibleSearchControl = false;
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();

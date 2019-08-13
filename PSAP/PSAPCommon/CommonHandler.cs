@@ -231,5 +231,27 @@ namespace PSAP.PSAPCommon
 
             return table;
         }
+
+
+        /// <summary>
+        /// 根据任务状态编号得到任务状态描述
+        /// </summary>
+        public static string Get_PlanTaskStatus_Desc(string planTaskStatusStr)
+        {
+            string stateDescStr = "";
+            switch (planTaskStatusStr)
+            {
+                case "1":
+                    stateDescStr = "未开始";
+                    break;
+                case "2":
+                    stateDescStr = "进行中";
+                    break;
+                case "3":
+                    stateDescStr = "已完成";
+                    break;
+            }
+            return stateDescStr;
+        }
     }
 }

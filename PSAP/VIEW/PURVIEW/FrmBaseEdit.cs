@@ -67,7 +67,7 @@ namespace PSAP.VIEW.BSVIEW
         /// 显示查询定位控件
         /// </summary>
         private bool visibleSearchControl = true;
-        public bool VisibleSearchContrl
+        public bool VisibleSearchControl
         {
             get { return visibleSearchControl; }
             set { visibleSearchControl = value; }
@@ -254,9 +254,17 @@ namespace PSAP.VIEW.BSVIEW
         public delegate bool DeleteRowAfter_Handle(DataRow dr, SqlCommand cmd);
         public event DeleteRowAfter_Handle DeleteRowAfter;
 
+        //定义委托和事件  新增之前执行的方法
+        public delegate bool NewBefore_Handle();
+        public event NewBefore_Handle NewBefore;
+
         //定义委托和事件  新增之后执行的方法
         public delegate void NewAfter_Handle();
         public event NewAfter_Handle NewAfter;
+
+        //定义委托和事件  修改之前执行的方法
+        public delegate bool AlterBefore_Handle(DataRow dr);
+        public event AlterBefore_Handle AlterBefore;
 
         //定义委托和事件  查询数据之后执行的方法
         public delegate void QueryDataAfter_Handle();
@@ -308,6 +316,12 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
                     return;
 
+                if (NewBefore != null)
+                {
+                    if (!NewBefore())
+                        return;
+                }
+
                 DataRow dr = masterDataSet.Tables[0].NewRow();
                 if (DataRowInsertBottom)
                 {
@@ -352,6 +366,12 @@ namespace PSAP.VIEW.BSVIEW
 
                     if (masterBindingSource.Current != null)
                     {
+                        if (AlterBefore != null)
+                        {
+                            if (!AlterBefore(((DataRowView)masterBindingSource.Current).Row))
+                                return;
+                        }
+
                         newState = false;
                         Set_Button_State(false);
                         Set_EditZone_ControlReadOnly(false);
@@ -391,7 +411,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 单击保存按钮事件
         /// </summary>
-        private bool btnSave_Click()
+        public bool btnSave_Click()
         {
             try
             {
@@ -507,6 +527,12 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
                     return;
+
+                if(masterBindingSource.Current == null)
+                {
+                    MessageHandler.ShowMessageBox("请选择要删除的记录。");
+                    return;
+                }
 
                 //if (MessageHandler.ShowMessageBox_YesNo("确定要删除当前选中的记录吗？") != DialogResult.Yes)
                 if (MessageHandler.ShowMessageBox_YesNo(f.tsmiQdyscxddjlm.Text) != DialogResult.Yes)
@@ -913,6 +939,8 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     locationColumnNo = browseXtraGridView.Columns.Count;
                 }
+
+                MessageHandler.ShowMessageBox(string.Format("向上未查询到包含【{0}】的记录。", textContent.Text.Trim()));
             }
             catch (Exception ex)
             {
@@ -963,6 +991,8 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     locationColumnNo = -1;
                 }
+
+                MessageHandler.ShowMessageBox(string.Format("向下未查询到包含【{0}】的记录。", textContent.Text.Trim()));
             }
             catch (Exception ex)
             {

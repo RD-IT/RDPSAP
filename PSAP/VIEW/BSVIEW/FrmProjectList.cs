@@ -1,5 +1,4 @@
-﻿using PSAP.BLL.BSBLL;
-using PSAP.DAO.BSDAO;
+﻿using PSAP.DAO.BSDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,8 @@ namespace PSAP.VIEW.BSVIEW
         FrmCommonDAO commonDAO = new FrmCommonDAO();
         FrmBaseEdit editForm = null;
         FrmStnList stnList = null;
+        FrmProjectListDAO projectDAO = new FrmProjectListDAO();
+        FrmProjectStatusDAO statusDAO = new FrmProjectStatusDAO();
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
         /// <summary>
@@ -67,20 +68,26 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(false);
-                
+                lookUpProjectStatusId.Properties.DataSource = statusDAO.QueryProjectStatus(false);
+                searchLookUpLeaderId.Properties.DataSource = projectDAO.QueryUserInfo(false);
+
+                repLookUpProjectStatusId.DataSource = statusDAO.QueryProjectStatus(false);
+                repLookUpLeaderId.DataSource = projectDAO.QueryUserInfo(false);
+
                 stnList = new FrmStnList("", "");
-                stnList.Show(this.dockPanelStn);
+                stnList.Show(this.PageStnInfo);
                 stnList.Dock = DockStyle.Fill;
                 stnList.TopLevel = false;
                 stnList.FormBorderStyle = FormBorderStyle.None;
 
-                this.dockPanelStn.Text = stnList.Text;
-                this.dockPanelStn.TabText = stnList.Text;
-                this.dockPanelStn.Controls.Add(stnList);
+                //this.PageStnInfo.Text = stnList.Text;
+                this.dockPanelInfo.Text = "项目其他信息";
+                this.dockPanelInfo.TabText = this.dockPanelInfo.Text;
+                this.PageStnInfo.Controls.Add(stnList);
 
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, btnStnList, false))
                 {
-                    dockPanelStn.Enabled = false;
+                    PageStnInfo.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -97,20 +104,32 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (textProjectNo.Text.Trim() == "")
             {
-                MessageHandler.ShowMessageBox(tsmiXmbh.Text);// ("项目号编号不能为空，请重新操作。");
+                MessageHandler.ShowMessageBox("项目号编号不能为空，请重新操作。");
                 textProjectNo.Focus();
                 return false;
             }
             if (searchLookUpBussinessBaseNo.Text.Trim() == "")
             {
-                MessageHandler.ShowMessageBox(tsmiKhbnwk.Text);// ("客户不能为空，请重新操作。");
+                MessageHandler.ShowMessageBox("客户不能为空，请重新操作。");
                 searchLookUpBussinessBaseNo.Focus();
                 return false;
             }
             if (textProjectName.Text.Trim() == "")
             {
-                MessageHandler.ShowMessageBox(tsmiXmmcbnwk.Text);// ("项目名称不能为空，请重新操作。");
+                MessageHandler.ShowMessageBox("项目名称不能为空，请重新操作。");
                 textProjectName.Focus();
+                return false;
+            }
+            if (lookUpProjectStatusId.ItemIndex == -1)
+            {
+                MessageHandler.ShowMessageBox("状态不能为空，请重新操作。");
+                lookUpProjectStatusId.Focus();
+                return false;
+            }
+            if (searchLookUpLeaderId.Text.Trim() == "")
+            {
+                MessageHandler.ShowMessageBox("负责人不能为空，请重新操作。");
+                searchLookUpLeaderId.Focus();
                 return false;
             }
 
@@ -171,10 +190,12 @@ namespace PSAP.VIEW.BSVIEW
                     DataRow dr = gridViewProjectList.GetFocusedDataRow();
                     if (dr != null)
                     {
+                        //TabCtlInfo.SelectedTabPage = PageStnInfo;
                         stnList.RefreshCurrentStnInfo(DataTypeConvert.GetString(dr["ProjectNo"]), DataTypeConvert.GetString(dr["ProjectName"]));
-                        this.dockPanelStn.Text = stnList.Text;
-                        this.dockPanelStn.TabText = stnList.Text;
-                        this.dockPanelStn.Controls.Add(stnList);
+                        //this.PageStnInfo.Text = stnList.Text;
+                        this.dockPanelInfo.Text = string.Format("项目【{0}】的其他信息", DataTypeConvert.GetString(dr["ProjectName"]));
+                        this.dockPanelInfo.TabText = this.dockPanelInfo.Text;
+                        this.PageStnInfo.Controls.Add(stnList);                        
                     }
                 }
                 else
@@ -189,5 +210,13 @@ namespace PSAP.VIEW.BSVIEW
             }
         }
 
+        /// <summary>
+        /// 设定新增默认值
+        /// </summary>
+        private void TableProjectList_TableNewRow(object sender, DataTableNewRowEventArgs e)
+        {
+            e.Row["ProjectStatusId"] = statusDAO.GetProjectStatus_DefaultAutoId();
+        }
+        
     }
 }

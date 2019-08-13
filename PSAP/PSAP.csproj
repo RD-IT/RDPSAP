@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -22,7 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,6 +81,7 @@
     <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.SpellChecker.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -80,6 +96,10 @@
     <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v15.2.Extensions, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraScheduler.v15.2.Extensions, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraSpellChecker.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraTreeList.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraVerticalGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Microsoft.ReportViewer.Common, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">
@@ -135,6 +155,8 @@
     <Compile Include="DAO\BSDAO\FrmLoginDAO.cs" />
     <Compile Include="DAO\BSDAO\FrmOrganizationStruDAO.cs" />
     <Compile Include="DAO\BSDAO\FrmPartsCodeDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmProjectListDAO.cs" />
+    <Compile Include="DAO\BSDAO\FrmProjectStatusDAO.cs" />
     <Compile Include="DAO\BSDAO\FrmRightDAO.cs" />
     <Compile Include="DAO\BSDAO\FrmMainDAO.cs" />
     <Compile Include="DAO\BSDAO\FrmSystemDAO.cs" />
@@ -151,6 +173,9 @@
     <Compile Include="DAO\PBDAO\FrmPBDesignBom_PS_NewDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmProductionScheduleDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmPSBomToPrReqDAO.cs" />
+    <Compile Include="DAO\PMDAO\FrmProjectPlanTaskDAO.cs" />
+    <Compile Include="DAO\PMDAO\FrmProjectUserAndTaskTypeDAO.cs" />
+    <Compile Include="DAO\PMDAO\FrmTaskScheduleRegisterDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmApprovalDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmDocumentTempletDAO.cs" />
     <Compile Include="DAO\PURDAO\FrmOrderDAO.cs" />
@@ -302,6 +327,12 @@
     <Compile Include="VIEW\BSVIEW\FrmLanguageText.Designer.cs">
       <DependentUpon>FrmLanguageText.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmProjectStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmProjectStatus.Designer.cs">
+      <DependentUpon>FrmProjectStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\BSVIEW\FrmRight_MenuManagement.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -343,6 +374,12 @@
     </Compile>
     <Compile Include="VIEW\CommonVIEW\FrmInputNumber.Designer.cs">
       <DependentUpon>FrmInputNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\CommonVIEW\FrmSelectUserList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\CommonVIEW\FrmSelectUserList.Designer.cs">
+      <DependentUpon>FrmSelectUserList.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\Form1.cs">
       <SubType>Form</SubType>
@@ -512,6 +549,24 @@
     <Compile Include="VIEW\PBVIEW\FrmSelectSalesOrder.Designer.cs">
       <DependentUpon>FrmSelectSalesOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\PMVIEW\FrmProjectPlanTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PMVIEW\FrmProjectPlanTask.Designer.cs">
+      <DependentUpon>FrmProjectPlanTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PMVIEW\FrmProjectUserAndTaskType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PMVIEW\FrmProjectUserAndTaskType.Designer.cs">
+      <DependentUpon>FrmProjectUserAndTaskType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PMVIEW\FrmTaskScheduleRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PMVIEW\FrmTaskScheduleRegister.Designer.cs">
+      <DependentUpon>FrmTaskScheduleRegister.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\PURVIEW\FrmLanguagePURDAO.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -535,6 +590,12 @@
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmPrReqApproval.Designer.cs">
       <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqListQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmPrReqListQuery.Designer.cs">
+      <DependentUpon>FrmPrReqListQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmSettlementApproval.cs">
       <SubType>Form</SubType>
@@ -1135,6 +1196,9 @@
     <EmbeddedResource Include="VIEW\BSVIEW\FrmLanguageText.resx">
       <DependentUpon>FrmLanguageText.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmProjectStatus.resx">
+      <DependentUpon>FrmProjectStatus.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_MenuManagement.resx">
       <DependentUpon>FrmRight_MenuManagement.cs</DependentUpon>
     </EmbeddedResource>
@@ -1155,6 +1219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\CommonVIEW\FrmInputNumber.resx">
       <DependentUpon>FrmInputNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\CommonVIEW\FrmSelectUserList.resx">
+      <DependentUpon>FrmSelectUserList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmQueryStockDurationTotal.resx">
       <DependentUpon>FrmQueryStockDurationTotal.cs</DependentUpon>
@@ -1231,6 +1298,15 @@
     <EmbeddedResource Include="VIEW\PBVIEW\FrmSelectSalesOrder.resx">
       <DependentUpon>FrmSelectSalesOrder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PMVIEW\FrmProjectPlanTask.resx">
+      <DependentUpon>FrmProjectPlanTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PMVIEW\FrmProjectUserAndTaskType.resx">
+      <DependentUpon>FrmProjectUserAndTaskType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PMVIEW\FrmTaskScheduleRegister.resx">
+      <DependentUpon>FrmTaskScheduleRegister.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmLanguagePURDAO.resx">
       <DependentUpon>FrmLanguagePURDAO.cs</DependentUpon>
     </EmbeddedResource>
@@ -1242,6 +1318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqApproval.resx">
       <DependentUpon>FrmPrReqApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmPrReqListQuery.resx">
+      <DependentUpon>FrmPrReqListQuery.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmSettlementApproval.resx">
       <DependentUpon>FrmSettlementApproval.cs</DependentUpon>
@@ -1563,6 +1642,18 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

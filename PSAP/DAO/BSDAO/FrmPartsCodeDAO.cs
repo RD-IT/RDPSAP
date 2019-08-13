@@ -18,6 +18,12 @@ namespace PSAP.DAO.BSDAO
             return DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));
         }
 
+        public string QueryPartsCode_FilePath(string codeFileNameStr)
+        {
+            string sqlStr= string.Format("select FilePath from SW_PartsCode where CodeFileName = '{0}'", codeFileNameStr);
+            return DataTypeConvert.GetString(BaseSQL.GetSingle(sqlStr));
+        }
+
         /// <summary>
         /// 保存导入的物料信息
         /// </summary>

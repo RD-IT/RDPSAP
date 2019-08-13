@@ -155,6 +155,7 @@ namespace PSAP.VIEW.BSVIEW
                 e.Row["DepartmentNo"] = DataTypeConvert.GetString(((DataTable)lookUpDept.Properties.DataSource).Rows[0]["DepartmentNo"]);
             e.Row["Founder"] = SystemInfo.user.EmpName;
             e.Row["CreateDate"] = BaseSQL.GetServerDateTime();
+            e.Row["IsDisable"] = 0;
         }
     }
 }

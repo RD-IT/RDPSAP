@@ -60,9 +60,40 @@ namespace PSAP
                     txtPassword.Focus();
                     return;
                 }
+
+                try
+                {
+                    //Data Source=192.168.0.3;Initial Catalog=PSAP;Persist Security Info=True;User ID=sa;Password=1qaz2wsx
+                    string tempStr = BaseSQL.connectionString.Replace("Data Source=", "");
+                    string ipAddressStr = tempStr.Substring(0, tempStr.IndexOf(";"));
+
+                    if (!new SystemHandler().TestIPAddress(ipAddressStr, 1000))
+                    {
+                        MessageHandler.ShowMessageBox(string.Format("IP地址【{0}】连接不通，请确认客户端和服务端的网络是否正常。", ipAddressStr));
+                        return;
+                    }
+                    if (!BaseSQL.TestSqlConnection())
+                    {
+                        MessageHandler.ShowMessageBox("服务端的数据库不能正常访问，请确认数据库是否正常");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageHandler.ShowMessageBox(ex.Message);
+                    return;
+                }
+
                 EncryptMD5 en = new EncryptMD5(txtPassword.Text);//实例化EncryptMD5, 加密后值引用en.str2
                 if (FrmLoginBLL.CheckUser(txtUserID.Text, en.str2, cboLanguage))// en.str2为加密后密码
                 {
+                    if(SystemInfo.user.IsDisable == 1)
+                    {
+                        MessageHandler.ShowMessageBox("当前用户已经停用，不可以登陆系统。");
+                        txtUserID.Focus();
+                        return;
+                    }
+
                     new SystemHandler().InitializationSystemInfo(txtPassword.Text);
 
                     if (SystemInfo.IsCheckServer)//启动服务端检测

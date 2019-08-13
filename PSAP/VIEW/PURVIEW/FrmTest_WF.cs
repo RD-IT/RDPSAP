@@ -40,7 +40,10 @@ namespace PSAP.VIEW.BSVIEW
             DevExpress.LookAndFeel.UserLookAndFeel.Default.SkinName = listBoxControl2.SelectedItem.ToString();
         }
 
-        
-
+        private void simpleButton1_Click(object sender, EventArgs e)
+        {
+            FrmProjectPlanTask fomr = new FrmProjectPlanTask();
+            fomr.ShowDialog();
+        }
     }
 }

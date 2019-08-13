@@ -209,6 +209,10 @@
             this.barBtnDeleteWorkProcess = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnPrReq = new DevExpress.XtraBars.BarButtonItem();
             this.popupMenuDBom = new DevExpress.XtraBars.PopupMenu(this.components);
+            this.ColuPlanMark = new System.Data.DataColumn();
+            this.ColuPrReqMark = new System.Data.DataColumn();
+            this.colPlanMark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.colPrReqMark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddle)).BeginInit();
             this.pnlMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlDesignBom)).BeginInit();
@@ -331,7 +335,9 @@
             this.colIsUse,
             this.colNewQty,
             this.colPbBomNo,
-            this.colReId});
+            this.colReId,
+            this.colPlanMark,
+            this.colPrReqMark});
             this.treeListDesignBom.DataSource = this.bindingSource_DesignBom;
             this.treeListDesignBom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListDesignBom.IndicatorWidth = 40;
@@ -496,7 +502,9 @@
             this.coluRemainQty,
             this.coluHasLevel,
             this.ColuNewQty,
-            this.ColuIsMaterial});
+            this.ColuIsMaterial,
+            this.ColuPlanMark,
+            this.ColuPrReqMark});
             this.dataTableDesignBom.TableName = "DesignBom";
             // 
             // coluReId
@@ -2018,6 +2026,44 @@
             this.popupMenuDBom.Manager = this.barManagerPS;
             this.popupMenuDBom.Name = "popupMenuDBom";
             // 
+            // ColuPlanMark
+            // 
+            this.ColuPlanMark.Caption = "生产计划";
+            this.ColuPlanMark.ColumnName = "PlanMark";
+            this.ColuPlanMark.DataType = typeof(short);
+            // 
+            // ColuPrReqMark
+            // 
+            this.ColuPrReqMark.Caption = "请购单";
+            this.ColuPrReqMark.ColumnName = "PrReqMark";
+            this.ColuPrReqMark.DataType = typeof(short);
+            // 
+            // colPlanMark
+            // 
+            this.colPlanMark.AppearanceHeader.Options.UseTextOptions = true;
+            this.colPlanMark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colPlanMark.Caption = "生产计划";
+            this.colPlanMark.ColumnEdit = this.repCheckEditIsUse;
+            this.colPlanMark.FieldName = "PlanMark";
+            this.colPlanMark.Name = "colPlanMark";
+            this.colPlanMark.OptionsColumn.AllowEdit = false;
+            this.colPlanMark.Visible = true;
+            this.colPlanMark.VisibleIndex = 5;
+            this.colPlanMark.Width = 60;
+            // 
+            // colPrReqMark
+            // 
+            this.colPrReqMark.AppearanceHeader.Options.UseTextOptions = true;
+            this.colPrReqMark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colPrReqMark.Caption = "请购单";
+            this.colPrReqMark.ColumnEdit = this.repCheckEditIsUse;
+            this.colPrReqMark.FieldName = "PrReqMark";
+            this.colPrReqMark.Name = "colPrReqMark";
+            this.colPrReqMark.OptionsColumn.AllowEdit = false;
+            this.colPrReqMark.Visible = true;
+            this.colPrReqMark.VisibleIndex = 6;
+            this.colPrReqMark.Width = 60;
+            // 
             // FrmPBDesignBom_PS_New
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2290,5 +2336,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn colprReqNo1;
         private DevExpress.XtraEditors.SimpleButton btnToPr;
         private DevExpress.XtraBars.BarButtonItem barBtnPrReq;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn colPlanMark;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn colPrReqMark;
+        private System.Data.DataColumn ColuPlanMark;
+        private System.Data.DataColumn ColuPrReqMark;
     }
 }

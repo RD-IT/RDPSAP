@@ -44,9 +44,11 @@
             this.dataColBfree4 = new System.Data.DataColumn();
             this.dataColBfree5 = new System.Data.DataColumn();
             this.dataColDepartmentName = new System.Data.DataColumn();
+            this.dataColIsDisable = new System.Data.DataColumn();
             this.bSUserInfo = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.checkIsDisable = new DevExpress.XtraEditors.CheckEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.lookUpDept = new DevExpress.XtraEditors.LookUpEdit();
             this.textLoginPwd = new DevExpress.XtraEditors.TextEdit();
@@ -66,6 +68,8 @@
             this.colLoginPwd = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFounder = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCreateDate = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colIsDisable = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repCheckIsDisable = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.colBfree1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBfree2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colBfree3 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -74,12 +78,14 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDlmbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYgxmbnwk = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.dSUserInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableUserInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSUserInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsDisable.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpDept.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textLoginPwd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEmpName.Properties)).BeginInit();
@@ -88,6 +94,7 @@
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlUserInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewUserInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsDisable)).BeginInit();
             this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,7 +119,8 @@
             this.dataColBfree3,
             this.dataColBfree4,
             this.dataColBfree5,
-            this.dataColDepartmentName});
+            this.dataColDepartmentName,
+            this.dataColIsDisable});
             this.TableUserInfo.TableName = "UserInfo";
             this.TableUserInfo.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TableUserInfo_TableNewRow);
             // 
@@ -177,6 +185,12 @@
             this.dataColDepartmentName.Caption = "部门名称";
             this.dataColDepartmentName.ColumnName = "DepartmentName";
             // 
+            // dataColIsDisable
+            // 
+            this.dataColIsDisable.Caption = "停用";
+            this.dataColIsDisable.ColumnName = "IsDisable";
+            this.dataColIsDisable.DataType = typeof(short);
+            // 
             // bSUserInfo
             // 
             this.bSUserInfo.DataMember = "UserInfo";
@@ -192,6 +206,8 @@
             // 
             // pnlEdit
             // 
+            this.pnlEdit.Controls.Add(this.labelControl2);
+            this.pnlEdit.Controls.Add(this.checkIsDisable);
             this.pnlEdit.Controls.Add(this.labelControl1);
             this.pnlEdit.Controls.Add(this.lookUpDept);
             this.pnlEdit.Controls.Add(this.textLoginPwd);
@@ -205,6 +221,20 @@
             this.pnlEdit.Name = "pnlEdit";
             this.pnlEdit.Size = new System.Drawing.Size(950, 97);
             this.pnlEdit.TabIndex = 6;
+            // 
+            // checkIsDisable
+            // 
+            this.checkIsDisable.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSUserInfo, "IsDisable", true));
+            this.checkIsDisable.Location = new System.Drawing.Point(354, 55);
+            this.checkIsDisable.Name = "checkIsDisable";
+            this.checkIsDisable.Properties.Caption = "";
+            this.checkIsDisable.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkIsDisable.Properties.ValueChecked = ((short)(1));
+            this.checkIsDisable.Properties.ValueGrayed = ((short)(0));
+            this.checkIsDisable.Properties.ValueUnchecked = ((short)(0));
+            this.checkIsDisable.Size = new System.Drawing.Size(20, 19);
+            this.checkIsDisable.TabIndex = 4;
+            this.checkIsDisable.TabStop = false;
             // 
             // labelControl1
             // 
@@ -299,6 +329,8 @@
             this.gridCrlUserInfo.Location = new System.Drawing.Point(2, 2);
             this.gridCrlUserInfo.MainView = this.gridViewUserInfo;
             this.gridCrlUserInfo.Name = "gridCrlUserInfo";
+            this.gridCrlUserInfo.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repCheckIsDisable});
             this.gridCrlUserInfo.Size = new System.Drawing.Size(946, 463);
             this.gridCrlUserInfo.TabIndex = 0;
             this.gridCrlUserInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -315,6 +347,7 @@
             this.colLoginPwd,
             this.colFounder,
             this.colCreateDate,
+            this.colIsDisable,
             this.colBfree1,
             this.colBfree2,
             this.colBfree3,
@@ -404,6 +437,26 @@
             this.colCreateDate.VisibleIndex = 5;
             this.colCreateDate.Width = 150;
             // 
+            // colIsDisable
+            // 
+            this.colIsDisable.AppearanceHeader.Options.UseTextOptions = true;
+            this.colIsDisable.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colIsDisable.ColumnEdit = this.repCheckIsDisable;
+            this.colIsDisable.FieldName = "IsDisable";
+            this.colIsDisable.Name = "colIsDisable";
+            this.colIsDisable.Visible = true;
+            this.colIsDisable.VisibleIndex = 6;
+            this.colIsDisable.Width = 50;
+            // 
+            // repCheckIsDisable
+            // 
+            this.repCheckIsDisable.AutoHeight = false;
+            this.repCheckIsDisable.Name = "repCheckIsDisable";
+            this.repCheckIsDisable.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.repCheckIsDisable.ValueChecked = ((short)(1));
+            this.repCheckIsDisable.ValueGrayed = ((short)(0));
+            this.repCheckIsDisable.ValueUnchecked = ((short)(0));
+            // 
             // colBfree1
             // 
             this.colBfree1.FieldName = "Bfree1";
@@ -435,7 +488,7 @@
             this.tsmiDlmbnwk,
             this.tsmiYgxmbnwk});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(257, 70);
+            this.cms.Size = new System.Drawing.Size(257, 48);
             // 
             // tsmiDlmbnwk
             // 
@@ -448,6 +501,14 @@
             this.tsmiYgxmbnwk.Name = "tsmiYgxmbnwk";
             this.tsmiYgxmbnwk.Size = new System.Drawing.Size(256, 22);
             this.tsmiYgxmbnwk.Text = "员工姓名不能为空，请重新操作。";
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(300, 58);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(24, 14);
+            this.labelControl2.TabIndex = 19;
+            this.labelControl2.Text = "停用";
             // 
             // FrmUserInfo_New
             // 
@@ -467,6 +528,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsDisable.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpDept.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textLoginPwd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEmpName.Properties)).EndInit();
@@ -475,6 +537,7 @@
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlUserInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewUserInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsDisable)).EndInit();
             this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -527,5 +590,10 @@
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiDlmbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiYgxmbnwk;
+        private System.Data.DataColumn dataColIsDisable;
+        private DevExpress.XtraEditors.CheckEdit checkIsDisable;
+        private DevExpress.XtraGrid.Columns.GridColumn colIsDisable;
+        private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckIsDisable;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
     }
 }

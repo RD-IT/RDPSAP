@@ -1144,6 +1144,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (new FrmPSBomToPrReq().ShowDialog() == DialogResult.OK)
                 {
+                    RefreshDesignBomInfo(treeListDesignBom.FocusedNode, true);
                     treeListDesignBom_FocusedNodeChanged(null, null);
                 }
             }
@@ -1257,6 +1258,7 @@ namespace PSAP.VIEW.BSVIEW
                     FrmProductionScheduleBom_InputSingle psBomForm = new FrmProductionScheduleBom_InputSingle();
                     if (psBomForm.ShowDialog() == DialogResult.OK)
                     {
+                        RefreshDesignBomInfo(treeListDesignBom.FocusedNode, true);
                         RefreshPSBomInfo();
                     }
                 }
@@ -1281,6 +1283,7 @@ namespace PSAP.VIEW.BSVIEW
                         DateTime planDate = multiPSBomForm.datePlanDate.DateTime.Date;
                         if (bomDAO.SaveMultiProductionScheduleBom(bomListAutoIdList, 0, planDate, remainQty))
                         {
+                            RefreshDesignBomInfo(treeListDesignBom.FocusedNode, true);
                             RefreshPSBomInfo();
                             ClearTreeListSelection_FocusedNode();
                         }
@@ -1320,6 +1323,7 @@ namespace PSAP.VIEW.BSVIEW
                 FrmProductionScheduleBom_InputSingle psBomForm = new FrmProductionScheduleBom_InputSingle();
                 if (psBomForm.ShowDialog() == DialogResult.OK)
                 {
+                    RefreshDesignBomInfo(treeListDesignBom.FocusedNode, true);
                     RefreshPSBomInfo();
                 }
             }
@@ -1374,6 +1378,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (bomDAO.DeleteProductionScheduleBom(psBomAutoIdList))
                 {
+                    RefreshDesignBomInfo(treeListDesignBom.FocusedNode, true);
                     RefreshPSBomInfo();
                     MessageHandler.ShowMessageBox(string.Format("删除{0}条生产计划Bom信息成功。", psBomAutoIdList.Count));
                 }

@@ -24,6 +24,7 @@ namespace PSAP.ENTITY.BSENTITY
         private string roleNo;
         private string roleName;
         private string lanuage;
+        private int isdisable;
 
         public string EmpName
         {
@@ -243,6 +244,18 @@ namespace PSAP.ENTITY.BSENTITY
             set
             {
                 lanuage = value;
+            }
+        }
+
+        public int IsDisable
+        {
+            get
+            {
+                return isdisable;
+            }
+            set
+            {
+                isdisable = value;
             }
         }
     }

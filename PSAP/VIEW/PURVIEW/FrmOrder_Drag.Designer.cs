@@ -355,6 +355,7 @@
             this.tsmiCgqxsp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiQxspan = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDyyl = new System.Windows.Forms.ToolStripMenuItem();
+            this.barButtonPreview = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpApprover.Properties)).BeginInit();
@@ -2873,7 +2874,8 @@
             // 
             this.popupMenuList.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
             new DevExpress.XtraBars.LinkPersistInfo(this.barButtonUp),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonDown)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonDown),
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonPreview)});
             this.popupMenuList.Manager = this.barManagerForm;
             this.popupMenuList.Name = "popupMenuList";
             // 
@@ -2900,8 +2902,9 @@
             this.barManagerForm.Form = this;
             this.barManagerForm.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.barButtonUp,
-            this.barButtonDown});
-            this.barManagerForm.MaxItemId = 4;
+            this.barButtonDown,
+            this.barButtonPreview});
+            this.barManagerForm.MaxItemId = 5;
             // 
             // barDockControlTop
             // 
@@ -3494,6 +3497,13 @@
             this.tsmiDyyl.Size = new System.Drawing.Size(304, 22);
             this.tsmiDyyl.Text = "打印预览按钮事件错误。";
             // 
+            // barButtonPreview
+            // 
+            this.barButtonPreview.Caption = "零件预览";
+            this.barButtonPreview.Id = 4;
+            this.barButtonPreview.Name = "barButtonPreview";
+            this.barButtonPreview.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonPreview_ItemClick);
+            // 
             // FrmOrder_Drag
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3933,5 +3943,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiYzcgddzrxxmdxmh;
         private DevExpress.XtraEditors.SimpleButton btnCancelSubmit;
         private DevExpress.XtraEditors.SimpleButton btnSubmit;
+        private DevExpress.XtraBars.BarButtonItem barButtonPreview;
     }
 }

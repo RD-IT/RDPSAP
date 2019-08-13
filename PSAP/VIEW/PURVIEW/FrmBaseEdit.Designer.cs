@@ -52,7 +52,7 @@
             // 
             // pnlButton
             // 
-            this.pnlButton.Appearance.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlButton.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
             this.pnlButton.Appearance.Options.UseBackColor = true;
             this.pnlButton.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlButton.Controls.Add(this.btnSaveExcel);
@@ -217,7 +217,6 @@
         private DevExpress.XtraEditors.PanelControl pnlButton;
         private DevExpress.XtraEditors.SimpleButton btnDelete;
         private DevExpress.XtraEditors.SimpleButton btnCancel;
-        private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.SimpleButton btnNew;
         private DevExpress.XtraEditors.SimpleButton btnRefresh;
         public DevExpress.XtraEditors.SimpleButton btnSaveExcel;
@@ -228,5 +227,6 @@
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiSave;
         internal System.Windows.Forms.ToolStripMenuItem tsmiEdit;
+        public DevExpress.XtraEditors.SimpleButton btnSave;
     }
 }

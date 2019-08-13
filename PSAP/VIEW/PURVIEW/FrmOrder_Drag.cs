@@ -1340,6 +1340,32 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 零件预览
+        /// </summary>
+        private void barButtonPreview_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            try
+            {
+                //FrmEDrawingPreview.codeFileNameStr = DataTypeConvert.GetString(gridViewOrderList.GetFocusedDataRow()["CodeFileName"]);
+                //FrmEDrawingPreview.partPathStr = new FrmPartsCodeDAO().QueryPartsCode_FilePath(FrmEDrawingPreview.codeFileNameStr);
+                //if(FrmEDrawingPreview.partPathStr=="")
+                //{
+                //    MessageHandler.ShowMessageBox("未查询到零件的文件路径，请重新操作。");
+                //    return;
+                //}
+                //FrmEDrawingPreview edrawingForm = new FrmEDrawingPreview();
+                //edrawingForm.ShowDialog();
+                string cfnStr = DataTypeConvert.GetString(gridViewOrderList.GetFocusedDataRow()["CodeFileName"]);
+                string pString = string.Format("[{0}][{1}]", cfnStr, new FrmPartsCodeDAO().QueryPartsCode_FilePath(cfnStr));
+                System.Diagnostics.Process.Start(Application.StartupPath + @"\SWPreview.exe", pString);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--零件预览错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 检查是否有未填写字段
         /// </summary>
         private bool IsHaveBlankLine()
@@ -1898,6 +1924,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         #endregion
+
 
     }
 }

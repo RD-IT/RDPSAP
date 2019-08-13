@@ -746,8 +746,8 @@
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);
             this.Name = "FrmPrReqQuery";
-            this.TabText = "请购单查询";
-            this.Text = "请购单查询";
+            this.TabText = "请购单查询-按订单";
+            this.Text = "请购单查询-按订单";
             this.Load += new System.EventHandler(this.FrmPrReqQuery_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).EndInit();
             this.pnltop.ResumeLayout(false);

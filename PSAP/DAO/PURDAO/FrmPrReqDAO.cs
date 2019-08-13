@@ -193,6 +193,9 @@ namespace PSAP.DAO.PURDAO
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo");
                         }
 
+                        cmd.CommandText = string.Format("update PB_DesignBomList set PrReqQty = (Select ISNULL(SUM(RemainQty), 0) from PB_ProductionScheduleBom where PB_DesignBomList.AutoId = PB_ProductionScheduleBom.BomListAutoId and ISNULL(PrReqNo, '') != '' and PrReqNo not in ({0})) where AutoId in (select BomListAutoId from PB_ProductionScheduleBom where PrReqNo in ({0}))", prReqNoListStr);
+                        cmd.ExecuteNonQuery();
+
                         cmd.CommandText = string.Format("Update PB_ProductionScheduleBom set PrReqNo = Null where PrReqNo in ({0})", prReqNoListStr);
                         cmd.ExecuteNonQuery();
 
@@ -1458,7 +1461,7 @@ namespace PSAP.DAO.PURDAO
         }
 
         /// <summary>
-        /// 查询采购明细的信息是否有生产计划生成的
+        /// 查询请购明细的信息是否有生产计划生成的
         /// </summary>
         public bool Query_PrReqList_PSBomAutoId(string prReqNoStr)
         {
@@ -1467,6 +1470,48 @@ namespace PSAP.DAO.PURDAO
             if (count > 0)
                 return true;
             return false;
+        }
+
+        /// <summary>
+        /// 查询请购单明细表关联表头表的SQL
+        /// </summary>
+        public string QueryPrReqList_Head_SQL(string beginRequirementDateStr, string endRequirementDateStr, string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, int reqStateInt, string projectNoStr, string codeFileNameStr, string commonStr)
+        {
+            string sqlStr = " 1=1";
+            if (beginRequirementDateStr != "")
+            {
+                sqlStr += string.Format(" and RequirementDate between '{0}' and '{1}'", beginRequirementDateStr, endRequirementDateStr);
+            }
+            if (beginDateStr != "")
+            {
+                sqlStr += string.Format(" and ReqDate between '{0}' and '{1}'", beginDateStr, endDateStr);
+            }
+            if (reqDepStr != "")
+            {
+                sqlStr += string.Format(" and ReqDep='{0}'", reqDepStr);
+            }
+            if (purCategoryStr != "")
+            {
+                sqlStr += string.Format(" and PurCategory='{0}'", purCategoryStr);
+            }
+            if (reqStateInt != 0)
+            {
+                sqlStr += string.Format(" and ReqState={0}", reqStateInt);
+            }
+            if (projectNoStr != "")
+            {
+                sqlStr += string.Format(" and ProjectNo='{0}'", projectNoStr);
+            }
+            if (codeFileNameStr != "")
+            {
+                sqlStr += string.Format(" and List.CodeFileName='{0}'", codeFileNameStr);
+            }
+            if (commonStr != "")
+            {
+                sqlStr += string.Format(" and (PrReqNo like '%{0}%' or Applicant like '%{0}%' or StnNo like '%{0}%' or PrReqListRemark like '%{0}%' or PrReqRemark like '%{0}%' or ProjectNo like '%{0}%' or List.CodeFileName like '%{0}%' or CodeName like '%{0}%')", commonStr);
+            }
+            sqlStr = string.Format("select List.*, Parts.CodeName from V_PUR_PrReqList_Head as List left join SW_PartsCode as Parts on List.CodeFileName = Parts.CodeFileName where {0} order by ListAutoId", sqlStr);
+            return sqlStr;
         }
     }
 }

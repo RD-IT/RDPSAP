@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 using System.Drawing;
+using System.Net.NetworkInformation;
 
 namespace PSAP.PSAPCommon
 {
@@ -39,6 +40,34 @@ namespace PSAP.PSAPCommon
             //throw new Exception("获取本机的IP地址异常。");
             throw new Exception(f.tsmiHqbjdi.Text);
 
+        }
+
+        /// <summary>
+        /// 计算机发送 Internet 控制消息协议 (ICMP)判断是否能连通目标计算机
+        /// </summary>
+        /// <param name="AddressStr">一个 System.String，它标识作为 ICMP 回送消息目标的计算机。为此参数指定的值可以是主机名，也可以是以字符串形式表示的 IP 地址。</param>
+        /// <param name="timeOut">一个 System.Int32 值，指定（发送回送消息后）等待 ICMP 回送答复消息的最大毫秒数。</param>
+        /// <returns>True:Success False: No Success</returns>
+        public bool TestIPAddress(string AddressStr, int timeOut)
+        {
+            try
+            {
+                Ping myping = new Ping();
+
+                PingReply pr = myping.Send(AddressStr, timeOut);
+                if (pr.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                throw new ArgumentException(string.Format("IP地址【{0}】连接不通，请确认客户端和服务端的网络是否正常。", AddressStr));
+            }
         }
 
         /// <summary>
