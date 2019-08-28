@@ -84,7 +84,7 @@
             this.colPurCategory = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemLookUpEdit2 = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colApplicant = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colApprover = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colClosed = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrReqRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlBottom = new DevExpress.XtraEditors.PanelControl();
@@ -149,7 +149,7 @@
             this.btnSaveExcel.Location = new System.Drawing.Point(732, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveExcel.TabIndex = 13;
+            this.btnSaveExcel.TabIndex = 8;
             this.btnSaveExcel.Text = "存为Excel";
             this.btnSaveExcel.Click += new System.EventHandler(this.btnSaveExcel_Click);
             // 
@@ -515,7 +515,7 @@
             this.colStnNo,
             this.colPurCategory,
             this.colApplicant,
-            this.colApprover,
+            this.colModifier,
             this.colClosed,
             this.colPrReqRemark});
             this.gridViewPrReqHead.GridControl = this.gridControlPrReqHead;
@@ -649,15 +649,15 @@
             this.colApplicant.VisibleIndex = 8;
             this.colApplicant.Width = 70;
             // 
-            // colApprover
+            // colModifier
             // 
-            this.colApprover.AppearanceHeader.Options.UseTextOptions = true;
-            this.colApprover.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colApprover.FieldName = "Approver";
-            this.colApprover.Name = "colApprover";
-            this.colApprover.Visible = true;
-            this.colApprover.VisibleIndex = 9;
-            this.colApprover.Width = 70;
+            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifier.FieldName = "Modifier";
+            this.colModifier.Name = "colModifier";
+            this.colModifier.Visible = true;
+            this.colModifier.VisibleIndex = 9;
+            this.colModifier.Width = 70;
             // 
             // colClosed
             // 
@@ -831,7 +831,7 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repositoryItemLookUpEdit2;
         private DevExpress.XtraGrid.Columns.GridColumn colApplicant;
         private DevExpress.XtraGrid.Columns.GridColumn colPrReqRemark;
-        private DevExpress.XtraGrid.Columns.GridColumn colApprover;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifier;
         private DevExpress.XtraEditors.SimpleButton btnSaveExcel;
         private DevExpress.XtraEditors.PanelControl pnlBottom;
         private GridBottom gridBottomPrReq;

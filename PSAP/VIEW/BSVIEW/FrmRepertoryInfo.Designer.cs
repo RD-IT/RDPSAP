@@ -35,9 +35,14 @@
             this.dataColRepertoryNo = new System.Data.DataColumn();
             this.dataColRepertoryName = new System.Data.DataColumn();
             this.dataColRepertoryType = new System.Data.DataColumn();
+            this.dataColCreator = new System.Data.DataColumn();
+            this.dataColCreatorIp = new System.Data.DataColumn();
+            this.dataColRemark = new System.Data.DataColumn();
             this.bSRepertoryInfo = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.labRemark = new DevExpress.XtraEditors.LabelControl();
+            this.textRemark = new DevExpress.XtraEditors.TextEdit();
             this.labRepertoryType = new DevExpress.XtraEditors.LabelControl();
             this.radioRepertoryType = new DevExpress.XtraEditors.RadioGroup();
             this.labRepertoryName = new DevExpress.XtraEditors.LabelControl();
@@ -51,6 +56,9 @@
             this.colRepertoryNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRepertoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRepertoryType = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCreator = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpCreator = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCkbhbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCkmcbnwk = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,6 +68,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radioRepertoryType.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRepertoryName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRepertoryNo.Properties)).BeginInit();
@@ -67,6 +76,7 @@
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlRepertoryInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRepertoryInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCreator)).BeginInit();
             this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +92,10 @@
             this.dataColAutoId,
             this.dataColRepertoryNo,
             this.dataColRepertoryName,
-            this.dataColRepertoryType});
+            this.dataColRepertoryType,
+            this.dataColCreator,
+            this.dataColCreatorIp,
+            this.dataColRemark});
             this.TableRepertoryInfo.TableName = "RepertoryInfo";
             this.TableRepertoryInfo.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TableRepertoryInfo_TableNewRow);
             // 
@@ -107,6 +120,22 @@
             this.dataColRepertoryType.ColumnName = "RepertoryType";
             this.dataColRepertoryType.DataType = typeof(int);
             // 
+            // dataColCreator
+            // 
+            this.dataColCreator.Caption = "登记人";
+            this.dataColCreator.ColumnName = "Creator";
+            this.dataColCreator.DataType = typeof(int);
+            // 
+            // dataColCreatorIp
+            // 
+            this.dataColCreatorIp.Caption = "登记人IP";
+            this.dataColCreatorIp.ColumnName = "CreatorIp";
+            // 
+            // dataColRemark
+            // 
+            this.dataColRemark.Caption = "备注";
+            this.dataColRemark.ColumnName = "Remark";
+            // 
             // bSRepertoryInfo
             // 
             this.bSRepertoryInfo.DataMember = "RepertoryInfo";
@@ -114,14 +143,17 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
-            this.pnlToolBar.Size = new System.Drawing.Size(784, 40);
+            this.pnlToolBar.Size = new System.Drawing.Size(918, 40);
             this.pnlToolBar.TabIndex = 3;
             // 
             // pnlEdit
             // 
+            this.pnlEdit.Controls.Add(this.labRemark);
+            this.pnlEdit.Controls.Add(this.textRemark);
             this.pnlEdit.Controls.Add(this.labRepertoryType);
             this.pnlEdit.Controls.Add(this.radioRepertoryType);
             this.pnlEdit.Controls.Add(this.labRepertoryName);
@@ -131,8 +163,25 @@
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(784, 68);
+            this.pnlEdit.Size = new System.Drawing.Size(918, 97);
             this.pnlEdit.TabIndex = 7;
+            // 
+            // labRemark
+            // 
+            this.labRemark.Location = new System.Drawing.Point(36, 58);
+            this.labRemark.Name = "labRemark";
+            this.labRemark.Size = new System.Drawing.Size(24, 14);
+            this.labRemark.TabIndex = 21;
+            this.labRemark.Text = "备注";
+            // 
+            // textRemark
+            // 
+            this.textRemark.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSRepertoryInfo, "Remark", true));
+            this.textRemark.EnterMoveNextControl = true;
+            this.textRemark.Location = new System.Drawing.Point(104, 55);
+            this.textRemark.Name = "textRemark";
+            this.textRemark.Size = new System.Drawing.Size(411, 20);
+            this.textRemark.TabIndex = 3;
             // 
             // labRepertoryType
             // 
@@ -145,6 +194,7 @@
             // radioRepertoryType
             // 
             this.radioRepertoryType.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSRepertoryInfo, "RepertoryType", true));
+            this.radioRepertoryType.EnterMoveNextControl = true;
             this.radioRepertoryType.Location = new System.Drawing.Point(603, 20);
             this.radioRepertoryType.Name = "radioRepertoryType";
             this.radioRepertoryType.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
@@ -175,6 +225,7 @@
             // textRepertoryName
             // 
             this.textRepertoryName.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSRepertoryInfo, "RepertoryName", true));
+            this.textRepertoryName.EnterMoveNextControl = true;
             this.textRepertoryName.Location = new System.Drawing.Point(355, 21);
             this.textRepertoryName.Name = "textRepertoryName";
             this.textRepertoryName.Size = new System.Drawing.Size(160, 20);
@@ -193,9 +244,9 @@
             // 
             this.pnlGrid.Controls.Add(this.gridCrlRepertoryInfo);
             this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlGrid.Location = new System.Drawing.Point(0, 108);
+            this.pnlGrid.Location = new System.Drawing.Point(0, 137);
             this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(784, 253);
+            this.pnlGrid.Size = new System.Drawing.Size(918, 325);
             this.pnlGrid.TabIndex = 8;
             // 
             // gridCrlRepertoryInfo
@@ -205,7 +256,9 @@
             this.gridCrlRepertoryInfo.Location = new System.Drawing.Point(2, 2);
             this.gridCrlRepertoryInfo.MainView = this.gridViewRepertoryInfo;
             this.gridCrlRepertoryInfo.Name = "gridCrlRepertoryInfo";
-            this.gridCrlRepertoryInfo.Size = new System.Drawing.Size(780, 249);
+            this.gridCrlRepertoryInfo.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repLookUpCreator});
+            this.gridCrlRepertoryInfo.Size = new System.Drawing.Size(914, 321);
             this.gridCrlRepertoryInfo.TabIndex = 0;
             this.gridCrlRepertoryInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewRepertoryInfo});
@@ -216,7 +269,9 @@
             this.colAutoId,
             this.colRepertoryNo,
             this.colRepertoryName,
-            this.colRepertoryType});
+            this.colRepertoryType,
+            this.colRemark,
+            this.colCreator});
             this.gridViewRepertoryInfo.GridControl = this.gridCrlRepertoryInfo;
             this.gridViewRepertoryInfo.IndicatorWidth = 40;
             this.gridViewRepertoryInfo.Name = "gridViewRepertoryInfo";
@@ -242,6 +297,8 @@
             this.colRepertoryNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colRepertoryNo.FieldName = "RepertoryNo";
             this.colRepertoryNo.Name = "colRepertoryNo";
+            this.colRepertoryNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "RepertoryNo", "共计{0}条")});
             this.colRepertoryNo.Visible = true;
             this.colRepertoryNo.VisibleIndex = 0;
             this.colRepertoryNo.Width = 160;
@@ -266,13 +323,43 @@
             this.colRepertoryType.VisibleIndex = 2;
             this.colRepertoryType.Width = 120;
             // 
+            // colRemark
+            // 
+            this.colRemark.AppearanceHeader.Options.UseTextOptions = true;
+            this.colRemark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colRemark.FieldName = "Remark";
+            this.colRemark.Name = "colRemark";
+            this.colRemark.Visible = true;
+            this.colRemark.VisibleIndex = 3;
+            this.colRemark.Width = 300;
+            // 
+            // colCreator
+            // 
+            this.colCreator.AppearanceHeader.Options.UseTextOptions = true;
+            this.colCreator.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colCreator.ColumnEdit = this.repLookUpCreator;
+            this.colCreator.FieldName = "Creator";
+            this.colCreator.Name = "colCreator";
+            this.colCreator.Visible = true;
+            this.colCreator.VisibleIndex = 4;
+            // 
+            // repLookUpCreator
+            // 
+            this.repLookUpCreator.AutoHeight = false;
+            this.repLookUpCreator.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpCreator.DisplayMember = "EmpName";
+            this.repLookUpCreator.Name = "repLookUpCreator";
+            this.repLookUpCreator.NullText = "";
+            this.repLookUpCreator.ValueMember = "AutoId";
+            // 
             // cms
             // 
             this.cms.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiCkbhbnwk,
             this.tsmiCkmcbnwk});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(257, 70);
+            this.cms.Size = new System.Drawing.Size(257, 48);
             // 
             // tsmiCkbhbnwk
             // 
@@ -289,7 +376,7 @@
             // FrmRepertoryInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(784, 361);
+            this.ClientSize = new System.Drawing.Size(918, 462);
             this.Controls.Add(this.pnlGrid);
             this.Controls.Add(this.pnlEdit);
             this.Controls.Add(this.pnlToolBar);
@@ -304,6 +391,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radioRepertoryType.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRepertoryName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRepertoryNo.Properties)).EndInit();
@@ -311,6 +399,7 @@
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlRepertoryInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewRepertoryInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCreator)).EndInit();
             this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -343,5 +432,13 @@
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiCkbhbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiCkmcbnwk;
+        private System.Data.DataColumn dataColCreator;
+        private System.Data.DataColumn dataColCreatorIp;
+        private System.Data.DataColumn dataColRemark;
+        private DevExpress.XtraEditors.LabelControl labRemark;
+        private DevExpress.XtraEditors.TextEdit textRemark;
+        private DevExpress.XtraGrid.Columns.GridColumn colRemark;
+        private DevExpress.XtraGrid.Columns.GridColumn colCreator;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCreator;
     }
 }

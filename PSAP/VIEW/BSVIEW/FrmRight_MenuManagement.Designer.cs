@@ -40,6 +40,7 @@
             this.dataColMenuOrder = new System.Data.DataColumn();
             this.dataColParentMenuName = new System.Data.DataColumn();
             this.dataColParentMenuText = new System.Data.DataColumn();
+            this.dataColVisible = new System.Data.DataColumn();
             this.pnlLeft = new DevExpress.XtraEditors.PanelControl();
             this.treeListMenu = new DevExpress.XtraTreeList.TreeList();
             this.colAutoId1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
@@ -89,7 +90,6 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCdmcbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSjcdbnh = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataColVisible = new System.Data.DataColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bSMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableMenu)).BeginInit();
@@ -181,6 +181,12 @@
             // 
             this.dataColParentMenuText.Caption = "上级菜单";
             this.dataColParentMenuText.ColumnName = "ParentMenuText";
+            // 
+            // dataColVisible
+            // 
+            this.dataColVisible.Caption = "是否显示";
+            this.dataColVisible.ColumnName = "Visible";
+            this.dataColVisible.DataType = typeof(short);
             // 
             // pnlLeft
             // 
@@ -522,6 +528,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -636,12 +643,6 @@
             this.tsmiSjcdbnh.Name = "tsmiSjcdbnh";
             this.tsmiSjcdbnh.Size = new System.Drawing.Size(316, 22);
             this.tsmiSjcdbnh.Text = "上级菜单不能和当前菜单相同，请重新操作。";
-            // 
-            // dataColVisible
-            // 
-            this.dataColVisible.Caption = "是否显示";
-            this.dataColVisible.ColumnName = "Visible";
-            this.dataColVisible.DataType = typeof(short);
             // 
             // FrmRight_MenuManagement
             // 

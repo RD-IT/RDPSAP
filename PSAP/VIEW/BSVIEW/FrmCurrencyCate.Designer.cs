@@ -35,10 +35,12 @@
             this.dataColCurrencyCateAbb = new System.Data.DataColumn();
             this.dataColCurrencyCateName = new System.Data.DataColumn();
             this.dataColExchangeRate = new System.Data.DataColumn();
-            this.bSCurrencyCate = new System.Windows.Forms.BindingSource(this.components);
             this.dataColRemark = new System.Data.DataColumn();
+            this.bSCurrencyCate = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.spinExchangeRate = new DevExpress.XtraEditors.SpinEdit();
+            this.labExchangeRate = new DevExpress.XtraEditors.LabelControl();
             this.textRemark = new DevExpress.XtraEditors.TextEdit();
             this.textCurrencyCateName = new DevExpress.XtraEditors.TextEdit();
             this.textCurrencyCateAbb = new DevExpress.XtraEditors.TextEdit();
@@ -48,8 +50,6 @@
             this.pnlGrid = new DevExpress.XtraEditors.PanelControl();
             this.gridCrlCurrencyCate = new DevExpress.XtraGrid.GridControl();
             this.gridViewCurrencyCate = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.labExchangeRate = new DevExpress.XtraEditors.LabelControl();
-            this.spinExchangeRate = new DevExpress.XtraEditors.SpinEdit();
             this.colAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCurrencyCateAbb = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCurrencyCateName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -61,6 +61,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinExchangeRate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCurrencyCateName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCurrencyCateAbb.Properties)).BeginInit();
@@ -68,7 +69,6 @@
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlCurrencyCate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCurrencyCate)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinExchangeRate.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // dSCurrencyCate
@@ -109,18 +109,19 @@
             this.dataColExchangeRate.ColumnName = "ExchangeRate";
             this.dataColExchangeRate.DataType = typeof(double);
             // 
-            // bSCurrencyCate
-            // 
-            this.bSCurrencyCate.DataMember = "CurrencyCate";
-            this.bSCurrencyCate.DataSource = this.dSCurrencyCate;
-            // 
             // dataColRemark
             // 
             this.dataColRemark.Caption = "备注";
             this.dataColRemark.ColumnName = "Remark";
             // 
+            // bSCurrencyCate
+            // 
+            this.bSCurrencyCate.DataMember = "CurrencyCate";
+            this.bSCurrencyCate.DataSource = this.dSCurrencyCate;
+            // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -142,6 +143,30 @@
             this.pnlEdit.Name = "pnlEdit";
             this.pnlEdit.Size = new System.Drawing.Size(1024, 97);
             this.pnlEdit.TabIndex = 6;
+            // 
+            // spinExchangeRate
+            // 
+            this.spinExchangeRate.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSCurrencyCate, "ExchangeRate", true));
+            this.spinExchangeRate.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.spinExchangeRate.EnterMoveNextControl = true;
+            this.spinExchangeRate.Location = new System.Drawing.Point(665, 21);
+            this.spinExchangeRate.Name = "spinExchangeRate";
+            this.spinExchangeRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinExchangeRate.Size = new System.Drawing.Size(180, 20);
+            this.spinExchangeRate.TabIndex = 2;
+            // 
+            // labExchangeRate
+            // 
+            this.labExchangeRate.Location = new System.Drawing.Point(603, 24);
+            this.labExchangeRate.Name = "labExchangeRate";
+            this.labExchangeRate.Size = new System.Drawing.Size(24, 14);
+            this.labExchangeRate.TabIndex = 16;
+            this.labExchangeRate.Text = "汇率";
             // 
             // textRemark
             // 
@@ -232,30 +257,6 @@
             this.gridViewCurrencyCate.OptionsView.ShowFooter = true;
             this.gridViewCurrencyCate.OptionsView.ShowGroupPanel = false;
             // 
-            // labExchangeRate
-            // 
-            this.labExchangeRate.Location = new System.Drawing.Point(603, 24);
-            this.labExchangeRate.Name = "labExchangeRate";
-            this.labExchangeRate.Size = new System.Drawing.Size(24, 14);
-            this.labExchangeRate.TabIndex = 16;
-            this.labExchangeRate.Text = "汇率";
-            // 
-            // spinExchangeRate
-            // 
-            this.spinExchangeRate.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSCurrencyCate, "ExchangeRate", true));
-            this.spinExchangeRate.EditValue = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
-            this.spinExchangeRate.EnterMoveNextControl = true;
-            this.spinExchangeRate.Location = new System.Drawing.Point(665, 21);
-            this.spinExchangeRate.Name = "spinExchangeRate";
-            this.spinExchangeRate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.spinExchangeRate.Size = new System.Drawing.Size(180, 20);
-            this.spinExchangeRate.TabIndex = 2;
-            // 
             // colAutoId
             // 
             this.colAutoId.FieldName = "AutoId";
@@ -321,6 +322,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinExchangeRate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCurrencyCateName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCurrencyCateAbb.Properties)).EndInit();
@@ -328,7 +330,6 @@
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlCurrencyCate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewCurrencyCate)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.spinExchangeRate.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

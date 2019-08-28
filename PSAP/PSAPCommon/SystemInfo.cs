@@ -142,6 +142,25 @@ namespace PSAP.PSAPCommon
 
         #endregion
 
+        #region 项目
+
+        /// <summary>
+        /// 甘特图每页显示的行数
+        /// </summary>
+        public static int Gantt_ResourcesPerPage = 12;
+
+        /// <summary>
+        /// 甘特图计划进度条的高度
+        /// </summary>
+        public static int Gantt_SchedulerBarHeight = 30;
+
+        /// <summary>
+        /// 甘特图日程条的颜色
+        /// </summary>
+        public static Color Gantt_SchedulerBarColor = Color.FromArgb(128, 255, 128);
+
+        #endregion
+
         #region 采购
 
         /// <summary>
@@ -192,6 +211,36 @@ namespace PSAP.PSAPCommon
         /// 出库单是否可以修改出库日期
         /// </summary>
         public static bool WarehouseReceiptIsAlterDate = false;
+
+        /// <summary>
+        /// 停用登记单中的项目号和站号（注：包括请购单、采购单、入库单、出库单以及库存的所有登记单，停用之后会造成库存数量不准确，请谨慎操作。）
+        /// </summary>
+        public static bool DisableProjectNo = false;
+
+        /// <summary>
+        /// 停用登记单中的默认项目号和站号
+        /// </summary>
+        public static string DisableProjectNo_Default_ProjectNoAndStnNo = "Default";
+
+        /// <summary>
+        /// 停用登记单中的默认项目名称
+        /// </summary>
+        public static string DisableProjectNo_Default_ProjectName = "默认项目";
+
+        /// <summary>
+        /// 停用仓库中的货架号（注：包括入库单、出库单以及库存的所有登记单，停用之后会造成库存数量不准确，请谨慎操作。）
+        /// </summary>
+        public static bool DisableShelfInfo = false;
+
+        /// <summary>
+        /// 停用仓库中的货架号的默认货架号AutoId
+        /// </summary>
+        public static int DisableShelfInfo_Default_ShelfId = 0;
+
+        /// <summary>
+        /// 可以负库存数功能
+        /// </summary>
+        public static bool EnableNegativeInventory = false;
 
         #endregion
 

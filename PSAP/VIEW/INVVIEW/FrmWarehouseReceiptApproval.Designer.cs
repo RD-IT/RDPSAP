@@ -38,7 +38,7 @@
             this.dataColWarehouseReceipt = new System.Data.DataColumn();
             this.dataColWarehouseReceiptDate = new System.Data.DataColumn();
             this.dataColReqDep = new System.Data.DataColumn();
-            this.dataColRepertoryNo = new System.Data.DataColumn();
+            this.dataColRepertoryId = new System.Data.DataColumn();
             this.dataColWarehouseReceiptTypeNo = new System.Data.DataColumn();
             this.dataColApprovalType = new System.Data.DataColumn();
             this.dataColPrepared = new System.Data.DataColumn();
@@ -160,7 +160,7 @@
             this.dataColWarehouseReceipt,
             this.dataColWarehouseReceiptDate,
             this.dataColReqDep,
-            this.dataColRepertoryNo,
+            this.dataColRepertoryId,
             this.dataColWarehouseReceiptTypeNo,
             this.dataColApprovalType,
             this.dataColPrepared,
@@ -196,10 +196,11 @@
             this.dataColReqDep.Caption = "出库部门";
             this.dataColReqDep.ColumnName = "ReqDep";
             // 
-            // dataColRepertoryNo
+            // dataColRepertoryId
             // 
-            this.dataColRepertoryNo.Caption = "出库仓库";
-            this.dataColRepertoryNo.ColumnName = "RepertoryNo";
+            this.dataColRepertoryId.Caption = "出库仓库";
+            this.dataColRepertoryId.ColumnName = "RepertoryId";
+            this.dataColRepertoryId.DataType = typeof(int);
             // 
             // dataColWarehouseReceiptTypeNo
             // 
@@ -627,7 +628,7 @@
         private System.Data.DataColumn dataColWarehouseReceipt;
         private System.Data.DataColumn dataColWarehouseReceiptDate;
         private System.Data.DataColumn dataColReqDep;
-        private System.Data.DataColumn dataColRepertoryNo;
+        private System.Data.DataColumn dataColRepertoryId;
         private System.Data.DataColumn dataColWarehouseReceiptTypeNo;
         private System.Data.DataColumn dataColApprovalType;
         private System.Data.DataColumn dataColPrepared;

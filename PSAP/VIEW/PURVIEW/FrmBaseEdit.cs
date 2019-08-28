@@ -586,7 +586,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 查询结果存为Excel
         /// </summary>
-        private void btnSaveExcel_Click(object sender, EventArgs e)
+        public void btnSaveExcel_Click(object sender, EventArgs e)
         {
             try
             {

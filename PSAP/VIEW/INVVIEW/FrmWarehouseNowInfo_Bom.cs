@@ -30,8 +30,10 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
+                lookUpRepertoryId.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
+                SearchLocationId.EditValue = 0;
             }
             catch (Exception ex)
             {
@@ -111,13 +113,10 @@ namespace PSAP.VIEW.BSVIEW
         private void RefreshTreeList()
         {
             string codeFileNameStr = DataTypeConvert.GetString(searchCodeFileName.EditValue);
-            string repertoryNoStr = "";
-            if (lookUpRepertoryNo.ItemIndex > 0)
-            {
-                repertoryNoStr = DataTypeConvert.GetString(lookUpRepertoryNo.EditValue);
-            }
+            int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+            int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
 
-            treeListBom.DataSource = nowDAO.QueryBomWarehouseNowInfo(codeFileNameStr, repertoryNoStr);
+            treeListBom.DataSource = nowDAO.QueryBomWarehouseNowInfo(codeFileNameStr, repertoryIdInt, locationIdInt);
             treeListBom.ExpandAll();
         }
 

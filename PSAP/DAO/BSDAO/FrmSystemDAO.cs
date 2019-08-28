@@ -10,10 +10,12 @@ namespace PSAP.DAO.BSDAO
 {
     class FrmSystemDAO
     {
+        string defaultShelfNo = "Default";
+
         /// <summary>
         /// 清空操作记录
         /// </summary>
-        public void ClearOperationRecord(bool clearSale, bool clearPurchase, bool clearWarehouse, bool clearProduction)
+        public bool ClearOperationRecord(bool clearSale, bool clearProject, bool clearPurchase, bool clearWarehouse, bool clearProduction)
         {
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -24,67 +26,75 @@ namespace PSAP.DAO.BSDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
 
-                        if (clearSale)//销售模块
+                        if (clearWarehouse)//库存模块
                         {
-                            cmd.CommandText = "Delete From SA_DeliveryDetail"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_MaterialDetail"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_Quotation"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_QuotationBaseInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_QuotationPriceInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_SalesOrder"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_SettleAccountsHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_SettleAccountsList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_StnModule"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_StnSummary"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_StnSummaryList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From SA_StnSummaryListModule"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_InventoryAdjustmentsList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_InventoryAdjustmentsHead"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_InventoryMoveList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_InventoryMoveHead"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_ReturnedGoodsReportList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_ReturnedGoodsReportHead"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_SpecialWarehouseReceiptList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_SpecialWarehouseReceiptHead"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_SpecialWarehouseWarrantList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_SpecialWarehouseWarrantHead"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Truncate Table INV_WarehouseReceiptApprovalInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_WarehouseReceiptList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_WarehouseReceiptHead"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Truncate Table INV_WarehouseApprovalInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_WarehouseWarrantList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_WarehouseWarrantHead"; cmd.ExecuteNonQuery();
+
+                            cmd.CommandText = "Truncate Table INV_WarehouseBeginingInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table INV_WarehouseNowInfo"; cmd.ExecuteNonQuery();
                         }
 
                         if (clearPurchase)//采购模块
                         {
-                            //cmd.CommandText = "Delete From PUR_SettlementApprovalInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_SettlementList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_SettlementHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_OrderApprovalInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_OrderList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_OrderHead"; cmd.ExecuteNonQuery();
-                            //cmd.CommandText = "Delete From PUR_PrApprovalInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_PrReqList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PUR_PrReqHead"; cmd.ExecuteNonQuery();
-                        }
-
-                        if (clearWarehouse)//库存模块
-                        {
-                            cmd.CommandText = "Delete From INV_WarehouseBeginingInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseNowInfo"; cmd.ExecuteNonQuery();
-
-                            cmd.CommandText = "Delete From INV_InventoryAdjustmentsList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_InventoryAdjustmentsHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_InventoryMoveList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_InventoryMoveHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_ReturnedGoodsReportList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_ReturnedGoodsReportHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_SpecialWarehouseReceiptList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_SpecialWarehouseReceiptHead"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_SpecialWarehouseWarrantList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_SpecialWarehouseWarrantHead"; cmd.ExecuteNonQuery();
-                            //cmd.CommandText = "Delete From INV_WarehouseReceiptApprovalInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseReceiptList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseReceiptHead"; cmd.ExecuteNonQuery();
-                            //cmd.CommandText = "Delete From INV_WarehouseApprovalInfo"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseWarrantList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From INV_WarehouseWarrantHead"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Truncate Table PUR_SettlementApprovalInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_SettlementList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_SettlementHead"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_OrderApprovalInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_OrderList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_OrderHead"; cmd.ExecuteNonQuery();
+                            //cmd.CommandText = "Truncate Table PUR_PrApprovalInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_PrReqList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PUR_PrReqHead"; cmd.ExecuteNonQuery();
                         }
 
                         if (clearProduction)//生产模块
                         {
-                            cmd.CommandText = "Delete From PB_DesignBomList"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PB_ProductionScheduleBom"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From PB_ScheduleAbsorbe"; cmd.ExecuteNonQuery();
-                            cmd.CommandText = "Delete From DesignBomListAbsorbe"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PB_ScheduleAbsorbe"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table DesignBomListAbsorbe"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PB_DesignBomList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PB_ProductionScheduleBom"; cmd.ExecuteNonQuery();
+                        }
+
+                        if(clearProject)//项目模块
+                        {
+                            cmd.CommandText = "Truncate Table PM_ProjectPlanTask"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table PM_ProjectTaskType"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table BS_ProjectUser"; cmd.ExecuteNonQuery();
+                        }
+
+                        if (clearSale)//销售模块
+                        {
+                            cmd.CommandText = "Truncate Table SA_DeliveryDetail"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_MaterialDetail"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_Quotation"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_QuotationBaseInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_QuotationPriceInfo"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_SalesOrder"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_SettleAccountsHead"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_SettleAccountsList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_StnModule"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_StnSummary"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_StnSummaryList"; cmd.ExecuteNonQuery();
+                            cmd.CommandText = "Truncate Table SA_StnSummaryListModule"; cmd.ExecuteNonQuery();
                         }
 
                         trans.Commit();
+                        return true;
                     }
                     catch (Exception ex)
                     {
@@ -102,7 +112,7 @@ namespace PSAP.DAO.BSDAO
         /// <summary>
         /// 清空基础资料
         /// </summary>
-        public void ClearBasicData()
+        public bool ClearBasicData()
         {
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -127,16 +137,21 @@ namespace PSAP.DAO.BSDAO
 
                         cmd.CommandText = "Delete From BS_CollectionTypeList"; cmd.ExecuteNonQuery();
                         cmd.CommandText = "Delete From BS_CollectionType"; cmd.ExecuteNonQuery();
+                        cmd.CommandText = "Delete From BS_CurrencyCate";cmd.ExecuteNonQuery();
                         cmd.CommandText = "Delete From BS_DeliveryLocation"; cmd.ExecuteNonQuery();
-                        cmd.CommandText = "Delete From BS_ManufactureInfo"; cmd.ExecuteNonQuery();
-                        cmd.CommandText = "Delete From BS_RepertoryInfo"; cmd.ExecuteNonQuery();
+                        cmd.CommandText = "Delete From BS_ManufactureInfo"; cmd.ExecuteNonQuery();                        
                         cmd.CommandText = "Delete From BS_ShelfInfo"; cmd.ExecuteNonQuery();
+                        cmd.CommandText = "Delete From BS_RepertoryLocationInfo"; cmd.ExecuteNonQuery();
+                        cmd.CommandText = "Delete From BS_RepertoryInfo"; cmd.ExecuteNonQuery();
                         cmd.CommandText = "Delete From BS_WarehouseReceiptType"; cmd.ExecuteNonQuery();
                         cmd.CommandText = "Delete From BS_WarehouseWarrantType"; cmd.ExecuteNonQuery();
                         cmd.CommandText = "Delete From BS_StnList"; cmd.ExecuteNonQuery();
                         cmd.CommandText = "Delete From BS_ProjectList"; cmd.ExecuteNonQuery();
+                        cmd.CommandText = "Delete From BS_ProjectStatus";cmd.ExecuteNonQuery();
 
                         trans.Commit();
+
+                        return true;
                     }
                     catch (Exception ex)
                     {
@@ -199,10 +214,26 @@ namespace PSAP.DAO.BSDAO
 
             #endregion
 
+            #region 项目
+
+            tmpStr = GetValue(sysParameterTable, "Project", "GanttResourcesPerPage");
+            if (tmpStr != "")
+                SystemInfo.Gantt_ResourcesPerPage = DataTypeConvert.GetInt(tmpStr);
+
+            tmpStr = GetValue(sysParameterTable, "Project", "GanttSchedulerBarHeight");
+            if (tmpStr != "")
+                SystemInfo.Gantt_SchedulerBarHeight = DataTypeConvert.GetInt(tmpStr);
+
+            tmpStr = GetValue(sysParameterTable, "Project", "GanttSchedulerBarColor");
+            if (tmpStr != "")
+                SystemInfo.Gantt_SchedulerBarColor = System.Drawing.ColorTranslator.FromHtml(tmpStr);
+
+            #endregion
+
             #region 采购
 
             tmpStr = GetValue(sysParameterTable, "Purchase", "PrReqIsAlterPSBomAutoId");
-            if(tmpStr != "")
+            if (tmpStr != "")
                 SystemInfo.PrReqIsAlter_PSBomAutoId = tmpStr == "1";
 
             tmpStr = GetValue(sysParameterTable, "Purchase", "OrderListDefaultTax");
@@ -240,6 +271,20 @@ namespace PSAP.DAO.BSDAO
             tmpStr = GetValue(sysParameterTable, "Warehouse", "WRIsAlterDate");
             if (tmpStr != "")
                 SystemInfo.WarehouseReceiptIsAlterDate = tmpStr == "1";
+
+            tmpStr = GetValue(sysParameterTable, "Warehouse", "DisableProjectNo");
+            if (tmpStr != "")
+                SystemInfo.DisableProjectNo = tmpStr == "1";
+
+            tmpStr = GetValue(sysParameterTable, "Warehouse", "DisableShelfInfo");
+            if (tmpStr != "")
+                SystemInfo.DisableShelfInfo = tmpStr == "1";
+
+            SystemInfo.DisableShelfInfo_Default_ShelfId = DataTypeConvert.GetInt(BaseSQL.GetSingle(string.Format("select AutoId from BS_ShelfInfo where ShelfNo = '{0}' and RepertoryInfoId is null and RepertoryLocationId is null", defaultShelfNo)));
+
+            tmpStr = GetValue(sysParameterTable, "Warehouse", "EnableNegativeInventory");
+            if (tmpStr != "")
+                SystemInfo.EnableNegativeInventory = tmpStr == "1";
 
             #endregion
 
@@ -322,6 +367,130 @@ namespace PSAP.DAO.BSDAO
                     {
                         trans.Rollback();
                         queryDataTable.RejectChanges();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 数据库新增默认的项目号和站号
+        /// </summary>
+        public void Insert_Default_ProjectListAndStnList()
+        {
+            using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("", conn, trans);
+
+                        cmd.CommandText = string.Format("Select Count(*) from BS_BussinessBaseInfo where BussinessBaseNo = '{0}'", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                        if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) == 0)
+                        {
+                            cmd.CommandText = string.Format("Insert into BS_BussinessBaseInfo(BussinessBaseNo, BussinessBaseText, BussinessIsUse) values('{0}', '默认往来方', 1)", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        cmd.CommandText = string.Format("Select Count(*) from BS_ProjectList where ProjectNo = '{0}'", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                        if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) == 0)
+                        {
+                            cmd.CommandText = string.Format("Insert into BS_ProjectList(ProjectNo, BussinessBaseNo, ProjectName, Remark) values('{0}', '{0}', '{1}', '系统默认')", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo, SystemInfo.DisableProjectNo_Default_ProjectName);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        cmd.CommandText = string.Format("Select Count(*) from BS_StnList where StnNo = '{0}'", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                        if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) == 0)
+                        {
+                            cmd.CommandText = string.Format("Insert into BS_StnList(ProjectNo, StnNo, Remark, StnText) values('{0}', '{0}', '系统默认', '默认站号')", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 数据库删除默认的项目号和站号
+        /// </summary>
+        public void Delete_ProjectListAndStnList()
+        {
+            using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("", conn, trans);
+                        cmd.CommandText = "delete from BS_StnList where StnNo = 'Default'";
+                        cmd.ExecuteNonQuery();
+                        cmd.CommandText = "delete from BS_ProjectList where ProjectNo = 'Default'";
+                        cmd.ExecuteNonQuery();
+                        cmd.CommandText = "delete from BS_BussinessBaseInfo where BussinessBaseNo = 'Default'";
+                        cmd.ExecuteNonQuery();
+
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 数据库新增默认的货架号
+        /// </summary>
+        public void Insert_Default_ShelfInfo()
+        {
+            using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("", conn, trans);
+
+                        cmd.CommandText = string.Format("Select Count(*) from BS_ShelfInfo where ShelfNo = '{0}' and RepertoryInfoId is null and RepertoryLocationId is null", defaultShelfNo);
+                        if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) == 0)
+                        {
+                            cmd.CommandText = string.Format("insert into BS_ShelfInfo(ShelfNo, ShelfLocation, ShelfDescription, RepertoryInfoId, RepertoryLocationId, Creator, CreatorIp, Remark)  values('{0}', '{0}', '默认货架号', null, null, {1}, '{2}', '停用仓库中的货架号，新增默认的货架号。')", defaultShelfNo, SystemInfo.user.AutoId, SystemInfo.HostIpAddress);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        cmd.CommandText = string.Format("select AutoId from BS_ShelfInfo where ShelfNo = '{0}' and RepertoryInfoId is null and RepertoryLocationId is null", defaultShelfNo);
+                        SystemInfo.DisableShelfInfo_Default_ShelfId = DataTypeConvert.GetInt(cmd.ExecuteScalar());
+
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
                         throw ex;
                     }
                     finally

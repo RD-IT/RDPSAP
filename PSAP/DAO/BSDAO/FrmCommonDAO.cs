@@ -190,12 +190,24 @@ namespace PSAP.DAO.BSDAO
         /// </summary>
         public DataTable QueryProjectList(bool addAllItem)
         {
-            string sqlStr = "select AutoId, ProjectNo, ProjectName, Remark from BS_ProjectList order by AutoId desc";
-            if (addAllItem)
+            if (SystemInfo.DisableProjectNo)
             {
-                sqlStr = "select 9999999999 as AutoId, '" + f.tsmiQb + "' as ProjectNo, '" + f.tsmiQb + "' as ProjectName, '" + f.tsmiQb + "' as Remark union " + sqlStr;
+                string sqlStr = "select AutoId, ProjectNo, ProjectName, Remark from BS_ProjectList where ProjectNo = 'Default'";
+                if (addAllItem)
+                {
+                    sqlStr = "select 9999999999 as AutoId, '" + f.tsmiQb + "' as ProjectNo, '" + f.tsmiQb + "' as ProjectName, '" + f.tsmiQb + "' as Remark union " + sqlStr;
+                }
+                return BaseSQL.GetTableBySql(sqlStr);
             }
-            return BaseSQL.GetTableBySql(sqlStr);
+            else
+            {
+                string sqlStr = "select AutoId, ProjectNo, ProjectName, Remark from BS_ProjectList order by AutoId desc";
+                if (addAllItem)
+                {
+                    sqlStr = "select 9999999999 as AutoId, '" + f.tsmiQb + "' as ProjectNo, '" + f.tsmiQb + "' as ProjectName, '" + f.tsmiQb + "' as Remark union " + sqlStr;
+                }
+                return BaseSQL.GetTableBySql(sqlStr);
+            }
         }
 
         /// <summary>
@@ -298,19 +310,48 @@ namespace PSAP.DAO.BSDAO
         }
 
         /// <summary>
+        /// 查询仓位信息（增加一个全部选项）
+        /// </summary>
+        public DataTable QueryRepertoryLocationInfo(bool addAllItem)
+        {
+            string sqlStr = "select BS_RepertoryLocationInfo.AutoId, LocationNo, LocationName, RepertoryName, RepertoryId from BS_RepertoryLocationInfo left join BS_RepertoryInfo on BS_RepertoryLocationInfo.RepertoryId = BS_RepertoryInfo.AutoId Order by AutoId";
+            if (addAllItem)
+            {
+                sqlStr = "select 0 as AutoId, '全部' as LocationNo, '全部' as LocationName, '全部' as RepertoryName, 0 as RepertoryId union " + sqlStr;
+            }
+            return BaseSQL.GetTableBySql(sqlStr);
+        }
+
+        ///// <summary>
+        ///// 根据仓库查询仓位信息
+        ///// </summary>
+        //public DataTable QueryRepertoryLocationInfo(int repertoryIdInt)
+        //{
+        //    string sqlStr = string.Format("select BS_RepertoryLocationInfo.AutoId, LocationNo, LocationName, RepertoryName from BS_RepertoryLocationInfo left join BS_RepertoryInfo on BS_RepertoryLocationInfo.RepertoryId = BS_RepertoryInfo.AutoId where RepertoryId = {0} Order by AutoId", repertoryIdInt);
+        //    return BaseSQL.GetTableBySql(sqlStr);
+        //}
+
+        /// <summary>
         /// 查询货架信息（增加一个全部选项）
         /// </summary>
         public DataTable QueryShelfInfo(bool addAllItem)
         {
-            string sqlStr = "select AutoId, ShelfNo, ShelfLocation from BS_ShelfInfo Order by AutoId";
+            string sqlStr = "select BS_ShelfInfo.AutoId, ShelfNo, ShelfLocation, RepertoryLocationId, LocationName from BS_ShelfInfo left join BS_RepertoryLocationInfo on BS_ShelfInfo.RepertoryLocationId = BS_RepertoryLocationInfo.AutoId Order by AutoId";
             if (addAllItem)
             {
-                //sqlStr = "select 0 as AutoId, '全部' as ShelfNo, '全部' as ShelfLocation union " + sqlStr;
-                sqlStr = "select 0 as AutoId, '" + f.tsmiQb + "' as ShelfNo, '" + f.tsmiQb + "' as ShelfLocation union " + sqlStr;
-
+                sqlStr = "select 0 as AutoId, '全部' as ShelfNo, '全部' as ShelfLocation, 0 as RepertoryLocationId, '全部' as LocationName union " + sqlStr;
             }
             return BaseSQL.GetTableBySql(sqlStr);
         }
+
+        ///// <summary>
+        ///// 根据仓位查询货架信息
+        ///// </summary>
+        //public DataTable QueryShelfInfo(int repertoryLocationIdInt)
+        //{
+        //    string sqlStr = string.Format("select BS_ShelfInfo.AutoId, ShelfNo, ShelfLocation, LocationName from BS_ShelfInfo left join BS_RepertoryLocationInfo on BS_ShelfInfo.RepertoryLocationId = BS_RepertoryLocationInfo.AutoId where RepertoryLocationId = {0} Order by BS_ShelfInfo.AutoId", repertoryLocationIdInt);
+        //    return BaseSQL.GetTableBySql(sqlStr);
+        //}
 
         /// <summary>
         /// 检查模块权限

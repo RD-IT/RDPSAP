@@ -438,18 +438,18 @@
             // 
             this.checkOverplus.EditValue = true;
             this.checkOverplus.EnterMoveNextControl = true;
-            this.checkOverplus.Location = new System.Drawing.Point(1125, 14);
+            this.checkOverplus.Location = new System.Drawing.Point(971, 44);
             this.checkOverplus.Name = "checkOverplus";
             this.checkOverplus.Properties.Caption = "剩余数量大于0";
             this.checkOverplus.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.checkOverplus.Properties.ValueGrayed = false;
             this.checkOverplus.Size = new System.Drawing.Size(111, 19);
-            this.checkOverplus.TabIndex = 6;
+            this.checkOverplus.TabIndex = 12;
             // 
             // searchLookUpCodeFileName
             // 
             this.searchLookUpCodeFileName.EnterMoveNextControl = true;
-            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(623, 44);
+            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(604, 44);
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -458,7 +458,7 @@
             this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpCodeFileName.TabIndex = 11;
+            this.searchLookUpCodeFileName.TabIndex = 10;
             // 
             // searchLookUpCodeFileNameView
             // 
@@ -491,7 +491,7 @@
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(392, 44);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(974, 14);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -500,7 +500,7 @@
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpProjectNo.TabIndex = 10;
+            this.searchLookUpProjectNo.TabIndex = 5;
             // 
             // searchLookUpProjectNoView
             // 
@@ -548,13 +548,13 @@
             this.checkPlanDate.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.checkPlanDate.Properties.ValueGrayed = false;
             this.checkPlanDate.Size = new System.Drawing.Size(19, 19);
-            this.checkPlanDate.TabIndex = 7;
+            this.checkPlanDate.TabIndex = 6;
             this.checkPlanDate.TabStop = false;
             this.checkPlanDate.CheckedChanged += new System.EventHandler(this.checkPlanDate_CheckedChanged);
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(1070, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(1179, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 14;
@@ -636,16 +636,16 @@
             this.datePlanDateEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.datePlanDateEnd.Properties.Mask.EditMask = "yyyy-MM-dd";
             this.datePlanDateEnd.Size = new System.Drawing.Size(90, 20);
-            this.datePlanDateEnd.TabIndex = 9;
+            this.datePlanDateEnd.TabIndex = 8;
             this.datePlanDateEnd.TabStop = false;
             // 
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(854, 44);
+            this.textCommon.Location = new System.Drawing.Point(835, 44);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(120, 20);
-            this.textCommon.TabIndex = 12;
+            this.textCommon.TabIndex = 11;
             // 
             // datePlanDateBegin
             // 
@@ -664,13 +664,13 @@
             this.datePlanDateBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.datePlanDateBegin.Properties.Mask.EditMask = "yyyy-MM-dd";
             this.datePlanDateBegin.Size = new System.Drawing.Size(90, 20);
-            this.datePlanDateBegin.TabIndex = 8;
+            this.datePlanDateBegin.TabIndex = 7;
             this.datePlanDateBegin.TabStop = false;
             // 
             // comboBoxReqState
             // 
             this.comboBoxReqState.EnterMoveNextControl = true;
-            this.comboBoxReqState.Location = new System.Drawing.Point(986, 14);
+            this.comboBoxReqState.Location = new System.Drawing.Point(403, 44);
             this.comboBoxReqState.Name = "comboBoxReqState";
             this.comboBoxReqState.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -684,7 +684,7 @@
             "拒绝"});
             this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
-            this.comboBoxReqState.TabIndex = 5;
+            this.comboBoxReqState.TabIndex = 9;
             // 
             // lookUpPurCategory
             // 
@@ -720,7 +720,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(989, 43);
+            this.btnQuery.Location = new System.Drawing.Point(1088, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 13;
@@ -765,7 +765,7 @@
             // 
             // labCodeFileName
             // 
-            this.labCodeFileName.Location = new System.Drawing.Point(557, 47);
+            this.labCodeFileName.Location = new System.Drawing.Point(538, 47);
             this.labCodeFileName.Name = "labCodeFileName";
             this.labCodeFileName.Size = new System.Drawing.Size(60, 14);
             this.labCodeFileName.TabIndex = 35;
@@ -773,7 +773,7 @@
             // 
             // labProjectNo
             // 
-            this.labProjectNo.Location = new System.Drawing.Point(338, 47);
+            this.labProjectNo.Location = new System.Drawing.Point(920, 17);
             this.labProjectNo.Name = "labProjectNo";
             this.labProjectNo.Size = new System.Drawing.Size(48, 14);
             this.labProjectNo.TabIndex = 33;
@@ -805,7 +805,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(788, 47);
+            this.labCommon.Location = new System.Drawing.Point(769, 47);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 14;
@@ -813,7 +813,7 @@
             // 
             // labReqState
             // 
-            this.labReqState.Location = new System.Drawing.Point(920, 17);
+            this.labReqState.Location = new System.Drawing.Point(337, 47);
             this.labReqState.Name = "labReqState";
             this.labReqState.Size = new System.Drawing.Size(60, 14);
             this.labReqState.TabIndex = 9;

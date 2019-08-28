@@ -101,20 +101,20 @@ namespace PSAP.DAO.INVDAO
         /// <param name="beginDateStr">开始日期字符串</param>
         /// <param name="endDateStr">结束日期字符串</param>
         /// <param name="bussinessBaseNoStr">往来方编号</param>
-        /// <param name="repertoryNoStr">入库仓库编号</param>
+        /// <param name="repertoryIdInt">入库仓库编号</param>
         /// <param name="wwTypeNoStr">入库类别编号</param>
         /// <param name="preparedStr">制单人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QueryWarehouseWarrantHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string repertoryNoStr, string wwTypeNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QueryWarehouseWarrantHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, string wwTypeNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QueryWarehouseWarrantHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, repertoryNoStr, wwTypeNoStr, warehouseStateInt, preparedStr, approverInt, commonStr, 0, nullTable), queryDataTable);
+            BaseSQL.Query(QueryWarehouseWarrantHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, wwTypeNoStr, warehouseStateInt, preparedStr, approverInt, commonStr, 0, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询入库单表头的SQL
         /// </summary>
-        public string QueryWarehouseWarrantHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string repertoryNoStr, string wwTypeNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, int orderListAutoIdInt, bool nullTable)
+        public string QueryWarehouseWarrantHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, string wwTypeNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, int orderListAutoIdInt, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -129,9 +129,13 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
             }
-            if (repertoryNoStr != "")
+            if (repertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and RepertoryNo='{0}'", repertoryNoStr);
+                sqlStr += string.Format(" and RepertoryId={0}", repertoryIdInt);
+            }
+            if (locationIdInt != 0)
+            {
+                sqlStr += string.Format(" and RepertoryLocationId={0}", locationIdInt);
             }
             if (wwTypeNoStr != "")
             {
@@ -718,6 +722,12 @@ namespace PSAP.DAO.INVDAO
                     case "RepertoryName":
                         headTable.Columns[i].Caption = "入库仓库名称";
                         break;
+                    case "LocationNo":
+                        headTable.Columns[i].Caption = "入库仓位编号";
+                        break;
+                    case "LocationName":
+                        headTable.Columns[i].Caption = "入库仓位名称";
+                        break;
                     case "WarehouseWarrantTypeNo":
                         headTable.Columns[i].Caption = "入库类别编号";
                         break;
@@ -887,7 +897,7 @@ namespace PSAP.DAO.INVDAO
         /// <summary>
         /// 查询入库未结账表明细的SQL
         /// </summary>
-        public string Query_WWList_NoSettlement_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string repertoryNoStr, string wwTypeNoStr, int warehouseStateInt, string projectNameStr, string codeFileNameStr, bool containPartSettlementBool, string commonStr)
+        public string Query_WWList_NoSettlement_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int repertoryLocationIdInt, string wwTypeNoStr, int warehouseStateInt, string projectNameStr, string codeFileNameStr, bool containPartSettlementBool, string commonStr)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -902,9 +912,13 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
             }
-            if (repertoryNoStr != "")
+            if (repertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and RepertoryNo='{0}'", repertoryNoStr);
+                sqlStr += string.Format(" and RepertoryId={0}", repertoryIdInt);
+            }
+            if(repertoryLocationIdInt != 0)
+            {
+                sqlStr += string.Format(" and RepertoryLocationId={0}", repertoryLocationIdInt); 
             }
             if (wwTypeNoStr != "")
             {

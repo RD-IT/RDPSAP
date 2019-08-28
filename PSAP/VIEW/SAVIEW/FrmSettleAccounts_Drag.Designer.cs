@@ -729,12 +729,12 @@
             // 
             // checkAll
             // 
-            this.checkAll.Location = new System.Drawing.Point(53, 38);
+            this.checkAll.Location = new System.Drawing.Point(53, 40);
+            this.checkAll.Margin = new System.Windows.Forms.Padding(4);
+            this.checkAll.Properties.AutoHeight = false;
+            this.checkAll.Size = new System.Drawing.Size(16, 15);
             this.checkAll.Name = "checkAll";
-            this.checkAll.Properties.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.checkAll.Properties.Appearance.Options.UseBackColor = true;
             this.checkAll.Properties.Caption = "";
-            this.checkAll.Size = new System.Drawing.Size(20, 19);
             this.checkAll.TabIndex = 20;
             this.checkAll.TabStop = false;
             this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);

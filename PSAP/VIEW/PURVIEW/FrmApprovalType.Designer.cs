@@ -54,9 +54,9 @@
             this.colApprovalCat = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlGrid = new DevExpress.XtraEditors.PanelControl();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiSplxbxxz = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSplxmcbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSplxbmbnwk = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSplxmcbnwk = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSplxbxxz = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             this.pnlToolBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dSApprovalType)).BeginInit();
@@ -76,6 +76,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Controls.Add(this.btnApprovalList);
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
@@ -299,13 +300,13 @@
             this.tsmiSplxmcbnwk,
             this.tsmiSplxbxxz});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(281, 92);
+            this.cms.Size = new System.Drawing.Size(281, 70);
             // 
-            // tsmiSplxbxxz
+            // tsmiSplxbmbnwk
             // 
-            this.tsmiSplxbxxz.Name = "tsmiSplxbxxz";
-            this.tsmiSplxbxxz.Size = new System.Drawing.Size(280, 22);
-            this.tsmiSplxbxxz.Text = "审批类型必须选择，请重新操作。";
+            this.tsmiSplxbmbnwk.Name = "tsmiSplxbmbnwk";
+            this.tsmiSplxbmbnwk.Size = new System.Drawing.Size(280, 22);
+            this.tsmiSplxbmbnwk.Text = "审批类型编码不能为空，请重新操作。";
             // 
             // tsmiSplxmcbnwk
             // 
@@ -313,11 +314,11 @@
             this.tsmiSplxmcbnwk.Size = new System.Drawing.Size(280, 22);
             this.tsmiSplxmcbnwk.Text = "审批类型名称不能为空，请重新操作。";
             // 
-            // tsmiSplxbmbnwk
+            // tsmiSplxbxxz
             // 
-            this.tsmiSplxbmbnwk.Name = "tsmiSplxbmbnwk";
-            this.tsmiSplxbmbnwk.Size = new System.Drawing.Size(280, 22);
-            this.tsmiSplxbmbnwk.Text = "审批类型编码不能为空，请重新操作。";
+            this.tsmiSplxbxxz.Name = "tsmiSplxbxxz";
+            this.tsmiSplxbxxz.Size = new System.Drawing.Size(280, 22);
+            this.tsmiSplxbxxz.Text = "审批类型必须选择，请重新操作。";
             // 
             // FrmApprovalType
             // 

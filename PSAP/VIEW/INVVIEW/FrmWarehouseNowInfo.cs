@@ -38,18 +38,42 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+                DataTable shelfTable_t = commonDAO.QueryShelfInfo(true);
+
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = locationTable_t;
+                SearchLocationId.EditValue = 0;
+                searchLookUpShelfId.Properties.DataSource = shelfTable_t;
+                searchLookUpShelfId.EditValue = 0;
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
                 searchLookUpCodeFileName.Text = "全部";
-                searchLookUpShelf.Properties.DataSource = commonDAO.QueryShelfInfo(true);
-                searchLookUpShelf.EditValue = 0;
+
+
+                //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                //repLookUpShelfId.DataSource = commonDAO.QueryShelfInfo(false);
+                repLookUpRepertoryId.DataSource = repertoryTable_t;
+                repLookUpLocationId.DataSource = locationTable_t;
+                repLookUpShelfId.DataSource = shelfTable_t;
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectName.Visible = false;
+                }
+
+                if (SystemInfo.DisableShelfInfo)
+                {
+                    colShelfId.Visible = false;
+                }
 
                 gridBottomWNowInfo.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
-
-                repLookUpRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
             }
             catch (Exception ex)
             {
@@ -91,13 +115,14 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpRepertoryNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text : "";                
-                string shelfNoStr = searchLookUpShelf.Text != "全部" ? searchLookUpShelf.Text : "";
+                int ShelfIdInt =  searchLookUpShelfId.Text != "全部" ? DataTypeConvert.GetInt(searchLookUpShelfId.EditValue) : 0;
                 string commonStr = textCommon.Text.Trim();
 
-                string querySqlStr = wNowInfoDAO.QueryWarehouseNowInfo_SQL(codeFileNameStr, repertoryNoStr, projectNameStr, shelfNoStr, commonStr, !checkZero.Checked);
+                string querySqlStr = wNowInfoDAO.QueryWarehouseNowInfo_SQL(codeFileNameStr, repertoryIdInt, locationIdInt, projectNameStr, ShelfIdInt, commonStr, !checkZero.Checked);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomWNowInfo.QueryGridData(ref dataSet_WNowInfo, "WNowInfo", querySqlStr, countSqlStr, true);

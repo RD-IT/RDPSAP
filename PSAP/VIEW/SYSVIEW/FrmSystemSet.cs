@@ -16,25 +16,32 @@ namespace PSAP.VIEW.BSVIEW
         FrmCommonDAO commonDAO = new FrmCommonDAO();
         FrmSystemDAO systemDAO = new FrmSystemDAO();
 
+        bool LoadSystemSet = true;
+
         public FrmSystemSet()
         {
             InitializeComponent();
         }
 
         /// <summary>
-        /// 窗体加载事件 
+        /// 窗体加载事件
         /// </summary>
         private void FrmSystemSet_Load(object sender, EventArgs e)
         {
             try
             {
+                LoadSystemSet = true;
+
                 systemDAO.QuerySystemParameter(dataSet_SystemParameter.Tables[0]);
 
                 SetSysParameterDefaultValue();
+
+                LoadSystemSet = false;
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
+                LoadSystemSet = false;
             }
         }
 
@@ -48,30 +55,44 @@ namespace PSAP.VIEW.BSVIEW
             string tmpStr = GetValue("Common", "PageRowCount");
             if (tmpStr != "")
                 spinPageRowCount.Value = DataTypeConvert.GetInt(tmpStr);
+            else
+                spinPageRowCount.Value = 500;
 
             tmpStr = GetValue("Common", "DateIntervalDays");
             if (tmpStr != "")
                 spinDateIntervalDays.Value = DataTypeConvert.GetInt(tmpStr);
+            else
+                spinDateIntervalDays.Value = 14;
 
             tmpStr = GetValue("Common", "FormDragDropMaxRecordCount");
             if (tmpStr != "")
                 spinFormDragDropMaxRecordCount.Value = DataTypeConvert.GetInt(tmpStr);
+            else
+                spinFormDragDropMaxRecordCount.Value = 50;
 
             tmpStr = GetValue("Common", "LeftDockWidth");
             if (tmpStr != "")
                 spinLeftDockWidth.Value = DataTypeConvert.GetInt(tmpStr);
+            else
+                spinLeftDockWidth.Value = 400;
 
             tmpStr = GetValue("Common", "EnableWorkFlowMessage");
             if (tmpStr != "")
                 checkEnableWorkFlowMessage.EditValue = tmpStr;
+            else
+                checkEnableWorkFlowMessage.Checked = false;
 
             tmpStr = GetValue("Common", "MessageInterval");
             if (tmpStr != "")
                 spinMessageInterval.Value = DataTypeConvert.GetInt(tmpStr);
+            else
+                spinMessageInterval.Value = 10;
 
             tmpStr = GetValue("Common", "ApproveAfterPrint");
             if (tmpStr != "")
                 checkApproveAfterPrint.EditValue = tmpStr;
+            else
+                checkApproveAfterPrint.Checked = true;
 
             #endregion
 
@@ -80,10 +101,36 @@ namespace PSAP.VIEW.BSVIEW
             tmpStr = GetValue("Sale", "QuotationDefaultTax");
             if (tmpStr != "")
                 spinQuotationDefaultTax.Value = DataTypeConvert.GetDecimal(tmpStr);
+            else
+                spinQuotationDefaultTax.Value = 0.16M;
 
             tmpStr = GetValue("Sale", "SalesOrderDefaultTax");
             if (tmpStr != "")
                 spinSalesOrderDefaultTax.Value = DataTypeConvert.GetDecimal(tmpStr);
+            else
+                spinSalesOrderDefaultTax.Value = 0.16M;
+
+            #endregion
+
+            #region 项目
+
+            tmpStr = GetValue("Project", "GanttResourcesPerPage");
+            if (tmpStr != "")
+                spinGanttResourcesPerPage.Value = DataTypeConvert.GetDecimal(tmpStr);
+            else
+                spinGanttResourcesPerPage.Value = 12;
+
+            tmpStr = GetValue("Project", "GanttSchedulerBarHeight");
+            if (tmpStr != "")
+                spinGanttSchedulerBarHeight.Value = DataTypeConvert.GetDecimal(tmpStr);
+            else
+                spinGanttSchedulerBarHeight.Value = 30;
+
+            tmpStr = GetValue("Project", "GanttSchedulerBarColor");
+            if (tmpStr != "")
+                colorPickGanttSchedulerBarColor.Color = ColorTranslator.FromHtml(tmpStr);
+            else
+                colorPickGanttSchedulerBarColor.Color = Color.FromArgb(128, 255, 128);
 
             #endregion
 
@@ -92,26 +139,38 @@ namespace PSAP.VIEW.BSVIEW
             tmpStr = GetValue("Purchase", "PrReqIsAlterPSBomAutoId");
             if (tmpStr != "")
                 checkPrReqIsAlterPSBomAutoId.EditValue = tmpStr;
+            else
+                checkPrReqIsAlterPSBomAutoId.Checked = false;
 
             tmpStr = GetValue("Purchase", "OrderListDefaultTax");
             if (tmpStr != "")
                 spinOrderListDefaultTax.Value = DataTypeConvert.GetDecimal(tmpStr);
+            else
+                spinOrderListDefaultTax.Value = 0.16M;
 
             tmpStr = GetValue("Purchase", "SettlementDefaultTax");
             if (tmpStr != "")
                 spinSettlementDefaultTax.Value = DataTypeConvert.GetDecimal(tmpStr);
+            else
+                spinSettlementDefaultTax.Value = 0.16M;
 
             tmpStr = GetValue("Purchase", "OrderNoWarehousingDays");
             if (tmpStr != "")
                 spinOrderNoWarehousingDays.Value = DataTypeConvert.GetInt(tmpStr);
+            else
+                spinOrderNoWarehousingDays.Value = 5;
 
             tmpStr = GetValue("Purchase", "PrReqApplyBeyondCountIsSave");
             if (tmpStr != "")
                 checkPrReqApplyBeyondCountIsSave.EditValue = tmpStr;
+            else
+                checkPrReqApplyBeyondCountIsSave.Checked = false;
 
             tmpStr = GetValue("Purchase", "WWApplyBeyondCountIsSave");
             if (tmpStr != "")
                 checkWWApplyBeyondCountIsSave.EditValue = tmpStr;
+            else
+                checkWWApplyBeyondCountIsSave.Checked = false;
 
             #endregion
 
@@ -120,14 +179,38 @@ namespace PSAP.VIEW.BSVIEW
             tmpStr = GetValue("Warehouse", "OrderApplyBeyondCountIsSave");
             if (tmpStr != "")
                 checkOrderApplyBeyondCountIsSave.EditValue = tmpStr;
+            else
+                checkOrderApplyBeyondCountIsSave.Checked = false;
 
             tmpStr = GetValue("Warehouse", "WWIsAlterDate");
             if (tmpStr != "")
                 checkWWIsAlterDate.EditValue = tmpStr;
+            else
+                checkWWIsAlterDate.Checked = false;
 
             tmpStr = GetValue("Warehouse", "WRIsAlterDate");
             if (tmpStr != "")
                 checkWRIsAlterDate.EditValue = tmpStr;
+            else
+                checkWRIsAlterDate.Checked = false;
+
+            tmpStr = GetValue("Warehouse", "DisableProjectNo");
+            if (tmpStr != "")
+                checkDisableProjectNo.EditValue = tmpStr;
+            else
+                checkDisableProjectNo.Checked = false;
+
+            tmpStr = GetValue("Warehouse", "DisableShelfInfo");
+            if (tmpStr != "")
+                checkDisableShelfInfo.EditValue = tmpStr;
+            else
+                checkDisableShelfInfo.Checked = false;
+
+            tmpStr = GetValue("Warehouse", "EnableNegativeInventory");
+            if (tmpStr != "")
+                checkEnableNegativeInventory.EditValue = tmpStr;
+            else
+                checkEnableNegativeInventory.Checked = false;
 
             #endregion
 
@@ -154,6 +237,8 @@ namespace PSAP.VIEW.BSVIEW
             tmpStr = GetValue("System", "BackupPath");
             if (tmpStr != "")
                 textBackupPath.Text = tmpStr;
+            else
+                textBackupPath.Text = @"D:\DATA\";
 
             #endregion
         }
@@ -168,7 +253,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
-                //常规
+                #region 常规
                 SetValue("Common", "PageRowCount", DataTypeConvert.GetString(spinPageRowCount.Value));
                 SetValue("Common", "DateIntervalDays", DataTypeConvert.GetString(spinDateIntervalDays.Value));
                 SetValue("Common", "FormDragDropMaxRecordCount", DataTypeConvert.GetString(spinFormDragDropMaxRecordCount.Value));
@@ -176,26 +261,50 @@ namespace PSAP.VIEW.BSVIEW
                 SetValue("Common", "EnableWorkFlowMessage", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkEnableWorkFlowMessage.EditValue)));
                 SetValue("Common", "MessageInterval", DataTypeConvert.GetString(spinMessageInterval.Value));
                 SetValue("Common", "ApproveAfterPrint", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkApproveAfterPrint.EditValue)));
+                #endregion
 
-                //销售
+                #region 销售
                 SetValue("Sale", "QuotationDefaultTax", DataTypeConvert.GetString(spinQuotationDefaultTax.Value));
                 SetValue("Sale", "SalesOrderDefaultTax", DataTypeConvert.GetString(spinSalesOrderDefaultTax.Value));
+                #endregion
 
-                //采购
+                #region 项目
+                SetValue("Project", "GanttResourcesPerPage", DataTypeConvert.GetString(spinGanttResourcesPerPage.Value));
+                SetValue("Project", "GanttSchedulerBarHeight", DataTypeConvert.GetString(spinGanttSchedulerBarHeight.Value));
+                SetValue("Project", "GanttSchedulerBarColor", ColorTranslator.ToHtml(colorPickGanttSchedulerBarColor.Color));
+                #endregion
+
+                #region 采购
                 SetValue("Purchase", "PrReqIsAlterPSBomAutoId", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrReqIsAlterPSBomAutoId.EditValue)));
                 SetValue("Purchase", "OrderListDefaultTax", DataTypeConvert.GetString(spinOrderListDefaultTax.Value));
                 SetValue("Purchase", "SettlementDefaultTax", DataTypeConvert.GetString(spinSettlementDefaultTax.Value));
                 SetValue("Purchase", "OrderNoWarehousingDays", DataTypeConvert.GetString(spinOrderNoWarehousingDays.Value));
                 SetValue("Purchase", "PrReqApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrReqApplyBeyondCountIsSave.EditValue)));
                 SetValue("Purchase", "WWApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWApplyBeyondCountIsSave.EditValue)));
+                #endregion
 
-                //库存
+                #region 库存
                 SetValue("Warehouse", "OrderApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkOrderApplyBeyondCountIsSave.EditValue)));
                 SetValue("Warehouse", "WWIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWIsAlterDate.EditValue)));
                 SetValue("Warehouse", "WRIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWRIsAlterDate.EditValue)));
+                SetValue("Warehouse", "DisableProjectNo", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkDisableProjectNo.EditValue)));
+                SetValue("Warehouse", "DisableShelfInfo", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkDisableShelfInfo.EditValue)));
+                SetValue("Warehouse", "EnableNegativeInventory", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkEnableNegativeInventory.EditValue)));
 
-                //系统
+                if (checkDisableProjectNo.Checked)
+                {
+                    systemDAO.Insert_Default_ProjectListAndStnList();
+                }
+                if(checkDisableShelfInfo.Checked)
+                {
+                    systemDAO.Insert_Default_ShelfInfo();
+                }
+
+                #endregion
+
+                #region 系统
                 SetValue("System", "BackupPath", textBackupPath.Text);
+                #endregion
 
                 if (systemDAO.SaveSystemParameter(TableSysParameter))
                 {
@@ -213,6 +322,30 @@ namespace PSAP.VIEW.BSVIEW
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(this.Text + "--保存系统设定错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 系统参数全部初始化
+        /// </summary>
+        private void btnSetinitialization_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadSystemSet = true;
+
+                dataSet_SystemParameter.Tables[0].Rows.Clear();
+
+                SetSysParameterDefaultValue();
+
+                LoadSystemSet = false;
+
+                MessageHandler.ShowMessageBox("系统参数恢复初始化，请确认完毕参数后点击保存。");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--系统参数全部初始化错误。", ex);
+                LoadSystemSet = false;
             }
         }
 
@@ -358,5 +491,124 @@ namespace PSAP.VIEW.BSVIEW
         {
             spinMessageInterval.Properties.ReadOnly = !checkEnableWorkFlowMessage.Checked;
         }
+
+        /// <summary>
+        /// 选择提示
+        /// </summary>
+        private void checkDisableProjectNo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!LoadSystemSet)
+            {
+                if (checkDisableProjectNo.Checked)
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo("确认停用登记单中的项目号和站号吗？\r\n（包括请购单、采购单、入库单、出库单以及库存的所有登记单，停用之后会造成库存数量不准确，请谨慎操作。）", 2) == DialogResult.Yes)
+                    {
+                        checkDisableProjectNo.Checked = true;
+                    }
+                    else
+                        checkDisableProjectNo.Checked = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 选择提示
+        /// </summary>
+        private void checkDisableShelfInfo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!LoadSystemSet)
+            {
+                if (checkDisableShelfInfo.Checked)
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo("确认停用仓库中的货架号吗？\r\n（包括入库单、出库单以及库存的所有登记单，停用之后会造成库存数量不准确，请谨慎操作。）", 2) == DialogResult.Yes)
+                    {
+                        checkDisableShelfInfo.Checked = true;
+                    }
+                    else
+                        checkDisableShelfInfo.Checked = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 清空操作记录
+        /// </summary>
+        private void btnClearOperation_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int moduleCount = 0;
+                string moduleStr = "";
+                if (checkSale.Checked)
+                {
+                    moduleCount++;
+                    moduleStr += "[销售]";
+                }
+                if (checkProject.Checked)
+                {
+                    moduleCount++;
+                    moduleStr += "[项目]";
+                }
+                if (checkPurchase.Checked)
+                {
+                    moduleCount++;
+                    moduleStr += "[采购]";
+                }
+                if (checkWarehouse.Checked)
+                {
+                    moduleCount++;
+                    moduleStr += "[库存]";
+                }
+                if (checkProduction.Checked)
+                {
+                    moduleCount++;
+                    moduleStr += "[生产]";
+                }
+                if (moduleCount == 0)
+                {
+                    MessageHandler.ShowMessageBox("请选择要操作的模块。");
+                    return;
+                }
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确认要清空模块 {0} 的操作记录吗？（请谨慎操作此步骤，清空后所有选中模块的登记单都将会进行删除）", moduleStr), 2) == DialogResult.Yes)
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo("确认要清空吗？", 2) != DialogResult.Yes)
+                        return;
+
+                    if (systemDAO.ClearOperationRecord(checkSale.Checked, checkProject.Checked, checkPurchase.Checked, checkWarehouse.Checked, checkProduction.Checked))
+                    {
+                        MessageHandler.ShowMessageBox(string.Format("清空模块 {0} 的操作记录成功。", moduleStr));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--清空操作记录错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 清空基础资料
+        /// </summary>
+        private void btnClearBasicData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageHandler.ShowMessageBox_YesNo("确认要清空基础资料吗？（请谨慎操作此步骤，清空后所有的基础资料都将会进行删除）", 2) == DialogResult.Yes)
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo("确认要清空吗？", 2) != DialogResult.Yes)
+                        return;
+
+                    //if (systemDAO.ClearBasicData())
+                    //{
+                    //    MessageHandler.ShowMessageBox("清空基础资料成功。");
+                    //}
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--清空基础资料错误。", ex);
+            }
+        }
+
     }
 }

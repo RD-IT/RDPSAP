@@ -42,18 +42,40 @@ namespace PSAP.VIEW.BSVIEW
                 dateIADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateIADateEnd.DateTime = nowDate.Date;
 
-                lookUpAdjustmentsRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpAdjustmentsRepertoryNo.ItemIndex = 0;
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
-                lookUpReqDep.ItemIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-                searchAdjustmentsProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
-                searchAdjustmentsProjectNo.Text = "全部";
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+                DataTable projectTable_t = commonDAO.QueryProjectList(true);
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
-                repLookUpInRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repSearchAdjustmentsProjectNo.DataSource = commonDAO.QueryProjectList(false);
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
+                lookUpReqDep.ItemIndex = 0;
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = locationTable_t;
+                SearchLocationId.EditValue = 0;
+                searchProjectNo.Properties.DataSource = projectTable_t;
+                searchProjectNo.Text = "全部";
+                lookUpCreator.Properties.DataSource = userInfoTable_t;
+                lookUpCreator.EditValue = SystemInfo.user.AutoId;
+
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                //repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                //repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repLookUpRepertoryId.DataSource = repertoryTable_t;
+                repLookUpLocationId.DataSource = locationTable_t;
+                repSearchProjectNo.DataSource = projectTable_t;
+                repLookUpCreator.DataSource = userInfoTable_t;
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchProjectNo.Visible = false;
+                    colProjectNo.Visible = false;
+                }
 
                 gridBottomIA.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -101,7 +123,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (dateIADateBegin.EditValue == null || dateIADateEnd.EditValue == null)
                 {
-                    MessageHandler.ShowMessageBox(tsmiTzrqbnwkcx.Text );// ("调整日期不能为空，请设置后重新进行查询。");
+                    MessageHandler.ShowMessageBox(tsmiTzrqbnwkcx.Text);// ("调整日期不能为空，请设置后重新进行查询。");
                     if (dateIADateBegin.EditValue == null)
                         dateIADateBegin.Focus();
                     else
@@ -111,14 +133,15 @@ namespace PSAP.VIEW.BSVIEW
                 string orderDateBeginStr = dateIADateBegin.DateTime.ToString("yyyy-MM-dd");
                 string orderDateEndStr = dateIADateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
-                string repertoryNoStr = lookUpAdjustmentsRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpAdjustmentsRepertoryNo.EditValue) : "";
-                string projectNoStr = searchAdjustmentsProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchAdjustmentsProjectNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
+                string projectNoStr = searchProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchProjectNo.EditValue) : "";
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IA.Tables[0].Clear();
-                string querySqlStr = iaDAO.QueryInventoryAdjustmentsHead_SQL(orderDateBeginStr, orderDateEndStr, repertoryNoStr, projectNoStr, reqDepStr, empNameStr, commonStr, false);
+                string querySqlStr = iaDAO.QueryInventoryAdjustmentsHead_SQL(orderDateBeginStr, orderDateEndStr, repertoryIdInt, locationIdInt, projectNoStr, reqDepStr, creatorInt, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomIA.QueryGridData(ref dataSet_IA, "IAHead", querySqlStr, countSqlStr, true);
@@ -126,7 +149,7 @@ namespace PSAP.VIEW.BSVIEW
             catch (Exception ex)
             {
                 //ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiCxansjcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiCxansjcw.Text, ex);
             }
         }
 

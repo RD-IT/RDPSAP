@@ -33,21 +33,6 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         bool isLockGrid = false;
 
-        /// <summary>
-        /// 每页显示的行数
-        /// </summary>
-        int ResourcesPerPage = 10;
-
-        /// <summary>
-        /// 日程条的高度
-        /// </summary>
-        int SchedulerBarHeight = 30;
-
-        /// <summary>
-        /// 日程条的颜色
-        /// </summary>
-        Color SchedulerBarColor = Color.FromArgb(128, 255, 128);
-
         #endregion
 
         #region 构造函数
@@ -64,14 +49,17 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.FormBorderStyle = FormBorderStyle.None;
                     editForm.VisibleSearchControl = false;
                     editForm.TopLevel = false;
+                    editForm.DeleteAfterRefresh = true;
                     editForm.TableName = "PM_ProjectPlanTask";
                     editForm.TableCaption = "项目计划任务";
-                    editForm.Sql = string.Format("select PM_ProjectPlanTask.*, BS_ProjectUser.UserId from PM_ProjectPlanTask left join BS_ProjectUser on PM_ProjectPlanTask.ProjectUser = BS_ProjectUser.AutoId where PM_ProjectPlanTask.ProjectNo = '{0}' order by AutoId", "");
-                    editForm.PrimaryKeyColumn = "AutoId";
+                    editForm.Sql = planTaskDAO.QueryProjectPlanTask_SQL("");
+                    editForm.PrimaryKeyColumn = "AutoId";                 
                     editForm.MasterDataSet = dSProjectPlanTask;
                     editForm.MasterBindingSource = bSProjectPlanTask;
                     editForm.MasterEditPanel = pnlEditPlanTask;
                     //editForm.BrowseXtraGridView = gridViewPlanTask;
+                    editForm.btnSaveExcel.Click -= editForm.btnSaveExcel_Click;
+                    editForm.btnSaveExcel.Click += btnSaveExcel_Click_New;
                     editForm.CheckControl += CheckControl;
                     editForm.NewBefore += NewBefore;
                     editForm.AlterBefore += AlterBefore;
@@ -79,6 +67,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.DeleteRowBefore += DeleteRowBefore;
                     editForm.QueryDataAfter += QueryDataAfter;
                     editForm.CancelAfter += CancelAfter;
+                    editForm.OtherNoChangeControl = new List<Control>() { textPlanTaskStatus, lookUpCreator, textCreateTime };
                     this.pnlToolBarPlanTask.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
@@ -103,6 +92,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
                 DataTable userTable = commonDAO.QueryUserInfo(false);
+                lookUpCreator.Properties.DataSource = userTable;
 
                 searchLookUpTaskNo.Properties.DataSource = null;
                 searchLookUpProjectUser.Properties.DataSource = null;
@@ -114,16 +104,12 @@ namespace PSAP.VIEW.BSVIEW
                 schedulerStoragePlanTask.AppointmentDependencies.DataSource = bSTaskDependencies;
                 schedulerStoragePlanTask.AppointmentDependencies.DataMember = "";
 
-                //schedulerPlanTask.ActiveViewType = SchedulerViewType.Gantt;
-                //schedulerPlanTask.GroupType = SchedulerGroupType.Resource;
-                //schedulerPlanTask.GanttView.ShowResourceHeaders = false;
-                //schedulerPlanTask.GanttView.NavigationButtonVisibility = NavigationButtonVisibility.Never;
-
                 schedulerPlanTask.Start = DateTime.Now.Date;
 
-                schedulerPlanTask.Views.GanttView.ResourcesPerPage = ResourcesPerPage;
-                schedulerPlanTask.Views[SchedulerViewType.Gantt].AppointmentDisplayOptions.AppointmentHeight = SchedulerBarHeight;
-                schedulerStoragePlanTask.Appointments.Labels.GetById(0).Color = SchedulerBarColor;
+                schedulerPlanTask.Views.GanttView.ResourcesPerPage = SystemInfo.Gantt_ResourcesPerPage;
+                schedulerPlanTask.Views[SchedulerViewType.Gantt].AppointmentDisplayOptions.AppointmentHeight = SystemInfo.Gantt_SchedulerBarHeight;
+                schedulerStoragePlanTask.Appointments.Labels.GetById(0).Color = SystemInfo.Gantt_SchedulerBarColor;
+
             }
             catch (Exception ex)
             {
@@ -167,7 +153,7 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void RefreshProjectPlanTask(string projectNoStr)
         {
-            editForm.Sql = string.Format("select PM_ProjectPlanTask.*, BS_ProjectUser.UserId from PM_ProjectPlanTask left join BS_ProjectUser on PM_ProjectPlanTask.ProjectUser = BS_ProjectUser.AutoId where PM_ProjectPlanTask.ProjectNo = '{0}' order by AutoId", projectNoStr);
+            editForm.Sql = planTaskDAO.QueryProjectPlanTask_SQL(projectNoStr);
             editForm.btnRefresh_Click(null, null);
         }
 
@@ -215,7 +201,6 @@ namespace PSAP.VIEW.BSVIEW
                 return false;
             }
 
-
             if (DataTypeConvert.GetString(datePlanStartDate.EditValue) == "")
             {
                 MessageHandler.ShowMessageBox("计划开始日期不能为空，请重新操作。");
@@ -260,7 +245,35 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private bool DeleteRowBefore(DataRow dr, SqlCommand cmd)
         {
-            return CheckIsPlanEdit(dr);
+            if (!CheckIsPlanEdit(dr))
+            {
+                return false;
+            }
+
+            int autoIdInt = DataTypeConvert.GetInt(dr["AutoId", DataRowVersion.Original]);
+            if (autoIdInt > 0)
+            {
+                int statusInt = planTaskDAO.QueryProjectPlanTask_PlanTaskStatus(autoIdInt);
+                int currentStatusInt = DataTypeConvert.GetInt(dr["PlanTaskStatus", DataRowVersion.Original]);
+                if (statusInt != currentStatusInt)
+                {
+                    MessageHandler.ShowMessageBox("当前任务状态与数据库的任务状态不同步，请刷新后重新操作。");
+                    return false;
+                }
+
+                switch (statusInt)
+                {
+                    case 0:
+                        MessageHandler.ShowMessageBox("任务状态异常，请刷新后重新操作。");
+                        return false;
+                    case 2:
+                    case 3:
+                        MessageHandler.ShowMessageBox("任务已经开始，不可以进行删除。");
+                        return false;
+                }
+            }
+            
+            return true;
         }
 
         /// <summary>
@@ -270,6 +283,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (dr.RowState == DataRowState.Modified)
                 return CheckIsPlanEdit(dr);
+
+            dr["Creator"] = SystemInfo.user.AutoId;
             return true;
         }
 
@@ -278,16 +293,38 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void QueryDataAfter()
         {
+            if (QueryAppointments())
+            {
+                //if (TableAppointments.Rows.Count > 0)
+                //    schedulerPlanTask.Start = DataTypeConvert.GetDateTime(((TableAppointments.Compute("Min(PlanStartDate)", "true").ToString())));
+
+                bSProjectPlanTask_PositionChanged(null, null);
+            }
+        }
+
+        /// <summary>
+        /// 查询时间段信息
+        /// </summary>
+        private bool QueryAppointments()
+        {
             TableAppointments.Rows.Clear();
 
             string projectNoStr = DataTypeConvert.GetString(searchLookUpProjectNo.EditValue);
-            string Sql = string.Format("select AutoId, PlanTaskText, PlanStartDate, DATEADD(day, 1, PlanEndDate) as PlanEndDate, Cast(1 as bit) as AllDay from PM_ProjectPlanTask where ProjectNo = '{0}' order by AutoId", projectNoStr);
-            BaseSQL.Query(Sql, TableAppointments);
+            if (projectNoStr != "")
+            {
+                //string Sql = string.Format("select AutoId, PlanTaskText, PlanStartDate, DATEADD(day, 1, PlanEndDate) as PlanEndDate, Cast(1 as bit) as AllDay from PM_ProjectPlanTask where ProjectNo = '{0}' order by AutoId", projectNoStr);
+                //BaseSQL.Query(Sql, TableAppointments);
 
-            if (TableAppointments.Rows.Count > 0)
-                schedulerPlanTask.Start = DataTypeConvert.GetDateTime(((TableAppointments.Compute("Min(PlanStartDate)", "true").ToString())));
+                planTaskDAO.QueryGanttAppointment(TableAppointments, projectNoStr);
 
-            bSProjectPlanTask_PositionChanged(null, null);
+                if (TableAppointments.Rows.Count == 0)
+                    schedulerPlanTask.GanttView.NavigationButtonVisibility = NavigationButtonVisibility.Never;
+                else
+                    schedulerPlanTask.GanttView.NavigationButtonVisibility = NavigationButtonVisibility.Auto;
+
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -296,7 +333,10 @@ namespace PSAP.VIEW.BSVIEW
         private void CancelAfter()
         {
             bSProjectPlanTask_PositionChanged(null, null);
-            (((DataRowView)bSProjectPlanTask.Current).Row).RejectChanges();
+            if (bSProjectPlanTask.Current != null)
+                (((DataRowView)bSProjectPlanTask.Current).Row).RejectChanges();
+
+            QueryAppointments();
         }
 
         /// <summary>
@@ -313,7 +353,48 @@ namespace PSAP.VIEW.BSVIEW
                     return false;
                 }
             }
+
+            ////任务状态先不控制，任务信息可以随便修改
+            //int autoIdInt = DataTypeConvert.GetInt(dr["AutoId"]);
+            //if (autoIdInt > 0)
+            //{
+            //    int statusInt = planTaskDAO.QueryProjectPlanTask_PlanTaskStatus(autoIdInt);
+            //    int currentStatusInt = DataTypeConvert.GetInt(dr["PlanTaskStatus"]);
+            //    if (statusInt != currentStatusInt)
+            //    {
+            //        MessageHandler.ShowMessageBox("当前任务状态与数据库的任务状态不同步，请刷新后重新操作。");
+            //        return false;
+            //    }
+            //}
+
             return true;
+        }
+
+        /// <summary>
+        /// 查询结果存为Excel
+        /// </summary>
+        private void btnSaveExcel_Click_New(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.ParentForm.Name, this.Text, sender, true))
+                    return;
+
+                FileHandler.SaveResourcesTreeExportToExcel(resourcesTreePlanTask);
+                pnlToolBarPlanTask.Focus();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--存为Excel错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 设定状态显示的文本
+        /// </summary>
+        private void textPlanTaskStatus_CustomDisplayText(object sender, DevExpress.XtraEditors.Controls.CustomDisplayTextEventArgs e)
+        {
+            e.DisplayText = CommonHandler.Get_PlanTaskStatus_Desc(e.Value.ToString());
         }
 
         /// <summary>
@@ -432,6 +513,8 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             isLockGrid = true;
                             resourcesTreePlanTask.FocusedNode = resourcesTreePlanTask.Nodes[i];
+                            if (sender == null)
+                                schedulerPlanTask.Start = DataTypeConvert.GetDateTime(resourcesTreePlanTask.Nodes[i]["PlanStartDate"]);
                             isLockGrid = false;
                             break;
                         }
@@ -465,6 +548,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (bSProjectPlanTask.Current != null && !isLockGrid)
                 {
+                    bSProjectPlanTask.EndEdit();
                     DataRow dr = ((DataRowView)bSProjectPlanTask.Current).Row;
                     if (e.OldNode != null)
                     {
@@ -483,8 +567,6 @@ namespace PSAP.VIEW.BSVIEW
                                 {
                                     if (!editForm.btnSave_Click())
                                     {
-                                        //bSProjectPlanTask_PositionChanged(null, null);
-                                        //e.Allow = false;
                                         e.CanFocus = false;
                                         return;
                                     }
@@ -551,7 +633,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                for(int i = 0;i<e.Menu.Items.Count;i++)
+                for (int i = 0; i < e.Menu.Items.Count; i++)
                 {
                     e.Menu.Items[i].Visible = false;
                 }
@@ -562,8 +644,152 @@ namespace PSAP.VIEW.BSVIEW
             }
         }
 
+        /// <summary>
+        /// 调整时间段的长度
+        /// </summary>
+        private void schedulerPlanTask_AppointmentResized(object sender, AppointmentResizeEventArgs e)
+        {
+            try
+            {
+                int autoIdInt = DataTypeConvert.GetInt(e.EditedAppointment.ResourceId);
+                DateTime beginDate = e.EditedAppointment.Start;
+                DateTime endDate = e.EditedAppointment.End.AddDays(-1);
+                if (beginDate > endDate)
+                {
+                    MessageHandler.ShowMessageBox("计划开始日期必须小于计划结束日期，请重新操作。");
+                    e.Allow = false;
+                    e.Handled = true;
+                    return;
+                }
+                DataRow[] olddrs = TableProjectPlanTask.Select(string.Format("AutoId = {0}", autoIdInt));
+                if (olddrs.Length > 0)
+                {
+                    if (!CheckIsPlanEdit(olddrs[0]))
+                    {
+                        e.Allow = false;
+                        e.Handled = true;
+                        return;
+                    }
+                }
+
+                bSProjectPlanTask.EndEdit();
+                DataRow dr = ((DataRowView)bSProjectPlanTask.Current).Row;
+
+                if (dr.RowState != DataRowState.Unchanged)
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo("确认是否保存当前行信息？") == DialogResult.Yes)
+                    {
+                        if (!editForm.btnSave_Click())
+                        {
+                            e.Allow = false;
+                            e.Handled = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        dr.RejectChanges();
+                        editForm.Set_Button_State(true);
+                        editForm.Set_EditZone_ControlReadOnly(true);
+                    }
+                }
+                else
+                {
+                    editForm.Set_Button_State(true);
+                    editForm.Set_EditZone_ControlReadOnly(true);
+                }
+
+                planTaskDAO.UpdateProjectPlanTask_PlanDate(autoIdInt, beginDate, endDate);
+                e.Allow = false;
+                e.Handled = true;
+
+                editForm.btnRefresh_Click(null, null);
+
+                DataRow[] newdrs = TableProjectPlanTask.Select(string.Format("AutoId = {0}", autoIdInt));
+                if (newdrs.Length > 0)
+                {
+                    bSProjectPlanTask.Position = TableProjectPlanTask.Rows.IndexOf(newdrs[0]);
+                    bSProjectPlanTask_PositionChanged(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--调整时间段的长度错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 拖拽调整时间段
+        /// </summary>
+        private void schedulerPlanTask_AppointmentDrop(object sender, AppointmentDragEventArgs e)
+        {
+            try
+            {
+                int autoIdInt = DataTypeConvert.GetInt(e.EditedAppointment.ResourceId);
+                DateTime beginDate = e.EditedAppointment.Start;
+                DateTime endDate = e.EditedAppointment.End.AddDays(-1);
+
+                DataRow[] olddrs = TableProjectPlanTask.Select(string.Format("AutoId = {0}", autoIdInt));
+                if (olddrs.Length > 0)
+                {
+                    if (!CheckIsPlanEdit(olddrs[0]))
+                    {
+                        e.Allow = false;
+                        return;
+                    }
+                }
+                
+                bSProjectPlanTask.EndEdit();
+                DataRow dr = ((DataRowView)bSProjectPlanTask.Current).Row;
+
+                if (dr.RowState != DataRowState.Unchanged)
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo("确认是否保存当前行信息？") == DialogResult.Yes)
+                    {
+                        if (!editForm.btnSave_Click())
+                        {
+                            e.Allow = false;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        dr.RejectChanges();
+                        editForm.Set_Button_State(true);
+                        editForm.Set_EditZone_ControlReadOnly(true);
+                    }
+                }
+                else
+                {
+                    editForm.Set_Button_State(true);
+                    editForm.Set_EditZone_ControlReadOnly(true);
+                }
+                
+                planTaskDAO.UpdateProjectPlanTask_PlanDate(autoIdInt, beginDate, endDate);
+                e.Allow = false;
+
+                editForm.btnRefresh_Click(null, null);
+
+                DataRow[] newdrs = TableProjectPlanTask.Select(string.Format("AutoId = {0}", autoIdInt));
+                if (newdrs.Length > 0)
+                {
+                    bSProjectPlanTask.Position = TableProjectPlanTask.Rows.IndexOf(newdrs[0]);
+                    bSProjectPlanTask_PositionChanged(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--拖拽调整时间段错误。", ex);
+            }
+        }
+
         #endregion
 
         #endregion
+
+        //schedulerPlanTask.Views[SchedulerViewType.Gantt].AppointmentDisplayOptions.AppointmentHeight = resourcesTreePlanTask.RowHeight - 2;
+        //满级：矿工13，电法13，刺客13，滚木12-1，幽灵12-8，
+        //积累：公主11-1，蛮羊9-10，骷髅召唤9-6，天狗9-3，樵夫11-5，地狱龙11-1，渔夫9-3
+        //放弃：冰法11-0，神剑9-0，女巫10-0，电磁炮10-0，超骑11-0
     }
 }

@@ -64,11 +64,14 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateReqDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateReqDateEnd.DateTime = nowDate.Date;
+
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
@@ -76,9 +79,9 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpPurCategory.ItemIndex = 0;
 
                 comboBoxReqState.SelectedIndex = 0;
-                lookUpApplicant.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpApplicant.Properties.DataSource = userInfoTable_t;
                 lookUpApplicant.EditValue = SystemInfo.user.EmpName;
-                lookUpApprover.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
                 lookUpApprover.ItemIndex = -1;
 
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -93,6 +96,11 @@ namespace PSAP.VIEW.BSVIEW
                     prReqDAO.QueryPrReqHead(dataSet_PrReq.Tables[0], "", "", "", "", 0, "", -1, "", true);
                 }
 
+                if (SystemInfo.DisableProjectNo)
+                {
+                    colProjectNo.Visible = false;
+                    colStnNo.Visible = false;
+                }
             }
             catch (Exception ex)
             {
@@ -891,6 +899,12 @@ namespace PSAP.VIEW.BSVIEW
                 gridViewPrReqHead.SetFocusedRowCellValue("PurCategory", DataTypeConvert.GetString(((DataTable)lookUpPurCategory.Properties.DataSource).Rows[1]["PurCategory"]));
                 gridViewPrReqHead.SetFocusedRowCellValue("ReqState", 1);
                 gridViewPrReqHead.SetFocusedRowCellValue("Applicant", SystemInfo.user.EmpName);
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    gridViewPrReqHead.SetFocusedRowCellValue("ProjectNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                    gridViewPrReqHead.SetFocusedRowCellValue("StnNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                }
             }
             catch (Exception ex)
             {

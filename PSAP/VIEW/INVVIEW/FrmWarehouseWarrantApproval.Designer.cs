@@ -39,7 +39,7 @@
             this.dataColWarehouseWarrantDate = new System.Data.DataColumn();
             this.dataColBussinessBaseNo = new System.Data.DataColumn();
             this.dataColOrderHeadNo = new System.Data.DataColumn();
-            this.dataColRepertoryNo = new System.Data.DataColumn();
+            this.dataColRepertoryId = new System.Data.DataColumn();
             this.dataColWarehouseWarrantTypeNo = new System.Data.DataColumn();
             this.dataColPrepared = new System.Data.DataColumn();
             this.dataColPreparedIp = new System.Data.DataColumn();
@@ -161,7 +161,7 @@
             this.dataColWarehouseWarrantDate,
             this.dataColBussinessBaseNo,
             this.dataColOrderHeadNo,
-            this.dataColRepertoryNo,
+            this.dataColRepertoryId,
             this.dataColWarehouseWarrantTypeNo,
             this.dataColPrepared,
             this.dataColPreparedIp,
@@ -201,10 +201,11 @@
             this.dataColOrderHeadNo.Caption = "采购订单号";
             this.dataColOrderHeadNo.ColumnName = "OrderHeadNo";
             // 
-            // dataColRepertoryNo
+            // dataColRepertoryId
             // 
-            this.dataColRepertoryNo.Caption = "入库仓库";
-            this.dataColRepertoryNo.ColumnName = "RepertoryNo";
+            this.dataColRepertoryId.Caption = "入库仓库";
+            this.dataColRepertoryId.ColumnName = "RepertoryId";
+            this.dataColRepertoryId.DataType = typeof(int);
             // 
             // dataColWarehouseWarrantTypeNo
             // 
@@ -629,7 +630,7 @@
         private System.Data.DataColumn dataColWarehouseWarrantDate;
         private System.Data.DataColumn dataColBussinessBaseNo;
         private System.Data.DataColumn dataColOrderHeadNo;
-        private System.Data.DataColumn dataColRepertoryNo;
+        private System.Data.DataColumn dataColRepertoryId;
         private System.Data.DataColumn dataColWarehouseWarrantTypeNo;
         private System.Data.DataColumn dataColPrepared;
         private System.Data.DataColumn dataColPreparedIp;

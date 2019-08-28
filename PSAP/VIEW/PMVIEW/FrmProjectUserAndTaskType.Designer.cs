@@ -87,6 +87,7 @@
             this.labTaskNo = new DevExpress.XtraEditors.LabelControl();
             this.pnlToolBarProjectTaskType = new DevExpress.XtraEditors.PanelControl();
             this.pnlMain = new DevExpress.XtraEditors.PanelControl();
+            this.splitterControlMain = new DevExpress.XtraEditors.SplitterControl();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).BeginInit();
@@ -487,10 +488,10 @@
             // TabControlProjectTaskType
             // 
             this.TabControlProjectTaskType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TabControlProjectTaskType.Location = new System.Drawing.Point(620, 2);
+            this.TabControlProjectTaskType.Location = new System.Drawing.Point(625, 2);
             this.TabControlProjectTaskType.Name = "TabControlProjectTaskType";
             this.TabControlProjectTaskType.SelectedTabPage = this.PageProjectTaskType;
-            this.TabControlProjectTaskType.Size = new System.Drawing.Size(700, 505);
+            this.TabControlProjectTaskType.Size = new System.Drawing.Size(695, 505);
             this.TabControlProjectTaskType.TabIndex = 4;
             this.TabControlProjectTaskType.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageProjectTaskType});
@@ -501,7 +502,7 @@
             this.PageProjectTaskType.Controls.Add(this.pnlEditProjectTaskType);
             this.PageProjectTaskType.Controls.Add(this.pnlToolBarProjectTaskType);
             this.PageProjectTaskType.Name = "PageProjectTaskType";
-            this.PageProjectTaskType.Size = new System.Drawing.Size(694, 476);
+            this.PageProjectTaskType.Size = new System.Drawing.Size(689, 476);
             this.PageProjectTaskType.Text = "项目任务类别";
             // 
             // pnlGridProjectTaskType
@@ -510,7 +511,7 @@
             this.pnlGridProjectTaskType.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGridProjectTaskType.Location = new System.Drawing.Point(0, 108);
             this.pnlGridProjectTaskType.Name = "pnlGridProjectTaskType";
-            this.pnlGridProjectTaskType.Size = new System.Drawing.Size(694, 368);
+            this.pnlGridProjectTaskType.Size = new System.Drawing.Size(689, 368);
             this.pnlGridProjectTaskType.TabIndex = 8;
             // 
             // gridControlProjectTaskType
@@ -520,7 +521,7 @@
             this.gridControlProjectTaskType.Location = new System.Drawing.Point(2, 2);
             this.gridControlProjectTaskType.MainView = this.gridViewProjectTaskType;
             this.gridControlProjectTaskType.Name = "gridControlProjectTaskType";
-            this.gridControlProjectTaskType.Size = new System.Drawing.Size(690, 364);
+            this.gridControlProjectTaskType.Size = new System.Drawing.Size(685, 364);
             this.gridControlProjectTaskType.TabIndex = 2;
             this.gridControlProjectTaskType.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewProjectTaskType});
@@ -590,7 +591,7 @@
             this.pnlEditProjectTaskType.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEditProjectTaskType.Location = new System.Drawing.Point(0, 40);
             this.pnlEditProjectTaskType.Name = "pnlEditProjectTaskType";
-            this.pnlEditProjectTaskType.Size = new System.Drawing.Size(694, 68);
+            this.pnlEditProjectTaskType.Size = new System.Drawing.Size(689, 68);
             this.pnlEditProjectTaskType.TabIndex = 7;
             // 
             // textTaskText
@@ -629,21 +630,33 @@
             // 
             // pnlToolBarProjectTaskType
             // 
+            this.pnlToolBarProjectTaskType.Appearance.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlToolBarProjectTaskType.Appearance.Options.UseBackColor = true;
+            this.pnlToolBarProjectTaskType.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBarProjectTaskType.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBarProjectTaskType.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBarProjectTaskType.Name = "pnlToolBarProjectTaskType";
-            this.pnlToolBarProjectTaskType.Size = new System.Drawing.Size(694, 40);
+            this.pnlToolBarProjectTaskType.Size = new System.Drawing.Size(689, 40);
             this.pnlToolBarProjectTaskType.TabIndex = 2;
             // 
             // pnlMain
             // 
             this.pnlMain.Controls.Add(this.TabControlProjectTaskType);
+            this.pnlMain.Controls.Add(this.splitterControlMain);
             this.pnlMain.Controls.Add(this.TabControlProjectUser);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 52);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(1322, 509);
             this.pnlMain.TabIndex = 5;
+            // 
+            // splitterControlMain
+            // 
+            this.splitterControlMain.Location = new System.Drawing.Point(620, 2);
+            this.splitterControlMain.Name = "splitterControlMain";
+            this.splitterControlMain.Size = new System.Drawing.Size(5, 505);
+            this.splitterControlMain.TabIndex = 5;
+            this.splitterControlMain.TabStop = false;
             // 
             // FrmProjectUserAndTaskType
             // 
@@ -756,5 +769,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colIsReplace;
         private DevExpress.XtraEditors.SimpleButton btnSetIsReplace;
         private DevExpress.XtraEditors.SimpleButton btnSetIsPlanEdit;
+        private DevExpress.XtraEditors.SplitterControl splitterControlMain;
     }
 }

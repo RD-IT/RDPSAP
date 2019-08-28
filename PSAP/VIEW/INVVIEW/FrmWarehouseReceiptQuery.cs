@@ -42,23 +42,38 @@ namespace PSAP.VIEW.BSVIEW
                 dateWRDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWRDateEnd.DateTime = nowDate.Date;
 
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+                DataTable wrTypeTable_t = wrDAO.QueryWarehouseReceiptType(true);
+                DataTable manuInfoTable_t = wrDAO.QueryManufactureInfo(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
-                lookUpWarehouseReceiptTypeNo.Properties.DataSource = wrDAO.QueryWarehouseReceiptType(true);
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = locationTable_t;
+                SearchLocationId.EditValue = 0;
+                lookUpWarehouseReceiptTypeNo.Properties.DataSource = wrTypeTable_t;
                 lookUpWarehouseReceiptTypeNo.ItemIndex = 0;
+                lookUpManufactureNo.Properties.DataSource = manuInfoTable_t;
+                lookUpManufactureNo.ItemIndex = 0;
                 comboBoxWarehouseState.SelectedIndex = 0;
                 lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-                lookUpManufactureNo.Properties.DataSource = wrDAO.QueryManufactureInfo(true);
-                lookUpManufactureNo.ItemIndex = 0;
 
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repLookUpRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repLookUpWRTypeNo.DataSource = wrDAO.QueryWarehouseReceiptType(false);
+
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                //repLookUpWRTypeNo.DataSource = wrDAO.QueryWarehouseReceiptType(false);
+                //repLookUpManufactureNo.DataSource = wrDAO.QueryManufactureInfo(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repLookUpRepertoryId.DataSource = repertoryTable_t;
+                repLookUpRepertoryLocationId.DataSource = locationTable_t;
+                repLookUpWRTypeNo.DataSource = wrTypeTable_t;
+                repLookUpManufactureNo.DataSource = manuInfoTable_t;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
-                repLookUpManufactureNo.DataSource = wrDAO.QueryManufactureInfo(false);
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -67,7 +82,7 @@ namespace PSAP.VIEW.BSVIEW
             catch (Exception ex)
             {
                 //ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+f.tsmiCtjzsjcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiCtjzsjcw.Text, ex);
             }
         }
 
@@ -128,7 +143,8 @@ namespace PSAP.VIEW.BSVIEW
                 string wrDateEndStr = dateWRDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpRepertoryNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string wrTypeNoStr = lookUpWarehouseReceiptTypeNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpWarehouseReceiptTypeNo.EditValue) : "";
                 string manufactureNoStr = lookUpManufactureNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpManufactureNo.EditValue) : "";
 
@@ -137,7 +153,7 @@ namespace PSAP.VIEW.BSVIEW
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_WR.Tables[0].Rows.Clear();
-                string querySqlStr = wrDAO.QueryWarehouseReceiptHead_SQL(wrDateBeginStr, wrDateEndStr, reqDepStr, repertoryNoStr, wrTypeNoStr, manufactureNoStr, warehouseStateInt, empNameStr, -1, commonStr, false);
+                string querySqlStr = wrDAO.QueryWarehouseReceiptHead_SQL(wrDateBeginStr, wrDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, wrTypeNoStr, manufactureNoStr, warehouseStateInt, empNameStr, -1, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

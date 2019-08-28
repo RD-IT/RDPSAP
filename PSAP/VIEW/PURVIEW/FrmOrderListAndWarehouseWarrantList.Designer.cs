@@ -55,9 +55,10 @@
             this.dataColShelfId = new System.Data.DataColumn();
             this.dataColWarehouseWarrant = new System.Data.DataColumn();
             this.dataColWarehouseWarrantDate = new System.Data.DataColumn();
-            this.dataColRepertoryNo = new System.Data.DataColumn();
+            this.dataColRepertoryId = new System.Data.DataColumn();
             this.dataColWarehouseState = new System.Data.DataColumn();
             this.dataColBussinessBaseNo = new System.Data.DataColumn();
+            this.dataColRepertoryLocationId = new System.Data.DataColumn();
             this.bindingSource_OrderList = new System.Windows.Forms.BindingSource(this.components);
             this.pnltop = new DevExpress.XtraEditors.PanelControl();
             this.searchLookUpCodeFileName = new DevExpress.XtraEditors.SearchLookUpEdit();
@@ -109,7 +110,7 @@
             this.colReqState = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repSearchProjectNo = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.repSearchProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumnProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumnRemark = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -118,7 +119,7 @@
             this.repLookUpPurCategory = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colBussinessBaseNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repSearchBussinessBaseNo = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.repSearchBussinessBaseNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridCBussinessBaseNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridCBussinessBaseText = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridCBussinessCategoryText = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -133,11 +134,13 @@
             this.colWarehouseWarrantDate = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWarehouseState = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWWQty = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colRepertoryNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repLookUpRepertoryNo = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+            this.colRepertoryId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpRepertoryId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+            this.colRepertoryLocationId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpRepertoryLocationId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colShelfId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repSearchShelfId = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
-            this.repositoryItemSearchLookUpEdit1View = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.repSearchShelfIdView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmidgribnwk = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_Order)).BeginInit();
@@ -166,14 +169,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControlOrderList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewOrderList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchProjectNo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repSearchProjectNoView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpPurCategory)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchBussinessBaseNo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repSearchBussinessBaseNoView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpReqDep)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryNo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryId)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryLocationId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchShelfId)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemSearchLookUpEdit1View)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repSearchShelfIdView)).BeginInit();
             this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -211,9 +215,10 @@
             this.dataColShelfId,
             this.dataColWarehouseWarrant,
             this.dataColWarehouseWarrantDate,
-            this.dataColRepertoryNo,
+            this.dataColRepertoryId,
             this.dataColWarehouseState,
-            this.dataColBussinessBaseNo});
+            this.dataColBussinessBaseNo,
+            this.dataColRepertoryLocationId});
             this.dataTableOrderList.TableName = "OrderList";
             // 
             // dataColAutoId
@@ -346,10 +351,11 @@
             this.dataColWarehouseWarrantDate.ColumnName = "WarehouseWarrantDate";
             this.dataColWarehouseWarrantDate.DataType = typeof(System.DateTime);
             // 
-            // dataColRepertoryNo
+            // dataColRepertoryId
             // 
-            this.dataColRepertoryNo.Caption = "入库仓库";
-            this.dataColRepertoryNo.ColumnName = "RepertoryNo";
+            this.dataColRepertoryId.Caption = "入库仓库";
+            this.dataColRepertoryId.ColumnName = "RepertoryId";
+            this.dataColRepertoryId.DataType = typeof(int);
             // 
             // dataColWarehouseState
             // 
@@ -361,6 +367,12 @@
             // 
             this.dataColBussinessBaseNo.Caption = "往来方";
             this.dataColBussinessBaseNo.ColumnName = "BussinessBaseNo";
+            // 
+            // dataColRepertoryLocationId
+            // 
+            this.dataColRepertoryLocationId.Caption = "入库仓位";
+            this.dataColRepertoryLocationId.ColumnName = "RepertoryLocationId";
+            this.dataColRepertoryLocationId.DataType = typeof(int);
             // 
             // bindingSource_OrderList
             // 
@@ -398,7 +410,7 @@
             // searchLookUpCodeFileName
             // 
             this.searchLookUpCodeFileName.EnterMoveNextControl = true;
-            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(306, 44);
+            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(289, 44);
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -407,7 +419,7 @@
             this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpCodeFileName.TabIndex = 37;
+            this.searchLookUpCodeFileName.TabIndex = 7;
             // 
             // searchLookUpCodeFileNameView
             // 
@@ -440,7 +452,7 @@
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(74, 44);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(991, 14);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -449,7 +461,7 @@
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpProjectNo.TabIndex = 36;
+            this.searchLookUpProjectNo.TabIndex = 5;
             // 
             // searchLookUpProjectNoView
             // 
@@ -490,7 +502,7 @@
             // 
             // labCodeFileName
             // 
-            this.labCodeFileName.Location = new System.Drawing.Point(240, 47);
+            this.labCodeFileName.Location = new System.Drawing.Point(223, 47);
             this.labCodeFileName.Name = "labCodeFileName";
             this.labCodeFileName.Size = new System.Drawing.Size(60, 14);
             this.labCodeFileName.TabIndex = 39;
@@ -498,7 +510,7 @@
             // 
             // labProjectNo
             // 
-            this.labProjectNo.Location = new System.Drawing.Point(20, 47);
+            this.labProjectNo.Location = new System.Drawing.Point(937, 17);
             this.labProjectNo.Name = "labProjectNo";
             this.labProjectNo.Size = new System.Drawing.Size(48, 14);
             this.labProjectNo.TabIndex = 38;
@@ -506,10 +518,10 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(800, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(783, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveExcel.TabIndex = 17;
+            this.btnSaveExcel.TabIndex = 10;
             this.btnSaveExcel.Text = "存为Excel";
             this.btnSaveExcel.Click += new System.EventHandler(this.btnSaveExcel_Click);
             // 
@@ -573,15 +585,15 @@
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(537, 44);
+            this.textCommon.Location = new System.Drawing.Point(520, 44);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
-            this.textCommon.TabIndex = 7;
+            this.textCommon.TabIndex = 8;
             // 
             // comboBoxReqState
             // 
             this.comboBoxReqState.EnterMoveNextControl = true;
-            this.comboBoxReqState.Location = new System.Drawing.Point(1003, 14);
+            this.comboBoxReqState.Location = new System.Drawing.Point(86, 44);
             this.comboBoxReqState.Name = "comboBoxReqState";
             this.comboBoxReqState.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -595,7 +607,7 @@
             "拒绝"});
             this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
-            this.comboBoxReqState.TabIndex = 5;
+            this.comboBoxReqState.TabIndex = 6;
             // 
             // lookUpPurCategory
             // 
@@ -631,10 +643,10 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(710, 43);
+            this.btnQuery.Location = new System.Drawing.Point(693, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
-            this.btnQuery.TabIndex = 8;
+            this.btnQuery.TabIndex = 9;
             this.btnQuery.Text = "查询";
             this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
@@ -684,7 +696,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(471, 47);
+            this.labCommon.Location = new System.Drawing.Point(454, 47);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 14;
@@ -692,7 +704,7 @@
             // 
             // labReqState
             // 
-            this.labReqState.Location = new System.Drawing.Point(937, 17);
+            this.labReqState.Location = new System.Drawing.Point(20, 47);
             this.labReqState.Name = "labReqState";
             this.labReqState.Size = new System.Drawing.Size(60, 14);
             this.labReqState.TabIndex = 9;
@@ -770,8 +782,9 @@
             this.repLookUpPurCategory,
             this.repSearchProjectNo,
             this.repSearchBussinessBaseNo,
-            this.repLookUpRepertoryNo,
-            this.repSearchShelfId});
+            this.repLookUpRepertoryId,
+            this.repSearchShelfId,
+            this.repLookUpRepertoryLocationId});
             this.gridControlOrderList.Size = new System.Drawing.Size(1366, 430);
             this.gridControlOrderList.TabIndex = 4;
             this.gridControlOrderList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -803,7 +816,8 @@
             this.colWarehouseWarrantDate,
             this.colWarehouseState,
             this.colWWQty,
-            this.colRepertoryNo,
+            this.colRepertoryId,
+            this.colRepertoryLocationId,
             this.colShelfId});
             this.gridViewOrderList.GridControl = this.gridControlOrderList;
             this.gridViewOrderList.IndicatorWidth = 40;
@@ -943,19 +957,19 @@
             this.repSearchProjectNo.Name = "repSearchProjectNo";
             this.repSearchProjectNo.NullText = "";
             this.repSearchProjectNo.ValueMember = "ProjectNo";
-            this.repSearchProjectNo.View = this.gridView1;
+            this.repSearchProjectNo.View = this.repSearchProjectNoView;
             // 
-            // gridView1
+            // repSearchProjectNoView
             // 
-            this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.repSearchProjectNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumnProjectNo,
             this.gridColumnProjectName,
             this.gridColumnRemark});
-            this.gridView1.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.gridView1.IndicatorWidth = 60;
-            this.gridView1.Name = "gridView1";
-            this.gridView1.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.repSearchProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.repSearchProjectNoView.IndicatorWidth = 60;
+            this.repSearchProjectNoView.Name = "repSearchProjectNoView";
+            this.repSearchProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.repSearchProjectNoView.OptionsView.ShowGroupPanel = false;
             // 
             // gridColumnProjectNo
             // 
@@ -1035,20 +1049,20 @@
             this.repSearchBussinessBaseNo.Name = "repSearchBussinessBaseNo";
             this.repSearchBussinessBaseNo.NullText = "";
             this.repSearchBussinessBaseNo.ValueMember = "BussinessBaseNo";
-            this.repSearchBussinessBaseNo.View = this.gridView2;
+            this.repSearchBussinessBaseNo.View = this.repSearchBussinessBaseNoView;
             // 
-            // gridView2
+            // repSearchBussinessBaseNoView
             // 
-            this.gridView2.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.repSearchBussinessBaseNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridCBussinessBaseNo,
             this.gridCBussinessBaseText,
             this.gridCBussinessCategoryText,
             this.gridCAutoId});
-            this.gridView2.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.gridView2.IndicatorWidth = 60;
-            this.gridView2.Name = "gridView2";
-            this.gridView2.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.gridView2.OptionsView.ShowGroupPanel = false;
+            this.repSearchBussinessBaseNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.repSearchBussinessBaseNoView.IndicatorWidth = 60;
+            this.repSearchBussinessBaseNoView.Name = "repSearchBussinessBaseNoView";
+            this.repSearchBussinessBaseNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.repSearchBussinessBaseNoView.OptionsView.ShowGroupPanel = false;
             // 
             // gridCBussinessBaseNo
             // 
@@ -1188,27 +1202,48 @@
             this.colWWQty.Visible = true;
             this.colWWQty.VisibleIndex = 17;
             // 
-            // colRepertoryNo
+            // colRepertoryId
             // 
-            this.colRepertoryNo.AppearanceHeader.Options.UseTextOptions = true;
-            this.colRepertoryNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colRepertoryNo.ColumnEdit = this.repLookUpRepertoryNo;
-            this.colRepertoryNo.FieldName = "RepertoryNo";
-            this.colRepertoryNo.Name = "colRepertoryNo";
-            this.colRepertoryNo.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
-            this.colRepertoryNo.Visible = true;
-            this.colRepertoryNo.VisibleIndex = 18;
-            this.colRepertoryNo.Width = 90;
+            this.colRepertoryId.AppearanceHeader.Options.UseTextOptions = true;
+            this.colRepertoryId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colRepertoryId.ColumnEdit = this.repLookUpRepertoryId;
+            this.colRepertoryId.FieldName = "RepertoryId";
+            this.colRepertoryId.Name = "colRepertoryId";
+            this.colRepertoryId.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
+            this.colRepertoryId.Visible = true;
+            this.colRepertoryId.VisibleIndex = 18;
+            this.colRepertoryId.Width = 90;
             // 
-            // repLookUpRepertoryNo
+            // repLookUpRepertoryId
             // 
-            this.repLookUpRepertoryNo.AutoHeight = false;
-            this.repLookUpRepertoryNo.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.repLookUpRepertoryId.AutoHeight = false;
+            this.repLookUpRepertoryId.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repLookUpRepertoryNo.DisplayMember = "RepertoryName";
-            this.repLookUpRepertoryNo.Name = "repLookUpRepertoryNo";
-            this.repLookUpRepertoryNo.NullText = "";
-            this.repLookUpRepertoryNo.ValueMember = "RepertoryNo";
+            this.repLookUpRepertoryId.DisplayMember = "RepertoryName";
+            this.repLookUpRepertoryId.Name = "repLookUpRepertoryId";
+            this.repLookUpRepertoryId.NullText = "";
+            this.repLookUpRepertoryId.ValueMember = "AutoId";
+            // 
+            // colRepertoryLocationId
+            // 
+            this.colRepertoryLocationId.AppearanceHeader.Options.UseTextOptions = true;
+            this.colRepertoryLocationId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colRepertoryLocationId.ColumnEdit = this.repLookUpRepertoryLocationId;
+            this.colRepertoryLocationId.FieldName = "RepertoryLocationId";
+            this.colRepertoryLocationId.Name = "colRepertoryLocationId";
+            this.colRepertoryLocationId.Visible = true;
+            this.colRepertoryLocationId.VisibleIndex = 19;
+            this.colRepertoryLocationId.Width = 90;
+            // 
+            // repLookUpRepertoryLocationId
+            // 
+            this.repLookUpRepertoryLocationId.AutoHeight = false;
+            this.repLookUpRepertoryLocationId.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpRepertoryLocationId.DisplayMember = "LocationName";
+            this.repLookUpRepertoryLocationId.Name = "repLookUpRepertoryLocationId";
+            this.repLookUpRepertoryLocationId.NullText = "";
+            this.repLookUpRepertoryLocationId.ValueMember = "AutoId";
             // 
             // colShelfId
             // 
@@ -1219,7 +1254,7 @@
             this.colShelfId.Name = "colShelfId";
             this.colShelfId.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
             this.colShelfId.Visible = true;
-            this.colShelfId.VisibleIndex = 19;
+            this.colShelfId.VisibleIndex = 20;
             this.colShelfId.Width = 80;
             // 
             // repSearchShelfId
@@ -1231,14 +1266,14 @@
             this.repSearchShelfId.Name = "repSearchShelfId";
             this.repSearchShelfId.NullText = "";
             this.repSearchShelfId.ValueMember = "AutoId";
-            this.repSearchShelfId.View = this.repositoryItemSearchLookUpEdit1View;
+            this.repSearchShelfId.View = this.repSearchShelfIdView;
             // 
-            // repositoryItemSearchLookUpEdit1View
+            // repSearchShelfIdView
             // 
-            this.repositoryItemSearchLookUpEdit1View.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.repositoryItemSearchLookUpEdit1View.Name = "repositoryItemSearchLookUpEdit1View";
-            this.repositoryItemSearchLookUpEdit1View.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.repositoryItemSearchLookUpEdit1View.OptionsView.ShowGroupPanel = false;
+            this.repSearchShelfIdView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.repSearchShelfIdView.Name = "repSearchShelfIdView";
+            this.repSearchShelfIdView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.repSearchShelfIdView.OptionsView.ShowGroupPanel = false;
             // 
             // cms
             // 
@@ -1291,14 +1326,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControlOrderList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewOrderList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchProjectNo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repSearchProjectNoView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpPurCategory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchBussinessBaseNo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repSearchBussinessBaseNoView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpReqDep)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryNo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryId)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryLocationId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchShelfId)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repositoryItemSearchLookUpEdit1View)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repSearchShelfIdView)).EndInit();
             this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1332,7 +1368,7 @@
         private System.Data.DataColumn dataColShelfId;
         private System.Data.DataColumn dataColWarehouseWarrant;
         private System.Data.DataColumn dataColWarehouseWarrantDate;
-        private System.Data.DataColumn dataColRepertoryNo;
+        private System.Data.DataColumn dataColRepertoryId;
         private System.Data.DataColumn dataColWarehouseState;
         private System.Windows.Forms.BindingSource bindingSource_OrderList;
         private DevExpress.XtraEditors.PanelControl pnltop;
@@ -1386,7 +1422,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colReqState;
         private DevExpress.XtraGrid.Columns.GridColumn colProjectNo;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchProjectNo;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView repSearchProjectNoView;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnProjectNo;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnProjectName;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumnRemark;
@@ -1395,7 +1431,7 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpPurCategory;
         private DevExpress.XtraGrid.Columns.GridColumn colBussinessBaseNo;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchBussinessBaseNo;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
+        private DevExpress.XtraGrid.Views.Grid.GridView repSearchBussinessBaseNoView;
         private DevExpress.XtraGrid.Columns.GridColumn gridCBussinessBaseNo;
         private DevExpress.XtraGrid.Columns.GridColumn gridCBussinessBaseText;
         private DevExpress.XtraGrid.Columns.GridColumn gridCBussinessCategoryText;
@@ -1410,12 +1446,15 @@
         private DevExpress.XtraGrid.Columns.GridColumn colWarehouseWarrantDate;
         private DevExpress.XtraGrid.Columns.GridColumn colWarehouseState;
         private DevExpress.XtraGrid.Columns.GridColumn colWWQty;
-        private DevExpress.XtraGrid.Columns.GridColumn colRepertoryNo;
+        private DevExpress.XtraGrid.Columns.GridColumn colRepertoryId;
         private DevExpress.XtraGrid.Columns.GridColumn colShelfId;
-        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpRepertoryNo;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpRepertoryId;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchShelfId;
-        private DevExpress.XtraGrid.Views.Grid.GridView repositoryItemSearchLookUpEdit1View;
+        private DevExpress.XtraGrid.Views.Grid.GridView repSearchShelfIdView;
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmidgribnwk;
+        private System.Data.DataColumn dataColRepertoryLocationId;
+        private DevExpress.XtraGrid.Columns.GridColumn colRepertoryLocationId;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpRepertoryLocationId;
     }
 }

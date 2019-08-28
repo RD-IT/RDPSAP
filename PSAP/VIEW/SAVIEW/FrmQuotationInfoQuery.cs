@@ -48,14 +48,17 @@ namespace PSAP.VIEW.BSVIEW
                 dateRecordDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateRecordDateEnd.DateTime = nowDate.Date;
 
-                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
+                DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
+
+                searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
                 lookUpQState.Properties.DataSource = CommonHandler.GetQuotationInfoStateTable(true);
                 lookUpQState.ItemIndex = 0;
+                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
-                repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpQState.DataSource = CommonHandler.GetQuotationInfoStateTable(false);
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;

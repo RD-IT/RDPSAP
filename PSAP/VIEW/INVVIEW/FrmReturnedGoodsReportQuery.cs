@@ -38,19 +38,31 @@ namespace PSAP.VIEW.BSVIEW
                 dateRGRDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateRGRDateEnd.DateTime = nowDate.Date;
 
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
-                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
+                searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = locationTable_t;
+                SearchLocationId.EditValue = 0;
                 comboBoxWarehouseState.SelectedIndex = 0;
                 lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repLookUpRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
+                repLookUpRepertoryId.DataSource = repertoryTable_t;
+                repLookUpRepertoryLocationId.DataSource = locationTable_t;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
@@ -121,14 +133,15 @@ namespace PSAP.VIEW.BSVIEW
 
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? lookUpRepertoryNo.EditValue.ToString() : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
 
                 int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
                 string empNameStr = lookUpPrepared.ItemIndex > 0 ? lookUpPrepared.EditValue.ToString() : "";
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_RGR.Tables[0].Rows.Clear();
-                string querySqlStr = rgrDAO.QueryReturnedGoodsReportHead_SQL(rgrDateBeginStr, rgrDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryNoStr, warehouseStateInt, empNameStr, -1, commonStr, false);
+                string querySqlStr = rgrDAO.QueryReturnedGoodsReportHead_SQL(rgrDateBeginStr, rgrDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, warehouseStateInt, empNameStr, -1, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

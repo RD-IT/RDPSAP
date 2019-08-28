@@ -48,7 +48,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.BrowseXtraGridView = gridViewProjectTaskType;
                     editForm.CheckControl += CheckControl;
                     editForm.NewBefore += NewBefore;
-                    this.pnlToolBarProjectTaskType.Controls.Add(editForm);
+                    this.pnlToolBarProjectTaskType.Controls.Add(editForm);                    
                     editForm.Dock = DockStyle.Fill;
                     editForm.Show();
                 }
@@ -132,6 +132,13 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
+                if (DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) == "")
+                {
+                    MessageHandler.ShowMessageBox("请先选择要配置的项目号。");
+                    searchLookUpProjectNo.Focus();
+                    return;
+                }
+
                 FrmSelectUserList userList = new FrmSelectUserList();
                 FrmSelectUserList.SelectUserAutoIdList.Clear();
                 for (int i = 0; i < gridViewProjectUser.DataRowCount; i++)
@@ -159,6 +166,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int[] rowNos = gridViewProjectUser.GetSelectedRows();
                 if (rowNos.Length == 0)
                 {
@@ -205,6 +215,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
                 int[] rowNos = gridViewProjectUser.GetSelectedRows();
                 if (rowNos.Length == 0)
                 {

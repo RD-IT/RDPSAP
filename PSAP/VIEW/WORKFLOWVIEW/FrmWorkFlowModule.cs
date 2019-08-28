@@ -62,9 +62,11 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                DataTable moduleTypeTable = wfDAO.QueryModuleType();
+
                 lookUpFlowModuleTableName.Properties.DataSource = wfDAO.QueryModuleTableInfo();
-                lookUpModuleType.Properties.DataSource = wfDAO.QueryModuleType();
-                repLookUpModuleType.DataSource = wfDAO.QueryModuleType();
+                lookUpModuleType.Properties.DataSource = moduleTypeTable;
+                repLookUpModuleType.DataSource = moduleTypeTable;
             }
             catch (Exception ex)
             {

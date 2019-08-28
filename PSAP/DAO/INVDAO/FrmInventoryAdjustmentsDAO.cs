@@ -16,42 +16,46 @@ namespace PSAP.DAO.INVDAO
         /// <param name="queryDataTable">要查询填充的数据表</param>
         /// <param name="beginDateStr">开始日期字符串</param>
         /// <param name="endDateStr">结束日期字符串</param>
-        /// <param name="adjustmentsRepertoryNoStr">调整仓库</param>
-        /// <param name="adjustmentsProjectNoStr">调整项目号</param>
+        /// <param name="repertoryIdInt">调整仓库</param>
+        /// <param name="projectNoStr">调整项目号</param>
         /// <param name="reqDepStr">部门</param>
-        /// <param name="preparedStr">制单人</param>
+        /// <param name="creatorInt">制单人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QueryInventoryAdjustmentsHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string adjustmentsRepertoryNoStr, string adjustmentsProjectNoStr, string reqDepStr, string preparedStr, string commonStr, bool nullTable)
+        public void QueryInventoryAdjustmentsHead(DataTable queryDataTable, string beginDateStr, string endDateStr, int repertoryIdInt, int locationIdInt, string projectNoStr, string reqDepStr, int creatorInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QueryInventoryAdjustmentsHead_SQL(beginDateStr, endDateStr, adjustmentsRepertoryNoStr, adjustmentsProjectNoStr, reqDepStr, preparedStr, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QueryInventoryAdjustmentsHead_SQL(beginDateStr, endDateStr, repertoryIdInt, locationIdInt, projectNoStr, reqDepStr, creatorInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询库存调整单表头表的SQL
         /// </summary>
-        public string QueryInventoryAdjustmentsHead_SQL(string beginDateStr, string endDateStr, string adjustmentsRepertoryNoStr, string adjustmentsProjectNoStr, string reqDepStr, string preparedStr, string commonStr, bool nullTable)
+        public string QueryInventoryAdjustmentsHead_SQL(string beginDateStr, string endDateStr, int repertoryIdInt, int locationIdInt, string projectNoStr, string reqDepStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
             {
                 sqlStr += string.Format(" and InventoryAdjustmentsDate between '{0}' and '{1}'", beginDateStr, endDateStr);
             }
-            if (adjustmentsRepertoryNoStr != "")
+            if (repertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and AdjustmentsRepertoryNo='{0}'", adjustmentsRepertoryNoStr);
+                sqlStr += string.Format(" and RepertoryId={0}", repertoryIdInt);
             }
-            if (adjustmentsProjectNoStr != "")
+            if(locationIdInt!=0)
             {
-                sqlStr += string.Format(" and AdjustmentsProjectNo='{0}'", adjustmentsProjectNoStr);
+                sqlStr += string.Format(" and LocationId={0}", locationIdInt);                
+            }
+            if (projectNoStr != "")
+            {
+                sqlStr += string.Format(" and ProjectNo='{0}'", projectNoStr);
             }
             if (reqDepStr != "")
             {
                 sqlStr += string.Format(" and ReqDep='{0}'", reqDepStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -97,8 +101,18 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
 
+                        for (int i = 0; i < IAListTable.Rows.Count; i++)
+                        {
+                            if (IAListTable.Rows[i].RowState == DataRowState.Deleted)
+                                continue;
+                            IAListTable.Rows[i]["InventoryAdjustmentsDate"] = IAHeadRow["InventoryAdjustmentsDate"];
+                            IAListTable.Rows[i]["RepertoryId"] = IAHeadRow["RepertoryId"];
+                            IAListTable.Rows[i]["LocationId"] = IAHeadRow["LocationId"];
+                            IAListTable.Rows[i]["ProjectNo"] = IAHeadRow["ProjectNo"];
+                        }
+
                         ////检查当前库存数是否满足
-                        //if (!CheckWarehouseNowInfoBeyondCount(cmd, DataTypeConvert.GetString(IAHeadRow["InventoryMoveNo"]), IAListTable))
+                        //if (!SystemInfo.EnableNegativeInventory && !CheckWarehouseNowInfoBeyondCount(cmd, DataTypeConvert.GetString(IAHeadRow["InventoryMoveNo"]), IAListTable))
                         //{
                         //    return 0;
                         //}
@@ -107,14 +121,11 @@ namespace PSAP.DAO.INVDAO
                         {
                             string iaNo = BaseSQL.GetMaxCodeNo(cmd, "IA");
                             IAHeadRow["InventoryAdjustmentsNo"] = iaNo;
-                            IAHeadRow["PreparedIp"] = SystemInfo.HostIpAddress;
+                            IAHeadRow["CreatorIp"] = SystemInfo.HostIpAddress;
 
                             for (int i = 0; i < IAListTable.Rows.Count; i++)
                             {
                                 IAListTable.Rows[i]["InventoryAdjustmentsNo"] = iaNo;
-                                IAListTable.Rows[i]["InventoryAdjustmentsDate"] = IAHeadRow["InventoryAdjustmentsDate"];
-                                IAListTable.Rows[i]["AdjustmentsRepertoryNo"] = IAHeadRow["AdjustmentsRepertoryNo"];
-                                IAListTable.Rows[i]["AdjustmentsProjectNo"] = IAHeadRow["AdjustmentsProjectNo"];
                             }
                         }
                         else//修改
@@ -122,18 +133,9 @@ namespace PSAP.DAO.INVDAO
                             //if (!CheckWarehouseState(IMHeadRow.Table, IMListTable, string.Format("'{0}'", DataTypeConvert.GetString(IMHeadRow["SettlementNo"])), false, true, true, true))
                             //    return -1;
 
-                            IAHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            IAHeadRow["Modifier"] = SystemInfo.user.AutoId;
                             IAHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             IAHeadRow["ModifierTime"] = BaseSQL.GetServerDateTime();
-
-                            for (int i = 0; i < IAListTable.Rows.Count; i++)
-                            {
-                                if (IAListTable.Rows[i].RowState == DataRowState.Deleted)
-                                    continue;
-                                IAListTable.Rows[i]["InventoryAdjustmentsDate"] = IAHeadRow["InventoryAdjustmentsDate"];
-                                IAListTable.Rows[i]["AdjustmentsRepertoryNo"] = IAHeadRow["AdjustmentsRepertoryNo"];
-                                IAListTable.Rows[i]["AdjustmentsProjectNo"] = IAHeadRow["AdjustmentsProjectNo"];
-                            }
                         }
 
                         //保存日志到日志表中
@@ -264,6 +266,12 @@ namespace PSAP.DAO.INVDAO
                         break;
                     case "RepertoryName":
                         headTable.Columns[i].Caption = "仓库名称";
+                        break;
+                    case "LocationNo":
+                        headTable.Columns[i].Caption = "仓位编号";
+                        break;
+                    case "LocationName":
+                        headTable.Columns[i].Caption = "仓位名称";
                         break;
                     case "ProjectNo":
                         headTable.Columns[i].Caption = "项目号";

@@ -14,6 +14,7 @@ namespace PSAP.VIEW.BSVIEW
     public partial class FrmShelfInfo : DockContent
     {
         FrmBaseEdit editForm = null;
+        FrmCommonDAO commonDAO = new FrmCommonDAO();
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
         /// <summary>
@@ -60,7 +61,12 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                DataTable locationInfoTable = commonDAO.QueryRepertoryLocationInfo(false);
+                SearchRepertoryLocationId.Properties.DataSource = locationInfoTable;
 
+                repLookUpRepertoryLocationId.DataSource = locationInfoTable;
+                repLookUpRepertoryInfoId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
             }
             catch (Exception ex)
             {
@@ -86,8 +92,34 @@ namespace PSAP.VIEW.BSVIEW
                 textShelfLocation.Focus();
                 return false;
             }
+            if (SearchRepertoryLocationId.Text.Trim() == "")
+            {
+                MessageHandler.ShowMessageBox("所属仓位不能为空，请重新操作。");
+                SearchRepertoryLocationId.Focus();
+                return false;
+            }
+
+            DataRow dr = ((DataRowView)bSShelfInfo.Current).Row;
+            dr["RepertoryInfoId"] = DataTypeConvert.GetInt(((DataRowView)SearchRepertoryLocationId.GetSelectedDataRow())["RepertoryId"]);            
 
             return true;
+        }
+
+        /// <summary>
+        /// 确定行号
+        /// </summary>
+        private void SearchRepertoryLocationIdView_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
+        {
+            ControlHandler.GridView_CustomDrawRowIndicator(e);
+        }
+
+        /// <summary>
+        /// 设定默认值
+        /// </summary>
+        private void TableShelfInfo_TableNewRow(object sender, DataTableNewRowEventArgs e)
+        {
+            e.Row["Creator"] = SystemInfo.user.AutoId;
+            e.Row["CreatorIp"] = SystemInfo.HostIpAddress;
         }
     }
 }

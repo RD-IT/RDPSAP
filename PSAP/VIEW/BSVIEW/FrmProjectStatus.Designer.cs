@@ -37,10 +37,10 @@
             this.bSProjectStatus = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.labIsDefault = new DevExpress.XtraEditors.LabelControl();
+            this.checkIsDefault = new DevExpress.XtraEditors.CheckEdit();
             this.textStatusText = new DevExpress.XtraEditors.TextEdit();
             this.labStatusText = new DevExpress.XtraEditors.LabelControl();
-            this.checkIsDefault = new DevExpress.XtraEditors.CheckEdit();
-            this.labIsDefault = new DevExpress.XtraEditors.LabelControl();
             this.pnlGrid = new DevExpress.XtraEditors.PanelControl();
             this.gridCrlProjectStatus = new DevExpress.XtraGrid.GridControl();
             this.gridViewProjectStatus = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -54,8 +54,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textStatusText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkIsDefault.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textStatusText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlGrid)).BeginInit();
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlProjectStatus)).BeginInit();
@@ -101,6 +101,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -119,6 +120,27 @@
             this.pnlEdit.Size = new System.Drawing.Size(944, 64);
             this.pnlEdit.TabIndex = 6;
             // 
+            // labIsDefault
+            // 
+            this.labIsDefault.Location = new System.Drawing.Point(313, 24);
+            this.labIsDefault.Name = "labIsDefault";
+            this.labIsDefault.Size = new System.Drawing.Size(24, 14);
+            this.labIsDefault.TabIndex = 14;
+            this.labIsDefault.Text = "默认";
+            // 
+            // checkIsDefault
+            // 
+            this.checkIsDefault.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectStatus, "IsDefault", true));
+            this.checkIsDefault.Location = new System.Drawing.Point(368, 21);
+            this.checkIsDefault.Name = "checkIsDefault";
+            this.checkIsDefault.Properties.Caption = "";
+            this.checkIsDefault.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkIsDefault.Properties.ValueChecked = ((short)(1));
+            this.checkIsDefault.Properties.ValueGrayed = ((short)(0));
+            this.checkIsDefault.Properties.ValueUnchecked = ((short)(0));
+            this.checkIsDefault.Size = new System.Drawing.Size(22, 19);
+            this.checkIsDefault.TabIndex = 13;
+            // 
             // textStatusText
             // 
             this.textStatusText.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectStatus, "StatusText", true));
@@ -135,27 +157,6 @@
             this.labStatusText.Size = new System.Drawing.Size(48, 14);
             this.labStatusText.TabIndex = 12;
             this.labStatusText.Text = "状态名称";
-            // 
-            // checkIsDefault
-            // 
-            this.checkIsDefault.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectStatus, "IsDefault", true));
-            this.checkIsDefault.Location = new System.Drawing.Point(368, 21);
-            this.checkIsDefault.Name = "checkIsDefault";
-            this.checkIsDefault.Properties.Caption = "";
-            this.checkIsDefault.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-            this.checkIsDefault.Properties.ValueChecked = ((short)(1));
-            this.checkIsDefault.Properties.ValueGrayed = ((short)(0));
-            this.checkIsDefault.Properties.ValueUnchecked = ((short)(0));
-            this.checkIsDefault.Size = new System.Drawing.Size(22, 19);
-            this.checkIsDefault.TabIndex = 13;
-            // 
-            // labIsDefault
-            // 
-            this.labIsDefault.Location = new System.Drawing.Point(313, 24);
-            this.labIsDefault.Name = "labIsDefault";
-            this.labIsDefault.Size = new System.Drawing.Size(24, 14);
-            this.labIsDefault.TabIndex = 14;
-            this.labIsDefault.Text = "默认";
             // 
             // pnlGrid
             // 
@@ -248,8 +249,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textStatusText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkIsDefault.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textStatusText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlGrid)).EndInit();
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlProjectStatus)).EndInit();

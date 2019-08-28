@@ -33,27 +33,42 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(checkAll.LookAndFeel.ActiveSkinName, new List<Control> { checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(checkAll.LookAndFeel.ActiveSkinName, new List<Control> { checkAll });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateOrderDateEnd.DateTime = nowDate.Date;
                 checkOrderDate.Checked = false;
 
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
+                DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
-                lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
+                lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
+                searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
+                searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpPrepared.ItemIndex = 0;
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
-                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
-                searchLookUpBussinessBaseNo.Text = "全部";
 
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
-                repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
+                //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repLookUpPurCategory.DataSource = purCateTable_t;
+                repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectName.Visible = false;
+                    colStnNo.Visible = false;
+                }
             }
             catch (Exception ex)
             {

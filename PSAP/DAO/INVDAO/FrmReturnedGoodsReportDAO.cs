@@ -18,21 +18,21 @@ namespace PSAP.DAO.INVDAO
         /// <param name="endDateStr">结束日期字符串</param>
         /// <param name="reqDepStr">部门</param>
         /// <param name="bussinessBaseNoStr">供应商</param>
-        /// <param name="repertoryNoStr">退货仓库</param>
+        /// <param name="repertoryIdInt">退货仓库</param>
         /// <param name="warehouseStateInt">订单状态</param>
         /// <param name="preparedStr">制单人</param>
         /// <param name="approverInt">审核人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QueryReturnedGoodsReportHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string repertoryNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QueryReturnedGoodsReportHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QueryReturnedGoodsReportHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, repertoryNoStr, warehouseStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QueryReturnedGoodsReportHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, warehouseStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询退货单表头的SQL
         /// </summary>
-        public string QueryReturnedGoodsReportHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string repertoryNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public string QueryReturnedGoodsReportHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -47,9 +47,13 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
             }
-            if (repertoryNoStr != "")
+            if (repertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and RepertoryNo='{0}'", repertoryNoStr);
+                sqlStr += string.Format(" and RepertoryId={0}", repertoryIdInt);
+            }
+            if (locationIdInt != 0)
+            {
+                sqlStr += string.Format(" and RepertoryLocationId={0}", locationIdInt);
             }
             if (warehouseStateInt != 0)
             {
@@ -559,6 +563,12 @@ namespace PSAP.DAO.INVDAO
                         break;
                     case "RepertoryName":
                         headTable.Columns[i].Caption = "退货仓库名称";
+                        break;
+                    case "LocationNo":
+                        headTable.Columns[i].Caption = "退货仓位编号";
+                        break;
+                    case "LocationName":
+                        headTable.Columns[i].Caption = "退货仓位名称";
                         break;
                     case "Prepared":
                         headTable.Columns[i].Caption = "制单人";

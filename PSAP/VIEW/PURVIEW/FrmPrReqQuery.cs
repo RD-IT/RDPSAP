@@ -36,19 +36,31 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
-                lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
+                lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
                 comboBoxReqState.SelectedIndex = 0;
                 lookUpApplicant.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpApplicant.EditValue = SystemInfo.user.EmpName;
-                repositoryItemLookUpEdit1.DataSource = commonDAO.QueryDepartment(false);
-                repositoryItemLookUpEdit2.DataSource = commonDAO.QueryPurCategory(false);
+
+                //repositoryItemLookUpEdit1.DataSource = commonDAO.QueryDepartment(false);
+                //repositoryItemLookUpEdit2.DataSource = commonDAO.QueryPurCategory(false);
+                repositoryItemLookUpEdit1.DataSource = departmentTable_t;
+                repositoryItemLookUpEdit2.DataSource = purCateTable_t;
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateReqDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateReqDateEnd.DateTime = nowDate.Date;
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    colProjectNo.Visible = false;
+                    colStnNo.Visible = false;
+                }
 
                 gridBottomPrReq.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -135,7 +147,7 @@ namespace PSAP.VIEW.BSVIEW
                 ExceptionHandler.HandleException(this.Text + "--" + tsmiCxan.Text, ex);
             }
         }
-
+        
         /// <summary>
         /// 查询结果存为Excel
         /// </summary>

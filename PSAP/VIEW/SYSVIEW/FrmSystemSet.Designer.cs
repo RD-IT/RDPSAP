@@ -50,7 +50,16 @@
             this.labSalesOrderDefaultTax = new DevExpress.XtraEditors.LabelControl();
             this.spinQuotationDefaultTax = new DevExpress.XtraEditors.SpinEdit();
             this.labQuotationDefaultTax = new DevExpress.XtraEditors.LabelControl();
+            this.PageProject = new DevExpress.XtraTab.XtraTabPage();
+            this.colorPickGanttSchedulerBarColor = new DevExpress.XtraEditors.ColorPickEdit();
+            this.labGanttSchedulerBarColor = new DevExpress.XtraEditors.LabelControl();
+            this.spinGanttSchedulerBarHeight = new DevExpress.XtraEditors.SpinEdit();
+            this.labGanttSchedulerBarHeight = new DevExpress.XtraEditors.LabelControl();
+            this.spinGanttResourcesPerPage = new DevExpress.XtraEditors.SpinEdit();
+            this.labGanttResourcesPerPage = new DevExpress.XtraEditors.LabelControl();
             this.PagePurchase = new DevExpress.XtraTab.XtraTabPage();
+            this.checkPrReqIsAlterPSBomAutoId = new DevExpress.XtraEditors.CheckEdit();
+            this.labPrReqIsAlterPSBomAutoId = new DevExpress.XtraEditors.LabelControl();
             this.checkWWApplyBeyondCountIsSave = new DevExpress.XtraEditors.CheckEdit();
             this.labWWApplyBeyondCountIsSave = new DevExpress.XtraEditors.LabelControl();
             this.checkPrReqApplyBeyondCountIsSave = new DevExpress.XtraEditors.CheckEdit();
@@ -62,6 +71,14 @@
             this.spinSettlementDefaultTax = new DevExpress.XtraEditors.SpinEdit();
             this.labSettlementDefaultTax = new DevExpress.XtraEditors.LabelControl();
             this.PageWarehouse = new DevExpress.XtraTab.XtraTabPage();
+            this.labEnableNegativeInventory = new DevExpress.XtraEditors.LabelControl();
+            this.checkEnableNegativeInventory = new DevExpress.XtraEditors.CheckEdit();
+            this.labDisableShelfInfoDesc = new DevExpress.XtraEditors.LabelControl();
+            this.checkDisableShelfInfo = new DevExpress.XtraEditors.CheckEdit();
+            this.labDisableShelfInfo = new DevExpress.XtraEditors.LabelControl();
+            this.labDisableProjectNoDesc = new DevExpress.XtraEditors.LabelControl();
+            this.checkDisableProjectNo = new DevExpress.XtraEditors.CheckEdit();
+            this.labDisableProjectNo = new DevExpress.XtraEditors.LabelControl();
             this.checkWRIsAlterDate = new DevExpress.XtraEditors.CheckEdit();
             this.labWRIsAlterDate = new DevExpress.XtraEditors.LabelControl();
             this.checkWWIsAlterDate = new DevExpress.XtraEditors.CheckEdit();
@@ -72,6 +89,15 @@
             this.PageHumanAffair = new DevExpress.XtraTab.XtraTabPage();
             this.PageAccounting = new DevExpress.XtraTab.XtraTabPage();
             this.PageSystem = new DevExpress.XtraTab.XtraTabPage();
+            this.groupClearBasicData = new DevExpress.XtraEditors.GroupControl();
+            this.btnClearBasicData = new DevExpress.XtraEditors.SimpleButton();
+            this.groupClearOperation = new DevExpress.XtraEditors.GroupControl();
+            this.btnClearOperation = new DevExpress.XtraEditors.SimpleButton();
+            this.checkPurchase = new DevExpress.XtraEditors.CheckEdit();
+            this.checkProduction = new DevExpress.XtraEditors.CheckEdit();
+            this.checkWarehouse = new DevExpress.XtraEditors.CheckEdit();
+            this.checkProject = new DevExpress.XtraEditors.CheckEdit();
+            this.checkSale = new DevExpress.XtraEditors.CheckEdit();
             this.textBackupPath = new DevExpress.XtraEditors.TextEdit();
             this.btnBackup = new DevExpress.XtraEditors.SimpleButton();
             this.labBackupPath = new DevExpress.XtraEditors.LabelControl();
@@ -85,8 +111,7 @@
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
             this.BtnSave = new DevExpress.XtraEditors.SimpleButton();
             this.pnlTabPage = new DevExpress.XtraEditors.PanelControl();
-            this.checkPrReqIsAlterPSBomAutoId = new DevExpress.XtraEditors.CheckEdit();
-            this.labPrReqIsAlterPSBomAutoId = new DevExpress.XtraEditors.LabelControl();
+            this.btnSetinitialization = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabSystem)).BeginInit();
             this.xtraTabSystem.SuspendLayout();
             this.PageCommon.SuspendLayout();
@@ -100,17 +125,34 @@
             this.PageSale.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinSalesOrderDefaultTax.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinQuotationDefaultTax.Properties)).BeginInit();
+            this.PageProject.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickGanttSchedulerBarColor.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinGanttSchedulerBarHeight.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinGanttResourcesPerPage.Properties)).BeginInit();
             this.PagePurchase.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPrReqIsAlterPSBomAutoId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkWWApplyBeyondCountIsSave.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkPrReqApplyBeyondCountIsSave.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinOrderListDefaultTax.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinOrderNoWarehousingDays.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinSettlementDefaultTax.Properties)).BeginInit();
             this.PageWarehouse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEnableNegativeInventory.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkDisableShelfInfo.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkDisableProjectNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkWRIsAlterDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkWWIsAlterDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkOrderApplyBeyondCountIsSave.Properties)).BeginInit();
             this.PageSystem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupClearBasicData)).BeginInit();
+            this.groupClearBasicData.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupClearOperation)).BeginInit();
+            this.groupClearOperation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPurchase.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkProduction.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkWarehouse.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkProject.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkSale.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBackupPath.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_SystemParameter)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableSysParameter)).BeginInit();
@@ -119,7 +161,6 @@
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).BeginInit();
             this.pnlTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkPrReqIsAlterPSBomAutoId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // xtraTabSystem
@@ -135,6 +176,7 @@
             this.xtraTabSystem.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageCommon,
             this.PageSale,
+            this.PageProject,
             this.PagePurchase,
             this.PageWarehouse,
             this.PageProduction,
@@ -201,7 +243,8 @@
             0});
             this.spinMessageInterval.Properties.ReadOnly = true;
             this.spinMessageInterval.Size = new System.Drawing.Size(80, 20);
-            this.spinMessageInterval.TabIndex = 16;
+            this.spinMessageInterval.TabIndex = 5;
+            this.spinMessageInterval.TabStop = false;
             // 
             // checkApproveAfterPrint
             // 
@@ -214,7 +257,7 @@
             this.checkApproveAfterPrint.Properties.ValueGrayed = "0";
             this.checkApproveAfterPrint.Properties.ValueUnchecked = "0";
             this.checkApproveAfterPrint.Size = new System.Drawing.Size(31, 19);
-            this.checkApproveAfterPrint.TabIndex = 15;
+            this.checkApproveAfterPrint.TabIndex = 6;
             // 
             // labApproveAfterPrint
             // 
@@ -235,7 +278,7 @@
             this.checkEnableWorkFlowMessage.Properties.ValueGrayed = "0";
             this.checkEnableWorkFlowMessage.Properties.ValueUnchecked = "0";
             this.checkEnableWorkFlowMessage.Size = new System.Drawing.Size(31, 19);
-            this.checkEnableWorkFlowMessage.TabIndex = 13;
+            this.checkEnableWorkFlowMessage.TabIndex = 4;
             this.checkEnableWorkFlowMessage.CheckedChanged += new System.EventHandler(this.checkEnableWorkFlowMessage_CheckedChanged);
             // 
             // labEnableWorkFlowMessage
@@ -269,7 +312,7 @@
             0,
             0});
             this.spinLeftDockWidth.Size = new System.Drawing.Size(80, 20);
-            this.spinLeftDockWidth.TabIndex = 7;
+            this.spinLeftDockWidth.TabIndex = 3;
             // 
             // labLeftDockWidth
             // 
@@ -306,7 +349,7 @@
             0,
             0});
             this.spinFormDragDropMaxRecordCount.Size = new System.Drawing.Size(80, 20);
-            this.spinFormDragDropMaxRecordCount.TabIndex = 5;
+            this.spinFormDragDropMaxRecordCount.TabIndex = 2;
             // 
             // labFormDragDropMaxRecordCount
             // 
@@ -343,7 +386,7 @@
             0,
             0});
             this.spinDateIntervalDays.Size = new System.Drawing.Size(80, 20);
-            this.spinDateIntervalDays.TabIndex = 3;
+            this.spinDateIntervalDays.TabIndex = 1;
             // 
             // labDateIntervalDays
             // 
@@ -380,7 +423,7 @@
             0,
             0});
             this.spinPageRowCount.Size = new System.Drawing.Size(80, 20);
-            this.spinPageRowCount.TabIndex = 1;
+            this.spinPageRowCount.TabIndex = 0;
             // 
             // labPageRowCount
             // 
@@ -428,7 +471,7 @@
             0,
             131072});
             this.spinSalesOrderDefaultTax.Size = new System.Drawing.Size(80, 20);
-            this.spinSalesOrderDefaultTax.TabIndex = 7;
+            this.spinSalesOrderDefaultTax.TabIndex = 1;
             // 
             // labSalesOrderDefaultTax
             // 
@@ -465,7 +508,7 @@
             0,
             131072});
             this.spinQuotationDefaultTax.Size = new System.Drawing.Size(80, 20);
-            this.spinQuotationDefaultTax.TabIndex = 5;
+            this.spinQuotationDefaultTax.TabIndex = 0;
             // 
             // labQuotationDefaultTax
             // 
@@ -474,6 +517,110 @@
             this.labQuotationDefaultTax.Size = new System.Drawing.Size(108, 14);
             this.labQuotationDefaultTax.TabIndex = 4;
             this.labQuotationDefaultTax.Text = "报价单的默认税率值";
+            // 
+            // PageProject
+            // 
+            this.PageProject.Controls.Add(this.colorPickGanttSchedulerBarColor);
+            this.PageProject.Controls.Add(this.labGanttSchedulerBarColor);
+            this.PageProject.Controls.Add(this.spinGanttSchedulerBarHeight);
+            this.PageProject.Controls.Add(this.labGanttSchedulerBarHeight);
+            this.PageProject.Controls.Add(this.spinGanttResourcesPerPage);
+            this.PageProject.Controls.Add(this.labGanttResourcesPerPage);
+            this.PageProject.Name = "PageProject";
+            this.PageProject.Size = new System.Drawing.Size(1043, 576);
+            this.PageProject.Text = "项目";
+            // 
+            // colorPickGanttSchedulerBarColor
+            // 
+            this.colorPickGanttSchedulerBarColor.EditValue = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.colorPickGanttSchedulerBarColor.Location = new System.Drawing.Point(199, 109);
+            this.colorPickGanttSchedulerBarColor.Name = "colorPickGanttSchedulerBarColor";
+            this.colorPickGanttSchedulerBarColor.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.colorPickGanttSchedulerBarColor.Size = new System.Drawing.Size(200, 20);
+            this.colorPickGanttSchedulerBarColor.TabIndex = 2;
+            // 
+            // labGanttSchedulerBarColor
+            // 
+            this.labGanttSchedulerBarColor.Location = new System.Drawing.Point(36, 112);
+            this.labGanttSchedulerBarColor.Name = "labGanttSchedulerBarColor";
+            this.labGanttSchedulerBarColor.Size = new System.Drawing.Size(144, 14);
+            this.labGanttSchedulerBarColor.TabIndex = 11;
+            this.labGanttSchedulerBarColor.Text = "甘特图中计划进度条的颜色";
+            // 
+            // spinGanttSchedulerBarHeight
+            // 
+            this.spinGanttSchedulerBarHeight.EditValue = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.spinGanttSchedulerBarHeight.Location = new System.Drawing.Point(199, 69);
+            this.spinGanttSchedulerBarHeight.Name = "spinGanttSchedulerBarHeight";
+            this.spinGanttSchedulerBarHeight.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinGanttSchedulerBarHeight.Properties.DisplayFormat.FormatString = "d";
+            this.spinGanttSchedulerBarHeight.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinGanttSchedulerBarHeight.Properties.EditFormat.FormatString = "d";
+            this.spinGanttSchedulerBarHeight.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinGanttSchedulerBarHeight.Properties.Mask.EditMask = "d";
+            this.spinGanttSchedulerBarHeight.Properties.MaxValue = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.spinGanttSchedulerBarHeight.Properties.MinValue = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.spinGanttSchedulerBarHeight.Size = new System.Drawing.Size(80, 20);
+            this.spinGanttSchedulerBarHeight.TabIndex = 1;
+            // 
+            // labGanttSchedulerBarHeight
+            // 
+            this.labGanttSchedulerBarHeight.Location = new System.Drawing.Point(36, 72);
+            this.labGanttSchedulerBarHeight.Name = "labGanttSchedulerBarHeight";
+            this.labGanttSchedulerBarHeight.Size = new System.Drawing.Size(144, 14);
+            this.labGanttSchedulerBarHeight.TabIndex = 9;
+            this.labGanttSchedulerBarHeight.Text = "甘特图中计划进度条的高度";
+            // 
+            // spinGanttResourcesPerPage
+            // 
+            this.spinGanttResourcesPerPage.EditValue = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
+            this.spinGanttResourcesPerPage.Location = new System.Drawing.Point(199, 29);
+            this.spinGanttResourcesPerPage.Name = "spinGanttResourcesPerPage";
+            this.spinGanttResourcesPerPage.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinGanttResourcesPerPage.Properties.DisplayFormat.FormatString = "d";
+            this.spinGanttResourcesPerPage.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinGanttResourcesPerPage.Properties.EditFormat.FormatString = "d";
+            this.spinGanttResourcesPerPage.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.spinGanttResourcesPerPage.Properties.Mask.EditMask = "d";
+            this.spinGanttResourcesPerPage.Properties.MaxValue = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.spinGanttResourcesPerPage.Properties.MinValue = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.spinGanttResourcesPerPage.Size = new System.Drawing.Size(80, 20);
+            this.spinGanttResourcesPerPage.TabIndex = 0;
+            // 
+            // labGanttResourcesPerPage
+            // 
+            this.labGanttResourcesPerPage.Location = new System.Drawing.Point(36, 32);
+            this.labGanttResourcesPerPage.Name = "labGanttResourcesPerPage";
+            this.labGanttResourcesPerPage.Size = new System.Drawing.Size(132, 14);
+            this.labGanttResourcesPerPage.TabIndex = 5;
+            this.labGanttResourcesPerPage.Text = "甘特图中每页显示的行数";
             // 
             // PagePurchase
             // 
@@ -494,6 +641,26 @@
             this.PagePurchase.Tag = "Purchase";
             this.PagePurchase.Text = "采购";
             // 
+            // checkPrReqIsAlterPSBomAutoId
+            // 
+            this.checkPrReqIsAlterPSBomAutoId.Location = new System.Drawing.Point(236, 29);
+            this.checkPrReqIsAlterPSBomAutoId.Name = "checkPrReqIsAlterPSBomAutoId";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.Caption = "";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueChecked = "1";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueGrayed = "0";
+            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueUnchecked = "0";
+            this.checkPrReqIsAlterPSBomAutoId.Size = new System.Drawing.Size(31, 19);
+            this.checkPrReqIsAlterPSBomAutoId.TabIndex = 0;
+            // 
+            // labPrReqIsAlterPSBomAutoId
+            // 
+            this.labPrReqIsAlterPSBomAutoId.Location = new System.Drawing.Point(36, 32);
+            this.labPrReqIsAlterPSBomAutoId.Name = "labPrReqIsAlterPSBomAutoId";
+            this.labPrReqIsAlterPSBomAutoId.Size = new System.Drawing.Size(168, 14);
+            this.labPrReqIsAlterPSBomAutoId.TabIndex = 18;
+            this.labPrReqIsAlterPSBomAutoId.Text = "可以修改生产计划生成的请购单";
+            // 
             // checkWWApplyBeyondCountIsSave
             // 
             this.checkWWApplyBeyondCountIsSave.Location = new System.Drawing.Point(411, 229);
@@ -504,7 +671,7 @@
             this.checkWWApplyBeyondCountIsSave.Properties.ValueGrayed = "0";
             this.checkWWApplyBeyondCountIsSave.Properties.ValueUnchecked = "0";
             this.checkWWApplyBeyondCountIsSave.Size = new System.Drawing.Size(31, 19);
-            this.checkWWApplyBeyondCountIsSave.TabIndex = 17;
+            this.checkWWApplyBeyondCountIsSave.TabIndex = 5;
             // 
             // labWWApplyBeyondCountIsSave
             // 
@@ -524,7 +691,7 @@
             this.checkPrReqApplyBeyondCountIsSave.Properties.ValueGrayed = "0";
             this.checkPrReqApplyBeyondCountIsSave.Properties.ValueUnchecked = "0";
             this.checkPrReqApplyBeyondCountIsSave.Size = new System.Drawing.Size(31, 19);
-            this.checkPrReqApplyBeyondCountIsSave.TabIndex = 11;
+            this.checkPrReqApplyBeyondCountIsSave.TabIndex = 4;
             // 
             // labPrReqApplyBeyondCountIsSave
             // 
@@ -561,7 +728,7 @@
             0,
             131072});
             this.spinOrderListDefaultTax.Size = new System.Drawing.Size(80, 20);
-            this.spinOrderListDefaultTax.TabIndex = 9;
+            this.spinOrderListDefaultTax.TabIndex = 1;
             // 
             // labOrderListDefaultTax
             // 
@@ -598,7 +765,7 @@
             0,
             0});
             this.spinOrderNoWarehousingDays.Size = new System.Drawing.Size(80, 20);
-            this.spinOrderNoWarehousingDays.TabIndex = 7;
+            this.spinOrderNoWarehousingDays.TabIndex = 3;
             // 
             // labOrderNoWarehousingDays
             // 
@@ -635,7 +802,7 @@
             0,
             131072});
             this.spinSettlementDefaultTax.Size = new System.Drawing.Size(80, 20);
-            this.spinSettlementDefaultTax.TabIndex = 5;
+            this.spinSettlementDefaultTax.TabIndex = 2;
             // 
             // labSettlementDefaultTax
             // 
@@ -647,6 +814,14 @@
             // 
             // PageWarehouse
             // 
+            this.PageWarehouse.Controls.Add(this.labEnableNegativeInventory);
+            this.PageWarehouse.Controls.Add(this.checkEnableNegativeInventory);
+            this.PageWarehouse.Controls.Add(this.labDisableShelfInfoDesc);
+            this.PageWarehouse.Controls.Add(this.checkDisableShelfInfo);
+            this.PageWarehouse.Controls.Add(this.labDisableShelfInfo);
+            this.PageWarehouse.Controls.Add(this.labDisableProjectNoDesc);
+            this.PageWarehouse.Controls.Add(this.checkDisableProjectNo);
+            this.PageWarehouse.Controls.Add(this.labDisableProjectNo);
             this.PageWarehouse.Controls.Add(this.checkWRIsAlterDate);
             this.PageWarehouse.Controls.Add(this.labWRIsAlterDate);
             this.PageWarehouse.Controls.Add(this.checkWWIsAlterDate);
@@ -658,6 +833,88 @@
             this.PageWarehouse.Tag = "Warehouse";
             this.PageWarehouse.Text = "库存";
             // 
+            // labEnableNegativeInventory
+            // 
+            this.labEnableNegativeInventory.Location = new System.Drawing.Point(36, 232);
+            this.labEnableNegativeInventory.Name = "labEnableNegativeInventory";
+            this.labEnableNegativeInventory.Size = new System.Drawing.Size(96, 14);
+            this.labEnableNegativeInventory.TabIndex = 28;
+            this.labEnableNegativeInventory.Text = "启用可以负库存数";
+            // 
+            // checkEnableNegativeInventory
+            // 
+            this.checkEnableNegativeInventory.Location = new System.Drawing.Point(231, 229);
+            this.checkEnableNegativeInventory.Name = "checkEnableNegativeInventory";
+            this.checkEnableNegativeInventory.Properties.Caption = "";
+            this.checkEnableNegativeInventory.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkEnableNegativeInventory.Properties.ValueChecked = "1";
+            this.checkEnableNegativeInventory.Properties.ValueGrayed = "0";
+            this.checkEnableNegativeInventory.Properties.ValueUnchecked = "0";
+            this.checkEnableNegativeInventory.Size = new System.Drawing.Size(31, 19);
+            this.checkEnableNegativeInventory.TabIndex = 5;
+            // 
+            // labDisableShelfInfoDesc
+            // 
+            this.labDisableShelfInfoDesc.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.labDisableShelfInfoDesc.Location = new System.Drawing.Point(268, 192);
+            this.labDisableShelfInfoDesc.Name = "labDisableShelfInfoDesc";
+            this.labDisableShelfInfoDesc.Size = new System.Drawing.Size(540, 14);
+            this.labDisableShelfInfoDesc.TabIndex = 26;
+            this.labDisableShelfInfoDesc.Text = "（注：包括入库单、出库单以及库存的所有登记单，停用之后会造成库存数量不准确，请谨慎操作。）";
+            // 
+            // checkDisableShelfInfo
+            // 
+            this.checkDisableShelfInfo.EditValue = "0";
+            this.checkDisableShelfInfo.Location = new System.Drawing.Point(231, 189);
+            this.checkDisableShelfInfo.Name = "checkDisableShelfInfo";
+            this.checkDisableShelfInfo.Properties.Caption = "";
+            this.checkDisableShelfInfo.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkDisableShelfInfo.Properties.ValueChecked = "1";
+            this.checkDisableShelfInfo.Properties.ValueGrayed = "0";
+            this.checkDisableShelfInfo.Properties.ValueUnchecked = "0";
+            this.checkDisableShelfInfo.Size = new System.Drawing.Size(31, 19);
+            this.checkDisableShelfInfo.TabIndex = 4;
+            this.checkDisableShelfInfo.CheckedChanged += new System.EventHandler(this.checkDisableShelfInfo_CheckedChanged);
+            // 
+            // labDisableShelfInfo
+            // 
+            this.labDisableShelfInfo.Location = new System.Drawing.Point(36, 192);
+            this.labDisableShelfInfo.Name = "labDisableShelfInfo";
+            this.labDisableShelfInfo.Size = new System.Drawing.Size(108, 14);
+            this.labDisableShelfInfo.TabIndex = 24;
+            this.labDisableShelfInfo.Text = "停用仓库中的货架号";
+            // 
+            // labDisableProjectNoDesc
+            // 
+            this.labDisableProjectNoDesc.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.labDisableProjectNoDesc.Location = new System.Drawing.Point(268, 152);
+            this.labDisableProjectNoDesc.Name = "labDisableProjectNoDesc";
+            this.labDisableProjectNoDesc.Size = new System.Drawing.Size(636, 14);
+            this.labDisableProjectNoDesc.TabIndex = 23;
+            this.labDisableProjectNoDesc.Text = "（注：包括请购单、采购单、入库单、出库单以及库存的所有登记单，停用之后会造成库存数量不准确，请谨慎操作。）";
+            // 
+            // checkDisableProjectNo
+            // 
+            this.checkDisableProjectNo.EditValue = "0";
+            this.checkDisableProjectNo.Location = new System.Drawing.Point(231, 149);
+            this.checkDisableProjectNo.Name = "checkDisableProjectNo";
+            this.checkDisableProjectNo.Properties.Caption = "";
+            this.checkDisableProjectNo.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkDisableProjectNo.Properties.ValueChecked = "1";
+            this.checkDisableProjectNo.Properties.ValueGrayed = "0";
+            this.checkDisableProjectNo.Properties.ValueUnchecked = "0";
+            this.checkDisableProjectNo.Size = new System.Drawing.Size(31, 19);
+            this.checkDisableProjectNo.TabIndex = 3;
+            this.checkDisableProjectNo.CheckedChanged += new System.EventHandler(this.checkDisableProjectNo_CheckedChanged);
+            // 
+            // labDisableProjectNo
+            // 
+            this.labDisableProjectNo.Location = new System.Drawing.Point(36, 152);
+            this.labDisableProjectNo.Name = "labDisableProjectNo";
+            this.labDisableProjectNo.Size = new System.Drawing.Size(156, 14);
+            this.labDisableProjectNo.TabIndex = 21;
+            this.labDisableProjectNo.Text = "停用登记单中的项目号和站号";
+            // 
             // checkWRIsAlterDate
             // 
             this.checkWRIsAlterDate.Location = new System.Drawing.Point(231, 109);
@@ -668,7 +925,7 @@
             this.checkWRIsAlterDate.Properties.ValueGrayed = "0";
             this.checkWRIsAlterDate.Properties.ValueUnchecked = "0";
             this.checkWRIsAlterDate.Size = new System.Drawing.Size(31, 19);
-            this.checkWRIsAlterDate.TabIndex = 19;
+            this.checkWRIsAlterDate.TabIndex = 2;
             // 
             // labWRIsAlterDate
             // 
@@ -688,7 +945,7 @@
             this.checkWWIsAlterDate.Properties.ValueGrayed = "0";
             this.checkWWIsAlterDate.Properties.ValueUnchecked = "0";
             this.checkWWIsAlterDate.Size = new System.Drawing.Size(31, 19);
-            this.checkWWIsAlterDate.TabIndex = 17;
+            this.checkWWIsAlterDate.TabIndex = 1;
             // 
             // labWWIsAlterDate
             // 
@@ -708,7 +965,7 @@
             this.checkOrderApplyBeyondCountIsSave.Properties.ValueGrayed = "0";
             this.checkOrderApplyBeyondCountIsSave.Properties.ValueUnchecked = "0";
             this.checkOrderApplyBeyondCountIsSave.Size = new System.Drawing.Size(31, 19);
-            this.checkOrderApplyBeyondCountIsSave.TabIndex = 13;
+            this.checkOrderApplyBeyondCountIsSave.TabIndex = 0;
             // 
             // labOrderApplyBeyondCountIsSave
             // 
@@ -741,6 +998,8 @@
             // 
             // PageSystem
             // 
+            this.PageSystem.Controls.Add(this.groupClearBasicData);
+            this.PageSystem.Controls.Add(this.groupClearOperation);
             this.PageSystem.Controls.Add(this.textBackupPath);
             this.PageSystem.Controls.Add(this.btnBackup);
             this.PageSystem.Controls.Add(this.labBackupPath);
@@ -748,6 +1007,91 @@
             this.PageSystem.Size = new System.Drawing.Size(1043, 576);
             this.PageSystem.Tag = "System";
             this.PageSystem.Text = "系统";
+            // 
+            // groupClearBasicData
+            // 
+            this.groupClearBasicData.Controls.Add(this.btnClearBasicData);
+            this.groupClearBasicData.Location = new System.Drawing.Point(36, 299);
+            this.groupClearBasicData.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.groupClearBasicData.LookAndFeel.UseWindowsXPTheme = true;
+            this.groupClearBasicData.Name = "groupClearBasicData";
+            this.groupClearBasicData.Size = new System.Drawing.Size(315, 94);
+            this.groupClearBasicData.TabIndex = 3;
+            this.groupClearBasicData.Text = "清空基础资料";
+            // 
+            // btnClearBasicData
+            // 
+            this.btnClearBasicData.Location = new System.Drawing.Point(119, 49);
+            this.btnClearBasicData.Name = "btnClearBasicData";
+            this.btnClearBasicData.Size = new System.Drawing.Size(90, 23);
+            this.btnClearBasicData.TabIndex = 8;
+            this.btnClearBasicData.Text = "清空基础资料";
+            this.btnClearBasicData.Click += new System.EventHandler(this.btnClearBasicData_Click);
+            // 
+            // groupClearOperation
+            // 
+            this.groupClearOperation.Controls.Add(this.btnClearOperation);
+            this.groupClearOperation.Controls.Add(this.checkPurchase);
+            this.groupClearOperation.Controls.Add(this.checkProduction);
+            this.groupClearOperation.Controls.Add(this.checkWarehouse);
+            this.groupClearOperation.Controls.Add(this.checkProject);
+            this.groupClearOperation.Controls.Add(this.checkSale);
+            this.groupClearOperation.Location = new System.Drawing.Point(36, 104);
+            this.groupClearOperation.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.groupClearOperation.LookAndFeel.UseWindowsXPTheme = true;
+            this.groupClearOperation.Name = "groupClearOperation";
+            this.groupClearOperation.Size = new System.Drawing.Size(315, 167);
+            this.groupClearOperation.TabIndex = 2;
+            this.groupClearOperation.Text = "清空操作记录";
+            // 
+            // btnClearOperation
+            // 
+            this.btnClearOperation.Location = new System.Drawing.Point(119, 122);
+            this.btnClearOperation.Name = "btnClearOperation";
+            this.btnClearOperation.Size = new System.Drawing.Size(90, 23);
+            this.btnClearOperation.TabIndex = 7;
+            this.btnClearOperation.Text = "清空操作记录";
+            this.btnClearOperation.Click += new System.EventHandler(this.btnClearOperation_Click);
+            // 
+            // checkPurchase
+            // 
+            this.checkPurchase.Location = new System.Drawing.Point(171, 37);
+            this.checkPurchase.Name = "checkPurchase";
+            this.checkPurchase.Properties.Caption = "采购";
+            this.checkPurchase.Size = new System.Drawing.Size(52, 19);
+            this.checkPurchase.TabIndex = 4;
+            // 
+            // checkProduction
+            // 
+            this.checkProduction.Location = new System.Drawing.Point(22, 74);
+            this.checkProduction.Name = "checkProduction";
+            this.checkProduction.Properties.Caption = "生产";
+            this.checkProduction.Size = new System.Drawing.Size(52, 19);
+            this.checkProduction.TabIndex = 6;
+            // 
+            // checkWarehouse
+            // 
+            this.checkWarehouse.Location = new System.Drawing.Point(245, 37);
+            this.checkWarehouse.Name = "checkWarehouse";
+            this.checkWarehouse.Properties.Caption = "库存";
+            this.checkWarehouse.Size = new System.Drawing.Size(52, 19);
+            this.checkWarehouse.TabIndex = 5;
+            // 
+            // checkProject
+            // 
+            this.checkProject.Location = new System.Drawing.Point(97, 37);
+            this.checkProject.Name = "checkProject";
+            this.checkProject.Properties.Caption = "项目";
+            this.checkProject.Size = new System.Drawing.Size(52, 19);
+            this.checkProject.TabIndex = 3;
+            // 
+            // checkSale
+            // 
+            this.checkSale.Location = new System.Drawing.Point(22, 37);
+            this.checkSale.Name = "checkSale";
+            this.checkSale.Properties.Caption = "销售";
+            this.checkSale.Size = new System.Drawing.Size(52, 19);
+            this.checkSale.TabIndex = 2;
             // 
             // textBackupPath
             // 
@@ -816,6 +1160,7 @@
             // 
             // pnlTop
             // 
+            this.pnlTop.Controls.Add(this.btnSetinitialization);
             this.pnlTop.Controls.Add(this.BtnSave);
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
@@ -828,7 +1173,7 @@
             this.BtnSave.Location = new System.Drawing.Point(10, 9);
             this.BtnSave.Name = "BtnSave";
             this.BtnSave.Size = new System.Drawing.Size(75, 23);
-            this.BtnSave.TabIndex = 10;
+            this.BtnSave.TabIndex = 20;
             this.BtnSave.Text = "保存";
             this.BtnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
@@ -842,25 +1187,14 @@
             this.pnlTabPage.Size = new System.Drawing.Size(1123, 582);
             this.pnlTabPage.TabIndex = 15;
             // 
-            // checkPrReqIsAlterPSBomAutoId
+            // btnSetinitialization
             // 
-            this.checkPrReqIsAlterPSBomAutoId.Location = new System.Drawing.Point(236, 29);
-            this.checkPrReqIsAlterPSBomAutoId.Name = "checkPrReqIsAlterPSBomAutoId";
-            this.checkPrReqIsAlterPSBomAutoId.Properties.Caption = "";
-            this.checkPrReqIsAlterPSBomAutoId.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueChecked = "1";
-            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueGrayed = "0";
-            this.checkPrReqIsAlterPSBomAutoId.Properties.ValueUnchecked = "0";
-            this.checkPrReqIsAlterPSBomAutoId.Size = new System.Drawing.Size(31, 19);
-            this.checkPrReqIsAlterPSBomAutoId.TabIndex = 19;
-            // 
-            // labPrReqIsAlterPSBomAutoId
-            // 
-            this.labPrReqIsAlterPSBomAutoId.Location = new System.Drawing.Point(36, 32);
-            this.labPrReqIsAlterPSBomAutoId.Name = "labPrReqIsAlterPSBomAutoId";
-            this.labPrReqIsAlterPSBomAutoId.Size = new System.Drawing.Size(168, 14);
-            this.labPrReqIsAlterPSBomAutoId.TabIndex = 18;
-            this.labPrReqIsAlterPSBomAutoId.Text = "可以修改生产计划生成的请购单";
+            this.btnSetinitialization.Location = new System.Drawing.Point(102, 9);
+            this.btnSetinitialization.Name = "btnSetinitialization";
+            this.btnSetinitialization.Size = new System.Drawing.Size(75, 23);
+            this.btnSetinitialization.TabIndex = 21;
+            this.btnSetinitialization.Text = "设定初始化";
+            this.btnSetinitialization.Click += new System.EventHandler(this.btnSetinitialization_Click);
             // 
             // FrmSystemSet
             // 
@@ -887,8 +1221,14 @@
             this.PageSale.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinSalesOrderDefaultTax.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinQuotationDefaultTax.Properties)).EndInit();
+            this.PageProject.ResumeLayout(false);
+            this.PageProject.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.colorPickGanttSchedulerBarColor.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinGanttSchedulerBarHeight.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinGanttResourcesPerPage.Properties)).EndInit();
             this.PagePurchase.ResumeLayout(false);
             this.PagePurchase.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkPrReqIsAlterPSBomAutoId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkWWApplyBeyondCountIsSave.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkPrReqApplyBeyondCountIsSave.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinOrderListDefaultTax.Properties)).EndInit();
@@ -896,11 +1236,23 @@
             ((System.ComponentModel.ISupportInitialize)(this.spinSettlementDefaultTax.Properties)).EndInit();
             this.PageWarehouse.ResumeLayout(false);
             this.PageWarehouse.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkEnableNegativeInventory.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkDisableShelfInfo.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkDisableProjectNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkWRIsAlterDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkWWIsAlterDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkOrderApplyBeyondCountIsSave.Properties)).EndInit();
             this.PageSystem.ResumeLayout(false);
             this.PageSystem.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupClearBasicData)).EndInit();
+            this.groupClearBasicData.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.groupClearOperation)).EndInit();
+            this.groupClearOperation.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.checkPurchase.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkProduction.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkWarehouse.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkProject.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkSale.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textBackupPath.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_SystemParameter)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableSysParameter)).EndInit();
@@ -909,7 +1261,6 @@
             this.pnlTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).EndInit();
             this.pnlTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.checkPrReqIsAlterPSBomAutoId.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -974,5 +1325,30 @@
         private DevExpress.XtraEditors.SpinEdit spinMessageInterval;
         private DevExpress.XtraEditors.CheckEdit checkPrReqIsAlterPSBomAutoId;
         private DevExpress.XtraEditors.LabelControl labPrReqIsAlterPSBomAutoId;
+        private DevExpress.XtraTab.XtraTabPage PageProject;
+        private DevExpress.XtraEditors.LabelControl labGanttResourcesPerPage;
+        private DevExpress.XtraEditors.SpinEdit spinGanttSchedulerBarHeight;
+        private DevExpress.XtraEditors.LabelControl labGanttSchedulerBarHeight;
+        private DevExpress.XtraEditors.SpinEdit spinGanttResourcesPerPage;
+        private DevExpress.XtraEditors.LabelControl labGanttSchedulerBarColor;
+        private DevExpress.XtraEditors.ColorPickEdit colorPickGanttSchedulerBarColor;
+        private DevExpress.XtraEditors.LabelControl labDisableProjectNoDesc;
+        private DevExpress.XtraEditors.CheckEdit checkDisableProjectNo;
+        private DevExpress.XtraEditors.LabelControl labDisableProjectNo;
+        private DevExpress.XtraEditors.LabelControl labDisableShelfInfo;
+        private DevExpress.XtraEditors.LabelControl labDisableShelfInfoDesc;
+        private DevExpress.XtraEditors.CheckEdit checkDisableShelfInfo;
+        private DevExpress.XtraEditors.CheckEdit checkEnableNegativeInventory;
+        private DevExpress.XtraEditors.LabelControl labEnableNegativeInventory;
+        private DevExpress.XtraEditors.GroupControl groupClearOperation;
+        private DevExpress.XtraEditors.CheckEdit checkProduction;
+        private DevExpress.XtraEditors.CheckEdit checkWarehouse;
+        private DevExpress.XtraEditors.CheckEdit checkProject;
+        private DevExpress.XtraEditors.CheckEdit checkSale;
+        private DevExpress.XtraEditors.CheckEdit checkPurchase;
+        private DevExpress.XtraEditors.SimpleButton btnClearOperation;
+        private DevExpress.XtraEditors.GroupControl groupClearBasicData;
+        private DevExpress.XtraEditors.SimpleButton btnClearBasicData;
+        private DevExpress.XtraEditors.SimpleButton btnSetinitialization;
     }
 }

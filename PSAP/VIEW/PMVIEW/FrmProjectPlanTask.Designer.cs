@@ -82,8 +82,7 @@
             this.dataColumn4 = new System.Data.DataColumn();
             this.dataColumn5 = new System.Data.DataColumn();
             this.pnlEditPlanTask = new DevExpress.XtraEditors.PanelControl();
-            this.labPlanTotalDays = new DevExpress.XtraEditors.LabelControl();
-            this.spinPlanTotalDays = new DevExpress.XtraEditors.SpinEdit();
+            this.textPlanTaskStatus = new DevExpress.XtraEditors.TextEdit();
             this.bSProjectPlanTask = new System.Windows.Forms.BindingSource(this.components);
             this.dSProjectPlanTask = new System.Data.DataSet();
             this.TableProjectPlanTask = new System.Data.DataTable();
@@ -101,6 +100,13 @@
             this.dataColCreateTime = new System.Data.DataColumn();
             this.dataColUserId = new System.Data.DataColumn();
             this.dataColumn6 = new System.Data.DataColumn();
+            this.labPlanTaskStatus = new DevExpress.XtraEditors.LabelControl();
+            this.lookUpCreator = new DevExpress.XtraEditors.LookUpEdit();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.labCreator = new DevExpress.XtraEditors.LabelControl();
+            this.textCreateTime = new DevExpress.XtraEditors.TextEdit();
+            this.labPlanTotalDays = new DevExpress.XtraEditors.LabelControl();
+            this.spinPlanTotalDays = new DevExpress.XtraEditors.SpinEdit();
             this.labPlanEndDate = new DevExpress.XtraEditors.LabelControl();
             this.datePlanEndDate = new DevExpress.XtraEditors.DateEdit();
             this.labPlanStartDate = new DevExpress.XtraEditors.LabelControl();
@@ -145,10 +151,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.TableTaskDependencies)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEditPlanTask)).BeginInit();
             this.pnlEditPlanTask.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinPlanTotalDays.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textPlanTaskStatus.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSProjectPlanTask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSProjectPlanTask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableProjectPlanTask)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lookUpCreator.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textCreateTime.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinPlanTotalDays.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanEndDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanEndDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanStartDate.Properties.CalendarTimeProperties)).BeginInit();
@@ -267,7 +276,7 @@
             this.splitControlPlanTask.Panel2.Controls.Add(this.schedulerPlanTask);
             this.splitControlPlanTask.Panel2.Text = "PnlRight";
             this.splitControlPlanTask.Size = new System.Drawing.Size(1322, 470);
-            this.splitControlPlanTask.SplitterPosition = 316;
+            this.splitControlPlanTask.SplitterPosition = 360;
             this.splitControlPlanTask.TabIndex = 9;
             this.splitControlPlanTask.Text = "splitContainerControl1";
             // 
@@ -293,10 +302,11 @@
             this.resourcesTreePlanTask.OptionsView.FocusRectStyle = DevExpress.XtraTreeList.DrawFocusRectStyle.RowFocus;
             this.resourcesTreePlanTask.OptionsView.ShowIndicator = true;
             this.resourcesTreePlanTask.OptionsView.ShowRoot = false;
+            this.resourcesTreePlanTask.OptionsView.ShowSummaryFooter = true;
             this.resourcesTreePlanTask.OptionsView.ShowVertLines = true;
             this.resourcesTreePlanTask.ParentFieldName = "ParentId";
             this.resourcesTreePlanTask.SchedulerControl = this.schedulerPlanTask;
-            this.resourcesTreePlanTask.Size = new System.Drawing.Size(316, 470);
+            this.resourcesTreePlanTask.Size = new System.Drawing.Size(360, 470);
             this.resourcesTreePlanTask.TabIndex = 0;
             this.resourcesTreePlanTask.BeforeFocusNode += new DevExpress.XtraTreeList.BeforeFocusNodeEventHandler(this.resourcesTreePlanTask_BeforeFocusNode);
             this.resourcesTreePlanTask.CustomDrawNodeIndicator += new DevExpress.XtraTreeList.CustomDrawNodeIndicatorEventHandler(this.resourcesTreePlanTask_CustomDrawNodeIndicator);
@@ -309,9 +319,11 @@
             this.colPlanTaskText.Caption = "任务名称";
             this.colPlanTaskText.FieldName = "PlanTaskText";
             this.colPlanTaskText.Name = "colPlanTaskText";
+            this.colPlanTaskText.SummaryFooter = DevExpress.XtraTreeList.SummaryItemType.Count;
+            this.colPlanTaskText.SummaryFooterStrFormat = "共计{0}条";
             this.colPlanTaskText.Visible = true;
             this.colPlanTaskText.VisibleIndex = 0;
-            this.colPlanTaskText.Width = 91;
+            this.colPlanTaskText.Width = 138;
             // 
             // col开始日期
             // 
@@ -324,7 +336,7 @@
             this.col开始日期.Name = "col开始日期";
             this.col开始日期.Visible = true;
             this.col开始日期.VisibleIndex = 1;
-            this.col开始日期.Width = 92;
+            this.col开始日期.Width = 90;
             // 
             // col结束日期
             // 
@@ -337,7 +349,7 @@
             this.col结束日期.Name = "col结束日期";
             this.col结束日期.Visible = true;
             this.col结束日期.VisibleIndex = 2;
-            this.col结束日期.Width = 91;
+            this.col结束日期.Width = 90;
             // 
             // colAutoId
             // 
@@ -357,12 +369,11 @@
             this.schedulerPlanTask.OptionsCustomization.AllowAppointmentCopy = DevExpress.XtraScheduler.UsedAppointmentType.None;
             this.schedulerPlanTask.OptionsCustomization.AllowAppointmentCreate = DevExpress.XtraScheduler.UsedAppointmentType.None;
             this.schedulerPlanTask.OptionsCustomization.AllowAppointmentDelete = DevExpress.XtraScheduler.UsedAppointmentType.None;
-            this.schedulerPlanTask.OptionsCustomization.AllowAppointmentDrag = DevExpress.XtraScheduler.UsedAppointmentType.None;
             this.schedulerPlanTask.OptionsCustomization.AllowAppointmentDragBetweenResources = DevExpress.XtraScheduler.UsedAppointmentType.None;
-            this.schedulerPlanTask.OptionsCustomization.AllowAppointmentEdit = DevExpress.XtraScheduler.UsedAppointmentType.None;
             this.schedulerPlanTask.OptionsCustomization.AllowAppointmentMultiSelect = false;
             this.schedulerPlanTask.OptionsCustomization.AllowDisplayAppointmentDependencyForm = DevExpress.XtraScheduler.AllowDisplayAppointmentDependencyForm.Never;
             this.schedulerPlanTask.OptionsCustomization.AllowDisplayAppointmentForm = DevExpress.XtraScheduler.AllowDisplayAppointmentForm.Never;
+            this.schedulerPlanTask.OptionsCustomization.AllowInplaceEditor = DevExpress.XtraScheduler.UsedAppointmentType.None;
             this.schedulerPlanTask.OptionsRangeControl.AllowChangeActiveView = false;
             this.schedulerPlanTask.OptionsRangeControl.AutoAdjustMode = false;
             this.schedulerPlanTask.OptionsRangeControl.MaxIntervalWidth = 90;
@@ -391,7 +402,7 @@
             schedulerColorSchema1.CellLightBorder = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(216)))), ((int)(((byte)(216)))));
             schedulerColorSchema1.CellLightBorderDark = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(178)))), ((int)(((byte)(178)))));
             this.schedulerPlanTask.ResourceColorSchemas.Add(schedulerColorSchema1);
-            this.schedulerPlanTask.Size = new System.Drawing.Size(1001, 470);
+            this.schedulerPlanTask.Size = new System.Drawing.Size(957, 470);
             this.schedulerPlanTask.Start = new System.DateTime(2019, 8, 1, 0, 0, 0, 0);
             this.schedulerPlanTask.Storage = this.schedulerStoragePlanTask;
             this.schedulerPlanTask.TabIndex = 0;
@@ -417,7 +428,6 @@
             this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.AppointmentHeight = 30;
             this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.EndTimeVisibility = DevExpress.XtraScheduler.AppointmentTimeVisibility.Never;
             this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.PercentCompleteDisplayType = DevExpress.XtraScheduler.PercentCompleteDisplayType.None;
-            this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.ShowRecurrence = false;
             this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.ShowReminder = false;
             this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.SnapToCellsMode = DevExpress.XtraScheduler.AppointmentSnapToCellsMode.Never;
             this.schedulerPlanTask.Views.GanttView.AppointmentDisplayOptions.StartTimeVisibility = DevExpress.XtraScheduler.AppointmentTimeVisibility.Never;
@@ -427,7 +437,7 @@
             timeScaleYear2.Enabled = false;
             timeScaleQuarter2.Enabled = false;
             timeScaleQuarter2.Visible = false;
-            timeScaleMonth2.DisplayFormat = "yyyy年MM月";
+            timeScaleMonth2.DisplayFormat = "yyyy 年 MM 月";
             timeScaleWeek2.Enabled = false;
             timeScaleDay2.DisplayFormat = "dd 日";
             timeScaleHour2.Enabled = false;
@@ -452,6 +462,8 @@
             this.schedulerPlanTask.Views.WorkWeekView.Enabled = false;
             this.schedulerPlanTask.Views.WorkWeekView.TimeRulers.Add(timeRuler3);
             this.schedulerPlanTask.ActiveViewChanging += new DevExpress.XtraScheduler.ActiveViewChangingEventHandler(this.schedulerPlanTask_ActiveViewChanging);
+            this.schedulerPlanTask.AppointmentDrop += new DevExpress.XtraScheduler.AppointmentDragEventHandler(this.schedulerPlanTask_AppointmentDrop);
+            this.schedulerPlanTask.AppointmentResized += new DevExpress.XtraScheduler.AppointmentResizeEventHandler(this.schedulerPlanTask_AppointmentResized);
             this.schedulerPlanTask.PopupMenuShowing += new DevExpress.XtraScheduler.PopupMenuShowingEventHandler(this.schedulerPlanTask_PopupMenuShowing);
             // 
             // schedulerStoragePlanTask
@@ -476,6 +488,7 @@
             this.schedulerStoragePlanTask.Appointments.Mappings.End = "PlanEndDate";
             this.schedulerStoragePlanTask.Appointments.Mappings.ResourceId = "AutoId";
             this.schedulerStoragePlanTask.Appointments.Mappings.Start = "PlanStartDate";
+            this.schedulerStoragePlanTask.Appointments.Mappings.Subject = "PlanTaskText";
             this.schedulerStoragePlanTask.Resources.CustomFieldMappings.Add(new DevExpress.XtraScheduler.ResourceCustomFieldMapping("结束日期", "PlanEndDate"));
             this.schedulerStoragePlanTask.Resources.CustomFieldMappings.Add(new DevExpress.XtraScheduler.ResourceCustomFieldMapping("开始日期", "PlanStartDate"));
             this.schedulerStoragePlanTask.Resources.DataSource = this.dSScheduler;
@@ -608,6 +621,12 @@
             // 
             // pnlEditPlanTask
             // 
+            this.pnlEditPlanTask.Controls.Add(this.textPlanTaskStatus);
+            this.pnlEditPlanTask.Controls.Add(this.labPlanTaskStatus);
+            this.pnlEditPlanTask.Controls.Add(this.lookUpCreator);
+            this.pnlEditPlanTask.Controls.Add(this.labelControl2);
+            this.pnlEditPlanTask.Controls.Add(this.labCreator);
+            this.pnlEditPlanTask.Controls.Add(this.textCreateTime);
             this.pnlEditPlanTask.Controls.Add(this.labPlanTotalDays);
             this.pnlEditPlanTask.Controls.Add(this.spinPlanTotalDays);
             this.pnlEditPlanTask.Controls.Add(this.labPlanEndDate);
@@ -628,42 +647,17 @@
             this.pnlEditPlanTask.Size = new System.Drawing.Size(1322, 134);
             this.pnlEditPlanTask.TabIndex = 8;
             // 
-            // labPlanTotalDays
+            // textPlanTaskStatus
             // 
-            this.labPlanTotalDays.Location = new System.Drawing.Point(575, 58);
-            this.labPlanTotalDays.Name = "labPlanTotalDays";
-            this.labPlanTotalDays.Size = new System.Drawing.Size(48, 14);
-            this.labPlanTotalDays.TabIndex = 31;
-            this.labPlanTotalDays.Text = "计划工期";
-            // 
-            // spinPlanTotalDays
-            // 
-            this.spinPlanTotalDays.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectPlanTask, "PlanTotalDays", true));
-            this.spinPlanTotalDays.EditValue = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.spinPlanTotalDays.EnterMoveNextControl = true;
-            this.spinPlanTotalDays.Location = new System.Drawing.Point(646, 55);
-            this.spinPlanTotalDays.Name = "spinPlanTotalDays";
-            this.spinPlanTotalDays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.spinPlanTotalDays.Properties.Mask.EditMask = "d";
-            this.spinPlanTotalDays.Properties.MaxValue = new decimal(new int[] {
-            99999999,
-            0,
-            0,
-            0});
-            this.spinPlanTotalDays.Properties.MinValue = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.spinPlanTotalDays.Properties.NullText = " ";
-            this.spinPlanTotalDays.Size = new System.Drawing.Size(160, 20);
-            this.spinPlanTotalDays.TabIndex = 5;
-            this.spinPlanTotalDays.EditValueChanged += new System.EventHandler(this.spinPlanTotalDays_EditValueChanged);
+            this.textPlanTaskStatus.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectPlanTask, "PlanTaskStatus", true));
+            this.textPlanTaskStatus.EnterMoveNextControl = true;
+            this.textPlanTaskStatus.Location = new System.Drawing.Point(910, 21);
+            this.textPlanTaskStatus.Name = "textPlanTaskStatus";
+            this.textPlanTaskStatus.Properties.ReadOnly = true;
+            this.textPlanTaskStatus.Size = new System.Drawing.Size(160, 20);
+            this.textPlanTaskStatus.TabIndex = 3;
+            this.textPlanTaskStatus.TabStop = false;
+            this.textPlanTaskStatus.CustomDisplayText += new DevExpress.XtraEditors.Controls.CustomDisplayTextEventHandler(this.textPlanTaskStatus_CustomDisplayText);
             // 
             // bSProjectPlanTask
             // 
@@ -776,6 +770,99 @@
             this.dataColumn6.ColumnName = "ParentId";
             this.dataColumn6.DataType = typeof(int);
             // 
+            // labPlanTaskStatus
+            // 
+            this.labPlanTaskStatus.Location = new System.Drawing.Point(830, 24);
+            this.labPlanTaskStatus.Name = "labPlanTaskStatus";
+            this.labPlanTaskStatus.Size = new System.Drawing.Size(24, 14);
+            this.labPlanTaskStatus.TabIndex = 35;
+            this.labPlanTaskStatus.Text = "状态";
+            // 
+            // lookUpCreator
+            // 
+            this.lookUpCreator.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectPlanTask, "Creator", true));
+            this.lookUpCreator.EnterMoveNextControl = true;
+            this.lookUpCreator.Location = new System.Drawing.Point(910, 55);
+            this.lookUpCreator.Name = "lookUpCreator";
+            this.lookUpCreator.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 80, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Near),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("LoginId", "用户名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("EmpName", "员工名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near)});
+            this.lookUpCreator.Properties.DisplayMember = "EmpName";
+            this.lookUpCreator.Properties.NullText = "";
+            this.lookUpCreator.Properties.ReadOnly = true;
+            this.lookUpCreator.Properties.ValueMember = "AutoId";
+            this.lookUpCreator.Size = new System.Drawing.Size(160, 20);
+            this.lookUpCreator.TabIndex = 7;
+            this.lookUpCreator.TabStop = false;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(830, 92);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(48, 14);
+            this.labelControl2.TabIndex = 34;
+            this.labelControl2.Text = "登记时间";
+            // 
+            // labCreator
+            // 
+            this.labCreator.Location = new System.Drawing.Point(830, 58);
+            this.labCreator.Name = "labCreator";
+            this.labCreator.Size = new System.Drawing.Size(60, 14);
+            this.labCreator.TabIndex = 33;
+            this.labCreator.Text = "登记修改人";
+            // 
+            // textCreateTime
+            // 
+            this.textCreateTime.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectPlanTask, "CreateTime", true));
+            this.textCreateTime.EnterMoveNextControl = true;
+            this.textCreateTime.Location = new System.Drawing.Point(910, 89);
+            this.textCreateTime.Name = "textCreateTime";
+            this.textCreateTime.Properties.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.textCreateTime.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.textCreateTime.Properties.EditFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.textCreateTime.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.textCreateTime.Properties.ReadOnly = true;
+            this.textCreateTime.Size = new System.Drawing.Size(160, 20);
+            this.textCreateTime.TabIndex = 9;
+            this.textCreateTime.TabStop = false;
+            // 
+            // labPlanTotalDays
+            // 
+            this.labPlanTotalDays.Location = new System.Drawing.Point(575, 58);
+            this.labPlanTotalDays.Name = "labPlanTotalDays";
+            this.labPlanTotalDays.Size = new System.Drawing.Size(48, 14);
+            this.labPlanTotalDays.TabIndex = 31;
+            this.labPlanTotalDays.Text = "计划工期";
+            // 
+            // spinPlanTotalDays
+            // 
+            this.spinPlanTotalDays.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSProjectPlanTask, "PlanTotalDays", true));
+            this.spinPlanTotalDays.EditValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.spinPlanTotalDays.EnterMoveNextControl = true;
+            this.spinPlanTotalDays.Location = new System.Drawing.Point(646, 55);
+            this.spinPlanTotalDays.Name = "spinPlanTotalDays";
+            this.spinPlanTotalDays.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinPlanTotalDays.Properties.Mask.EditMask = "d";
+            this.spinPlanTotalDays.Properties.MaxValue = new decimal(new int[] {
+            99999999,
+            0,
+            0,
+            0});
+            this.spinPlanTotalDays.Properties.MinValue = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.spinPlanTotalDays.Size = new System.Drawing.Size(160, 20);
+            this.spinPlanTotalDays.TabIndex = 6;
+            this.spinPlanTotalDays.EditValueChanged += new System.EventHandler(this.spinPlanTotalDays_EditValueChanged);
+            // 
             // labPlanEndDate
             // 
             this.labPlanEndDate.Location = new System.Drawing.Point(306, 58);
@@ -796,7 +883,7 @@
             this.datePlanEndDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.datePlanEndDate.Size = new System.Drawing.Size(160, 20);
-            this.datePlanEndDate.TabIndex = 4;
+            this.datePlanEndDate.TabIndex = 5;
             this.datePlanEndDate.EditValueChanged += new System.EventHandler(this.datePlanStartDate_EditValueChanged);
             // 
             // labPlanStartDate
@@ -819,7 +906,7 @@
             this.datePlanStartDate.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.datePlanStartDate.Size = new System.Drawing.Size(160, 20);
-            this.datePlanStartDate.TabIndex = 3;
+            this.datePlanStartDate.TabIndex = 4;
             this.datePlanStartDate.EditValueChanged += new System.EventHandler(this.datePlanStartDate_EditValueChanged);
             // 
             // labProjectUser
@@ -960,7 +1047,7 @@
             this.textRemark.Location = new System.Drawing.Point(124, 89);
             this.textRemark.Name = "textRemark";
             this.textRemark.Size = new System.Drawing.Size(682, 20);
-            this.textRemark.TabIndex = 6;
+            this.textRemark.TabIndex = 8;
             // 
             // labRemark
             // 
@@ -989,6 +1076,9 @@
             // 
             // pnlToolBarPlanTask
             // 
+            this.pnlToolBarPlanTask.Appearance.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlToolBarPlanTask.Appearance.Options.UseBackColor = true;
+            this.pnlToolBarPlanTask.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBarPlanTask.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBarPlanTask.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBarPlanTask.Name = "pnlToolBarPlanTask";
@@ -1051,10 +1141,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEditPlanTask)).EndInit();
             this.pnlEditPlanTask.ResumeLayout(false);
             this.pnlEditPlanTask.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.spinPlanTotalDays.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textPlanTaskStatus.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSProjectPlanTask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSProjectPlanTask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableProjectPlanTask)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lookUpCreator.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.textCreateTime.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.spinPlanTotalDays.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanEndDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanEndDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanStartDate.Properties.CalendarTimeProperties)).EndInit();
@@ -1130,7 +1223,6 @@
         private DevExpress.XtraEditors.SplitContainerControl splitControlPlanTask;
         private DevExpress.XtraScheduler.UI.ResourcesTree resourcesTreePlanTask;
         private DevExpress.XtraScheduler.SchedulerControl schedulerPlanTask;
-        private DevExpress.XtraScheduler.SchedulerStorage schedulerStoragePlanTask;
         private System.Data.DataSet dSScheduler;
         private System.Data.DataTable TableAppointments;
         private System.Data.DataColumn dataColumn1;
@@ -1156,5 +1248,12 @@
         private DevExpress.XtraScheduler.Native.ResourceTreeColumn colPlanTaskText;
         private System.Data.DataColumn dataColumn6;
         private DevExpress.XtraScheduler.Native.ResourceTreeColumn colAutoId;
+        private DevExpress.XtraScheduler.SchedulerStorage schedulerStoragePlanTask;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.LabelControl labCreator;
+        private DevExpress.XtraEditors.TextEdit textCreateTime;
+        private DevExpress.XtraEditors.LookUpEdit lookUpCreator;
+        private DevExpress.XtraEditors.TextEdit textPlanTaskStatus;
+        private DevExpress.XtraEditors.LabelControl labPlanTaskStatus;
     }
 }

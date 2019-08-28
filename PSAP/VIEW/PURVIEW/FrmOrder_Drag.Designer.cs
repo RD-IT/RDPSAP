@@ -237,13 +237,13 @@
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colReqDate = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColuProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repSearchPrReqProjectNo = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColuStnNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repLookUpPrReqReqDep = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.gridColumn11 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -269,6 +269,7 @@
             this.popupMenuList = new DevExpress.XtraBars.PopupMenu(this.components);
             this.barButtonUp = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonDown = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonPreview = new DevExpress.XtraBars.BarButtonItem();
             this.barManagerForm = new DevExpress.XtraBars.BarManager(this.components);
             this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
             this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
@@ -355,7 +356,7 @@
             this.tsmiCgqxsp = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiQxspan = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDyyl = new System.Windows.Forms.ToolStripMenuItem();
-            this.barButtonPreview = new DevExpress.XtraBars.BarButtonItem();
+            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpApprover.Properties)).BeginInit();
@@ -827,12 +828,12 @@
             // 
             // checkAll
             // 
-            this.checkAll.Location = new System.Drawing.Point(53, 38);
+            this.checkAll.Location = new System.Drawing.Point(53, 40);
+            this.checkAll.Margin = new System.Windows.Forms.Padding(4);
             this.checkAll.Name = "checkAll";
-            this.checkAll.Properties.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.checkAll.Properties.Appearance.Options.UseBackColor = true;
+            this.checkAll.Properties.AutoHeight = false;
             this.checkAll.Properties.Caption = "";
-            this.checkAll.Size = new System.Drawing.Size(20, 19);
+            this.checkAll.Size = new System.Drawing.Size(16, 15);
             this.checkAll.TabIndex = 18;
             this.checkAll.TabStop = false;
             this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
@@ -1158,6 +1159,7 @@
             this.colPlanDate,
             this.colPrReqRemark,
             this.colPrepared,
+            this.colModifier,
             this.colClosed});
             this.gridViewOrderHead.GridControl = this.gridControlOrderHead;
             this.gridViewOrderHead.IndicatorWidth = 40;
@@ -1567,7 +1569,8 @@
             this.colClosed.OptionsColumn.AllowEdit = false;
             this.colClosed.OptionsColumn.TabStop = false;
             this.colClosed.Visible = true;
-            this.colClosed.VisibleIndex = 15;
+            this.colClosed.VisibleIndex = 16;
+            this.colClosed.Width = 70;
             // 
             // pnlMiddleTop
             // 
@@ -1823,7 +1826,7 @@
             this.colCodeFileName.OptionsColumn.AllowEdit = false;
             this.colCodeFileName.Visible = true;
             this.colCodeFileName.VisibleIndex = 1;
-            this.colCodeFileName.Width = 110;
+            this.colCodeFileName.Width = 120;
             // 
             // repSearchCodeFileName
             // 
@@ -1887,7 +1890,7 @@
             this.colCodeName.OptionsColumn.TabStop = false;
             this.colCodeName.Visible = true;
             this.colCodeName.VisibleIndex = 2;
-            this.colCodeName.Width = 110;
+            this.colCodeName.Width = 120;
             // 
             // colUnit
             // 
@@ -2502,8 +2505,8 @@
             this.gridColumn3,
             this.gridColumn4,
             this.colReqDate,
-            this.gridColumn6,
-            this.gridColumn10,
+            this.gridColuProjectNo,
+            this.gridColuStnNo,
             this.gridColumn5,
             this.gridColumn11,
             this.colApplicant,
@@ -2558,16 +2561,16 @@
             this.colReqDate.VisibleIndex = 1;
             this.colReqDate.Width = 90;
             // 
-            // gridColumn6
+            // gridColuProjectNo
             // 
-            this.gridColumn6.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn6.ColumnEdit = this.repSearchPrReqProjectNo;
-            this.gridColumn6.FieldName = "ProjectNo";
-            this.gridColumn6.Name = "gridColumn6";
-            this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 2;
-            this.gridColumn6.Width = 100;
+            this.gridColuProjectNo.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColuProjectNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColuProjectNo.ColumnEdit = this.repSearchPrReqProjectNo;
+            this.gridColuProjectNo.FieldName = "ProjectNo";
+            this.gridColuProjectNo.Name = "gridColuProjectNo";
+            this.gridColuProjectNo.Visible = true;
+            this.gridColuProjectNo.VisibleIndex = 2;
+            this.gridColuProjectNo.Width = 100;
             // 
             // repSearchPrReqProjectNo
             // 
@@ -2616,15 +2619,15 @@
             this.gridColumn9.Visible = true;
             this.gridColumn9.VisibleIndex = 2;
             // 
-            // gridColumn10
+            // gridColuStnNo
             // 
-            this.gridColumn10.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn10.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn10.FieldName = "StnNo";
-            this.gridColumn10.Name = "gridColumn10";
-            this.gridColumn10.Visible = true;
-            this.gridColumn10.VisibleIndex = 3;
-            this.gridColumn10.Width = 80;
+            this.gridColuStnNo.AppearanceHeader.Options.UseTextOptions = true;
+            this.gridColuStnNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridColuStnNo.FieldName = "StnNo";
+            this.gridColuStnNo.Name = "gridColuStnNo";
+            this.gridColuStnNo.Visible = true;
+            this.gridColuStnNo.VisibleIndex = 3;
+            this.gridColuStnNo.Width = 80;
             // 
             // gridColumn5
             // 
@@ -2892,6 +2895,13 @@
             this.barButtonDown.Id = 3;
             this.barButtonDown.Name = "barButtonDown";
             this.barButtonDown.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonDown_ItemClick);
+            // 
+            // barButtonPreview
+            // 
+            this.barButtonPreview.Caption = "零件预览";
+            this.barButtonPreview.Id = 4;
+            this.barButtonPreview.Name = "barButtonPreview";
+            this.barButtonPreview.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonPreview_ItemClick);
             // 
             // barManagerForm
             // 
@@ -3497,12 +3507,17 @@
             this.tsmiDyyl.Size = new System.Drawing.Size(304, 22);
             this.tsmiDyyl.Text = "打印预览按钮事件错误。";
             // 
-            // barButtonPreview
+            // colModifier
             // 
-            this.barButtonPreview.Caption = "零件预览";
-            this.barButtonPreview.Id = 4;
-            this.barButtonPreview.Name = "barButtonPreview";
-            this.barButtonPreview.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonPreview_ItemClick);
+            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifier.FieldName = "Modifier";
+            this.colModifier.Name = "colModifier";
+            this.colModifier.OptionsColumn.AllowEdit = false;
+            this.colModifier.OptionsColumn.TabStop = false;
+            this.colModifier.Visible = true;
+            this.colModifier.VisibleIndex = 15;
+            this.colModifier.Width = 70;
             // 
             // FrmOrder_Drag
             // 
@@ -3830,13 +3845,13 @@
         private DevExpress.XtraGrid.Columns.GridColumn colReqDate;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpPrReqReqDep;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColuProjectNo;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchPrReqProjectNo;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColuStnNo;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn11;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpPrReqPurCategory;
         private DevExpress.XtraGrid.Columns.GridColumn colApplicant;
@@ -3944,5 +3959,6 @@
         private DevExpress.XtraEditors.SimpleButton btnCancelSubmit;
         private DevExpress.XtraEditors.SimpleButton btnSubmit;
         private DevExpress.XtraBars.BarButtonItem barButtonPreview;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifier;
     }
 }

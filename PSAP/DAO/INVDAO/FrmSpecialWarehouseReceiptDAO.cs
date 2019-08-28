@@ -16,19 +16,19 @@ namespace PSAP.DAO.INVDAO
         /// <param name="queryDataTable">要查询填充的数据表</param>
         /// <param name="beginDateStr">开始日期字符串</param>
         /// <param name="endDateStr">结束日期字符串</param>
-        /// <param name="repertoryNoStr">出库仓库编号</param>
+        /// <param name="repertoryIdInt">出库仓库编号</param>
         /// <param name="preparedStr">制单人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QuerySpecialWarehouseReceiptHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string repertoryNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QuerySpecialWarehouseReceiptHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QuerySpecialWarehouseReceiptHead_SQL(beginDateStr, endDateStr, reqDepStr, repertoryNoStr, warehouseStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QuerySpecialWarehouseReceiptHead_SQL(beginDateStr, endDateStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询预算外出库单表头的SQL
         /// </summary>
-        public string QuerySpecialWarehouseReceiptHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string repertoryNoStr, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public string QuerySpecialWarehouseReceiptHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -39,9 +39,13 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and ReqDep='{0}'", reqDepStr);
             }
-            if (repertoryNoStr != "")
+            if (repertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and RepertoryNo='{0}'", repertoryNoStr);
+                sqlStr += string.Format(" and RepertoryId={0}", repertoryIdInt);
+            }
+            if(locationIdInt!=0)
+            {
+                sqlStr += string.Format(" and RepertoryLocationId={0}", locationIdInt);
             }
             if (warehouseStateInt != 0)
             {
@@ -539,6 +543,12 @@ namespace PSAP.DAO.INVDAO
                         break;
                     case "RepertoryName":
                         headTable.Columns[i].Caption = "出库仓库名称";
+                        break;
+                    case "LocationNo":
+                        headTable.Columns[i].Caption = "出库仓位编号";
+                        break;
+                    case "LocationName":
+                        headTable.Columns[i].Caption = "出库仓位名称";
                         break;
                     case "Prepared":
                         headTable.Columns[i].Caption = "制单人";

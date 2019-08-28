@@ -1182,7 +1182,14 @@ namespace PSAP.DAO.PURDAO
                                     }
                                 }
 
-                                cmd.CommandText = string.Format("Update PUR_OrderHead set ReqState={1} where OrderHeadNo='{0}'", orderHeadNoStr, orderHeadTable.Rows[i]["ReqState"]);
+                                if (DataTypeConvert.GetInt(orderHeadTable.Rows[i]["ReqState"]) == 2)
+                                {
+                                    cmd.CommandText = string.Format("Update PUR_OrderHead set ReqState = {1}, Approver = '{2}', ApproverIp = '{3}', ApproverTime = '{4}' where OrderHeadNo = '{0}'", orderHeadNoStr, orderHeadTable.Rows[i]["ReqState"], SystemInfo.user.EmpName, SystemInfo.HostIpAddress, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else
+                                {
+                                    cmd.CommandText = string.Format("Update PUR_OrderHead set ReqState={1} where OrderHeadNo='{0}'", orderHeadNoStr, orderHeadTable.Rows[i]["ReqState"]);
+                                }
                                 cmd.ExecuteNonQuery();
                             }
                         }
@@ -1234,7 +1241,7 @@ namespace PSAP.DAO.PURDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", orderHeadNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update PUR_OrderHead set ReqState=1 where OrderHeadNo in ({0})", orderHeadNoListStr);
+                        cmd.CommandText = string.Format("Update PUR_OrderHead set ReqState = 1, Approver = null, ApproverIp = null, ApproverTime = null where OrderHeadNo in ({0})", orderHeadNoListStr);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -1685,6 +1692,55 @@ namespace PSAP.DAO.PURDAO
             return sqlStr;
         }
 
+        /// <summary>
+        /// 查询采购到货情况查询的SQL
+        /// </summary>
+        public string Query_OrderList_ArrivalQuery_SQL(string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, string reqDepStr, string purCategoryStr, string bussinessBaseNoStr, int reqStateInt, string projectNoStr, string codeFileNameStr, string commonStr, int delayWarehousingInt)
+        {
+            string sqlStr = " 1=1";
+            if (beginPlanDateStr != "")
+            {
+                sqlStr += string.Format(" and PlanDate between '{0}' and '{1}'", beginPlanDateStr, endPlanDateStr);
+            }
+            if (beginDateStr != "")
+            {
+                sqlStr += string.Format(" and OrderHeadDate between '{0}' and '{1}'", beginDateStr, endDateStr);
+            }
+            if (reqDepStr != "")
+            {
+                sqlStr += string.Format(" and ReqDep='{0}'", reqDepStr);
+            }
+            if (purCategoryStr != "")
+            {
+                sqlStr += string.Format(" and PurCategory='{0}'", purCategoryStr);
+            }
+            if (bussinessBaseNoStr != "")
+            {
+                sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
+            }
+            if (reqStateInt != 0)
+            {
+                sqlStr += string.Format(" and ReqState={0}", reqStateInt);
+            }
+            if (projectNoStr != "")
+            {
+                sqlStr += string.Format(" and ProjectNo='{0}'", projectNoStr);
+            }
+            if (codeFileNameStr != "")
+            {
+                sqlStr += string.Format(" and CodeFileName='{0}'", codeFileNameStr);
+            }
+            if (commonStr != "")
+            {
+                sqlStr += string.Format(" and (OrderHeadNo like '%{0}%' or StnNo like '%{0}%' or WarehouseWarrant like '%{0}%' or CodeName like '%{0}%')", commonStr);
+            }
+            if (delayWarehousingInt != -1)
+            {
+                sqlStr += string.Format(" and DelayWarehousing = {0}", delayWarehousingInt);
+            }
+            sqlStr = string.Format("select * from V_PUR_OrderList_ArrivalQuery where {0} order by AutoId, WWAutoId", sqlStr);
+            return sqlStr;
+        }
 
     }
 }

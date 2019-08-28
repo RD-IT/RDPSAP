@@ -54,7 +54,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
@@ -63,16 +64,18 @@ namespace PSAP.VIEW.BSVIEW
                 datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPlanDate.Checked = false;
 
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
+
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
                 lookUpPurCategory.ItemIndex = 0;
                 comboBoxReqState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpPrepared.Properties.DataSource = userInfoTable_t;
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpApprover.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
                 lookUpApprover.ItemIndex = -1;
 
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -88,6 +91,12 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     orderDAO.QueryOrderHead(dataSet_Order.Tables[0], "", "", "", "", "", "", "", 0, "", -1, "", true);
                     orderDAO.QueryOrderList(dataSet_Order.Tables[1], "", true);
+                }
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    colProjectNo.Visible = false;
+                    colStnNo.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -885,6 +894,12 @@ namespace PSAP.VIEW.BSVIEW
                 gridViewOrderHead.SetFocusedRowCellValue("Prepared", SystemInfo.user.EmpName);
                 gridViewOrderHead.SetFocusedRowCellValue("Tax", SystemInfo.OrderList_DefaultTax);
                 gridViewOrderHead.SetFocusedRowCellValue("PlanDate", nowDate.Date.AddDays(7));
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    gridViewOrderHead.SetFocusedRowCellValue("ProjectNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                    gridViewOrderHead.SetFocusedRowCellValue("StnNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                }
             }
             catch (Exception ex)
             {

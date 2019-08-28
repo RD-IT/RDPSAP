@@ -84,9 +84,16 @@ namespace PSAP.VIEW.BSVIEW
             {
                 int[] rows = gridViewLeft.GetSelectedRows();
                 List<DataRow> rowList = new List<DataRow>();
-                for (int i = 0; i < rows.Length; i++)
+                if (rows.Length == 0)
                 {
-                    rowList.Add(gridViewLeft.GetDataRow(rows[i]));
+                    rowList.Add(gridViewLeft.GetFocusedDataRow());
+                }
+                else
+                {
+                    for (int i = 0; i < rows.Length; i++)
+                    {
+                        rowList.Add(gridViewLeft.GetDataRow(rows[i]));
+                    }
                 }
 
                 foreach (DataRow row in rowList)
@@ -128,9 +135,16 @@ namespace PSAP.VIEW.BSVIEW
 
                 int[] rows = gridViewRight.GetSelectedRows();
                 List<DataRow> rowList = new List<DataRow>();
-                for (int i = 0; i < rows.Length; i++)
+                if (rows.Length == 0)
                 {
-                    rowList.Add(gridViewRight.GetDataRow(rows[i]));
+                    rowList.Add(gridViewRight.GetFocusedDataRow());
+                }
+                else
+                {
+                    for (int i = 0; i < rows.Length; i++)
+                    {
+                        rowList.Add(gridViewRight.GetDataRow(rows[i]));
+                    }
                 }
 
                 foreach (DataRow row in rowList)

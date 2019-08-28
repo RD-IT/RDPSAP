@@ -148,6 +148,28 @@ namespace PSAP.PSAPCommon
         }
 
         /// <summary>
+        /// 把ResourcesTree内容保存到Excel中
+        /// </summary>
+        public static void SaveResourcesTreeExportToExcel(DevExpress.XtraScheduler.UI.ResourcesTree reTree)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Excel files (*.xlsx)|*.xlsx";
+            dlg.FilterIndex = 0;
+            dlg.RestoreDirectory = true;
+            //dlg.Title = "保存为Excel文件";
+            dlg.Title = new FileHandler().f.tsmiBcwexc.Text;
+
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = dlg.FileName;
+                reTree.ExportToXlsx(fileName);
+                //MessageHandler.ShowMessageBox("导出成功");
+                MessageHandler.ShowMessageBox(new FileHandler().f.tsmiDccg.Text);
+
+            }
+        }
+
+        /// <summary>
         /// 把DataTable内容保存到Excel中
         /// </summary>
         /// <param name="tmpDataTable">数据表</param>

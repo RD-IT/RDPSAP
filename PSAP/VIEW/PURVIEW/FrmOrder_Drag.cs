@@ -82,7 +82,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
@@ -91,25 +92,26 @@ namespace PSAP.VIEW.BSVIEW
                 datePlanDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPlanDate.Checked = false;
 
-                DataTable departmentTable = commonDAO.QueryDepartment(false);
-                DataTable purCategoryTable = commonDAO.QueryPurCategory(false);
-                DataTable projectListTable = commonDAO.QueryProjectList(false);
+                DataTable departmentTable_f = commonDAO.QueryDepartment(false);
+                DataTable purCategoryTable_f = commonDAO.QueryPurCategory(false);
+                DataTable projectListTable_f = commonDAO.QueryProjectList(false);
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
                 lookUpPurCategory.ItemIndex = 0;
                 comboBoxReqState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpPrepared.Properties.DataSource = userInfoTable_t;
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpApprover.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
                 lookUpApprover.ItemIndex = -1;
 
-                repLookUpReqDep.DataSource = departmentTable;
-                repLookUpPurCategory.DataSource = purCategoryTable;
-                repSearchProjectNo.DataSource = projectListTable;
+                repLookUpReqDep.DataSource = departmentTable_f;
+                repLookUpPurCategory.DataSource = purCategoryTable_f;
+                repSearchProjectNo.DataSource = projectListTable_f;
                 repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
                 repLookUpPayTypeNo.DataSource = commonDAO.QueryPayType(false);
@@ -121,14 +123,27 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
 
-                repLookUpPrReqReqDep.DataSource = departmentTable;
-                repLookUpPrReqPurCategory.DataSource = purCategoryTable;
-                repSearchPrReqProjectNo.DataSource = projectListTable;
+                repLookUpPrReqReqDep.DataSource = departmentTable_f;
+                repLookUpPrReqPurCategory.DataSource = purCategoryTable_f;
+                repSearchPrReqProjectNo.DataSource = projectListTable_f;
 
                 if (textCommon.Text == "")
                 {
                     orderDAO.QueryOrderHead(dataSet_Order.Tables[0], "", "", "", "", "", "", "", 0, "", -1, "", true);
                     orderDAO.QueryOrderList(dataSet_Order.Tables[1], "", true);
+                }
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    btnPrReqQuery.Location = new Point(243, 13);
+                    pnlLeftTop.Height = 80;
+
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    gridColuProjectNo.Visible = false;
+                    gridColuStnNo.Visible = false;
+                    colProjectNo.Visible = false;
+                    colStnNo.Visible = false;                    
                 }
             }
             catch (Exception ex)
@@ -186,8 +201,7 @@ namespace PSAP.VIEW.BSVIEW
                     headFocusedLineNo = 0;
                     orderDAO.QueryOrderHead(dataSet_Order.Tables[0], "", "", "", "", "", "", "", 0, "", -1, textCommon.Text, false);
                     SetButtonAndColumnState(false);
-
-
+                    
                     searchLookUpProjectNo.Text = "全部";
 
                     dataSet_PrReq.Tables[0].Clear();
@@ -1047,6 +1061,12 @@ namespace PSAP.VIEW.BSVIEW
                 gridViewOrderHead.SetFocusedRowCellValue("Prepared", SystemInfo.user.EmpName);
                 gridViewOrderHead.SetFocusedRowCellValue("Tax", SystemInfo.OrderList_DefaultTax);
                 gridViewOrderHead.SetFocusedRowCellValue("PlanDate", nowDate.Date.AddDays(7));
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    gridViewPrReqHead.SetFocusedRowCellValue("ProjectNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                    gridViewPrReqHead.SetFocusedRowCellValue("StnNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                }
             }
             catch (Exception ex)
             {

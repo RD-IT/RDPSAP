@@ -29,8 +29,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                repLookUpModuleType.DataSource = wfDAO.QueryModuleType();
-                repositoryItemLookUpEdit1.DataSource = wfDAO.QueryModuleType();
+                DataTable moduleTypeTable = wfDAO.QueryModuleType();
+
+                repLookUpModuleType.DataSource = moduleTypeTable;
+                repositoryItemLookUpEdit1.DataSource = moduleTypeTable;
                 repLookUpLFMText.DataSource = wfDAO.QueryWorkFlowModule(false);
                 btnQuery_Click(null, null);
             }

@@ -42,19 +42,34 @@ namespace PSAP.VIEW.BSVIEW
                 dateReqDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateReqDateEnd.DateTime = nowDate.Date;
 
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
+                DataTable projectTable_t = commonDAO.QueryProjectList(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
-                lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
+                lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                searchLookUpProjectNo.Properties.DataSource = projectTable_t;
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
                 searchLookUpCodeFileName.Text = "全部";
                 comboBoxReqState.SelectedIndex = 0;
 
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
-                repLookUpProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
+                //repLookUpProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repLookUpPurCategory.DataSource = purCateTable_t;
+                repLookUpProjectNo.DataSource = projectTable_t;
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectNo.Visible = false;
+                    colStnNo.Visible = false;
+                }
 
                 gridBottomPrReq.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 

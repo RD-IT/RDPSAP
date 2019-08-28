@@ -1,12 +1,8 @@
-﻿using DevExpress.XtraEditors;
-using DevExpress.XtraGrid;
-using DevExpress.XtraGrid.Views.Base;
+﻿using DevExpress.XtraGrid.Views.Grid;
 using PSAP.DAO.BSDAO;
 using PSAP.DAO.PURDAO;
 using PSAP.PSAPCommon;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
@@ -15,31 +11,25 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace PSAP.VIEW.BSVIEW
 {
-    public partial class FrmOrderList_NoWarehousing_Days : DockContent
+    public partial class FrmOrderArrivalQuery : DockContent
     {
         FrmOrderDAO orderDAO = new FrmOrderDAO();
         FrmCommonDAO commonDAO = new FrmCommonDAO();
-        static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
         /// <summary>
         /// 最后一次查询的SQL
         /// </summary>
         string lastQuerySqlStr = "";
 
-        private Color ZeroBelow = Color.Red;
-        private Color NearZero = Color.Blue;
-
-        public FrmOrderList_NoWarehousing_Days()
+        public FrmOrderArrivalQuery()
         {
             InitializeComponent();
-            PSAP.BLL.BSBLL.BSBLL.language(f);
-            PSAP.BLL.BSBLL.BSBLL.language(this);
         }
 
         /// <summary>
-        /// 窗体加载事件
+        /// 窗体加载事件错误
         /// </summary>
-        private void FrmOrderList_NoWarehousing_Days_Load(object sender, EventArgs e)
+        private void FrmOrderArrivalQuery_Load(object sender, EventArgs e)
         {
             try
             {
@@ -86,71 +76,11 @@ namespace PSAP.VIEW.BSVIEW
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
-                SetGridViewAppearance();
-
                 btnQuery_Click(null, null);
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiCtjzsjcw.Text, ex);
-            }
-        }
-
-        /// <summary>
-        /// 设定列表显示效果
-        /// </summary>
-        private void SetGridViewAppearance()
-        {
-            GridFormatRule gFRule1 = new GridFormatRule();
-            FormatConditionRuleExpression fCondRuleExp1 = new FormatConditionRuleExpression();
-            //gFRule1.Column = colPlanDays;
-            gFRule1.ApplyToRow = true;
-            fCondRuleExp1.Appearance.ForeColor = ZeroBelow;
-            fCondRuleExp1.Expression = "[PlanDays] < 0";
-            gFRule1.Rule = fCondRuleExp1;
-            gridViewOrderList.FormatRules.Add(gFRule1);
-
-            GridFormatRule gFRule2 = new GridFormatRule();
-            FormatConditionRuleExpression fCondRuleExp2 = new FormatConditionRuleExpression();
-            //gFRule2.Column = colPlanDays;
-            gFRule2.ApplyToRow = true;
-            fCondRuleExp2.Appearance.ForeColor = NearZero;
-            fCondRuleExp2.Expression = string.Format("[PlanDays] <= {0} And [PlanDays] >= 0", SystemInfo.OrderNoWarehousing_Days);
-            gFRule2.Rule = fCondRuleExp2;
-            gridViewOrderList.FormatRules.Add(gFRule2);
-        }
-
-        /// <summary>
-        /// 设定当前聚焦行的字体颜色
-        /// </summary>
-        private void gridViewOrderList_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
-        {
-            try
-            {
-                if (gridViewOrderList.GetFocusedDataRow() != null)
-                {
-                    int days = DataTypeConvert.GetInt(gridViewOrderList.GetFocusedDataRow()["PlanDays"]);
-                    if (days < 0)
-                    {
-                        gridViewOrderList.Appearance.FocusedRow.ForeColor = ZeroBelow;
-                        gridViewOrderList.Appearance.HideSelectionRow.ForeColor = ZeroBelow;
-                    }
-                    else if (days <= SystemInfo.OrderNoWarehousing_Days)
-                    {
-                        gridViewOrderList.Appearance.FocusedRow.ForeColor = NearZero;
-                        gridViewOrderList.Appearance.HideSelectionRow.ForeColor = NearZero;
-                    }
-                    else
-                    {
-                        gridViewOrderList.Appearance.FocusedRow.ForeColor = gridViewOrderList.Appearance.FocusedCell.ForeColor;
-                        gridViewOrderList.Appearance.HideSelectionRow.ForeColor = gridViewOrderList.Appearance.FocusedCell.ForeColor;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.HandleException(this.Text + "--设定当前聚焦行的字体颜色错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
             }
         }
 
@@ -174,7 +104,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 设定列表显示信息
         /// </summary>
-        private void gridViewOrderList_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+        private void gridViewOrderList_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
             if (e.Column.FieldName == "ReqState")
             {
@@ -185,7 +115,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 确定行号
         /// </summary>
-        private void gridViewOrderList_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
+        private void gridViewOrderList_CustomDrawRowIndicator(object sender, RowIndicatorCustomDrawEventArgs e)
         {
             ControlHandler.GridView_CustomDrawRowIndicator(e);
         }
@@ -206,6 +136,42 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 设置Grid单元格合并
+        /// </summary>
+        private void gridViewOrderList_CellMerge(object sender, CellMergeEventArgs e)
+        {
+            try
+            {
+                GridView view = sender as GridView;
+                string firstColumnFieldName = "AutoId";
+
+                switch (e.Column.FieldName)
+                {
+                    case "DelayWarehousing":
+                    case "WarehouseWarrantDate":
+                    case "WarehouseWarrant":
+                    case "WWQty":
+
+                        break;
+                    default:
+                        {
+                            string valueFirstColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, firstColumnFieldName));
+                            string valueFirstColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, firstColumnFieldName));
+                            string valueOtherColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, e.Column.FieldName));
+                            string valueOtherColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, e.Column.FieldName));
+                            e.Merge = valueFirstColumn1 == valueFirstColumn2 && valueOtherColumn1 == valueOtherColumn2;
+                            e.Handled = true;
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--设置Grid单元格合并错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 查询按钮事件
         /// </summary>
         private void btnQuery_Click(object sender, EventArgs e)
@@ -217,7 +183,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (dateOrderDateBegin.EditValue == null || dateOrderDateEnd.EditValue == null)
                 {
-                    MessageHandler.ShowMessageBox(tsmiDgrqbnwk.Text);// ("订购日期不能为空，请设置后重新进行查询。");
+                    MessageHandler.ShowMessageBox("订购日期不能为空，请设置后重新进行查询。");
                     if (dateOrderDateBegin.EditValue == null)
                         dateOrderDateBegin.Focus();
                     else
@@ -233,7 +199,7 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     if (datePlanDateBegin.EditValue == null || datePlanDateEnd.EditValue == null)
                     {
-                        MessageHandler.ShowMessageBox(tsmiJhdhribnwk.Text);// ("计划到货日期不能为空，请设置后重新进行查询。");
+                        MessageHandler.ShowMessageBox("计划到货日期不能为空，请设置后重新进行查询。");
                         if (datePlanDateBegin.EditValue == null)
                             datePlanDateBegin.Focus();
                         else
@@ -251,19 +217,21 @@ namespace PSAP.VIEW.BSVIEW
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
                 string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
                 string commonStr = textCommon.Text.Trim();
+                int delayWarehousingInt = -1;
+                if (checkDelayWarehousing.CheckState == CheckState.Checked)
+                    delayWarehousingInt = 1;
+                else if (checkDelayWarehousing.CheckState == CheckState.Unchecked)
+                    delayWarehousingInt = 0;
                 dataSet_Order.Tables[0].Clear();
 
-                string querySqlStr = orderDAO.Query_OrderList_NoWarehousing_SQL(orderDateBeginStr, orderDateEndStr, planDateBeginStr, planDateEndStr, reqDepStr, purCategoryStr, bussinessBaseNoStr, reqStateInt, projectNoStr, codeFileNameStr, checkOverplus.Checked, commonStr);
+                string querySqlStr = orderDAO.Query_OrderList_ArrivalQuery_SQL(orderDateBeginStr, orderDateEndStr, planDateBeginStr, planDateEndStr, reqDepStr, purCategoryStr, bussinessBaseNoStr, reqStateInt, projectNoStr, codeFileNameStr, commonStr, delayWarehousingInt);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomOrderHead.QueryGridData(ref dataSet_Order, "OrderList", querySqlStr, countSqlStr, true);
-
-                gridViewOrderList_FocusedRowChanged(null, null);
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiCxansjcw.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
@@ -285,15 +253,14 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--查询结果存为Excel错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiCxjgcwexcelcw.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--查询结果存为Excel错误。", ex);
             }
         }
 
         /// <summary>
         /// 双击查询明细
         /// </summary>
-        private void gridViewOrderList_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
+        private void gridViewOrderList_RowClick(object sender, RowClickEventArgs e)
         {
             try
             {
@@ -308,11 +275,9 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--双击查询明细错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiSjcxmxcw.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--双击查询明细错误。", ex);
             }
         }
-
 
     }
 }

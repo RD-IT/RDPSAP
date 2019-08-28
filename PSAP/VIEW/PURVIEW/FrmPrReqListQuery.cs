@@ -41,9 +41,12 @@ namespace PSAP.VIEW.BSVIEW
                 dateReqDateEnd.DateTime = nowDate.Date;
                 checkReqDate.Checked = false;
 
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
-                lookUpPurCategory.Properties.DataSource = commonDAO.QueryPurCategory(true);
+                lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
                 comboBoxReqState.SelectedIndex = 0;
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
@@ -51,8 +54,18 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
                 searchLookUpCodeFileName.Text = "全部";
 
-                repItemLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repItemLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
+                //repItemLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repItemLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
+                repItemLookUpReqDep.DataSource = departmentTable_t;
+                repItemLookUpPurCategory.DataSource = purCateTable_t;
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectNo.Visible = false;
+                    colStnNo.Visible = false;
+                }
 
                 gridBottomPrReq.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 

@@ -42,17 +42,32 @@ namespace PSAP.VIEW.BSVIEW
                 dateIMDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateIMDateEnd.DateTime = nowDate.Date;
 
-                lookUpInRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpInRepertoryNo.ItemIndex = 0;
-                lookUpOutRpertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpOutRpertoryNo.ItemIndex = 0;
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
-                lookUpReqDep.ItemIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
-                repLookUpInRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                lookUpInRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpInRepertoryId.ItemIndex = 0;
+                lookUpOutRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpOutRepertoryId.ItemIndex = 0;
+                SearchInLocationId.Properties.DataSource = locationTable_t;
+                SearchInLocationId.EditValue = 0;
+                SearchOutLocationId.Properties.DataSource = locationTable_t;
+                SearchOutLocationId.EditValue = 0;
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
+                lookUpReqDep.ItemIndex = 0;
+                lookUpCreator.Properties.DataSource = userInfoTable_t;
+                lookUpCreator.EditValue = SystemInfo.user.AutoId;
+
+                //repLookUpInRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
+                repLookUpInRepertoryId.DataSource = repertoryTable_t;
+                repLookUpLocationId.DataSource = locationTable_t;
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repLookUpCreator.DataSource = userInfoTable_t;
 
                 gridBottomIM.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -110,14 +125,16 @@ namespace PSAP.VIEW.BSVIEW
                 string orderDateBeginStr = dateIMDateBegin.DateTime.ToString("yyyy-MM-dd");
                 string orderDateEndStr = dateIMDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
-                string inRepertoryNoStr = lookUpInRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpInRepertoryNo.EditValue) : "";
-                string outRepertoryNoStr = lookUpOutRpertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpOutRpertoryNo.EditValue) : "";
+                int inRepertoryIdInt = lookUpInRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpInRepertoryId.EditValue) : 0;
+                int outRepertoryIdInt = lookUpOutRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpOutRepertoryId.EditValue) : 0;
+                int inLocationIdInt = DataTypeConvert.GetInt(SearchInLocationId.EditValue);
+                int outLcationIdInt = DataTypeConvert.GetInt(SearchOutLocationId.EditValue);
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IM.Tables[0].Clear();
-                string querySqlStr = imDAO.QueryInventoryMoveHead_SQL(orderDateBeginStr, orderDateEndStr, inRepertoryNoStr, outRepertoryNoStr, reqDepStr, empNameStr, commonStr, false);
+                string querySqlStr = imDAO.QueryInventoryMoveHead_SQL(orderDateBeginStr, orderDateEndStr, inRepertoryIdInt, outRepertoryIdInt, inLocationIdInt, outLcationIdInt, reqDepStr, creatorInt, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomIM.QueryGridData(ref dataSet_IM, "IMHead", querySqlStr, countSqlStr, true);

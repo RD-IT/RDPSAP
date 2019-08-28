@@ -1,5 +1,5 @@
-﻿using DevExpress.XtraEditors;
-using DevExpress.XtraGrid.Views.Base;
+﻿using DevExpress.XtraGrid.Views.Base;
+using PSAP.DAO.BSDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ namespace PSAP.VIEW.BSVIEW
     public partial class FrmRepertoryInfo : DockContent
     {
         FrmBaseEdit editForm = null;
+        FrmCommonDAO commonDAO = new FrmCommonDAO();
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
             }
             catch (Exception ex)
             {
@@ -108,6 +109,8 @@ namespace PSAP.VIEW.BSVIEW
         private void TableRepertoryInfo_TableNewRow(object sender, DataTableNewRowEventArgs e)
         {
             e.Row["RepertoryType"] = 1;
+            e.Row["Creator"] = SystemInfo.user.AutoId;
+            e.Row["CreatorIp"] = SystemInfo.HostIpAddress;
         }
 
     }

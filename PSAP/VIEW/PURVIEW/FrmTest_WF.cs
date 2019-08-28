@@ -42,8 +42,16 @@ namespace PSAP.VIEW.BSVIEW
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            FrmProjectPlanTask fomr = new FrmProjectPlanTask();
-            fomr.ShowDialog();
+            FrmProjectPlanTask fomr = new FrmProjectPlanTask();            
+            try
+            {
+                
+                fomr.ShowDialog();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

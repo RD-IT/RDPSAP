@@ -34,7 +34,24 @@ namespace PSAP.PSAPCommon
         {
             //return XtraMessageBox.Show(messageText, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             return XtraMessageBox.Show(messageText, f.tsmiTs.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
 
+        /// <summary>
+        /// 弹出提示消息框，带Yes和No两个按钮
+        /// </summary>
+        /// <param name="messageText">消息内容</param>
+        public static DialogResult ShowMessageBox_YesNo(string messageText, int defaultButtonIndex)
+        {
+            if (defaultButtonIndex == 1)
+            {
+                //return XtraMessageBox.Show(messageText, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                return XtraMessageBox.Show(messageText, f.tsmiTs.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+            }
+            else
+            {
+                //return XtraMessageBox.Show(messageText, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                return XtraMessageBox.Show(messageText, f.tsmiTs.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            }
         }
 
         /// <summary>

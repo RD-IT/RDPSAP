@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraGrid.Views.Base;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using PSAP.DAO.BSDAO;
 using PSAP.DAO.INVDAO;
@@ -8,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -42,6 +45,11 @@ namespace PSAP.VIEW.BSVIEW
         ///// </summary>
         //GridHitInfo GriddownHitInfo = null;
 
+        /// <summary>
+        /// 控件锁
+        /// </summary>
+        bool isLockControl = false;
+
         static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
         #endregion
@@ -64,28 +72,34 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd,checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateWRDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWRDateEnd.DateTime = nowDate.Date;
 
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
+
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
+                lookUpRepertoryId.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
+                SearchLocationId.EditValue = 0;
                 lookUpWarehouseReceiptTypeNo.Properties.DataSource = wrDAO.QueryWarehouseReceiptType(true);
                 lookUpWarehouseReceiptTypeNo.ItemIndex = 0;
                 comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpPrepared.Properties.DataSource = userInfoTable_t;
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-                lookUpApprover.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
                 lookUpApprover.ItemIndex = -1;
                 lookUpManufactureNo.Properties.DataSource = wrDAO.QueryManufactureInfo(true);
                 lookUpManufactureNo.ItemIndex = 0;
 
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repLookUpRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
+                repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                repSearchRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 repLookUpWRTypeNo.DataSource = wrDAO.QueryWarehouseReceiptType(false);
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
                 repLookUpManufactureNo.DataSource = wrDAO.QueryManufactureInfo(false);
@@ -96,8 +110,19 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (textCommon.Text == "")
                 {
-                    wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], "", "", "", "", "", "", 0, "", -1, "", true);
+                    wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], "", "", "", 0, 0, "", "", 0, "", -1, "", true);
                     wrDAO.QueryWarehouseReceiptList(dataSet_WR.Tables[1], "", true);
+                }
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    colProjectName.Visible = false;
+                    colStnNo.Visible = false;
+                }
+
+                if (SystemInfo.DisableShelfInfo)
+                {
+                    colShelfId.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -120,7 +145,8 @@ namespace PSAP.VIEW.BSVIEW
                     queryWRHeadNo = "";
 
                     lookUpReqDep.ItemIndex = 0;
-                    lookUpRepertoryNo.ItemIndex = 0;
+                    lookUpRepertoryId.ItemIndex = 0;
+                    SearchLocationId.EditValue = 0;
                     lookUpWarehouseReceiptTypeNo.ItemIndex = 0;
                     comboBoxWarehouseState.SelectedIndex = 0;
                     lookUpPrepared.ItemIndex = 0;
@@ -128,7 +154,7 @@ namespace PSAP.VIEW.BSVIEW
 
                     dataSet_WR.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], "", "", "", "", "", "", 0, "", -1, textCommon.Text, false);
+                    wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], "", "", "", 0, 0,"", "", 0, "", -1, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_WR.Tables[0].Rows.Count > 0)
@@ -189,7 +215,8 @@ namespace PSAP.VIEW.BSVIEW
                 string wrDateEndStr = dateWRDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpRepertoryNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string wrTypeNoStr = lookUpWarehouseReceiptTypeNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpWarehouseReceiptTypeNo.EditValue) : "";
                 string manufactureNoStr = lookUpManufactureNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpManufactureNo.EditValue) : "";
 
@@ -205,7 +232,7 @@ namespace PSAP.VIEW.BSVIEW
                 dataSet_WR.Tables[0].Rows.Clear();
                 dataSet_WR.Tables[1].Rows.Clear();
                 headFocusedLineNo = 0;
-                wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], wrDateBeginStr, wrDateEndStr, reqDepStr, repertoryNoStr, wrTypeNoStr, manufactureNoStr, warehouseStateInt, empNameStr, approverInt, commonStr, false);
+                wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], wrDateBeginStr, wrDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, wrTypeNoStr, manufactureNoStr, warehouseStateInt, empNameStr, approverInt, commonStr, false);
 
                 SetButtonAndColumnState(false);
                 checkAll.Checked = false;
@@ -347,7 +374,7 @@ namespace PSAP.VIEW.BSVIEW
                 ClearHeadGridAllSelect();
 
                 gridViewWRHead.AddNewRow();
-                FocusedHeadView("RepertoryNo");
+                FocusedHeadView("RepertoryId");
 
                 dataSet_WR.Tables[1].Clear();
                 gridViewWRList.AddNewRow();
@@ -385,7 +412,7 @@ namespace PSAP.VIEW.BSVIEW
                     ClearHeadGridAllSelect();
 
                     SetButtonAndColumnState(true);
-                    FocusedHeadView("RepertoryNo");
+                    FocusedHeadView("RepertoryId");
                 }
                 else
                 {
@@ -396,10 +423,16 @@ namespace PSAP.VIEW.BSVIEW
                         FocusedHeadView("ReqDep");
                         return;
                     }
-                    if (DataTypeConvert.GetString(headRow["RepertoryNo"]) == "")
+                    if (DataTypeConvert.GetString(headRow["RepertoryId"]) == "")
                     {
                         MessageHandler.ShowMessageBox(tsmiCkckbnwkbc.Text);// ("出库仓库不能为空，请填写后再进行保存。");
-                        FocusedHeadView("RepertoryNo");
+                        FocusedHeadView("RepertoryId");
+                        return;
+                    }
+                    if (DataTypeConvert.GetString(headRow["RepertoryLocationId"]) == "")
+                    {
+                        MessageHandler.ShowMessageBox("出库仓位不能为空，请填写后再进行保存。");
+                        FocusedHeadView("RepertoryLocationId");
                         return;
                     }
                     if (DataTypeConvert.GetString(headRow["WarehouseReceiptTypeNo"]) == "")
@@ -779,7 +812,17 @@ namespace PSAP.VIEW.BSVIEW
                         gridViewWRList.SetFocusedRowCellValue("ProjectName", gridViewWRList.GetDataRow(1)["ProjectName"]);
                     else
                         gridViewWRList.SetFocusedRowCellValue("ProjectName", gridViewWRList.GetDataRow(0)["ProjectName"]);
+                }
 
+                if (SystemInfo.DisableProjectNo)
+                {
+                    gridViewWRList.SetFocusedRowCellValue("ProjectName", SystemInfo.DisableProjectNo_Default_ProjectName);
+                    gridViewWRList.SetFocusedRowCellValue("StnNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                }
+
+                if (SystemInfo.DisableShelfInfo)
+                {
+                    gridViewWRList.SetFocusedRowCellValue("ShelfId", SystemInfo.DisableShelfInfo_Default_ShelfId);
                 }
             }
             catch (Exception ex)
@@ -847,6 +890,76 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 主表单元格值变化进行的操作
+        /// </summary>
+        private void gridViewWRHead_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                if (isLockControl)
+                    return;
+                switch (e.Column.FieldName)
+                {
+                    case "RepertoryId":
+                        BindingLocationInfo(e.RowHandle);
+                        break;
+                    case "RepertoryLocationId":
+                        isLockControl = true;
+
+                        BindingShelfInfo(e.RowHandle);
+
+                        isLockControl = false;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--主表单元格值变化进行的操作错误。", ex);
+                if (isLockControl)
+                    isLockControl = false;
+            }
+        }
+
+        /// <summary>
+        /// 绑定仓位数据源
+        /// </summary>
+        private void BindingLocationInfo(int rowHandleInt)
+        {
+            int repertoryIdInt = DataTypeConvert.GetInt(gridViewWRHead.GetDataRow(rowHandleInt)["RepertoryId"]);
+            if (repertoryIdInt == 0)
+            {
+                gridViewWRHead.SetRowCellValue(rowHandleInt, "RepertoryId", null);
+                gridViewWRHead.SetRowCellValue(rowHandleInt, "RepertoryLocationId", null);
+            }
+            else
+            {
+                gridViewWRHead.SetRowCellValue(rowHandleInt, "RepertoryLocationId", null);
+            }
+        }
+
+        /// <summary>
+        /// 绑定货架数据源
+        /// </summary>
+        private void BindingShelfInfo(int rowHandleInt)
+        {
+            int repertoryLocationIdInt = DataTypeConvert.GetInt(gridViewWRHead.GetDataRow(rowHandleInt)["RepertoryLocationId"]);
+            if (repertoryLocationIdInt == 0)
+            {
+                gridViewWRHead.SetRowCellValue(rowHandleInt, "RepertoryLocationId", null);
+            }
+            else
+            {
+                if (!SystemInfo.DisableShelfInfo)
+                {
+                    for (int i = 0; i < gridViewWRList.RowCount; i++)
+                    {
+                        gridViewWRList.SetRowCellValue(i, "ShelfId", null);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 子表单元格值变化进行的操作
         /// </summary>
         private void gridViewWRList_CellValueChanged(object sender, CellValueChangedEventArgs e)
@@ -898,6 +1011,51 @@ namespace PSAP.VIEW.BSVIEW
                 //ExceptionHandler.HandleException(this.Text + "--子表单元格值变化进行的操作错误。", ex);
                 ExceptionHandler.HandleException(this.Text + "--" + f.tsmiZbdygzbhjxdczcw.Text, ex);
             }
+        }
+
+        /// <summary>
+        /// 仓位弹出下拉列表设定过滤
+        /// </summary>
+        private void repSearchRepertoryLocationId_Popup(object sender, EventArgs e)
+        {
+            try
+            {
+                FilterLookup(sender, "RepertoryId", "RepertoryId");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--仓位弹出下拉列表设定过滤错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 货架号弹出下拉列表设定过滤
+        /// </summary>
+        private void repSearchShelfId_Popup(object sender, EventArgs e)
+        {
+            try
+            {
+                FilterLookup(sender, "RepertoryLocationId", "RepertoryLocationId");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--货架号弹出下拉列表设定过滤错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 设定过滤条件
+        /// </summary>
+        private void FilterLookup(object sender, string fieldNameStr, string gridColumnNameStr)
+        {
+            SearchLookUpEdit edit = sender as SearchLookUpEdit;
+            GridView gridView = edit.Properties.View as GridView;
+
+            gridView.ActiveFilterString = string.Format("{0} = {1}", fieldNameStr, DataTypeConvert.GetInt(gridViewWRHead.GetFocusedDataRow()[gridColumnNameStr]));
+            gridView.OptionsView.ShowFilterPanelMode = ShowFilterPanelMode.Never;
+
+            MethodInfo mi = gridView.GetType().GetMethod("ApplyColumnsFilterEx", BindingFlags.NonPublic | BindingFlags.Instance);
+            mi.Invoke(gridView, null);
         }
 
         /// <summary>
@@ -1007,7 +1165,8 @@ namespace PSAP.VIEW.BSVIEW
                 colWarehouseReceiptDate.OptionsColumn.TabStop = ret;
             }
 
-            colRepertoryNo.OptionsColumn.AllowEdit = ret;
+            colRepertoryId.OptionsColumn.AllowEdit = ret;
+            colRepertoryLocationId.OptionsColumn.AllowEdit = ret;
             colWarehouseReceiptTypeNo.OptionsColumn.AllowEdit = ret;
             colApprovalType.OptionsColumn.AllowEdit = ret;
             colManufactureNo.OptionsColumn.AllowEdit = ret;
@@ -1167,5 +1326,7 @@ namespace PSAP.VIEW.BSVIEW
             dataSet_WR.Tables[0].AcceptChanges();
             onlySelectColChangeRowState = false;
         }
+
+        
     }
 }

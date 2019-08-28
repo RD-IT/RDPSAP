@@ -129,6 +129,7 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDgrqbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiJhdhrqbnwk = new System.Windows.Forms.ToolStripMenuItem();
+            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinprReqListAutoId.Properties)).BeginInit();
@@ -201,7 +202,7 @@
             this.pnltop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1154, 78);
+            this.pnltop.Size = new System.Drawing.Size(1218, 78);
             this.pnltop.TabIndex = 2;
             // 
             // spinprReqListAutoId
@@ -553,7 +554,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1154, 287);
+            this.pnlMiddle.Size = new System.Drawing.Size(1218, 287);
             this.pnlMiddle.TabIndex = 3;
             // 
             // gridControlPrReqHead
@@ -572,7 +573,7 @@
             this.repCheckSelect,
             this.repLookUpApprovalType,
             this.repLookUpPayTypeNo});
-            this.gridControlPrReqHead.Size = new System.Drawing.Size(1150, 283);
+            this.gridControlPrReqHead.Size = new System.Drawing.Size(1214, 283);
             this.gridControlPrReqHead.TabIndex = 4;
             this.gridControlPrReqHead.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPrReqHead});
@@ -769,6 +770,7 @@
             this.colPlanDate,
             this.colPrReqRemark,
             this.colPrepared,
+            this.colModifier,
             this.colClosed});
             this.gridViewPrReqHead.GridControl = this.gridControlPrReqHead;
             this.gridViewPrReqHead.IndicatorWidth = 40;
@@ -1107,7 +1109,8 @@
             this.colClosed.FieldName = "Closed";
             this.colClosed.Name = "colClosed";
             this.colClosed.Visible = true;
-            this.colClosed.VisibleIndex = 14;
+            this.colClosed.VisibleIndex = 15;
+            this.colClosed.Width = 70;
             // 
             // repCheckSelect
             // 
@@ -1122,7 +1125,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 365);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1154, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1218, 58);
             this.pnlBottom.TabIndex = 4;
             // 
             // gridBottomOrderHead
@@ -1132,7 +1135,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_Order;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1150, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1214, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // cms
@@ -1155,10 +1158,20 @@
             this.tsmiJhdhrqbnwk.Size = new System.Drawing.Size(340, 22);
             this.tsmiJhdhrqbnwk.Text = "计划到货日期不能为空，请设置后重新进行查询。";
             // 
+            // colModifier
+            // 
+            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifier.FieldName = "Modifier";
+            this.colModifier.Name = "colModifier";
+            this.colModifier.Visible = true;
+            this.colModifier.VisibleIndex = 14;
+            this.colModifier.Width = 70;
+            // 
             // FrmOrderQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1154, 423);
+            this.ClientSize = new System.Drawing.Size(1218, 423);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);
@@ -1314,5 +1327,6 @@
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiDgrqbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiJhdhrqbnwk;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifier;
     }
 }

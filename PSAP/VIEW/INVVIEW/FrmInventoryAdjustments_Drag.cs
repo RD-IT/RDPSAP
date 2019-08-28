@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraGrid.Views.Base;
+﻿using DevExpress.XtraEditors;
+using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using PSAP.DAO.BSDAO;
@@ -9,8 +10,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -48,7 +49,13 @@ namespace PSAP.VIEW.BSVIEW
         /// 拖动区域的信息
         /// </summary>
         GridHitInfo GriddownHitInfo = null;
-            static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
+
+        /// <summary>
+        /// 控件锁
+        /// </summary>
+        bool isLockControl = false;
+
+        static PSAP.VIEW.BSVIEW.FrmLanguageText f = new VIEW.BSVIEW.FrmLanguageText();
 
         #endregion
 
@@ -73,44 +80,72 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
+                ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateIADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateIADateEnd.DateTime = nowDate.Date;
 
-                DataTable repertoryTable = commonDAO.QueryRepertoryInfo(false);
-                DataTable repertoryAddAllTable = commonDAO.QueryRepertoryInfo(true);
-                DataTable projectListAddAllTable = commonDAO.QueryProjectList(true);
+                DataTable repertoryTable_f = commonDAO.QueryRepertoryInfo(false);
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable projectListTable_t = commonDAO.QueryProjectList(true);
+                DataTable locationTable_f = commonDAO.QueryRepertoryLocationInfo(false);
+                DataTable shelfInfoTable_f = commonDAO.QueryShelfInfo(false);
 
-                lookUpAdjustmentsRepertoryNo.Properties.DataSource = repertoryAddAllTable;
-                lookUpAdjustmentsRepertoryNo.ItemIndex = 0;
+                lookUpAdjRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpAdjRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
+                SearchLocationId.EditValue = 0;
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-                searchAdjustmentsProjectNo.Properties.DataSource = projectListAddAllTable;
-                searchAdjustmentsProjectNo.Text = "全部";
+                lookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpCreator.EditValue = SystemInfo.user.AutoId;
+                searchProjectNo.Properties.DataSource = projectListTable_t;
+                searchProjectNo.Text = "全部";
 
-                repLookUpInRepertoryNo.DataSource = repertoryTable;
-                repSearchAdjustmentsProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                repLookUpInRepertoryId.DataSource = repertoryTable_f;
+                repSearchLocationId.DataSource = locationTable_f;
+                repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
                 repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
-                repSearchOutShelfNo.DataSource = commonDAO.QueryShelfInfo(false);
+                repSearchShelfId.DataSource = shelfInfoTable_f;
 
-                lookUpRepertoryNo.Properties.DataSource = repertoryAddAllTable;
-                lookUpRepertoryNo.ItemIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = projectListAddAllTable;
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                searchLookUpProjectNo.Properties.DataSource = projectListTable_t;
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
                 searchLookUpCodeFileName.Text = "全部";
 
-                repLookUpRepertoryNo.DataSource = repertoryTable;
+                repLookUpRepertoryId.DataSource = repertoryTable_f;
+                repLookUpLocationId.DataSource = locationTable_f;
+                repLookUpShelfId.DataSource = shelfInfoTable_f;
 
                 if (textCommon.Text == "")
                 {
-                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", "", "", "", "", "", true);
+                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", 0,0, "", "", 0, "", true);
                     iaDAO.QueryInventoryAdjustmentsList(dataSet_IA.Tables[1], "", true);
+                }
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    btnWNowInfoQuery.Location = new Point(245, 43);
+                    pnlLeftTop.Height = 80;
+
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectName.Visible = false;
+                    labAdjProjectNo.Visible = false;
+                    searchProjectNo.Visible = false;
+                    colProjectNo.Visible = false;
+                }
+
+                if (SystemInfo.DisableShelfInfo)
+                {
+                    colShelfId.Visible = false;
+                    colAdjShelfId.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -131,14 +166,15 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     textCommon.Text = queryIAHeadNo;
                     queryIAHeadNo = "";
-                    lookUpAdjustmentsRepertoryNo.ItemIndex = 0;
+                    lookUpAdjRepertoryId.ItemIndex = 0;
+                    SearchLocationId.EditValue = 0;
                     lookUpReqDep.ItemIndex = 0;
-                    lookUpPrepared.ItemIndex = 0;
-                    searchAdjustmentsProjectNo.Text = "全部";
+                    lookUpCreator.ItemIndex = 0;
+                    searchProjectNo.Text = "全部";
 
                     dataSet_IA.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", "", "", "", "", textCommon.Text, false);
+                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", 0, 0,"", "", 0, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_IA.Tables[0].Rows.Count > 0)
@@ -186,16 +222,17 @@ namespace PSAP.VIEW.BSVIEW
                 string orderDateBeginStr = dateIADateBegin.DateTime.ToString("yyyy-MM-dd");
                 string orderDateEndStr = dateIADateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
-                string repertoryNoStr = lookUpAdjustmentsRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpAdjustmentsRepertoryNo.EditValue) : "";
-                string projectNoStr = searchAdjustmentsProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchAdjustmentsProjectNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
+                string projectNoStr = searchProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchProjectNo.EditValue) : "";
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IA.Tables[0].Clear();
                 dataSet_IA.Tables[1].Clear();
                 headFocusedLineNo = 0;
-                iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], orderDateBeginStr, orderDateEndStr, repertoryNoStr, projectNoStr, reqDepStr, empNameStr, commonStr, false);
+                iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], orderDateBeginStr, orderDateEndStr, repertoryIdInt, locationIdInt, projectNoStr, reqDepStr, creatorInt, commonStr, false);
 
                 SetButtonAndColumnState(false);
                 checkAll.Checked = false;
@@ -317,7 +354,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 //gridViewPrReqHead.PostEditor();
                 gridViewIAHead.AddNewRow();
-                FocusedHeadView("AdjustmentsRepertoryNo");
+                FocusedHeadView("RepertoryId");
 
                 dataSet_IA.Tables[1].Clear();
                 gridViewIAList.AddNewRow();
@@ -355,23 +392,29 @@ namespace PSAP.VIEW.BSVIEW
                     ClearHeadGridAllSelect();
 
                     SetButtonAndColumnState(true);
-                    FocusedHeadView("AdjustmentsRepertoryNo");
+                    FocusedHeadView("RepertoryId");
                 }
                 else
                 {
                     DataRow headRow = gridViewIAHead.GetFocusedDataRow();
-                    string adjRepertoryNoStr = DataTypeConvert.GetString(headRow["AdjustmentsRepertoryNo"]);
-                    string adjProjectNoStr = DataTypeConvert.GetString(headRow["AdjustmentsProjectNo"]);
-                    if (adjRepertoryNoStr == "")
+                    int repertoryIdInt = DataTypeConvert.GetInt(headRow["RepertoryId"]);
+                    string projectNoStr = DataTypeConvert.GetString(headRow["ProjectNo"]);
+                    if (repertoryIdInt == 0)
                     {
                         MessageHandler.ShowMessageBox(tsmiCkbnwkbc.Text );// ("仓库不能为空，请填写后再进行保存。");
-                        FocusedHeadView("AdjustmentsRepertoryNo");
+                        FocusedHeadView("RepertoryId");
                         return;
                     }
-                    if (adjProjectNoStr == "")
+                    if (DataTypeConvert.GetString(headRow["LocationId"]) == "")
+                    {
+                        MessageHandler.ShowMessageBox("仓位不能为空，请填写后再进行保存。");
+                        FocusedHeadView("LocationId");
+                        return;
+                    }
+                    if (projectNoStr == "")
                     {
                         MessageHandler.ShowMessageBox(tsmiXmhbnwkbc.Text );// ("项目号不能为空，请填写后再进行保存。");
-                        FocusedHeadView("AdjustmentsProjectNo");
+                        FocusedHeadView("ProjectNo");
                         return;
                     }
                     if (DataTypeConvert.GetString(headRow["ReqDep"]) == "")
@@ -395,10 +438,10 @@ namespace PSAP.VIEW.BSVIEW
                             FocusedListView(true, "Qty", i);
                             return;
                         }
-                        if (DataTypeConvert.GetString(listRow["AdjustmentsShelfNo"]) == "")
+                        if (DataTypeConvert.GetString(listRow["ShelfId"]) == "")
                         {
                             MessageHandler.ShowMessageBox(tsmiTzhjhbnwkbc.Text );// ("调整货架号不能为空，请填写后再进行保存。");
-                            FocusedListView(true, "AdjustmentsShelfNo", i);
+                            FocusedListView(true, "ShelfId", i);
                             return;
                         }                        
                     }
@@ -572,7 +615,12 @@ namespace PSAP.VIEW.BSVIEW
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 gridViewIAHead.SetFocusedRowCellValue("InventoryAdjustmentsDate", nowDate);
                 gridViewIAHead.SetFocusedRowCellValue("ReqDep", SystemInfo.user.DepartmentNo);
-                gridViewIAHead.SetFocusedRowCellValue("Prepared", SystemInfo.user.EmpName);
+                gridViewIAHead.SetFocusedRowCellValue("Creator", SystemInfo.user.AutoId);
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    gridViewIAHead.SetFocusedRowCellValue("ProjectNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
+                }
             }
             catch (Exception ex)
             {
@@ -589,6 +637,11 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 gridViewIAList.SetFocusedRowCellValue("InventoryAdjustmentsNo", DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"]));
+
+                if (SystemInfo.DisableShelfInfo)
+                {
+                    gridViewIAList.SetFocusedRowCellValue("ShelfId", SystemInfo.DisableShelfInfo_Default_ShelfId);
+                }
             }
             catch (Exception ex)
             {
@@ -660,6 +713,76 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 主表单元格值变化进行的操作
+        /// </summary>
+        private void gridViewIAHead_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                if (isLockControl)
+                    return;
+                switch (e.Column.FieldName)
+                {
+                    case "RepertoryId":
+                        BindingLocationInfo(e.RowHandle);
+                        break;
+                    case "LocationId":
+                        isLockControl = true;
+
+                        BindingShelfInfo(e.RowHandle);
+
+                        isLockControl = false;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--主表单元格值变化进行的操作错误。", ex);
+                if (isLockControl)
+                    isLockControl = false;
+            }
+        }
+
+        /// <summary>
+        /// 绑定仓位数据源
+        /// </summary>
+        private void BindingLocationInfo(int rowHandleInt)
+        {
+            int repertoryIdInt = DataTypeConvert.GetInt(gridViewIAHead.GetDataRow(rowHandleInt)["RepertoryId"]);
+            if (repertoryIdInt == 0)
+            {
+                gridViewIAHead.SetRowCellValue(rowHandleInt, "RepertoryId", null);
+                gridViewIAHead.SetRowCellValue(rowHandleInt, "LocationId", null);
+            }
+            else
+            {
+                gridViewIAHead.SetRowCellValue(rowHandleInt, "LocationId", null);
+            }
+        }
+
+        /// <summary>
+        /// 绑定货架数据源
+        /// </summary>
+        private void BindingShelfInfo(int rowHandleInt)
+        {
+            int repertoryLocationIdInt = DataTypeConvert.GetInt(gridViewIAHead.GetDataRow(rowHandleInt)["LocationId"]);
+            if (repertoryLocationIdInt == 0)
+            {
+                gridViewIAHead.SetRowCellValue(rowHandleInt, "LocationId", null);
+            }
+            else
+            {
+                if (!SystemInfo.DisableShelfInfo)
+                {
+                    for (int i = 0; i < gridViewIAList.RowCount; i++)
+                    {
+                        gridViewIAList.SetRowCellValue(i, "ShelfId", null);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 子表单元格值变化进行的操作
         /// </summary>
         private void gridViewIAList_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
@@ -690,6 +813,51 @@ namespace PSAP.VIEW.BSVIEW
                 //ExceptionHandler.HandleException(this.Text + "--子表单元格值变化进行的操作错误。", ex);
                 ExceptionHandler.HandleException(this.Text + "--"+f.tsmiZbdygzbhjxdczcw.Text , ex);
             }
+        }
+
+        /// <summary>
+        /// 仓位弹出下拉列表设定过滤
+        /// </summary>
+        private void repSearchLocationId_Popup(object sender, EventArgs e)
+        {
+            try
+            {
+                FilterLookup(sender, "RepertoryId", "RepertoryId");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--仓位弹出下拉列表设定过滤错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 货架号弹出下拉列表设定过滤
+        /// </summary>
+        private void repSearchShelfId_Popup(object sender, EventArgs e)
+        {
+            try
+            {
+                FilterLookup(sender, "RepertoryLocationId", "LocationId");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--货架号弹出下拉列表设定过滤错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 设定过滤条件
+        /// </summary>
+        private void FilterLookup(object sender, string fieldNameStr, string gridColumnNameStr)
+        {
+            SearchLookUpEdit edit = sender as SearchLookUpEdit;
+            GridView gridView = edit.Properties.View as GridView;
+
+            gridView.ActiveFilterString = string.Format("{0} = {1}", fieldNameStr, DataTypeConvert.GetInt(gridViewIAHead.GetFocusedDataRow()[gridColumnNameStr]));
+            gridView.OptionsView.ShowFilterPanelMode = ShowFilterPanelMode.Never;
+
+            MethodInfo mi = gridView.GetType().GetMethod("ApplyColumnsFilterEx", BindingFlags.NonPublic | BindingFlags.Instance);
+            mi.Invoke(gridView, null);
         }
 
         /// <summary>
@@ -726,10 +894,10 @@ namespace PSAP.VIEW.BSVIEW
                     gridViewIAList.FocusedRowHandle = i;
                     return true;
                 }
-                if (DataTypeConvert.GetString(gridViewIAList.GetDataRow(i)["AdjustmentsShelfNo"]) == "")
+                if (DataTypeConvert.GetString(gridViewIAList.GetDataRow(i)["ShelfId"]) == "")
                 {
                     gridViewIAList.Focus();
-                    gridViewIAList.FocusedColumn = colAdjustmentsShelfNo;
+                    gridViewIAList.FocusedColumn = colAdjShelfId;
                     gridViewIAList.FocusedRowHandle = i;
                     return true;
                 }                
@@ -777,13 +945,14 @@ namespace PSAP.VIEW.BSVIEW
 
             btnListAdd.Enabled = ret;
 
-            colAdjustmentsRepertoryNo.OptionsColumn.AllowEdit = ret;
-            colAdjustmentsProjectNo.OptionsColumn.AllowEdit = ret;
+            colRepertoryId.OptionsColumn.AllowEdit = ret;
+            colLocationId.OptionsColumn.AllowEdit = ret;
+            colProjectNo.OptionsColumn.AllowEdit = ret;
             colPRemark.OptionsColumn.AllowEdit = ret;
 
             colCodeFileName.OptionsColumn.AllowEdit = ret;
             colQty.OptionsColumn.AllowEdit = ret;
-            colAdjustmentsShelfNo.OptionsColumn.AllowEdit = ret;
+            colAdjShelfId.OptionsColumn.AllowEdit = ret;
             colRemark.OptionsColumn.AllowEdit = ret;
 
             repbtnDelete.Buttons[0].Enabled = ret;
@@ -855,12 +1024,12 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpRepertoryNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text.Trim() : "";
                 string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
 
                 dataSet_WNowInfo.Tables[0].Clear();
-                nowInfoDAO.QueryWarehouseNowInfo(dataSet_WNowInfo.Tables[0], codeFileNameStr, repertoryNoStr, projectNameStr, !checkZero.Checked);
+                nowInfoDAO.QueryWarehouseNowInfo(dataSet_WNowInfo.Tables[0], codeFileNameStr, repertoryIdInt, projectNameStr, !checkZero.Checked);
             }
             catch (Exception ex)
             {
@@ -984,7 +1153,7 @@ namespace PSAP.VIEW.BSVIEW
             catch (Exception ex)
             {
                 //ExceptionHandler.HandleException(this.Text + "--实现拖拽当前库存事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--"+tsmiSxtzdqkcsjcw.Text , ex);
+                ExceptionHandler.HandleException(this.Text + "--" + tsmiSxtzdqkcsjcw.Text, ex);
             }
         }
 
@@ -993,11 +1162,14 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void WNowInfoToInvAdjust_DragOrder(object sender, List<DataRow> drs)
         {
-            string repertoryNoStr = "";
+            int repertoryIdInt = 0;
+            int locationIdInt = 0;
             string projectNoStr = "";
+            
             if (drs.Count > 0)
             {
-                repertoryNoStr = DataTypeConvert.GetString(drs[0]["RepertoryNo"]);
+                repertoryIdInt = DataTypeConvert.GetInt(drs[0]["RepertoryId"]);
+                locationIdInt = DataTypeConvert.GetInt(drs[0]["LocationId"]);
                 projectNoStr = DataTypeConvert.GetString(drs[0]["ProjectNo"]);
             }
             else
@@ -1005,7 +1177,7 @@ namespace PSAP.VIEW.BSVIEW
 
             //foreach (DataRow dr in drs)
             //{
-            //    if (DataTypeConvert.GetString(dr["RepertoryNo"]) != repertoryNoStr || DataTypeConvert.GetString(dr["ProjectNo"]) != projectNoStr)
+            //    if (DataTypeConvert.GetInt(dr["RepertoryId"]) != repertoryIdInt || DataTypeConvert.GetInt(dr["LocationId"]) != locationIdInt || DataTypeConvert.GetString(dr["ProjectNo"]) != projectNoStr)
             //    {
             //        MessageHandler.ShowMessageBox("一张库存调整单必须选择相同的仓库和项目号进行登记，请重新操作。");
             //        return;
@@ -1016,10 +1188,11 @@ namespace PSAP.VIEW.BSVIEW
             {
                 ClearHeadGridAllSelect();
                 gridViewIAHead.AddNewRow();
-                FocusedHeadView("AdjustmentsRepertoryNo");
+                FocusedHeadView("RepertoryId");
 
-                gridViewIAHead.SetFocusedRowCellValue("AdjustmentsRepertoryNo", repertoryNoStr);
-                gridViewIAHead.SetFocusedRowCellValue("AdjustmentsProjectNo", projectNoStr);
+                gridViewIAHead.SetFocusedRowCellValue("RepertoryId", repertoryIdInt);
+                gridViewIAHead.SetFocusedRowCellValue("LocationId", locationIdInt);
+                gridViewIAHead.SetFocusedRowCellValue("ProjectNo", projectNoStr);
 
                 dataSet_IA.Tables[1].Clear();
                 foreach (DataRow dr in drs)
@@ -1028,7 +1201,7 @@ namespace PSAP.VIEW.BSVIEW
                     gridViewIAList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewIAList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
                     gridViewIAList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(dr["Qty"]));
-                    gridViewIAList.SetFocusedRowCellValue("AdjustmentsShelfNo", dr["ShelfNo"]);
+                    gridViewIAList.SetFocusedRowCellValue("ShelfId", dr["ShelfId"]);
                 }
                 gridViewIAList.RefreshData();
                 FocusedListView(false, "Qty", gridViewIAList.GetFocusedDataSourceRowIndex());
@@ -1038,18 +1211,23 @@ namespace PSAP.VIEW.BSVIEW
             }
             else
             {
-                string adjRepertoryNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["AdjustmentsRepertoryNo"]);
-                string adjProjectNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["AdjustmentsProjectNo"]);
-                if (adjRepertoryNoStr == "")
-                    gridViewIAHead.GetFocusedDataRow()["AdjustmentsRepertoryNo"] = repertoryNoStr;
+                int adjRepertoryIdInt = DataTypeConvert.GetInt(gridViewIAHead.GetFocusedDataRow()["RepertoryId"]);
+                int adjLoctionIdInt = DataTypeConvert.GetInt(gridViewIAHead.GetFocusedDataRow()["LocationId"]);
+                string adjProjectNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["ProjectNo"]);
+                if (adjRepertoryIdInt == 0)
+                    gridViewIAHead.GetFocusedDataRow()["RepertoryId"] = repertoryIdInt;
+                if (adjLoctionIdInt == 0)
+                    gridViewIAHead.GetFocusedDataRow()["LocationId"] = locationIdInt;
                 if (adjProjectNoStr == "")
-                    gridViewIAHead.GetFocusedDataRow()["AdjustmentsProjectNo"] = projectNoStr;
-                adjRepertoryNoStr = adjRepertoryNoStr == "" ? repertoryNoStr : adjRepertoryNoStr;
+                    gridViewIAHead.GetFocusedDataRow()["ProjectNo"] = projectNoStr;
+
+                adjRepertoryIdInt = adjRepertoryIdInt == 0 ? repertoryIdInt : adjRepertoryIdInt;
+                adjLoctionIdInt = adjLoctionIdInt == 0 ? locationIdInt : adjLoctionIdInt;
                 adjProjectNoStr = adjProjectNoStr == "" ? projectNoStr : adjProjectNoStr;
-                //adjRepertoryNoStr = adjRepertoryNoStr == "" ? repertoryNoStr : adjRepertoryNoStr;
+                //adjRepertoryIdInt = adjRepertoryIdInt == "" ? repertoryIdInt : adjRepertoryIdInt;
                 //adjProjectNoStr = adjProjectNoStr == "" ? projectNoStr : adjProjectNoStr;
 
-                //if (adjRepertoryNoStr != repertoryNoStr || adjProjectNoStr != projectNoStr)
+                //if (adjRepertoryIdInt != repertoryIdInt || adjLoctionIdInt != locationIdInt || adjProjectNoStr != projectNoStr)
                 //{
                 //    MessageHandler.ShowMessageBox("一张库存移动单必须选择相同的仓库和项目号进行登记，请重新操作。");
                 //    return;
@@ -1061,7 +1239,7 @@ namespace PSAP.VIEW.BSVIEW
                     gridViewIAList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewIAList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
                     gridViewIAList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(dr["Qty"]));
-                    gridViewIAList.SetFocusedRowCellValue("AdjustmentsShelfNo", dr["ShelfNo"]);
+                    gridViewIAList.SetFocusedRowCellValue("ShelfId", dr["ShelfId"]);
                 }
 
                 gridViewIAList.FocusedRowHandle = gridViewIAList.DataRowCount;
@@ -1080,12 +1258,12 @@ namespace PSAP.VIEW.BSVIEW
         {
             //for (int i = dataSet_WNowInfo.Tables[0].Rows.Count - 1; i >= 0; i--)
             //{
-            //    if (dataSet_IM.Tables[1].Select(string.Format("CodeFileName='{0}' and ProjectName='{1}' and ShelfNo='{2}'", DataTypeConvert.GetString(dataSet_WNowInfo.Tables[0].Rows[i]["CodeFileName"]), DataTypeConvert.GetString(dataSet_WNowInfo.Tables[0].Rows[i]["ProjectName"]), DataTypeConvert.GetString(dataSet_WNowInfo.Tables[0].Rows[i]["ShelfNo"]))).Length > 0)
+            //    if (dataSet_IM.Tables[1].Select(string.Format("CodeFileName='{0}' and ProjectName='{1}' and ShelfId='{2}'", DataTypeConvert.GetString(dataSet_WNowInfo.Tables[0].Rows[i]["CodeFileName"]), DataTypeConvert.GetString(dataSet_WNowInfo.Tables[0].Rows[i]["ProjectName"]), DataTypeConvert.GetString(dataSet_WNowInfo.Tables[0].Rows[i]["ShelfId"]))).Length > 0)
             //        dataSet_WNowInfo.Tables[0].Rows.RemoveAt(i);
             //}
         }
 
         #endregion
-
+        
     }
 }

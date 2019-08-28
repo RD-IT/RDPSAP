@@ -28,89 +28,71 @@ namespace PSAP.DAO.PMDAO
             return DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));
         }
 
-        ///// <summary>
-        ///// 查询项目计划任务表
-        ///// </summary>
-        //public DataTable QueryProjectPlanTask(int autoIdInt)
-        //{
-        //    string sqlStr = string.Format("select * from PM_ProjectPlanTask where AutoId = {0}", autoIdInt);
-        //    return BaseSQL.GetTableBySql(sqlStr);
-        //}
+        /// <summary>
+        /// 查询项目计划任务表的SQL
+        /// </summary>
+        public string QueryProjectPlanTask_SQL(string projectNoStr)
+        {
+            return string.Format("select PM_ProjectPlanTask.*, BS_ProjectUser.UserId from PM_ProjectPlanTask left join BS_ProjectUser on PM_ProjectPlanTask.ProjectUser = BS_ProjectUser.AutoId where PM_ProjectPlanTask.ProjectNo = '{0}' order by AutoId", projectNoStr);
+        }
 
-        ///// <summary>
-        ///// 查询项目计划任务表
-        ///// </summary>
-        //public void QueryProjectPlanTask(DataTable queryDataTable, string projectNoStr, string taskNoStr, string ProjectUserStr, string commonStr, bool nullTable)
-        //{
-        //    string sqlStr = " 1=1";
-        //    if (projectNoStr != "")
-        //    {
-        //        sqlStr += string.Format(" and task.ProjectNo='{0}'", projectNoStr);
-        //    }
-        //    if (taskNoStr != "")
-        //    {
-        //        sqlStr += string.Format(" and task.TaskNo={0}", taskNoStr);
-        //    }
-        //    if (ProjectUserStr != "")
-        //    {
-        //        sqlStr += string.Format(" and task.ProjectUser={0}", ProjectUserStr);
-        //    }
-        //    if (commonStr != "")
-        //    {
-        //        sqlStr += string.Format(" and (task.ProjectNo like '%{0}%' or task.PlanTaskText like '%{0}%' or task.Remark like '%{0}%')", commonStr);
-        //    }
-        //    if (nullTable)
-        //    {
-        //        sqlStr += " and 1=2";
-        //    }
-        //    sqlStr = string.Format("select task.*, BS_ProjectUser.UserId from PM_ProjectPlanTask as task left join BS_ProjectUser on task.ProjectUser = BS_ProjectUser.AutoId where {0} order by AutoId", sqlStr);
-        //    BaseSQL.Query(sqlStr, queryDataTable);
-        //}
+        /// <summary>
+        /// 更新项目计划任务表的计划开始结束日期
+        /// </summary>
+        public void UpdateProjectPlanTask_PlanDate(int autoIdInt, DateTime planStartDate, DateTime planEndDate)
+        {
+            int planTotalDays = (planEndDate.Date - planStartDate).Days + 1;
 
-        ///// <summary>
-        ///// 更新项目计划任务的进度信息
-        ///// </summary>
-        //public void UpdateProjectPlanTask_ActualInfo(int autoIdInt, string actualStartDateStr, string actualEndDateStr, int actualTotalDaysInt,double scheduleDouble)
-        //{
-        //    int planTaskStatus = 2;
-        //    if (actualStartDateStr == "")
-        //        planTaskStatus = 1;
-        //    if (actualStartDateStr != "" && actualEndDateStr != "" && scheduleDouble == 1)
-        //        planTaskStatus = 3;
+            using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("", conn, trans);
 
-        //    using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
-        //    {
-        //        conn.Open();
-        //        using (SqlTransaction trans = conn.BeginTransaction())
-        //        {
-        //            try
-        //            {
-        //                SqlCommand cmd = new SqlCommand("", conn, trans);
+                        //如果不更新登记修改人用下面SQL
+                        //string sqlStr = string.Format("Update PM_ProjectPlanTask set PlanStartDate = '{1}', PlanEndDate = '{2}', PlanTotalDays = {3} where AutoId = {0}", autoIdInt, planStartDate.Date.ToString("yyyy-MM-dd"), planEndDate.Date.ToString("yyyy-MM-dd"), planTotalDays);
 
-        //                cmd.CommandText = string.Format("Update PM_ProjectPlanTask set ActualStartDate = '{1}', ActualEndDate = '{2}', ActualTotalDays = {3}, Schedule = {4}, Modifierint = {5}, ModifyTime = '{6}' where AutoId = {0}");
-        //                cmd.ExecuteNonQuery();
+                        cmd.CommandText = string.Format("Update PM_ProjectPlanTask set PlanStartDate = '{1}', PlanEndDate = '{2}', PlanTotalDays = {3}, Creator = {4} where AutoId = {0}", autoIdInt, planStartDate.Date.ToString("yyyy-MM-dd"), planEndDate.Date.ToString("yyyy-MM-dd"), planTotalDays, SystemInfo.user.AutoId);
+                        cmd.ExecuteNonQuery();
 
+                        string logStr = string.Format("更新项目计划任务信息：[编号AutoId]的值为[{0}]，[计划开始日期]的值为[{1}]，[计划结束日期]的值为[{2}]，[计划工期]的值为[{3}]", autoIdInt, planStartDate.Date.ToString("yyyy-MM-dd"), planEndDate.Date.ToString("yyyy-MM-dd"), planTotalDays);
+                        LogHandler.RecordLog(cmd, logStr);
 
-        //                ////保存日志到日志表中
-        //                //DataRow[] headRows = imHeadTable.Select("select=1");
-        //                //for (int i = 0; i < headRows.Length; i++)
-        //                //{
-        //                //    string logStr = LogHandler.RecordLog_DeleteRow(cmd, "库存移动单", headRows[i], "InventoryMoveNo");
-        //                //}
+                        trans.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
 
-        //                trans.Commit();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                trans.Rollback();
-        //                throw ex;
-        //            }
-        //            finally
-        //            {
-        //                conn.Close();
-        //            }
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// 查询项目计划任务表的状态
+        /// </summary>
+        public int QueryProjectPlanTask_PlanTaskStatus(int autoIdInt)
+        {
+            string sqlStr = string.Format("Select PlanTaskStatus from PM_ProjectPlanTask where AutoId = {0}", autoIdInt);
+            return DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));
+        }
+
+        /// <summary>
+        /// 查询甘特图的日程条信息
+        /// </summary>
+        public void QueryGanttAppointment(DataTable queryDataTable, string projectNoStr)
+        {
+            string sqlStr = string.Format("select AutoId, PlanTaskText, PlanStartDate, DATEADD(day, 1, PlanEndDate) as PlanEndDate, Cast(1 as bit) as AllDay from PM_ProjectPlanTask where ProjectNo = '{0}' order by AutoId", projectNoStr);
+            BaseSQL.Query(sqlStr, queryDataTable);
+        }
+        
     }
 }

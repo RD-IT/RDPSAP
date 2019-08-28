@@ -38,16 +38,32 @@ namespace PSAP.VIEW.BSVIEW
                 dateDurBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateDurEnd.DateTime = nowDate.Date;
 
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = locationTable_t;
+                SearchLocationId.EditValue = 0;
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
                 searchLookUpCodeFileName.Text = "全部";
 
-                gridBottomWNowInfo.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
+                //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                repLookUpRepertoryId.DataSource = repertoryTable_t;
+                repLookUpLocationId.DataSource = locationTable_t;
 
-                repLookUpRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectNo.Visible = false;
+                    colProjectName.Visible = false;
+                }
+
+                gridBottomWNowInfo.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
             }
             catch (Exception ex)
             {
@@ -100,12 +116,13 @@ namespace PSAP.VIEW.BSVIEW
                 string durDateBeginStr = dateDurBegin.DateTime.ToString("yyyy-MM-dd");
                 string durDateEndStr = dateDurEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpRepertoryNo.EditValue) : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text : "";
                 string commonStr = textCommon.Text.Trim();
 
-                string querySqlStr = wNowInfoDAO.QueryStockDurationTotal_SQL(dateDurBegin.DateTime.Date, durDateBeginStr, durDateEndStr, repertoryNoStr, projectNameStr, codeFileNameStr, commonStr);
+                string querySqlStr = wNowInfoDAO.QueryStockDurationTotal_SQL(dateDurBegin.DateTime.Date, durDateBeginStr, durDateEndStr, repertoryIdInt, locationIdInt, projectNameStr, codeFileNameStr, commonStr);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomWNowInfo.QueryGridData(ref dataSet_DurationStock, "DurationStock", querySqlStr, countSqlStr, true);

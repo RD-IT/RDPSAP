@@ -120,6 +120,8 @@
             this.colIsLongPeriod = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPrecious = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPreprocessing = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repCheckIsBuy = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.colDesigner = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTel = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colGetTime = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -136,8 +138,6 @@
             this.tsmiGgxh = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWlbb = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDw = new System.Windows.Forms.ToolStripMenuItem();
-            this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repCheckIsBuy = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dSPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSPartsCode)).BeginInit();
@@ -169,8 +169,8 @@
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).BeginInit();
-            this.cms.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
+            this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
             // dSPartsCode
@@ -349,6 +349,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -1041,6 +1042,25 @@
             this.colIsPreprocessing.VisibleIndex = 16;
             this.colIsPreprocessing.Width = 60;
             // 
+            // colIsBuy
+            // 
+            this.colIsBuy.AppearanceHeader.Options.UseTextOptions = true;
+            this.colIsBuy.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colIsBuy.ColumnEdit = this.repCheckIsBuy;
+            this.colIsBuy.FieldName = "IsBuy";
+            this.colIsBuy.Name = "colIsBuy";
+            this.colIsBuy.Visible = true;
+            this.colIsBuy.VisibleIndex = 17;
+            this.colIsBuy.Width = 60;
+            // 
+            // repCheckIsBuy
+            // 
+            this.repCheckIsBuy.AutoHeight = false;
+            this.repCheckIsBuy.Name = "repCheckIsBuy";
+            this.repCheckIsBuy.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.repCheckIsBuy.ValueChecked = ((short)(1));
+            this.repCheckIsBuy.ValueUnchecked = ((short)(0));
+            // 
             // colDesigner
             // 
             this.colDesigner.AppearanceHeader.Options.UseTextOptions = true;
@@ -1157,25 +1177,6 @@
             this.tsmiDw.Size = new System.Drawing.Size(256, 22);
             this.tsmiDw.Text = "单位不能为空，请重新操作。";
             // 
-            // colIsBuy
-            // 
-            this.colIsBuy.AppearanceHeader.Options.UseTextOptions = true;
-            this.colIsBuy.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colIsBuy.ColumnEdit = this.repCheckIsBuy;
-            this.colIsBuy.FieldName = "IsBuy";
-            this.colIsBuy.Name = "colIsBuy";
-            this.colIsBuy.Visible = true;
-            this.colIsBuy.VisibleIndex = 17;
-            this.colIsBuy.Width = 60;
-            // 
-            // repCheckIsBuy
-            // 
-            this.repCheckIsBuy.AutoHeight = false;
-            this.repCheckIsBuy.Name = "repCheckIsBuy";
-            this.repCheckIsBuy.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-            this.repCheckIsBuy.ValueChecked = ((short)(1));
-            this.repCheckIsBuy.ValueUnchecked = ((short)(0));
-            // 
             // FrmPartsCode
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1219,8 +1220,8 @@
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).EndInit();
-            this.cms.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
+            this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

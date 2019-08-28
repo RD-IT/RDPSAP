@@ -48,6 +48,7 @@
             this.bSUserInfo = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.checkIsDisable = new DevExpress.XtraEditors.CheckEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.lookUpDept = new DevExpress.XtraEditors.LookUpEdit();
@@ -78,7 +79,6 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDlmbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYgxmbnwk = new System.Windows.Forms.ToolStripMenuItem();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.dSUserInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableUserInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSUserInfo)).BeginInit();
@@ -198,6 +198,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -221,6 +222,14 @@
             this.pnlEdit.Name = "pnlEdit";
             this.pnlEdit.Size = new System.Drawing.Size(950, 97);
             this.pnlEdit.TabIndex = 6;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(300, 58);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(24, 14);
+            this.labelControl2.TabIndex = 19;
+            this.labelControl2.Text = "停用";
             // 
             // checkIsDisable
             // 
@@ -501,14 +510,6 @@
             this.tsmiYgxmbnwk.Name = "tsmiYgxmbnwk";
             this.tsmiYgxmbnwk.Size = new System.Drawing.Size(256, 22);
             this.tsmiYgxmbnwk.Text = "员工姓名不能为空，请重新操作。";
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(300, 58);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(24, 14);
-            this.labelControl2.TabIndex = 19;
-            this.labelControl2.Text = "停用";
             // 
             // FrmUserInfo_New
             // 

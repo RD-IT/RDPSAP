@@ -139,7 +139,7 @@
             this.repLookUpPurCategory = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colApplicant = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrReqRemark = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colApprover = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCt = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiQgrq = new System.Windows.Forms.ToolStripMenuItem();
@@ -225,7 +225,7 @@
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(281, 74);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(604, 44);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -234,7 +234,7 @@
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpProjectNo.TabIndex = 7;
+            this.searchLookUpProjectNo.TabIndex = 5;
             this.searchLookUpProjectNo.TabStop = false;
             // 
             // searchLookUpProjectNoView
@@ -289,7 +289,7 @@
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(514, 74);
+            this.textCommon.Location = new System.Drawing.Point(497, 74);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
             this.textCommon.TabIndex = 8;
@@ -316,7 +316,7 @@
             // lookUpPurCategory
             // 
             this.lookUpPurCategory.EnterMoveNextControl = true;
-            this.lookUpPurCategory.Location = new System.Drawing.Point(610, 44);
+            this.lookUpPurCategory.Location = new System.Drawing.Point(292, 74);
             this.lookUpPurCategory.Name = "lookUpPurCategory";
             this.lookUpPurCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -327,7 +327,7 @@
             this.lookUpPurCategory.Properties.NullText = "";
             this.lookUpPurCategory.Properties.ValueMember = "PurCategory";
             this.lookUpPurCategory.Size = new System.Drawing.Size(120, 20);
-            this.lookUpPurCategory.TabIndex = 5;
+            this.lookUpPurCategory.TabIndex = 7;
             this.lookUpPurCategory.TabStop = false;
             // 
             // lookUpReqDep
@@ -406,7 +406,7 @@
             // 
             // labProjectNo
             // 
-            this.labProjectNo.Location = new System.Drawing.Point(225, 77);
+            this.labProjectNo.Location = new System.Drawing.Point(548, 47);
             this.labProjectNo.Name = "labProjectNo";
             this.labProjectNo.Size = new System.Drawing.Size(48, 14);
             this.labProjectNo.TabIndex = 31;
@@ -414,7 +414,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(448, 77);
+            this.labCommon.Location = new System.Drawing.Point(431, 77);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 28;
@@ -430,7 +430,7 @@
             // 
             // labPurCategory
             // 
-            this.labPurCategory.Location = new System.Drawing.Point(544, 47);
+            this.labPurCategory.Location = new System.Drawing.Point(226, 77);
             this.labPurCategory.Name = "labPurCategory";
             this.labPurCategory.Size = new System.Drawing.Size(60, 14);
             this.labPurCategory.TabIndex = 25;
@@ -520,12 +520,12 @@
             // 
             // checkAll
             // 
-            this.checkAll.Location = new System.Drawing.Point(53, 4);
+            this.checkAll.Location = new System.Drawing.Point(53, 40);
+            this.checkAll.Margin = new System.Windows.Forms.Padding(4);
             this.checkAll.Name = "checkAll";
-            this.checkAll.Properties.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.checkAll.Properties.Appearance.Options.UseBackColor = true;
+            this.checkAll.Properties.AutoHeight = false;
             this.checkAll.Properties.Caption = "";
-            this.checkAll.Size = new System.Drawing.Size(20, 19);
+            this.checkAll.Size = new System.Drawing.Size(16, 15);
             this.checkAll.TabIndex = 17;
             this.checkAll.TabStop = false;
             this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
@@ -1058,7 +1058,7 @@
             this.colPurCategory,
             this.colApplicant,
             this.colPrReqRemark,
-            this.colApprover});
+            this.colModifier});
             this.gridViewPrReqHead.GridControl = this.gridControlPrReqHead;
             this.gridViewPrReqHead.IndicatorWidth = 40;
             this.gridViewPrReqHead.Name = "gridViewPrReqHead";
@@ -1273,15 +1273,15 @@
             this.colPrReqRemark.VisibleIndex = 7;
             this.colPrReqRemark.Width = 140;
             // 
-            // colApprover
+            // colModifier
             // 
-            this.colApprover.AppearanceHeader.Options.UseTextOptions = true;
-            this.colApprover.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colApprover.FieldName = "Approver";
-            this.colApprover.Name = "colApprover";
-            this.colApprover.Visible = true;
-            this.colApprover.VisibleIndex = 9;
-            this.colApprover.Width = 70;
+            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifier.FieldName = "Modifier";
+            this.colModifier.Name = "colModifier";
+            this.colModifier.Visible = true;
+            this.colModifier.VisibleIndex = 9;
+            this.colModifier.Width = 70;
             // 
             // cms
             // 
@@ -1482,7 +1482,7 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpPurCategory;
         private DevExpress.XtraGrid.Columns.GridColumn colApplicant;
         private DevExpress.XtraGrid.Columns.GridColumn colPrReqRemark;
-        private DevExpress.XtraGrid.Columns.GridColumn colApprover;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifier;
         private DevExpress.XtraGrid.GridControl gridControlPrReqList;
         private System.Data.DataColumn dataColListSelect;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewPrReqList;

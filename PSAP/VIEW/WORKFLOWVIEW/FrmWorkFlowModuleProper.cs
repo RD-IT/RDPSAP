@@ -61,11 +61,13 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                DataTable dataTypeTable = wfDAO.QueryDataTypeView();
+
                 searchLookUpFlowModuleId.Properties.DataSource = wfDAO.QueryWorkFlowModule(false);
-                searchLookUplabProper.Properties.DataSource = wfDAO.QueryDataTypeView();
+                searchLookUplabProper.Properties.DataSource = dataTypeTable;
 
                 //repItemSearchFlowModuleId.DataSource = wfDAO.QueryWorkFlowModule(false);
-                repItemSearchProper.DataSource = wfDAO.QueryDataTypeView();
+                repItemSearchProper.DataSource = dataTypeTable;
             }
             catch (Exception ex)
             {

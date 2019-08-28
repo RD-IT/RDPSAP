@@ -183,7 +183,7 @@
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Margin = new System.Windows.Forms.Padding(4);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1144, 78);
+            this.pnltop.Size = new System.Drawing.Size(1189, 78);
             this.pnltop.TabIndex = 2;
             // 
             // spinwwListAutoId
@@ -215,7 +215,7 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(881, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(878, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 13;
@@ -649,7 +649,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 549);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1144, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1189, 58);
             this.pnlBottom.TabIndex = 6;
             // 
             // gridBottomOrderHead
@@ -659,7 +659,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_Settlement;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1140, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1185, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // gridControlSettlementHead
@@ -676,7 +676,7 @@
             this.repSpinTax,
             this.repLookUpApprovalType,
             this.repCheckIsVoucher});
-            this.gridControlSettlementHead.Size = new System.Drawing.Size(1140, 467);
+            this.gridControlSettlementHead.Size = new System.Drawing.Size(1185, 467);
             this.gridControlSettlementHead.TabIndex = 7;
             this.gridControlSettlementHead.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewSettlementHead});
@@ -976,7 +976,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1144, 471);
+            this.pnlMiddle.Size = new System.Drawing.Size(1189, 471);
             this.pnlMiddle.TabIndex = 8;
             // 
             // cms
@@ -1037,7 +1037,7 @@
             // FrmSettlementQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1144, 607);
+            this.ClientSize = new System.Drawing.Size(1189, 607);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnltop);

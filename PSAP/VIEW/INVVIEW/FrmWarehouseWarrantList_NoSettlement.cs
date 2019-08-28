@@ -43,25 +43,52 @@ namespace PSAP.VIEW.BSVIEW
                 dateWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWWDateEnd.DateTime = nowDate.Date;
 
-                searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
-                searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpRepertoryNo.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
-                lookUpRepertoryNo.ItemIndex = 0;
-                lookUpWarehouseWarrantTypeNo.Properties.DataSource = wwDAO.QueryWarehouseWarrantType(true);
-                lookUpWarehouseWarrantTypeNo.ItemIndex = 0;
-                lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
+                DataTable departmentTable_t = commonDAO.QueryDepartment(true);
+                DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
+                DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
+                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+                DataTable wwTypeTable_t = wwDAO.QueryWarehouseWarrantType(true);
+
+                lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
+                searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
+                searchLookUpBussinessBaseNo.Text = "全部";
+                lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
+                lookUpRepertoryId.ItemIndex = 0;
+                SearchLocationId.Properties.DataSource = locationTable_t;
+                SearchLocationId.EditValue = 0;
+                lookUpWarehouseWarrantTypeNo.Properties.DataSource = wwTypeTable_t;
+                lookUpWarehouseWarrantTypeNo.ItemIndex = 0;
                 comboBoxWarehouseState.SelectedIndex = 0;
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
                 searchLookUpCodeFileName.Text = "全部";
 
-                repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
-                repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
-                repLookUpRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repLookUpWWTypeNo.DataSource = wwDAO.QueryWarehouseWarrantType(false);
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
+                //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                //repLookUpRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                //repLookUpWWTypeNo.DataSource = wwDAO.QueryWarehouseWarrantType(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
+                repLookUpRepertoryId.DataSource = repertoryTable_t;
+                repLookUpRepertoryLocationId.DataSource = locationTable_t;
+                repLookUpWWTypeNo.DataSource = wwTypeTable_t;
                 repLookUpShelfId.DataSource = commonDAO.QueryShelfInfo(false);
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectName.Visible = false;
+                    colStnNo.Visible = false;
+                }
+
+                if(SystemInfo.DisableShelfInfo)
+                {
+                    colShelfId.Visible = false;
+                }
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -132,7 +159,8 @@ namespace PSAP.VIEW.BSVIEW
 
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                string repertoryNoStr = lookUpRepertoryNo.ItemIndex > 0 ? lookUpRepertoryNo.EditValue.ToString() : "";
+                int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue): 0;
+                int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string wwTypeNoStr = lookUpWarehouseWarrantTypeNo.ItemIndex > 0 ? lookUpWarehouseWarrantTypeNo.EditValue.ToString() : "";
 
                 int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text); 
@@ -141,7 +169,7 @@ namespace PSAP.VIEW.BSVIEW
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_WW.Tables[0].Rows.Clear();
-                string querySqlStr = wwDAO.Query_WWList_NoSettlement_SQL(orderDateBeginStr, orderDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryNoStr, wwTypeNoStr, warehouseStateInt, projectNameStr, codeFileNameStr, checkOverplus.Checked, commonStr);
+                string querySqlStr = wwDAO.Query_WWList_NoSettlement_SQL(orderDateBeginStr, orderDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, wwTypeNoStr, warehouseStateInt, projectNameStr, codeFileNameStr, checkOverplus.Checked, commonStr);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

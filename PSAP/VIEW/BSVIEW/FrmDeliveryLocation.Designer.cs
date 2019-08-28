@@ -112,6 +112,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -264,7 +265,7 @@
             this.tsmiJhcbhbnwk,
             this.tsmiJhcmcbnwk});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(269, 70);
+            this.cms.Size = new System.Drawing.Size(269, 48);
             // 
             // tsmiJhcbhbnwk
             // 

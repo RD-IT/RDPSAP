@@ -172,13 +172,13 @@
             // 
             this.checkOverplus.EditValue = true;
             this.checkOverplus.EnterMoveNextControl = true;
-            this.checkOverplus.Location = new System.Drawing.Point(942, 14);
+            this.checkOverplus.Location = new System.Drawing.Point(692, 44);
             this.checkOverplus.Name = "checkOverplus";
             this.checkOverplus.Properties.Caption = "剩余数量大于0";
             this.checkOverplus.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.checkOverplus.Properties.ValueGrayed = false;
             this.checkOverplus.Size = new System.Drawing.Size(111, 19);
-            this.checkOverplus.TabIndex = 5;
+            this.checkOverplus.TabIndex = 8;
             // 
             // searchLookUpProjectNo
             // 
@@ -251,7 +251,7 @@
             this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpCodeFileName.TabIndex = 7;
+            this.searchLookUpCodeFileName.TabIndex = 6;
             // 
             // searchLookUpCodeFileNameView
             // 
@@ -291,7 +291,7 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(777, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(913, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 10;
@@ -305,7 +305,7 @@
             this.textCommon.Location = new System.Drawing.Point(521, 44);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
-            this.textCommon.TabIndex = 8;
+            this.textCommon.TabIndex = 7;
             // 
             // comboBoxReqState
             // 
@@ -324,7 +324,7 @@
             "拒绝"});
             this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
-            this.comboBoxReqState.TabIndex = 6;
+            this.comboBoxReqState.TabIndex = 5;
             // 
             // lookUpPurCategory
             // 
@@ -360,7 +360,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(687, 43);
+            this.btnQuery.Location = new System.Drawing.Point(821, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 9;

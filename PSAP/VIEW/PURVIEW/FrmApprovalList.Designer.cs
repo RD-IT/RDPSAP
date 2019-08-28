@@ -72,6 +72,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Controls.Add(this.btnUp);
             this.pnlToolBar.Controls.Add(this.btnDown);
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;

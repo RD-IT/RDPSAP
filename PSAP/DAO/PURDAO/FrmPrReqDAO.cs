@@ -1111,7 +1111,14 @@ namespace PSAP.DAO.PURDAO
                                     }
                                 }
 
-                                cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1} where PrReqNo='{0}'", prReqNoStr, prReqHeadTable.Rows[i]["ReqState"]);
+                                if (DataTypeConvert.GetInt(prReqHeadTable.Rows[i]["ReqState"]) == 2)
+                                {
+                                    cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState = {1}, Approver = '{2}', ApproverIp = '{3}', ApproverTime = '{4}' where PrReqNo = '{0}'", prReqNoStr, prReqHeadTable.Rows[i]["ReqState"], SystemInfo.user.EmpName, SystemInfo.HostIpAddress, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else
+                                {
+                                    cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1} where PrReqNo='{0}'", prReqNoStr, prReqHeadTable.Rows[i]["ReqState"]);
+                                }                                
                                 cmd.ExecuteNonQuery();
                             }
                         }
@@ -1163,7 +1170,7 @@ namespace PSAP.DAO.PURDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", prReqNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState=1 where PrReqNo in ({0})", prReqNoListStr);
+                        cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState = 1, Approver = null, ApproverIp = null, ApproverTime = null where PrReqNo in ({0})", prReqNoListStr);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中

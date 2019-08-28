@@ -70,7 +70,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ControlHandler.DevExpressStyle_ChangeControlLocation(checkAll.LookAndFeel.ActiveSkinName, new List<Control> { checkAll });
+                //ControlHandler.DevExpressStyle_ChangeControlLocation(checkAll.LookAndFeel.ActiveSkinName, new List<Control> { checkAll });
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateSettlementDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
@@ -79,22 +79,23 @@ namespace PSAP.VIEW.BSVIEW
                 datePayDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkPayDate.Checked = false;
 
-                DataTable bussBaseTable = commonDAO.QueryBussinessBaseInfo(false);
-                DataTable departmentTable = commonDAO.QueryDepartment(false);
+                DataTable bussBaseTable_f = commonDAO.QueryBussinessBaseInfo(false);
+                DataTable departmentTable_f = commonDAO.QueryDepartment(false);
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
                 comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpPrepared.Properties.DataSource = userInfoTable_t;
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
-                lookUpApprover.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
                 lookUpApprover.ItemIndex = -1;
 
-                repSearchBussinessBaseNo.DataSource = bussBaseTable;
-                repLookUpReqDep.DataSource = departmentTable;
+                repSearchBussinessBaseNo.DataSource = bussBaseTable_f;
+                repLookUpReqDep.DataSource = departmentTable_f;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
 
                 repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
@@ -104,10 +105,10 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
 
-                repLookUpWWReqDep.DataSource = departmentTable;
-                repLookUpWWRepertoryNo.DataSource = commonDAO.QueryRepertoryInfo(false);
+                repLookUpWWReqDep.DataSource = departmentTable_f;
+                repLookUpWWRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
                 repLookUpWWTypeNo.DataSource = new FrmWarehouseWarrantDAO().QueryWarehouseWarrantType(false);
-                repSearchWWBussinessBaseNo.DataSource = bussBaseTable;
+                repSearchWWBussinessBaseNo.DataSource = bussBaseTable_f;
 
                 repSearchShelfId.DataSource = commonDAO.QueryShelfInfo(false);
 

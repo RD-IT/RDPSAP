@@ -21,42 +21,50 @@ namespace PSAP.DAO.INVDAO
         /// <param name="queryDataTable">要查询填充的数据表</param>
         /// <param name="beginDateStr">开始日期字符串</param>
         /// <param name="endDateStr">结束日期字符串</param>
-        /// <param name="inRepertoryNoStr">入库仓库</param>
-        /// <param name="outRepertoryNoStr">出库仓库</param>
+        /// <param name="inRepertoryIdInt">入库仓库</param>
+        /// <param name="outRepertoryIdInt">出库仓库</param>
         /// <param name="reqDepStr">部门</param>
-        /// <param name="preparedStr">制单人</param>
+        /// <param name="creatorInt">制单人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QueryInventoryMoveHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string inRepertoryNoStr, string outRepertoryNoStr, string reqDepStr, string preparedStr, string commonStr, bool nullTable)
+        public void QueryInventoryMoveHead(DataTable queryDataTable, string beginDateStr, string endDateStr, int inRepertoryIdInt, int outRepertoryIdInt, int inLocationIdInt, int outLcationIdInt, string reqDepStr, int creatorInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QueryInventoryMoveHead_SQL(beginDateStr, endDateStr, inRepertoryNoStr, outRepertoryNoStr, reqDepStr, preparedStr, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QueryInventoryMoveHead_SQL(beginDateStr, endDateStr, inRepertoryIdInt, outRepertoryIdInt, inLocationIdInt, outLcationIdInt, reqDepStr, creatorInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询库存移动单表头表的SQL
         /// </summary>
-        public string QueryInventoryMoveHead_SQL(string beginDateStr, string endDateStr, string inRepertoryNoStr, string outRepertoryNoStr, string reqDepStr, string preparedStr, string commonStr, bool nullTable)
+        public string QueryInventoryMoveHead_SQL(string beginDateStr, string endDateStr, int inRepertoryIdInt, int outRepertoryIdInt, int inLocationIdInt, int outLcationIdInt, string reqDepStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
             {
                 sqlStr += string.Format(" and InventoryMoveDate between '{0}' and '{1}'", beginDateStr, endDateStr);
             }
-            if (inRepertoryNoStr != "")
+            if (inRepertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and InRepertoryNo='{0}'", inRepertoryNoStr);
+                sqlStr += string.Format(" and InRepertoryId={0}", inRepertoryIdInt);
             }
-            if (outRepertoryNoStr != "")
+            if (outRepertoryIdInt != 0)
             {
-                sqlStr += string.Format(" and OutRepertoryNo='{0}'", outRepertoryNoStr);
+                sqlStr += string.Format(" and OutRepertoryId={0}", outRepertoryIdInt);
+            }
+            if (inLocationIdInt != 0)
+            {
+                sqlStr += string.Format(" and InLocationId={0}", inLocationIdInt);
+            }
+            if (outLcationIdInt != 0)
+            {
+                sqlStr += string.Format(" and OutLocationId={0}", outLcationIdInt);
             }
             if (reqDepStr != "")
             {
                 sqlStr += string.Format(" and ReqDep='{0}'", reqDepStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -102,8 +110,19 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
 
+                        for (int i = 0; i < IMListTable.Rows.Count; i++)
+                        {
+                            if (IMListTable.Rows[i].RowState == DataRowState.Deleted)
+                                continue;
+                            IMListTable.Rows[i]["InventoryMoveDate"] = IMHeadRow["InventoryMoveDate"];
+                            IMListTable.Rows[i]["InRepertoryId"] = IMHeadRow["InRepertoryId"];
+                            IMListTable.Rows[i]["OutRepertoryId"] = IMHeadRow["OutRepertoryId"];
+                            IMListTable.Rows[i]["InLocationId"] = IMHeadRow["InLocationId"];
+                            IMListTable.Rows[i]["OutLocationId"] = IMHeadRow["OutLocationId"];
+                        }
+
                         //检查当前库存数是否满足
-                        if (!CheckWarehouseNowInfoBeyondCount(cmd, DataTypeConvert.GetString(IMHeadRow["InventoryMoveNo"]), IMListTable))
+                        if (!SystemInfo.EnableNegativeInventory && !CheckWarehouseNowInfoBeyondCount(cmd, DataTypeConvert.GetString(IMHeadRow["InventoryMoveNo"]), IMListTable))
                         {
                             return 0;
                         }
@@ -112,14 +131,11 @@ namespace PSAP.DAO.INVDAO
                         {
                             string imNo = BaseSQL.GetMaxCodeNo(cmd, "IM");
                             IMHeadRow["InventoryMoveNo"] = imNo;
-                            IMHeadRow["PreparedIp"] = SystemInfo.HostIpAddress;
+                            IMHeadRow["CreatorIp"] = SystemInfo.HostIpAddress;
 
                             for (int i = 0; i < IMListTable.Rows.Count; i++)
                             {
                                 IMListTable.Rows[i]["InventoryMoveNo"] = imNo;
-                                IMListTable.Rows[i]["InventoryMoveDate"] = IMHeadRow["InventoryMoveDate"];
-                                IMListTable.Rows[i]["InRepertoryNo"] = IMHeadRow["InRepertoryNo"];
-                                IMListTable.Rows[i]["OutRepertoryNo"] = IMHeadRow["OutRepertoryNo"];
                             }
                         }
                         else//修改
@@ -127,18 +143,9 @@ namespace PSAP.DAO.INVDAO
                             //if (!CheckWarehouseState(IMHeadRow.Table, IMListTable, string.Format("'{0}'", DataTypeConvert.GetString(IMHeadRow["SettlementNo"])), false, true, true, true))
                             //    return -1;
 
-                            IMHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            IMHeadRow["Modifier"] = SystemInfo.user.AutoId;
                             IMHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             IMHeadRow["ModifierTime"] = BaseSQL.GetServerDateTime();
-
-                            for (int i = 0; i < IMListTable.Rows.Count; i++)
-                            {
-                                if (IMListTable.Rows[i].RowState == DataRowState.Deleted)
-                                    continue;
-                                IMListTable.Rows[i]["InventoryMoveDate"] = IMHeadRow["InventoryMoveDate"];
-                                IMListTable.Rows[i]["InRepertoryNo"] = IMHeadRow["InRepertoryNo"];
-                                IMListTable.Rows[i]["OutRepertoryNo"] = IMHeadRow["OutRepertoryNo"];
-                            }
                         }
 
                         //保存日志到日志表中
@@ -187,12 +194,13 @@ namespace PSAP.DAO.INVDAO
                 if (lrow.RowState == DataRowState.Deleted)
                     continue;
                 string codeFileNameStr = DataTypeConvert.GetString(lrow["CodeFileName"]);
-                string outRepertoryNoStr = DataTypeConvert.GetString(lrow["OutRepertoryNo"]);
-                string outProjectNameStr = DataTypeConvert.GetString(lrow["OutProjectName"]);
-                string outShelfNoStr = DataTypeConvert.GetString(lrow["OutShelfNo"]);
-                cmd.CommandText = string.Format("select Qty from INV_WarehouseNowInfo where CodeFileName = '{0}' and RepertoryNo = '{1}' and ProjectName = '{2}' and ShelfNo = '{3}'", codeFileNameStr, outRepertoryNoStr, outProjectNameStr, outShelfNoStr);
+                int outRepertoryIdInt = DataTypeConvert.GetInt(lrow["OutRepertoryId"]);
+                int outLocationIdInt = DataTypeConvert.GetInt(lrow["OutLocationId"]);
+                string outProjectNoStr = DataTypeConvert.GetString(lrow["OutProjectNo"]);
+                int outShelfIdInt = DataTypeConvert.GetInt(lrow["OutShelfId"]);
+                cmd.CommandText = string.Format("select Qty from INV_WarehouseNowInfo where CodeFileName = '{0}' and RepertoryId = {1} and LocationId = {2} and ProjectNo = '{3}' and ShelfId = {4}", codeFileNameStr, outRepertoryIdInt, outLocationIdInt, outProjectNoStr, outShelfIdInt);
                 double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
-                string sqlStr = string.Format("CodeFileName = '{0}' and OutRepertoryNo = '{1}' and OutProjectName = '{2}' and OutShelfNo = '{3}'", codeFileNameStr, outRepertoryNoStr, outProjectNameStr, outShelfNoStr);
+                string sqlStr = string.Format("CodeFileName = '{0}' and OutRepertoryId = {1} and OutLocationId = {2} and OutProjectNo = '{3}' and OutShelfId = {4}", codeFileNameStr, outRepertoryIdInt, outLocationIdInt, outProjectNoStr, outShelfIdInt);
                 double qtySum = DataTypeConvert.GetDouble(imListTable.Compute("Sum(Qty)", sqlStr));
                 if (qtySum > nowQty)
                 {
@@ -297,11 +305,23 @@ namespace PSAP.DAO.INVDAO
                     case "InRepertoryName":
                         headTable.Columns[i].Caption = "入库仓库名称";
                         break;
+                    case "InLocationNo":
+                        headTable.Columns[i].Caption = "入库仓位编号";
+                        break;
+                    case "InLocationName":
+                        headTable.Columns[i].Caption = "入库仓位名称";
+                        break;
                     case "OutRepertoryNo":
                         headTable.Columns[i].Caption = "出库仓库编号";
                         break;
                     case "OutRepertoryName":
                         headTable.Columns[i].Caption = "出库仓库名称";
+                        break;
+                    case "OutLocationNo":
+                        headTable.Columns[i].Caption = "出库仓位编号";
+                        break;
+                    case "OutLocationName":
+                        headTable.Columns[i].Caption = "出库仓位名称";
                         break;
                     case "Prepared":
                         headTable.Columns[i].Caption = "制单人";

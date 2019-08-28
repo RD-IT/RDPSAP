@@ -333,6 +333,12 @@
     <Compile Include="VIEW\BSVIEW\FrmProjectStatus.Designer.cs">
       <DependentUpon>FrmProjectStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRepertoryLocationInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\BSVIEW\FrmRepertoryLocationInfo.Designer.cs">
+      <DependentUpon>FrmRepertoryLocationInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\BSVIEW\FrmRight_MenuManagement.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -453,6 +459,12 @@
     <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.Designer.cs">
       <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant.Designer.cs">
+      <DependentUpon>FrmWarehouseWarrant.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -572,6 +584,12 @@
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmLanguagePURDAO.Designer.cs">
       <DependentUpon>FrmLanguagePURDAO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderArrivalQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\PURVIEW\FrmOrderArrivalQuery.Designer.cs">
+      <DependentUpon>FrmOrderArrivalQuery.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing.cs">
       <SubType>Form</SubType>
@@ -933,12 +951,6 @@
     <Compile Include="VIEW\INVVIEW\FrmWarehouseReceiptQuery.Designer.cs">
       <DependentUpon>FrmWarehouseReceiptQuery.cs</DependentUpon>
     </Compile>
-    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrant.Designer.cs">
-      <DependentUpon>FrmWarehouseWarrant.cs</DependentUpon>
-    </Compile>
     <Compile Include="VIEW\INVVIEW\FrmWarehouseWarrantQuery.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1199,6 +1211,9 @@
     <EmbeddedResource Include="VIEW\BSVIEW\FrmProjectStatus.resx">
       <DependentUpon>FrmProjectStatus.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\BSVIEW\FrmRepertoryLocationInfo.resx">
+      <DependentUpon>FrmRepertoryLocationInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="VIEW\BSVIEW\FrmRight_MenuManagement.resx">
       <DependentUpon>FrmRight_MenuManagement.cs</DependentUpon>
     </EmbeddedResource>
@@ -1252,6 +1267,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceiptApproval.resx">
       <DependentUpon>FrmWarehouseReceiptApproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrant.resx">
+      <DependentUpon>FrmWarehouseWarrant.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantApproval.resx">
       <DependentUpon>FrmWarehouseWarrantApproval.cs</DependentUpon>
@@ -1309,6 +1327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmLanguagePURDAO.resx">
       <DependentUpon>FrmLanguagePURDAO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderArrivalQuery.resx">
+      <DependentUpon>FrmOrderArrivalQuery.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\PURVIEW\FrmOrderList_NoWarehousing.resx">
       <DependentUpon>FrmOrderList_NoWarehousing.cs</DependentUpon>
@@ -1491,9 +1512,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseReceiptQuery.resx">
       <DependentUpon>FrmWarehouseReceiptQuery.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrant.resx">
-      <DependentUpon>FrmWarehouseWarrant.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmWarehouseWarrantQuery.resx">
       <DependentUpon>FrmWarehouseWarrantQuery.cs</DependentUpon>

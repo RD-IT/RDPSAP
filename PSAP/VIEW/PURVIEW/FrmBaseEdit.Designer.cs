@@ -52,9 +52,6 @@
             // 
             // pnlButton
             // 
-            this.pnlButton.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(236)))), ((int)(((byte)(239)))));
-            this.pnlButton.Appearance.Options.UseBackColor = true;
-            this.pnlButton.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlButton.Controls.Add(this.btnSaveExcel);
             this.pnlButton.Controls.Add(this.btnRefresh);
             this.pnlButton.Controls.Add(this.btnDelete);
@@ -73,7 +70,7 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(413, 7);
+            this.btnSaveExcel.Location = new System.Drawing.Point(415, 9);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 18;
@@ -83,7 +80,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(332, 7);
+            this.btnRefresh.Location = new System.Drawing.Point(334, 9);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 4;
@@ -93,7 +90,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(251, 7);
+            this.btnDelete.Location = new System.Drawing.Point(253, 9);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 3;
@@ -103,7 +100,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(170, 7);
+            this.btnCancel.Location = new System.Drawing.Point(172, 9);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -113,7 +110,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(89, 7);
+            this.btnSave.Location = new System.Drawing.Point(91, 9);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
@@ -123,7 +120,7 @@
             // 
             // btnNew
             // 
-            this.btnNew.Location = new System.Drawing.Point(8, 7);
+            this.btnNew.Location = new System.Drawing.Point(10, 9);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(75, 23);
             this.btnNew.TabIndex = 0;
@@ -135,7 +132,7 @@
             // 
             this.btnCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCollapse.Image = ((System.Drawing.Image)(resources.GetObject("btnCollapse.Image")));
-            this.btnCollapse.Location = new System.Drawing.Point(1056, 7);
+            this.btnCollapse.Location = new System.Drawing.Point(1056, 9);
             this.btnCollapse.Name = "btnCollapse";
             this.btnCollapse.Size = new System.Drawing.Size(26, 23);
             this.btnCollapse.TabIndex = 202;
@@ -147,7 +144,7 @@
             // 
             this.btnExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExpand.Image = ((System.Drawing.Image)(resources.GetObject("btnExpand.Image")));
-            this.btnExpand.Location = new System.Drawing.Point(1024, 7);
+            this.btnExpand.Location = new System.Drawing.Point(1024, 9);
             this.btnExpand.Name = "btnExpand";
             this.btnExpand.Size = new System.Drawing.Size(26, 23);
             this.btnExpand.TabIndex = 201;
@@ -159,7 +156,7 @@
             // labContent
             // 
             this.labContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labContent.Location = new System.Drawing.Point(841, 11);
+            this.labContent.Location = new System.Drawing.Point(841, 13);
             this.labContent.Name = "labContent";
             this.labContent.Size = new System.Drawing.Size(48, 14);
             this.labContent.TabIndex = 1;
@@ -169,7 +166,7 @@
             // 
             this.textContent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textContent.EnterMoveNextControl = true;
-            this.textContent.Location = new System.Drawing.Point(898, 8);
+            this.textContent.Location = new System.Drawing.Point(898, 10);
             this.textContent.Name = "textContent";
             this.textContent.Size = new System.Drawing.Size(120, 20);
             this.textContent.TabIndex = 200;

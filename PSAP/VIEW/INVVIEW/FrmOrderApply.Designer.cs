@@ -255,7 +255,7 @@
             // searchLookUpBussinessBaseNo
             // 
             this.searchLookUpBussinessBaseNo.EnterMoveNextControl = true;
-            this.searchLookUpBussinessBaseNo.Location = new System.Drawing.Point(502, 74);
+            this.searchLookUpBussinessBaseNo.Location = new System.Drawing.Point(485, 74);
             this.searchLookUpBussinessBaseNo.Name = "searchLookUpBussinessBaseNo";
             this.searchLookUpBussinessBaseNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -265,6 +265,7 @@
             this.searchLookUpBussinessBaseNo.Properties.View = this.searchLookUpBussinessBaseNoView;
             this.searchLookUpBussinessBaseNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpBussinessBaseNo.TabIndex = 8;
+            this.searchLookUpBussinessBaseNo.TabStop = false;
             // 
             // searchLookUpBussinessBaseNoView
             // 
@@ -311,7 +312,7 @@
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(279, 74);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(604, 44);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -320,7 +321,7 @@
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpProjectNo.TabIndex = 7;
+            this.searchLookUpProjectNo.TabIndex = 5;
             this.searchLookUpProjectNo.TabStop = false;
             // 
             // searchLookUpProjectNoView
@@ -367,14 +368,14 @@
             this.checkOrderDate.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.checkOrderDate.Properties.ValueGrayed = false;
             this.checkOrderDate.Size = new System.Drawing.Size(19, 19);
-            this.checkOrderDate.TabIndex = 33;
+            this.checkOrderDate.TabIndex = 1;
             this.checkOrderDate.TabStop = false;
             this.checkOrderDate.CheckedChanged += new System.EventHandler(this.checkOrderDate_CheckedChanged);
             // 
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(737, 74);
+            this.textCommon.Location = new System.Drawing.Point(720, 74);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
             this.textCommon.TabIndex = 9;
@@ -401,7 +402,7 @@
             // lookUpPurCategory
             // 
             this.lookUpPurCategory.EnterMoveNextControl = true;
-            this.lookUpPurCategory.Location = new System.Drawing.Point(613, 44);
+            this.lookUpPurCategory.Location = new System.Drawing.Point(292, 74);
             this.lookUpPurCategory.Name = "lookUpPurCategory";
             this.lookUpPurCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -412,7 +413,7 @@
             this.lookUpPurCategory.Properties.NullText = "";
             this.lookUpPurCategory.Properties.ValueMember = "PurCategory";
             this.lookUpPurCategory.Size = new System.Drawing.Size(120, 20);
-            this.lookUpPurCategory.TabIndex = 5;
+            this.lookUpPurCategory.TabIndex = 7;
             this.lookUpPurCategory.TabStop = false;
             // 
             // lookUpReqDep
@@ -499,7 +500,7 @@
             // 
             // labBussinessBaseNo
             // 
-            this.labBussinessBaseNo.Location = new System.Drawing.Point(448, 77);
+            this.labBussinessBaseNo.Location = new System.Drawing.Point(431, 77);
             this.labBussinessBaseNo.Name = "labBussinessBaseNo";
             this.labBussinessBaseNo.Size = new System.Drawing.Size(48, 14);
             this.labBussinessBaseNo.TabIndex = 35;
@@ -507,7 +508,7 @@
             // 
             // labProjectNo
             // 
-            this.labProjectNo.Location = new System.Drawing.Point(223, 77);
+            this.labProjectNo.Location = new System.Drawing.Point(548, 47);
             this.labProjectNo.Name = "labProjectNo";
             this.labProjectNo.Size = new System.Drawing.Size(48, 14);
             this.labProjectNo.TabIndex = 49;
@@ -515,7 +516,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(671, 77);
+            this.labCommon.Location = new System.Drawing.Point(654, 77);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 48;
@@ -531,7 +532,7 @@
             // 
             // labPurCategory
             // 
-            this.labPurCategory.Location = new System.Drawing.Point(547, 47);
+            this.labPurCategory.Location = new System.Drawing.Point(226, 77);
             this.labPurCategory.Name = "labPurCategory";
             this.labPurCategory.Size = new System.Drawing.Size(60, 14);
             this.labPurCategory.TabIndex = 46;
@@ -583,12 +584,12 @@
             // 
             // checkAll
             // 
-            this.checkAll.Location = new System.Drawing.Point(53, 4);
+            this.checkAll.Location = new System.Drawing.Point(53, 6);
+            this.checkAll.Margin = new System.Windows.Forms.Padding(4);
             this.checkAll.Name = "checkAll";
-            this.checkAll.Properties.Appearance.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.checkAll.Properties.Appearance.Options.UseBackColor = true;
+            this.checkAll.Properties.AutoHeight = false;
             this.checkAll.Properties.Caption = "";
-            this.checkAll.Size = new System.Drawing.Size(20, 19);
+            this.checkAll.Size = new System.Drawing.Size(16, 15);
             this.checkAll.TabIndex = 18;
             this.checkAll.TabStop = false;
             this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);

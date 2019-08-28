@@ -36,6 +36,7 @@
             this.ColProperName = new System.Data.DataColumn();
             this.ColProperText = new System.Data.DataColumn();
             this.ColProper = new System.Data.DataColumn();
+            this.ColFlowModuleText = new System.Data.DataColumn();
             this.bSWorkFlowModuleProper = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
@@ -60,13 +61,12 @@
             this.gridViewWorkFlowModuleProper = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coluFlowModuleId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colFlowModuleText1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coluProperName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coluProperText = new DevExpress.XtraGrid.Columns.GridColumn();
             this.coluProper = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repItemSearchProper = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.ColFlowModuleText = new System.Data.DataColumn();
-            this.colFlowModuleText1 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dSWorkFlowModuleProper)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableWorkFlowModuleProper)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSWorkFlowModuleProper)).BeginInit();
@@ -130,6 +130,11 @@
             this.ColProper.ColumnName = "Proper";
             this.ColProper.DataType = typeof(int);
             // 
+            // ColFlowModuleText
+            // 
+            this.ColFlowModuleText.Caption = "业务模块名称";
+            this.ColFlowModuleText.ColumnName = "FlowModuleText";
+            // 
             // bSWorkFlowModuleProper
             // 
             this.bSWorkFlowModuleProper.DataMember = "WorkFlowModuleProper";
@@ -137,6 +142,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -366,6 +372,16 @@
             this.coluFlowModuleId.VisibleIndex = 0;
             this.coluFlowModuleId.Width = 160;
             // 
+            // colFlowModuleText1
+            // 
+            this.colFlowModuleText1.AppearanceHeader.Options.UseTextOptions = true;
+            this.colFlowModuleText1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colFlowModuleText1.FieldName = "FlowModuleText";
+            this.colFlowModuleText1.Name = "colFlowModuleText1";
+            this.colFlowModuleText1.Visible = true;
+            this.colFlowModuleText1.VisibleIndex = 1;
+            this.colFlowModuleText1.Width = 160;
+            // 
             // coluProperName
             // 
             this.coluProperName.AppearanceHeader.Options.UseTextOptions = true;
@@ -414,21 +430,6 @@
             this.gridView2.Name = "gridView2";
             this.gridView2.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.gridView2.OptionsView.ShowGroupPanel = false;
-            // 
-            // ColFlowModuleText
-            // 
-            this.ColFlowModuleText.Caption = "业务模块名称";
-            this.ColFlowModuleText.ColumnName = "FlowModuleText";
-            // 
-            // colFlowModuleText1
-            // 
-            this.colFlowModuleText1.AppearanceHeader.Options.UseTextOptions = true;
-            this.colFlowModuleText1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colFlowModuleText1.FieldName = "FlowModuleText";
-            this.colFlowModuleText1.Name = "colFlowModuleText1";
-            this.colFlowModuleText1.Visible = true;
-            this.colFlowModuleText1.VisibleIndex = 1;
-            this.colFlowModuleText1.Width = 160;
             // 
             // FrmWorkFlowModuleProper
             // 

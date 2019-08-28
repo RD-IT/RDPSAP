@@ -39,6 +39,7 @@
             this.bSWorkProcess = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
+            this.checkIsBuy = new DevExpress.XtraEditors.CheckEdit();
             this.textRemark = new DevExpress.XtraEditors.TextEdit();
             this.textWorkProcessText = new DevExpress.XtraEditors.TextEdit();
             this.textWorkProcessNo = new DevExpress.XtraEditors.TextEdit();
@@ -51,16 +52,16 @@
             this.colAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWorkProcessNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWorkProcessText = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repCheckIsBuy = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.checkIsBuy = new DevExpress.XtraEditors.CheckEdit();
+            this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dSWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textWorkProcessText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textWorkProcessNo.Properties)).BeginInit();
@@ -69,7 +70,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // dSWorkProcess
@@ -122,6 +122,7 @@
             // 
             // pnlToolBar
             // 
+            this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
@@ -142,6 +143,19 @@
             this.pnlEdit.Name = "pnlEdit";
             this.pnlEdit.Size = new System.Drawing.Size(893, 97);
             this.pnlEdit.TabIndex = 6;
+            // 
+            // checkIsBuy
+            // 
+            this.checkIsBuy.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSWorkProcess, "IsBuy", true));
+            this.checkIsBuy.EnterMoveNextControl = true;
+            this.checkIsBuy.Location = new System.Drawing.Point(601, 21);
+            this.checkIsBuy.Name = "checkIsBuy";
+            this.checkIsBuy.Properties.Caption = "是否购买";
+            this.checkIsBuy.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkIsBuy.Properties.ValueChecked = ((short)(1));
+            this.checkIsBuy.Properties.ValueUnchecked = ((short)(0));
+            this.checkIsBuy.Size = new System.Drawing.Size(97, 19);
+            this.checkIsBuy.TabIndex = 2;
             // 
             // textRemark
             // 
@@ -261,16 +275,6 @@
             this.colWorkProcessText.VisibleIndex = 1;
             this.colWorkProcessText.Width = 180;
             // 
-            // colRemark
-            // 
-            this.colRemark.AppearanceHeader.Options.UseTextOptions = true;
-            this.colRemark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colRemark.FieldName = "Remark";
-            this.colRemark.Name = "colRemark";
-            this.colRemark.Visible = true;
-            this.colRemark.VisibleIndex = 3;
-            this.colRemark.Width = 240;
-            // 
             // colIsBuy
             // 
             this.colIsBuy.AppearanceHeader.Options.UseTextOptions = true;
@@ -291,18 +295,15 @@
             this.repCheckIsBuy.ValueGrayed = ((short)(0));
             this.repCheckIsBuy.ValueUnchecked = ((short)(0));
             // 
-            // checkIsBuy
+            // colRemark
             // 
-            this.checkIsBuy.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSWorkProcess, "IsBuy", true));
-            this.checkIsBuy.EnterMoveNextControl = true;
-            this.checkIsBuy.Location = new System.Drawing.Point(601, 21);
-            this.checkIsBuy.Name = "checkIsBuy";
-            this.checkIsBuy.Properties.Caption = "是否购买";
-            this.checkIsBuy.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-            this.checkIsBuy.Properties.ValueChecked = ((short)(1));
-            this.checkIsBuy.Properties.ValueUnchecked = ((short)(0));
-            this.checkIsBuy.Size = new System.Drawing.Size(97, 19);
-            this.checkIsBuy.TabIndex = 2;
+            this.colRemark.AppearanceHeader.Options.UseTextOptions = true;
+            this.colRemark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colRemark.FieldName = "Remark";
+            this.colRemark.Name = "colRemark";
+            this.colRemark.Visible = true;
+            this.colRemark.VisibleIndex = 3;
+            this.colRemark.Width = 240;
             // 
             // FrmWorkProcess
             // 
@@ -322,6 +323,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textWorkProcessText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textWorkProcessNo.Properties)).EndInit();
@@ -330,7 +332,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlWorkProcess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewWorkProcess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

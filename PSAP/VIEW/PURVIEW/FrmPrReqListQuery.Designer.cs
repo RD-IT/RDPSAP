@@ -113,7 +113,7 @@
             this.colPurCategory = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repItemLookUpPurCategory = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colApplicant = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colApprover = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colClosed = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrReqRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colListAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -183,7 +183,7 @@
             // searchLookUpCodeFileName
             // 
             this.searchLookUpCodeFileName.EnterMoveNextControl = true;
-            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(605, 44);
+            this.searchLookUpCodeFileName.Location = new System.Drawing.Point(607, 44);
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -225,7 +225,7 @@
             // searchLookUpProjectNo
             // 
             this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(373, 44);
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(773, 14);
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -234,7 +234,7 @@
             this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpProjectNo.TabIndex = 8;
+            this.searchLookUpProjectNo.TabIndex = 4;
             // 
             // searchLookUpProjectNoView
             // 
@@ -275,7 +275,7 @@
             // 
             // checkReqDate
             // 
-            this.checkReqDate.Location = new System.Drawing.Point(85, 44);
+            this.checkReqDate.Location = new System.Drawing.Point(84, 44);
             this.checkReqDate.Name = "checkReqDate";
             this.checkReqDate.Properties.Caption = "";
             this.checkReqDate.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -287,7 +287,7 @@
             // 
             // btnSaveExcel
             // 
-            this.btnSaveExcel.Location = new System.Drawing.Point(1053, 43);
+            this.btnSaveExcel.Location = new System.Drawing.Point(1095, 43);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
             this.btnSaveExcel.TabIndex = 12;
@@ -298,7 +298,7 @@
             // 
             this.dateRequirementDateEnd.EditValue = null;
             this.dateRequirementDateEnd.EnterMoveNextControl = true;
-            this.dateRequirementDateEnd.Location = new System.Drawing.Point(191, 14);
+            this.dateRequirementDateEnd.Location = new System.Drawing.Point(202, 14);
             this.dateRequirementDateEnd.Name = "dateRequirementDateEnd";
             this.dateRequirementDateEnd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -309,22 +309,22 @@
             this.dateRequirementDateEnd.Properties.EditFormat.FormatString = "yyyy-MM-dd";
             this.dateRequirementDateEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dateRequirementDateEnd.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dateRequirementDateEnd.Size = new System.Drawing.Size(90, 20);
+            this.dateRequirementDateEnd.Size = new System.Drawing.Size(100, 20);
             this.dateRequirementDateEnd.TabIndex = 1;
             // 
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(837, 44);
+            this.textCommon.Location = new System.Drawing.Point(839, 44);
             this.textCommon.Name = "textCommon";
-            this.textCommon.Size = new System.Drawing.Size(120, 20);
+            this.textCommon.Size = new System.Drawing.Size(150, 20);
             this.textCommon.TabIndex = 10;
             // 
             // dateRequirementDateBegin
             // 
             this.dateRequirementDateBegin.EditValue = null;
             this.dateRequirementDateBegin.EnterMoveNextControl = true;
-            this.dateRequirementDateBegin.Location = new System.Drawing.Point(85, 14);
+            this.dateRequirementDateBegin.Location = new System.Drawing.Point(86, 14);
             this.dateRequirementDateBegin.Name = "dateRequirementDateBegin";
             this.dateRequirementDateBegin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -335,13 +335,13 @@
             this.dateRequirementDateBegin.Properties.EditFormat.FormatString = "yyyy-MM-dd";
             this.dateRequirementDateBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dateRequirementDateBegin.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dateRequirementDateBegin.Size = new System.Drawing.Size(90, 20);
+            this.dateRequirementDateBegin.Size = new System.Drawing.Size(100, 20);
             this.dateRequirementDateBegin.TabIndex = 0;
             // 
             // comboBoxReqState
             // 
             this.comboBoxReqState.EnterMoveNextControl = true;
-            this.comboBoxReqState.Location = new System.Drawing.Point(764, 14);
+            this.comboBoxReqState.Location = new System.Drawing.Point(405, 44);
             this.comboBoxReqState.Name = "comboBoxReqState";
             this.comboBoxReqState.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -355,12 +355,12 @@
             "拒绝"});
             this.comboBoxReqState.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
-            this.comboBoxReqState.TabIndex = 4;
+            this.comboBoxReqState.TabIndex = 8;
             // 
             // lookUpPurCategory
             // 
             this.lookUpPurCategory.EnterMoveNextControl = true;
-            this.lookUpPurCategory.Location = new System.Drawing.Point(561, 14);
+            this.lookUpPurCategory.Location = new System.Drawing.Point(582, 14);
             this.lookUpPurCategory.Name = "lookUpPurCategory";
             this.lookUpPurCategory.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -376,7 +376,7 @@
             // lookUpReqDep
             // 
             this.lookUpReqDep.EnterMoveNextControl = true;
-            this.lookUpReqDep.Location = new System.Drawing.Point(360, 14);
+            this.lookUpReqDep.Location = new System.Drawing.Point(381, 14);
             this.lookUpReqDep.Name = "lookUpReqDep";
             this.lookUpReqDep.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -391,7 +391,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(972, 43);
+            this.btnQuery.Location = new System.Drawing.Point(1004, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 11;
@@ -403,7 +403,7 @@
             this.dateReqDateEnd.EditValue = null;
             this.dateReqDateEnd.Enabled = false;
             this.dateReqDateEnd.EnterMoveNextControl = true;
-            this.dateReqDateEnd.Location = new System.Drawing.Point(216, 44);
+            this.dateReqDateEnd.Location = new System.Drawing.Point(224, 44);
             this.dateReqDateEnd.Name = "dateReqDateEnd";
             this.dateReqDateEnd.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -414,7 +414,7 @@
             this.dateReqDateEnd.Properties.EditFormat.FormatString = "yyyy-MM-dd";
             this.dateReqDateEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dateReqDateEnd.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dateReqDateEnd.Size = new System.Drawing.Size(90, 20);
+            this.dateReqDateEnd.Size = new System.Drawing.Size(100, 20);
             this.dateReqDateEnd.TabIndex = 7;
             // 
             // dateReqDateBegin
@@ -422,7 +422,7 @@
             this.dateReqDateBegin.EditValue = null;
             this.dateReqDateBegin.Enabled = false;
             this.dateReqDateBegin.EnterMoveNextControl = true;
-            this.dateReqDateBegin.Location = new System.Drawing.Point(110, 44);
+            this.dateReqDateBegin.Location = new System.Drawing.Point(108, 44);
             this.dateReqDateBegin.Name = "dateReqDateBegin";
             this.dateReqDateBegin.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -433,12 +433,12 @@
             this.dateReqDateBegin.Properties.EditFormat.FormatString = "yyyy-MM-dd";
             this.dateReqDateBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dateReqDateBegin.Properties.Mask.EditMask = "yyyy-MM-dd";
-            this.dateReqDateBegin.Size = new System.Drawing.Size(90, 20);
-            this.dateReqDateBegin.TabIndex = 3;
+            this.dateReqDateBegin.Size = new System.Drawing.Size(100, 20);
+            this.dateReqDateBegin.TabIndex = 6;
             // 
             // labCodeFileName
             // 
-            this.labCodeFileName.Location = new System.Drawing.Point(539, 47);
+            this.labCodeFileName.Location = new System.Drawing.Point(541, 47);
             this.labCodeFileName.Name = "labCodeFileName";
             this.labCodeFileName.Size = new System.Drawing.Size(60, 14);
             this.labCodeFileName.TabIndex = 35;
@@ -446,7 +446,7 @@
             // 
             // labProjectNo
             // 
-            this.labProjectNo.Location = new System.Drawing.Point(319, 47);
+            this.labProjectNo.Location = new System.Drawing.Point(719, 17);
             this.labProjectNo.Name = "labProjectNo";
             this.labProjectNo.Size = new System.Drawing.Size(48, 14);
             this.labProjectNo.TabIndex = 33;
@@ -462,7 +462,7 @@
             // 
             // lab2
             // 
-            this.lab2.Location = new System.Drawing.Point(181, 17);
+            this.lab2.Location = new System.Drawing.Point(192, 17);
             this.lab2.Name = "lab2";
             this.lab2.Size = new System.Drawing.Size(4, 14);
             this.lab2.TabIndex = 24;
@@ -470,7 +470,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(771, 47);
+            this.labCommon.Location = new System.Drawing.Point(773, 47);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
             this.labCommon.TabIndex = 14;
@@ -478,7 +478,7 @@
             // 
             // labReqState
             // 
-            this.labReqState.Location = new System.Drawing.Point(698, 17);
+            this.labReqState.Location = new System.Drawing.Point(339, 47);
             this.labReqState.Name = "labReqState";
             this.labReqState.Size = new System.Drawing.Size(60, 14);
             this.labReqState.TabIndex = 9;
@@ -486,7 +486,7 @@
             // 
             // labPurCategory
             // 
-            this.labPurCategory.Location = new System.Drawing.Point(495, 17);
+            this.labPurCategory.Location = new System.Drawing.Point(516, 17);
             this.labPurCategory.Name = "labPurCategory";
             this.labPurCategory.Size = new System.Drawing.Size(60, 14);
             this.labPurCategory.TabIndex = 7;
@@ -494,7 +494,7 @@
             // 
             // labReqDep
             // 
-            this.labReqDep.Location = new System.Drawing.Point(294, 17);
+            this.labReqDep.Location = new System.Drawing.Point(315, 17);
             this.labReqDep.Name = "labReqDep";
             this.labReqDep.Size = new System.Drawing.Size(60, 14);
             this.labReqDep.TabIndex = 5;
@@ -502,7 +502,7 @@
             // 
             // lab
             // 
-            this.lab.Location = new System.Drawing.Point(206, 47);
+            this.lab.Location = new System.Drawing.Point(214, 47);
             this.lab.Name = "lab";
             this.lab.Size = new System.Drawing.Size(4, 14);
             this.lab.TabIndex = 2;
@@ -776,7 +776,7 @@
             this.colStnNo,
             this.colPurCategory,
             this.colApplicant,
-            this.colApprover,
+            this.colModifier,
             this.colClosed,
             this.colPrReqRemark,
             this.colListAutoId});
@@ -819,7 +819,7 @@
             this.colCodeFileName.Name = "colCodeFileName";
             this.colCodeFileName.Visible = true;
             this.colCodeFileName.VisibleIndex = 1;
-            this.colCodeFileName.Width = 120;
+            this.colCodeFileName.Width = 110;
             // 
             // colCodeName
             // 
@@ -829,7 +829,7 @@
             this.colCodeName.Name = "colCodeName";
             this.colCodeName.Visible = true;
             this.colCodeName.VisibleIndex = 2;
-            this.colCodeName.Width = 100;
+            this.colCodeName.Width = 110;
             // 
             // colQty
             // 
@@ -965,15 +965,15 @@
             this.colApplicant.VisibleIndex = 13;
             this.colApplicant.Width = 70;
             // 
-            // colApprover
+            // colModifier
             // 
-            this.colApprover.AppearanceHeader.Options.UseTextOptions = true;
-            this.colApprover.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colApprover.FieldName = "Approver";
-            this.colApprover.Name = "colApprover";
-            this.colApprover.Visible = true;
-            this.colApprover.VisibleIndex = 14;
-            this.colApprover.Width = 70;
+            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifier.FieldName = "Modifier";
+            this.colModifier.Name = "colModifier";
+            this.colModifier.Visible = true;
+            this.colModifier.VisibleIndex = 14;
+            this.colModifier.Width = 70;
             // 
             // colClosed
             // 
@@ -1120,7 +1120,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colPurCategory;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repItemLookUpPurCategory;
         private DevExpress.XtraGrid.Columns.GridColumn colApplicant;
-        private DevExpress.XtraGrid.Columns.GridColumn colApprover;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifier;
         private DevExpress.XtraGrid.Columns.GridColumn colClosed;
         private DevExpress.XtraGrid.Columns.GridColumn colPrReqRemark;
         private System.Data.DataColumn dataColCodeFileName;
