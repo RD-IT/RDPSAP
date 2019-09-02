@@ -129,7 +129,8 @@ namespace PSAP.DAO.PURDAO
                             return 0;
                         }
 
-                        if (DataTypeConvert.GetString(SettlementHeadRow["SettlementNo"]) == "")//新增
+                        //if (DataTypeConvert.GetString(SettlementHeadRow["SettlementNo"]) == "")//新增
+                        if (SettlementHeadRow.RowState == DataRowState.Added)//新增
                         {
                             string psNo = BaseSQL.GetMaxCodeNo(cmd, "PS");
                             SettlementHeadRow["SettlementNo"] = psNo;

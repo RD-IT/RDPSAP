@@ -726,6 +726,9 @@ namespace PSAP.DAO.BSDAO
         /// </summary>
         public static void UpdateDataTable(SqlDataAdapter dataAdapter, DataTable dataTable)
         {
+            if (dataTable == null)
+                return;
+
             SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
             commandBuilder.ConflictOption = ConflictOption.OverwriteChanges;
             dataAdapter.UpdateCommand = commandBuilder.GetUpdateCommand(true);

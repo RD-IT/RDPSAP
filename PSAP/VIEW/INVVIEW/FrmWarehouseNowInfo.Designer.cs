@@ -62,7 +62,7 @@
             this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.labShelfId = new DevExpress.XtraEditors.LabelControl();
             this.lookUpRepertoryId = new DevExpress.XtraEditors.LookUpEdit();
             this.labRepertoryId = new DevExpress.XtraEditors.LabelControl();
             this.searchLookUpCodeFileName = new DevExpress.XtraEditors.SearchLookUpEdit();
@@ -247,7 +247,7 @@
             this.pnltop.Controls.Add(this.SearchLocationId);
             this.pnltop.Controls.Add(this.checkZero);
             this.pnltop.Controls.Add(this.searchLookUpShelfId);
-            this.pnltop.Controls.Add(this.labelControl1);
+            this.pnltop.Controls.Add(this.labShelfId);
             this.pnltop.Controls.Add(this.lookUpRepertoryId);
             this.pnltop.Controls.Add(this.labRepertoryId);
             this.pnltop.Controls.Add(this.searchLookUpCodeFileName);
@@ -333,6 +333,7 @@
             // checkZero
             // 
             this.checkZero.EditValue = true;
+            this.checkZero.EnterMoveNextControl = true;
             this.checkZero.Location = new System.Drawing.Point(258, 44);
             this.checkZero.Name = "checkZero";
             this.checkZero.Properties.Caption = "库存数不等于0";
@@ -399,13 +400,13 @@
             this.gridColumn5.Visible = true;
             this.gridColumn5.VisibleIndex = 2;
             // 
-            // labelControl1
+            // labShelfId
             // 
-            this.labelControl1.Location = new System.Drawing.Point(828, 17);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(48, 14);
-            this.labelControl1.TabIndex = 43;
-            this.labelControl1.Text = "货架号：";
+            this.labShelfId.Location = new System.Drawing.Point(828, 17);
+            this.labShelfId.Name = "labShelfId";
+            this.labShelfId.Size = new System.Drawing.Size(48, 14);
+            this.labShelfId.TabIndex = 43;
+            this.labShelfId.Text = "货架号：";
             // 
             // lookUpRepertoryId
             // 
@@ -932,7 +933,7 @@
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpShelfView;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.LabelControl labShelfId;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraEditors.PanelControl pnlBottom;

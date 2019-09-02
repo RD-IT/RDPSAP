@@ -107,6 +107,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 repLookUpWWReqDep.DataSource = departmentTable_f;
                 repLookUpWWRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
+                repLookUpRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 repLookUpWWTypeNo.DataSource = new FrmWarehouseWarrantDAO().QueryWarehouseWarrantType(false);
                 repSearchWWBussinessBaseNo.DataSource = bussBaseTable_f;
 
@@ -116,6 +117,22 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     setDAO.QuerySettlementHead(dataSet_Settlement.Tables[0], "", "", "", "", "", "", 0, "", -1, "", true);
                     setDAO.QuerySettlementList(dataSet_Settlement.Tables[1], "", true);
+                }
+
+                if (SystemInfo.DisableProjectNo)
+                {
+                    btnPrReqQuery.Location = new Point(243, 13);
+                    pnlLeftTop.Height = 80;
+
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
+                    colProjectName.Visible = false;
+                    colStnNo.Visible = false;
+                }
+
+                if (SystemInfo.DisableShelfInfo)
+                {
+                    colShelfId.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -673,17 +690,48 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string settlementNoStr = "";
-                if (gridViewSettlementHead.GetFocusedDataRow() != null)
-                    settlementNoStr = DataTypeConvert.GetString(gridViewSettlementHead.GetFocusedDataRow()["SettlementNo"]);
-
-                if (SystemInfo.ApproveAfterPrint)
+                DataRow dr = null;
+                DataRow[] drs = dataSet_Settlement.Tables[0].Select("select=1");
+                if (drs.Length > 1)
                 {
-                    if (DataTypeConvert.GetInt(gridViewSettlementHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewSettlementHead.GetFocusedDataRow() != null)
+                    {
+                        settlementNoStr = DataTypeConvert.GetString(gridViewSettlementHead.GetFocusedDataRow()["SettlementNo"]);
+                        dr = gridViewSettlementHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    settlementNoStr = DataTypeConvert.GetString(drs[0]["SettlementNo"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["WarehouseState"]) != 2)
                     {
                         MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
                         return;
                     }
                 }
+
+                //string settlementNoStr = "";
+                //if (gridViewSettlementHead.GetFocusedDataRow() != null)
+                //    settlementNoStr = DataTypeConvert.GetString(gridViewSettlementHead.GetFocusedDataRow()["SettlementNo"]);
+
+                //if (SystemInfo.ApproveAfterPrint)
+                //{
+                //    if (DataTypeConvert.GetInt(gridViewSettlementHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                //    {
+                //        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                //        return;
+                //    }
+                //}
 
                 setDAO.PrintHandle(settlementNoStr, 1);
             }

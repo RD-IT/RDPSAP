@@ -109,13 +109,15 @@ namespace PSAP.DAO.INVDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
+                        DateTime serverTime = BaseSQL.GetServerDateTime();
 
                         //if (!CheckOrderApplyBeyondCount(cmd, DataTypeConvert.GetString(wwHeadRow["WarehouseWarrant"]), wwListTable))
                         //{
                         //    return 0;
                         //}
 
-                        if (DataTypeConvert.GetString(swwHeadRow["SpecialWarehouseWarrant"]) == "")//新增
+                        //if (DataTypeConvert.GetString(swwHeadRow["SpecialWarehouseWarrant"]) == "")//新增
+                        if (swwHeadRow.RowState == DataRowState.Added)//新增
                         {
                             string swwNo = BaseSQL.GetMaxCodeNo(cmd, "SW");
                             swwHeadRow["SpecialWarehouseWarrant"] = swwNo;
@@ -133,7 +135,17 @@ namespace PSAP.DAO.INVDAO
 
                             swwHeadRow["Modifier"] = SystemInfo.user.EmpName;
                             swwHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
-                            swwHeadRow["ModifierTime"] = BaseSQL.GetServerDateTime();
+                            swwHeadRow["ModifierTime"] = serverTime;
+                        }
+
+                        string swwNoStr = DataTypeConvert.GetString(swwHeadRow["SpecialWarehouseWarrant"]);
+
+                        DataTable dbListTable = new DataTable();
+                        if (swwHeadRow.RowState != DataRowState.Added)
+                        {
+                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_SpecialWarehouseWarrantList as list left join INV_SpecialWarehouseWarrantHead as head on list.SpecialWarehouseWarrant = head.SpecialWarehouseWarrant left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.SpecialWarehouseWarrant = '{0}' group by CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", swwNoStr);
+                            SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
+                            dbListAdapter.Fill(dbListTable);
                         }
 
                         //保存日志到日志表中
@@ -143,25 +155,42 @@ namespace PSAP.DAO.INVDAO
                         SqlDataAdapter adapterHead = new SqlDataAdapter(cmd);
                         DataTable tmpHeadTable = new DataTable();
                         adapterHead.Fill(tmpHeadTable);
-                        BaseSQL.UpdateDataTable(adapterHead, swwHeadRow.Table);
+                        BaseSQL.UpdateDataTable(adapterHead, swwHeadRow.Table.GetChanges());
 
                         cmd.CommandText = "select * from INV_SpecialWarehouseWarrantList where 1=2";
                         SqlDataAdapter adapterList = new SqlDataAdapter(cmd);
                         DataTable tmpListTable = new DataTable();
                         adapterList.Fill(tmpListTable);
-                        BaseSQL.UpdateDataTable(adapterList, swwListTable);
+                        BaseSQL.UpdateDataTable(adapterList, swwListTable.GetChanges());
 
                         //Set_OrderHead_End(cmd, swwListTable);
 
+                        if (new FrmWarehouseNowInfoDAO().SaveUpdate_WarehouseNowInfo(conn, trans, cmd, swwHeadRow, swwListTable.Copy(), swwNoStr, dbListTable, "预算外入库单", "入库", true) != 1)
+                            return 0;
+
+                        if (SystemInfo.InventorySaveApproval)
+                        {
+                            //cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", swwNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                            //cmd.ExecuteNonQuery();
+
+                            //logStr = LogHandler.RecordLog_OperateRow(cmd, "预算外入库单", swwHeadRow, "SpecialWarehouseWarrant", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                            new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, swwHeadRow, "预算外入库单", "SpecialWarehouseWarrant", swwNoStr, serverTime);
+
+                            cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState=2 where SpecialWarehouseWarrant='{0}'", swwNoStr);
+                            cmd.ExecuteNonQuery();
+
+                            swwHeadRow["WarehouseState"] = 2;
+                        }
+
                         trans.Commit();
+                        swwHeadRow.Table.AcceptChanges();
+                        swwListTable.AcceptChanges();
 
                         return 1;
                     }
                     catch (Exception ex)
                     {
                         trans.Rollback();
-                        swwHeadRow.Table.RejectChanges();
-                        swwListTable.RejectChanges();
                         throw ex;
                     }
                     finally
@@ -256,6 +285,7 @@ namespace PSAP.DAO.INVDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
+                        string errorText = "";
                         cmd.CommandText = string.Format("select * from INV_SpecialWarehouseWarrantList where SpecialWarehouseWarrant in ({0})", swwHeadNoListStr);
                         DataTable tmpTable = new DataTable();
                         SqlDataAdapter adpt = new SqlDataAdapter(cmd);
@@ -266,6 +296,14 @@ namespace PSAP.DAO.INVDAO
                         for (int i = 0; i < swwHeadRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "预算外入库单", swwHeadRows[i], "SpecialWarehouseWarrant");
+
+                            SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
+                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(swwHeadRows[i]["SpecialWarehouseWarrant"]), 2, out errorText))
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox("预算外入库单删除入库错误--" + errorText);
+                                return false;
+                            }
                         }
 
                         cmd.CommandText = string.Format("Delete from INV_SpecialWarehouseWarrantList where SpecialWarehouseWarrant in ({0})", swwHeadNoListStr);
@@ -318,93 +356,116 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
-                        for (int i = 0; i < swwHeadTable.Rows.Count; i++)
+
+                        if (SystemInfo.InventorySaveApproval)
                         {
-                            if (DataTypeConvert.GetBoolean(swwHeadTable.Rows[i]["Select"]))
+                            for (int i = 0; i < swwHeadTable.Rows.Count; i++)
                             {
-                                DataRow swwRow = swwHeadTable.Rows[i];
-                                string swwHeadNoStr = DataTypeConvert.GetString(swwRow["SpecialWarehouseWarrant"]);
-
-                                cmd.CommandText = string.Format("select INV_SpecialWarehouseWarrantHead.SpecialWarehouseWarrant, INV_SpecialWarehouseWarrantHead.ApprovalType, PUR_ApprovalType.ApprovalCat from INV_SpecialWarehouseWarrantHead left join PUR_ApprovalType on INV_SpecialWarehouseWarrantHead.ApprovalType = PUR_ApprovalType.TypeNo where SpecialWarehouseWarrant = '{0}'", swwHeadNoStr);
-                                DataTable tmpTable = new DataTable();
-                                SqlDataAdapter orderadpt = new SqlDataAdapter(cmd);
-                                orderadpt.Fill(tmpTable);
-                                if (tmpTable.Rows.Count == 0)
+                                if (DataTypeConvert.GetBoolean(swwHeadTable.Rows[i]["Select"]))
                                 {
-                                    trans.Rollback();
-                                    MessageHandler.ShowMessageBox("未查询到要操作的预算外入库单，请刷新后再进行操作。");
-                                    return false;
-                                }
+                                    string swwHeadNoStr = DataTypeConvert.GetString(swwHeadTable.Rows[i]["SpecialWarehouseWarrant"]);
 
-                                ////审核检查入库明细数量是否超过采购订单明细数量
-                                //DataTable orderListTable = new DataTable();
-                                //QueryWarehouseWarrantList(orderListTable, swwHeadNoStr, false);
-                                //if (!CheckOrderApplyBeyondCount(cmd, swwHeadNoStr, orderListTable))
-                                //{
-                                //    trans.Rollback();
-                                //    return false;
-                                //}
+                                    new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, swwHeadTable.Rows[i], "预算外入库单", "SpecialWarehouseWarrant", swwHeadNoStr, serverTime);
 
-                                //Set_OrderHead_End(cmd, orderListTable);
-
-                                string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
-                                cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", swwHeadNoStr, approvalTypeStr);
-                                DataTable listTable = new DataTable();
-                                SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
-                                listadpt.Fill(listTable);
-                                if (listTable.Rows.Count == 0)
-                                {
-                                    cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState = 2 where SpecialWarehouseWarrant='{0}'", swwHeadNoStr);
-                                    cmd.ExecuteNonQuery();
-                                    swwHeadTable.Rows[i]["WarehouseState"] = 2;
-                                    continue;
-                                }
-                                int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
-                                switch (approvalCatInt)
-                                {
-                                    case 0:
-                                        if (DataTypeConvert.GetInt(listTable.Rows[0]["Approver"]) != SystemInfo.user.AutoId)
-                                            continue;
-                                        break;
-                                    case 1:
-                                    case 2:
-                                        if (listTable.Select(string.Format("Approver={0}", SystemInfo.user.AutoId)).Length == 0)
-                                            continue;
-                                        break;
-                                }
-
-                                cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", swwHeadNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.ExecuteNonQuery();
-
-                                if (listTable.Rows.Count == 1 || approvalCatInt == 2)
-                                {
                                     cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState=2 where SpecialWarehouseWarrant='{0}'", swwHeadNoStr);
                                     cmd.ExecuteNonQuery();
+
                                     swwHeadTable.Rows[i]["WarehouseState"] = 2;
-                                }
-                                else
-                                {
-                                    cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState=4 where SpecialWarehouseWarrant='{0}'", swwHeadNoStr);
-                                    cmd.ExecuteNonQuery();
-                                    swwHeadTable.Rows[i]["WarehouseState"] = 4;
-                                }
 
-                                //保存日志到日志表中
-                                string logStr = LogHandler.RecordLog_OperateRow(cmd, "预算外入库单", swwHeadTable.Rows[i], "SpecialWarehouseWarrant", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-
-                                if (DataTypeConvert.GetInt(swwHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    successCountInt++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < swwHeadTable.Rows.Count; i++)
+                            {
+                                if (DataTypeConvert.GetBoolean(swwHeadTable.Rows[i]["Select"]))
                                 {
-                                    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
-                                    string errorText = "";
-                                    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, swwHeadNoStr, 1, out errorText))
+                                    DataRow swwRow = swwHeadTable.Rows[i];
+                                    string swwHeadNoStr = DataTypeConvert.GetString(swwRow["SpecialWarehouseWarrant"]);
+
+                                    cmd.CommandText = string.Format("select INV_SpecialWarehouseWarrantHead.SpecialWarehouseWarrant, INV_SpecialWarehouseWarrantHead.ApprovalType, PUR_ApprovalType.ApprovalCat from INV_SpecialWarehouseWarrantHead left join PUR_ApprovalType on INV_SpecialWarehouseWarrantHead.ApprovalType = PUR_ApprovalType.TypeNo where SpecialWarehouseWarrant = '{0}'", swwHeadNoStr);
+                                    DataTable tmpTable = new DataTable();
+                                    SqlDataAdapter orderadpt = new SqlDataAdapter(cmd);
+                                    orderadpt.Fill(tmpTable);
+                                    if (tmpTable.Rows.Count == 0)
                                     {
                                         trans.Rollback();
-                                        MessageHandler.ShowMessageBox("预算外入库单审核入库错误--" + errorText);
+                                        MessageHandler.ShowMessageBox("未查询到要操作的预算外入库单，请刷新后再进行操作。");
                                         return false;
                                     }
-                                }
 
-                                successCountInt++;
+                                    ////审核检查入库明细数量是否超过采购订单明细数量
+                                    //DataTable orderListTable = new DataTable();
+                                    //QueryWarehouseWarrantList(orderListTable, swwHeadNoStr, false);
+                                    //if (!CheckOrderApplyBeyondCount(cmd, swwHeadNoStr, orderListTable))
+                                    //{
+                                    //    trans.Rollback();
+                                    //    return false;
+                                    //}
+
+                                    //Set_OrderHead_End(cmd, orderListTable);
+
+                                    string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
+                                    cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", swwHeadNoStr, approvalTypeStr);
+                                    DataTable listTable = new DataTable();
+                                    SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
+                                    listadpt.Fill(listTable);
+                                    if (listTable.Rows.Count == 0)
+                                    {
+                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState = 2 where SpecialWarehouseWarrant='{0}'", swwHeadNoStr);
+                                        cmd.ExecuteNonQuery();
+                                        swwHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        continue;
+                                    }
+                                    int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
+                                    switch (approvalCatInt)
+                                    {
+                                        case 0:
+                                            if (DataTypeConvert.GetInt(listTable.Rows[0]["Approver"]) != SystemInfo.user.AutoId)
+                                                continue;
+                                            break;
+                                        case 1:
+                                        case 2:
+                                            if (listTable.Select(string.Format("Approver={0}", SystemInfo.user.AutoId)).Length == 0)
+                                                continue;
+                                            break;
+                                    }
+
+                                    cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", swwHeadNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    cmd.ExecuteNonQuery();
+
+                                    if (listTable.Rows.Count == 1 || approvalCatInt == 2)
+                                    {
+                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState=2 where SpecialWarehouseWarrant='{0}'", swwHeadNoStr);
+                                        cmd.ExecuteNonQuery();
+                                        swwHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    }
+                                    else
+                                    {
+                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseWarrantHead set WarehouseState=4 where SpecialWarehouseWarrant='{0}'", swwHeadNoStr);
+                                        cmd.ExecuteNonQuery();
+                                        swwHeadTable.Rows[i]["WarehouseState"] = 4;
+                                    }
+
+                                    //保存日志到日志表中
+                                    string logStr = LogHandler.RecordLog_OperateRow(cmd, "预算外入库单", swwHeadTable.Rows[i], "SpecialWarehouseWarrant", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                    //if (DataTypeConvert.GetInt(swwHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    //{
+                                    //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
+                                    //    string errorText = "";
+                                    //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, swwHeadNoStr, 1, out errorText))
+                                    //    {
+                                    //        trans.Rollback();
+                                    //        MessageHandler.ShowMessageBox("预算外入库单审核入库错误--" + errorText);
+                                    //        return false;
+                                    //    }
+                                    //}
+
+                                    successCountInt++;
+                                }
                             }
                         }
 
@@ -480,17 +541,17 @@ namespace PSAP.DAO.INVDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "预算外入库单", orderHeadRows[i], "SpecialWarehouseWarrant", "取消审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
-                        for (int i = 0; i < approcalSWWTable.Rows.Count; i++)
-                        {
-                            SqlCommand cmd_proc = new SqlCommand("", conn, trans);
-                            string errorText = "";
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalSWWTable.Rows[i]["SpecialWarehouseWarrant"]), 2, out errorText))
-                            {
-                                trans.Rollback();
-                                MessageHandler.ShowMessageBox("预算外入库单取消审核出库错误--" + errorText);
-                                return false;
-                            }
-                        }
+                        //for (int i = 0; i < approcalSWWTable.Rows.Count; i++)
+                        //{
+                        //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
+                        //    string errorText = "";
+                        //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalSWWTable.Rows[i]["SpecialWarehouseWarrant"]), 2, out errorText))
+                        //    {
+                        //        trans.Rollback();
+                        //        MessageHandler.ShowMessageBox("预算外入库单取消审核出库错误--" + errorText);
+                        //        return false;
+                        //    }
+                        //}
 
                         trans.Commit();
                         swwHeadTable.AcceptChanges();

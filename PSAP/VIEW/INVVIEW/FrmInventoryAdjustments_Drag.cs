@@ -92,6 +92,7 @@ namespace PSAP.VIEW.BSVIEW
                 DataTable projectListTable_t = commonDAO.QueryProjectList(true);
                 DataTable locationTable_f = commonDAO.QueryRepertoryLocationInfo(false);
                 DataTable shelfInfoTable_f = commonDAO.QueryShelfInfo(false);
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 lookUpAdjRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpAdjRepertoryId.ItemIndex = 0;
@@ -99,13 +100,17 @@ namespace PSAP.VIEW.BSVIEW
                 SearchLocationId.EditValue = 0;
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
-                lookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpCreator.EditValue = SystemInfo.user.AutoId;
                 searchProjectNo.Properties.DataSource = projectListTable_t;
                 searchProjectNo.Text = "全部";
+                comboBoxWarehouseState.SelectedIndex = 0;
+                lookUpCreator.Properties.DataSource = userInfoTable_t;
+                lookUpCreator.EditValue = SystemInfo.user.AutoId;
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
+                lookUpApprover.ItemIndex = -1;
 
                 repLookUpInRepertoryId.DataSource = repertoryTable_f;
                 repSearchLocationId.DataSource = locationTable_f;
+                repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
                 repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
@@ -125,7 +130,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (textCommon.Text == "")
                 {
-                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", 0,0, "", "", 0, "", true);
+                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", 0, 0, "", "", 0, 0, -1, "", true);
                     iaDAO.QueryInventoryAdjustmentsList(dataSet_IA.Tables[1], "", true);
                 }
 
@@ -174,7 +179,7 @@ namespace PSAP.VIEW.BSVIEW
 
                     dataSet_IA.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", 0, 0,"", "", 0, textCommon.Text, false);
+                    iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], "", "", 0, 0,"", "", 0, 0, -1, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_IA.Tables[0].Rows.Count > 0)
@@ -198,6 +203,17 @@ namespace PSAP.VIEW.BSVIEW
         {
             pnlMiddle.Height = (this.Height - pnltop.Height) / 2;
             dockPnlLeft.Width = SystemInfo.DragForm_LeftDock_Width;
+        }
+
+        /// <summary>
+        /// 删除选项
+        /// </summary>
+        private void lookUpApprover_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+            {
+                lookUpApprover.EditValue = null;
+            }
         }
 
         /// <summary>
@@ -226,13 +242,20 @@ namespace PSAP.VIEW.BSVIEW
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string projectNoStr = searchProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchProjectNo.EditValue) : "";
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
+
+                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
                 int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
+                int approverInt = -1;
+                if (lookUpApprover.ItemIndex == 0)
+                    approverInt = 0;
+                else if (lookUpApprover.ItemIndex > 0)
+                    approverInt = DataTypeConvert.GetInt(lookUpApprover.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IA.Tables[0].Clear();
                 dataSet_IA.Tables[1].Clear();
                 headFocusedLineNo = 0;
-                iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], orderDateBeginStr, orderDateEndStr, repertoryIdInt, locationIdInt, projectNoStr, reqDepStr, creatorInt, commonStr, false);
+                iaDAO.QueryInventoryAdjustmentsHead(dataSet_IA.Tables[0], orderDateBeginStr, orderDateEndStr, repertoryIdInt, locationIdInt, projectNoStr, reqDepStr, warehouseStateInt, creatorInt, approverInt, commonStr, false);
 
                 SetButtonAndColumnState(false);
                 checkAll.Checked = false;
@@ -341,6 +364,17 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 设定列表显示信息
+        /// </summary>
+        private void gridViewIAHead_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "WarehouseState")
+            {
+                e.DisplayText = CommonHandler.Get_WarehouseState_Desc(e.Value.ToString());
+            }
+        }
+
+        /// <summary>
         /// 新增按钮事件
         /// </summary>
         private void btnNew_Click(object sender, EventArgs e)
@@ -384,8 +418,8 @@ namespace PSAP.VIEW.BSVIEW
                 if (gridViewIAHead.GetFocusedDataRow() == null)
                     return;
 
-                //if (!CheckReqState())
-                //    return;
+                if (!CheckWarehouseState())
+                    return;
 
                 if (btnSave.Tag.ToString() != "保存")
                 {
@@ -423,6 +457,12 @@ namespace PSAP.VIEW.BSVIEW
                         FocusedHeadView("ReqDep");
                         return;
                     }
+                    if (DataTypeConvert.GetString(headRow["ApprovalType"]) == "")
+                    {
+                        MessageHandler.ShowMessageBox("审批类型不能为空，请填写后再进行保存。");
+                        FocusedHeadView("ApprovalType");
+                        return;
+                    }
 
                     for (int i = gridViewIAList.DataRowCount - 1; i >= 0; i--)
                     {
@@ -432,18 +472,24 @@ namespace PSAP.VIEW.BSVIEW
                             gridViewIAList.DeleteRow(i);
                             continue;
                         }
-                        if (DataTypeConvert.GetString(listRow["Qty"]) == "")
+                        if (DataTypeConvert.GetDouble(listRow["Qty"]) == 0)
                         {
-                            MessageHandler.ShowMessageBox(tsmiSlbnwkbc.Text );// ("数量不能为空，请填写后再进行保存。");
+                            MessageHandler.ShowMessageBox("调整数量不能为空或者零，请填写后再进行保存。");
                             FocusedListView(true, "Qty", i);
                             return;
                         }
                         if (DataTypeConvert.GetString(listRow["ShelfId"]) == "")
                         {
-                            MessageHandler.ShowMessageBox(tsmiTzhjhbnwkbc.Text );// ("调整货架号不能为空，请填写后再进行保存。");
+                            MessageHandler.ShowMessageBox(tsmiTzhjhbnwkbc.Text);// ("调整货架号不能为空，请填写后再进行保存。");
                             FocusedListView(true, "ShelfId", i);
                             return;
-                        }                        
+                        }
+                    }
+
+                    if (gridViewIAList.DataRowCount == 0)
+                    {
+                        MessageHandler.ShowMessageBox("库存调整单明细不能为空，请填写后再进行保存。");
+                        return;
                     }
 
                     int ret = iaDAO.SaveInventoryAdjustments(gridViewIAHead.GetFocusedDataRow(), dataSet_IA.Tables[1]);
@@ -524,8 +570,8 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                //if (!CheckReqState_Multi(false, true, true, true))
-                //    return;
+                if (!CheckWarehouseState_Multi(false, true, true, true))
+                    return;
 
                 //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要删除当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
                 if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQdyscdqxzd.Text +"{0}"+f.tsmiTjlm.Text, count)) != DialogResult.Yes)
@@ -548,6 +594,96 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 审批按钮事件
+        /// </summary>
+        private void btnApprove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                int count = dataSet_IA.Tables[0].Select("select=1").Length;
+                if (count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
+                    return;
+                }
+
+                if (!CheckWarehouseState_Multi(false, true, true, false))
+                    return;
+
+                if (!SystemInfo.InventorySaveApproval && count == 1)
+                {
+                    //弹出审批页面
+                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_IA.Tables[0].Select("select=1")[0]["InventoryAdjustmentsNo"]));
+                    if (frmOrder.ShowDialog() == DialogResult.OK)
+                        btnQuery_Click(null, null);
+                }
+                else
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                    {
+                        return;
+                    }
+
+                    int successCountInt = 0;
+                    //直接审批，不再谈页面
+                    if (!iaDAO.IAApprovalInfo_Multi(dataSet_IA.Tables[0], ref successCountInt))
+                        btnQuery_Click(null, null);
+                    else
+                    {
+                        MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
+                    }
+                }
+                ClearHeadGridAllSelect();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--审批按钮事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 取消审批按钮事件
+        /// </summary>
+        private void btnCancelApprove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                int count = dataSet_IA.Tables[0].Select("select=1").Length;
+                if (count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
+                    return;
+                }
+
+                if (!CheckWarehouseState_Multi(true, false, true, false))
+                    return;
+
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                if (!iaDAO.CancalIAApprovalInfo_Multi(dataSet_IA.Tables[0]))
+                    btnQuery_Click(null, null);
+                else
+                {
+                    MessageHandler.ShowMessageBox(string.Format("成功取消审批了{0}条记录。", count));
+                }
+                ClearHeadGridAllSelect();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--取消审批按钮事件错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 预览按钮事件
         /// </summary>
         private void btnPreview_Click(object sender, EventArgs e)
@@ -558,8 +694,40 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string iaHeadNoStr = "";
-                if (gridViewIAHead.GetFocusedDataRow() != null)
-                    iaHeadNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"]);
+                DataRow dr = null;
+                DataRow[] drs = dataSet_IA.Tables[0].Select("select=1");
+                if (drs.Length > 1)
+                {
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewIAHead.GetFocusedDataRow() != null)
+                    {
+                        iaHeadNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"]);
+                        dr = gridViewIAHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    iaHeadNoStr = DataTypeConvert.GetString(drs[0]["InventoryAdjustmentsNo"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["WarehouseState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
+                //string iaHeadNoStr = "";
+                //if (gridViewIAHead.GetFocusedDataRow() != null)
+                //    iaHeadNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"]);
+
                 iaDAO.PrintHandle(iaHeadNoStr, 1);
             }
             catch (Exception ex)
@@ -615,6 +783,7 @@ namespace PSAP.VIEW.BSVIEW
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 gridViewIAHead.SetFocusedRowCellValue("InventoryAdjustmentsDate", nowDate);
                 gridViewIAHead.SetFocusedRowCellValue("ReqDep", SystemInfo.user.DepartmentNo);
+                gridViewIAHead.SetFocusedRowCellValue("WarehouseState", 1);
                 gridViewIAHead.SetFocusedRowCellValue("Creator", SystemInfo.user.AutoId);
 
                 if (SystemInfo.DisableProjectNo)
@@ -947,6 +1116,7 @@ namespace PSAP.VIEW.BSVIEW
 
             colRepertoryId.OptionsColumn.AllowEdit = ret;
             colLocationId.OptionsColumn.AllowEdit = ret;
+            colApprovalType.OptionsColumn.AllowEdit = ret;
             colProjectNo.OptionsColumn.AllowEdit = ret;
             colPRemark.OptionsColumn.AllowEdit = ret;
 
@@ -971,6 +1141,79 @@ namespace PSAP.VIEW.BSVIEW
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
                 }
             }
+        }
+
+        /// <summary>
+        /// 检测出库单状态是否可以操作
+        /// </summary>
+        private bool CheckWarehouseState()
+        {
+            if (gridViewIAHead.GetFocusedDataRow() == null)
+                return false;
+            int reqState = DataTypeConvert.GetInt(gridViewIAHead.GetFocusedDataRow()["WarehouseState"]);
+            switch (reqState)
+            {
+                case 2:
+                    MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"])));
+                    return false;
+                //case 3:
+                //    MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"])));
+                //    return false;
+                case 4:
+                    MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"])));
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 检测当前选中的出库单状态是否可以操作
+        /// </summary>
+        private bool CheckWarehouseState_Multi(bool checkNoApprover, bool checkApprover, bool checkSettle, bool checkApproverBetween)
+        {
+            for (int i = 0; i < gridViewIAHead.DataRowCount; i++)
+            {
+                if (DataTypeConvert.GetBoolean(gridViewIAHead.GetDataRow(i)["Select"]))
+                {
+                    int reqState = DataTypeConvert.GetInt(gridViewIAHead.GetDataRow(i)["WarehouseState"]);
+                    switch (reqState)
+                    {
+                        case 1:
+                            if (checkNoApprover)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetDataRow(i)["InventoryAdjustmentsNo"])));
+                                gridViewIAHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                        case 2:
+                            if (checkApprover)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetDataRow(i)["InventoryAdjustmentsNo"])));
+                                gridViewIAHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                        //case 3:
+                        //    if (checkSettle)
+                        //    {
+                        //        MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetDataRow(i)["InventoryAdjustmentsNo"])));
+                        //        gridViewIAHead.FocusedRowHandle = i;
+                        //        return false;
+                        //    }
+                        //    break;
+                        case 4:
+                            if (checkApproverBetween)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewIAHead.GetDataRow(i)["InventoryAdjustmentsNo"])));
+                                gridViewIAHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                    }
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -1264,6 +1507,6 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         #endregion
-        
+
     }
 }

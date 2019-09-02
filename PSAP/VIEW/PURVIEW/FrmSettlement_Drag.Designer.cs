@@ -332,6 +332,9 @@
             this.tsmiSxtzrk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYzcgjz = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dataColRepertoryLocationId = new System.Data.DataColumn();
+            this.colRepertoryLocationId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpRepertoryLocationId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManagerLeft)).BeginInit();
             this.dockPnlLeft.SuspendLayout();
             this.dockPanel1_Container.SuspendLayout();
@@ -421,6 +424,7 @@
             this.cms.SuspendLayout();
             this.cms1.SuspendLayout();
             this.cms2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryLocationId)).BeginInit();
             this.SuspendLayout();
             // 
             // dockManagerLeft
@@ -529,7 +533,8 @@
             this.dataColumn8,
             this.dataColumn9,
             this.dataColumn10,
-            this.dataColumReqDep});
+            this.dataColumReqDep,
+            this.dataColRepertoryLocationId});
             this.dataTableWWHead.TableName = "WWHead";
             // 
             // dataColumn1
@@ -1026,7 +1031,8 @@
             this.repLookUpWWRepertoryId,
             this.repLookUpWWTypeNo,
             this.repSearchWWBussinessBaseNo,
-            this.repLookUpWWReqDep});
+            this.repLookUpWWReqDep,
+            this.repLookUpRepertoryLocationId});
             this.gridControlWWHead.Size = new System.Drawing.Size(338, 230);
             this.gridControlWWHead.TabIndex = 5;
             this.gridControlWWHead.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -1046,6 +1052,7 @@
             this.colWarehouseWarrantDate,
             this.gridColumn8,
             this.colRepertoryId,
+            this.colRepertoryLocationId,
             this.colWarehouseWarrantTypeNo,
             this.colRemark1,
             this.gridColumn14});
@@ -1087,7 +1094,7 @@
             this.gridColumn7.FieldName = "ReqDep";
             this.gridColumn7.Name = "gridColumn7";
             this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 5;
+            this.gridColumn7.VisibleIndex = 6;
             this.gridColumn7.Width = 80;
             // 
             // repLookUpWWReqDep
@@ -1214,7 +1221,7 @@
             this.colWarehouseWarrantTypeNo.FieldName = "WarehouseWarrantTypeNo";
             this.colWarehouseWarrantTypeNo.Name = "colWarehouseWarrantTypeNo";
             this.colWarehouseWarrantTypeNo.Visible = true;
-            this.colWarehouseWarrantTypeNo.VisibleIndex = 4;
+            this.colWarehouseWarrantTypeNo.VisibleIndex = 5;
             this.colWarehouseWarrantTypeNo.Width = 80;
             // 
             // repLookUpWWTypeNo
@@ -1237,7 +1244,7 @@
             this.colRemark1.FieldName = "Remark";
             this.colRemark1.Name = "colRemark1";
             this.colRemark1.Visible = true;
-            this.colRemark1.VisibleIndex = 6;
+            this.colRemark1.VisibleIndex = 7;
             this.colRemark1.Width = 100;
             // 
             // gridColumn14
@@ -1247,7 +1254,7 @@
             this.gridColumn14.FieldName = "Prepared";
             this.gridColumn14.Name = "gridColumn14";
             this.gridColumn14.Visible = true;
-            this.gridColumn14.VisibleIndex = 7;
+            this.gridColumn14.VisibleIndex = 8;
             this.gridColumn14.Width = 70;
             // 
             // pnlLeftTop
@@ -3301,6 +3308,33 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // dataColRepertoryLocationId
+            // 
+            this.dataColRepertoryLocationId.Caption = "入库仓位";
+            this.dataColRepertoryLocationId.ColumnName = "RepertoryLocationId";
+            this.dataColRepertoryLocationId.DataType = typeof(int);
+            // 
+            // colRepertoryLocationId
+            // 
+            this.colRepertoryLocationId.AppearanceHeader.Options.UseTextOptions = true;
+            this.colRepertoryLocationId.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colRepertoryLocationId.ColumnEdit = this.repLookUpRepertoryLocationId;
+            this.colRepertoryLocationId.FieldName = "RepertoryLocationId";
+            this.colRepertoryLocationId.Name = "colRepertoryLocationId";
+            this.colRepertoryLocationId.Visible = true;
+            this.colRepertoryLocationId.VisibleIndex = 4;
+            this.colRepertoryLocationId.Width = 80;
+            // 
+            // repLookUpRepertoryLocationId
+            // 
+            this.repLookUpRepertoryLocationId.AutoHeight = false;
+            this.repLookUpRepertoryLocationId.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpRepertoryLocationId.DisplayMember = "LocationName";
+            this.repLookUpRepertoryLocationId.Name = "repLookUpRepertoryLocationId";
+            this.repLookUpRepertoryLocationId.NullText = "";
+            this.repLookUpRepertoryLocationId.ValueMember = "AutoId";
+            // 
             // FrmSettlement_Drag
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3408,6 +3442,7 @@
             this.cms.ResumeLayout(false);
             this.cms1.ResumeLayout(false);
             this.cms2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryLocationId)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3717,5 +3752,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiYzcgjz;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem tsmiTjl;
+        private System.Data.DataColumn dataColRepertoryLocationId;
+        private DevExpress.XtraGrid.Columns.GridColumn colRepertoryLocationId;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpRepertoryLocationId;
     }
 }

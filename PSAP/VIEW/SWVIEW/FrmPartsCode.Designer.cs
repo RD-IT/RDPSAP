@@ -112,6 +112,7 @@
             this.colCodeWeight = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterialVersion = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterial = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpMaterial = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colBrand = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFinish = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMachiningLevel = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -169,6 +170,7 @@
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpMaterial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
             this.cms.SuspendLayout();
             this.SuspendLayout();
@@ -825,7 +827,8 @@
             this.gridCrlPartsCode.MainView = this.gridViewPartsCode;
             this.gridCrlPartsCode.Name = "gridCrlPartsCode";
             this.gridCrlPartsCode.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repCheckIsBuy});
+            this.repCheckIsBuy,
+            this.repLookUpMaterial});
             this.gridCrlPartsCode.Size = new System.Drawing.Size(1920, 412);
             this.gridCrlPartsCode.TabIndex = 0;
             this.gridCrlPartsCode.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -960,10 +963,22 @@
             // 
             this.colMaterial.AppearanceHeader.Options.UseTextOptions = true;
             this.colMaterial.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colMaterial.ColumnEdit = this.repLookUpMaterial;
             this.colMaterial.FieldName = "Material";
             this.colMaterial.Name = "colMaterial";
             this.colMaterial.Visible = true;
             this.colMaterial.VisibleIndex = 8;
+            this.colMaterial.Width = 100;
+            // 
+            // repLookUpMaterial
+            // 
+            this.repLookUpMaterial.AutoHeight = false;
+            this.repLookUpMaterial.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpMaterial.DisplayMember = "MaterialName";
+            this.repLookUpMaterial.Name = "repLookUpMaterial";
+            this.repLookUpMaterial.NullText = "";
+            this.repLookUpMaterial.ValueMember = "AutoId";
             // 
             // colBrand
             // 
@@ -1187,6 +1202,7 @@
             this.Name = "FrmPartsCode";
             this.TabText = "物料信息";
             this.Text = "物料信息";
+            this.Activated += new System.EventHandler(this.FrmPartsCode_Activated);
             this.Load += new System.EventHandler(this.FrmPartsCode_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dSPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).EndInit();
@@ -1220,6 +1236,7 @@
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpMaterial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
             this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1337,5 +1354,6 @@
         private DevExpress.XtraEditors.CheckEdit checkIsBuy;
         private DevExpress.XtraGrid.Columns.GridColumn colIsBuy;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckIsBuy;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpMaterial;
     }
 }

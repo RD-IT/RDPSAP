@@ -212,6 +212,12 @@ namespace PSAP.VIEW.BSVIEW
             else
                 checkEnableNegativeInventory.Checked = false;
 
+            tmpStr = GetValue("Warehouse", "InventorySaveApproval");
+            if (tmpStr != "")
+                checkInventorySaveApproval.EditValue = tmpStr;
+            else
+                checkInventorySaveApproval.Checked = false;
+
             #endregion
 
             #region 生产
@@ -290,6 +296,7 @@ namespace PSAP.VIEW.BSVIEW
                 SetValue("Warehouse", "DisableProjectNo", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkDisableProjectNo.EditValue)));
                 SetValue("Warehouse", "DisableShelfInfo", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkDisableShelfInfo.EditValue)));
                 SetValue("Warehouse", "EnableNegativeInventory", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkEnableNegativeInventory.EditValue)));
+                SetValue("Warehouse", "InventorySaveApproval", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkInventorySaveApproval.EditValue)));
 
                 if (checkDisableProjectNo.Checked)
                 {

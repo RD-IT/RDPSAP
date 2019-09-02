@@ -446,9 +446,15 @@ namespace PSAP.VIEW.BSVIEW
                             gridViewRGRList.DeleteRow(i);
                             continue;
                         }
-                        if (DataTypeConvert.GetString(listRow["Qty"]) == "" || DataTypeConvert.GetDouble(listRow["Qty"]) == 0)
+                        //if (DataTypeConvert.GetString(listRow["Qty"]) == "" || DataTypeConvert.GetDouble(listRow["Qty"]) == 0)
+                        //{
+                        //    MessageHandler.ShowMessageBox("数量不能为空，请填写后再进行保存。");
+                        //    FocusedListView(true, "Qty", i);
+                        //    return;
+                        //}
+                        if (DataTypeConvert.GetDouble(listRow["Qty"]) == 0)
                         {
-                            MessageHandler.ShowMessageBox("数量不能为空，请填写后再进行保存。");
+                            MessageHandler.ShowMessageBox("数量不能为空或者零，请填写后再进行保存。");
                             FocusedListView(true, "Qty", i);
                             return;
                         }
@@ -613,7 +619,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (!CheckWarehouseState_Multi(false, true, true, false))
                     return;
 
-                if (count == 1)
+                if (!SystemInfo.InventorySaveApproval && count == 1)
                 {
                     //弹出审批页面
                     FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_RGR.Tables[0].Select("select=1")[0]["ReturnedGoodsReportNo"]));
@@ -694,17 +700,48 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string rgrHeadNoStr = "";
-                if (gridViewRGRHead.GetFocusedDataRow() != null)
-                    rgrHeadNoStr = DataTypeConvert.GetString(gridViewRGRHead.GetFocusedDataRow()["ReturnedGoodsReportNo"]);
-
-                if (SystemInfo.ApproveAfterPrint)
+                DataRow dr = null;
+                DataRow[] drs = dataSet_RGR.Tables[0].Select("select=1");
+                if (drs.Length > 1)
                 {
-                    if (DataTypeConvert.GetInt(gridViewRGRHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewRGRHead.GetFocusedDataRow() != null)
+                    {
+                        rgrHeadNoStr = DataTypeConvert.GetString(gridViewRGRHead.GetFocusedDataRow()["ReturnedGoodsReportNo"]);
+                        dr = gridViewRGRHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    rgrHeadNoStr = DataTypeConvert.GetString(drs[0]["ReturnedGoodsReportNo"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["WarehouseState"]) != 2)
                     {
                         MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
                         return;
                     }
                 }
+
+                //string rgrHeadNoStr = "";
+                //if (gridViewRGRHead.GetFocusedDataRow() != null)
+                //    rgrHeadNoStr = DataTypeConvert.GetString(gridViewRGRHead.GetFocusedDataRow()["ReturnedGoodsReportNo"]);
+
+                //if (SystemInfo.ApproveAfterPrint)
+                //{
+                //    if (DataTypeConvert.GetInt(gridViewRGRHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                //    {
+                //        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                //        return;
+                //    }
+                //}
 
                 rgrDAO.PrintHandle(rgrHeadNoStr, 1);
             }
@@ -775,16 +812,23 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 gridViewRGRList.SetFocusedRowCellValue("ReturnedGoodsReportNo", DataTypeConvert.GetString(gridViewRGRHead.GetFocusedDataRow()["ReturnedGoodsReportNo"]));
-                if (dataSet_RGR.Tables[1].Rows.Count > 0)
+                if (gridViewRGRList.DataRowCount > 0)
                 {
                     if (gridViewRGRList.GetFocusedDataSourceRowIndex() == 0)
+                    {
+                        gridViewRGRList.SetFocusedRowCellValue("ProjectNo", gridViewRGRList.GetDataRow(1)["ProjectNo"]);
                         gridViewRGRList.SetFocusedRowCellValue("ProjectName", gridViewRGRList.GetDataRow(1)["ProjectName"]);
+                    }
                     else
+                    {
+                        gridViewRGRList.SetFocusedRowCellValue("ProjectNo", gridViewRGRList.GetDataRow(0)["ProjectNo"]);
                         gridViewRGRList.SetFocusedRowCellValue("ProjectName", gridViewRGRList.GetDataRow(0)["ProjectName"]);
+                    }
                 }
 
                 if (SystemInfo.DisableProjectNo)
                 {
+                    gridViewRGRList.SetFocusedRowCellValue("ProjectNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
                     gridViewRGRList.SetFocusedRowCellValue("ProjectName", SystemInfo.DisableProjectNo_Default_ProjectName);
                     gridViewRGRList.SetFocusedRowCellValue("StnNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
                 }

@@ -1482,7 +1482,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(831, 43);
+            this.btnQuery.Location = new System.Drawing.Point(848, 43);
             this.btnQuery.Margin = new System.Windows.Forms.Padding(4);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
@@ -1506,14 +1506,14 @@
             this.lookUpApprover.Properties.DisplayMember = "EmpName";
             this.lookUpApprover.Properties.NullText = "";
             this.lookUpApprover.Properties.ValueMember = "AutoId";
-            this.lookUpApprover.Size = new System.Drawing.Size(100, 20);
+            this.lookUpApprover.Size = new System.Drawing.Size(120, 20);
             this.lookUpApprover.TabIndex = 8;
             this.lookUpApprover.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lookUpApprover_KeyDown);
             // 
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(656, 44);
+            this.textCommon.Location = new System.Drawing.Point(673, 44);
             this.textCommon.Margin = new System.Windows.Forms.Padding(4);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
@@ -1671,7 +1671,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(588, 47);
+            this.labCommon.Location = new System.Drawing.Point(605, 47);
             this.labCommon.Margin = new System.Windows.Forms.Padding(4);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);

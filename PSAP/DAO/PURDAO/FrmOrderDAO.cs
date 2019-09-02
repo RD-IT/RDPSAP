@@ -291,7 +291,8 @@ namespace PSAP.DAO.PURDAO
                             return 0;
                         }
 
-                        if (DataTypeConvert.GetString(orderHeadRow["OrderHeadNo"]) == "")//新增
+                        //if (DataTypeConvert.GetString(orderHeadRow["OrderHeadNo"]) == "")//新增
+                        if (orderHeadRow.RowState == DataRowState.Added)//新增
                         {
                             string orderHeadNo = BaseSQL.GetMaxCodeNo(cmd, "PO");
                             orderHeadRow["OrderHeadNo"] = orderHeadNo;

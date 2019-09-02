@@ -30,8 +30,8 @@ namespace PSAP.VIEW.BSVIEW
                 if (SystemInfo.user != null)
                 {
                     //等系统正式启用再初始加载系统默认参数
-                    //new FrmSystemDAO().RefreshAllSystemParameter();
-                    //new FrmCompanyInfoDAO().RefreshCompanyInfo();
+                    new FrmSystemDAO().RefreshAllSystemParameter();
+                    new FrmCompanyInfoDAO().RefreshCompanyInfo();
                     new FrmMainDAO().RefreshUserButtonPower();
 
                     FrmMain frmMain = new FrmMain();

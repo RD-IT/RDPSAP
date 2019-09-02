@@ -156,13 +156,15 @@ namespace PSAP.DAO.INVDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
+                        DateTime serverTime = BaseSQL.GetServerDateTime();
 
                         //if (!CheckOrderApplyBeyondCount(cmd, DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]), wrListTable))
                         //{
                         //    return 0;
                         //}
 
-                        if (DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]) == "")//新增
+                        //if (DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]) == "")//新增
+                        if (wrHeadRow.RowState == DataRowState.Added)//新增
                         {
                             string wrNo = BaseSQL.GetMaxCodeNo(cmd, "WR");
                             wrHeadRow["WarehouseReceipt"] = wrNo;
@@ -180,7 +182,17 @@ namespace PSAP.DAO.INVDAO
 
                             wrHeadRow["Modifier"] = SystemInfo.user.EmpName;
                             wrHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
-                            wrHeadRow["ModifierTime"] = BaseSQL.GetServerDateTime();
+                            wrHeadRow["ModifierTime"] = serverTime;
+                        }
+
+                        string wrNoStr = DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]);
+
+                        DataTable dbListTable = new DataTable();
+                        if (wrHeadRow.RowState != DataRowState.Added)
+                        {
+                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_WarehouseReceiptList as list left join INV_WarehouseReceiptHead as head on list.WarehouseReceipt = head.WarehouseReceipt left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.WarehouseReceipt = '{0}' group by CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", wrNoStr);
+                            SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
+                            dbListAdapter.Fill(dbListTable);
                         }
 
                         //保存日志到日志表中
@@ -190,25 +202,42 @@ namespace PSAP.DAO.INVDAO
                         SqlDataAdapter adapterHead = new SqlDataAdapter(cmd);
                         DataTable tmpHeadTable = new DataTable();
                         adapterHead.Fill(tmpHeadTable);
-                        BaseSQL.UpdateDataTable(adapterHead, wrHeadRow.Table);
+                        BaseSQL.UpdateDataTable(adapterHead, wrHeadRow.Table.GetChanges());
 
                         cmd.CommandText = "select * from INV_WarehouseReceiptList where 1=2";
                         SqlDataAdapter adapterList = new SqlDataAdapter(cmd);
                         DataTable tmpListTable = new DataTable();
                         adapterList.Fill(tmpListTable);
-                        BaseSQL.UpdateDataTable(adapterList, wrListTable);
+                        BaseSQL.UpdateDataTable(adapterList, wrListTable.GetChanges());
 
                         //Set_PrReqHead_End(cmd, wwListTable);
 
+                        if (new FrmWarehouseNowInfoDAO().SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wrHeadRow, wrListTable.Copy(), wrNoStr, dbListTable, "出库单", "出库", false) != 1)
+                            return 0;
+
+                        if (SystemInfo.InventorySaveApproval)
+                        {
+                            //cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", wrNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                            //cmd.ExecuteNonQuery();
+
+                            //logStr = LogHandler.RecordLog_OperateRow(cmd, "出库单", wrHeadRow, "WarehouseReceipt", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                            new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, wrHeadRow, "出库单", "WarehouseReceipt", wrNoStr, serverTime);
+
+                            cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState=2 where WarehouseReceipt='{0}'", wrNoStr);
+                            cmd.ExecuteNonQuery();
+
+                            wrHeadRow["WarehouseState"] = 2;
+                        }
+
                         trans.Commit();
+                        wrHeadRow.Table.AcceptChanges();
+                        wrListTable.AcceptChanges();
 
                         return 1;
                     }
                     catch (Exception ex)
                     {
                         trans.Rollback();
-                        wrHeadRow.Table.RejectChanges();
-                        wrListTable.RejectChanges();
                         throw ex;
                     }
                     finally
@@ -305,6 +334,7 @@ namespace PSAP.DAO.INVDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
+                        string errorText = "";
                         //cmd.CommandText = string.Format("select * from INV_WarehouseReceiptList where WarehouseReceipt in ({0})", wrHeadNoListStr);
                         //DataTable tmpTable = new DataTable();
                         //SqlDataAdapter adpt = new SqlDataAdapter(cmd);
@@ -315,6 +345,14 @@ namespace PSAP.DAO.INVDAO
                         for (int i = 0; i < wrHeadRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "出库单", wrHeadRows[i], "WarehouseReceipt");
+
+                            SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
+                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(wrHeadRows[i]["WarehouseReceipt"]), 2, out errorText))
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox("出库单删除出库错误--" + errorText);
+                                return false;
+                            }
                         }
 
                         cmd.CommandText = string.Format("Delete from INV_WarehouseReceiptList where WarehouseReceipt in ({0})", wrHeadNoListStr);
@@ -367,95 +405,118 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
-                        for (int i = 0; i < wrHeadTable.Rows.Count; i++)
+
+                        if (SystemInfo.InventorySaveApproval)
                         {
-                            if (DataTypeConvert.GetBoolean(wrHeadTable.Rows[i]["Select"]))
+                            for (int i = 0; i < wrHeadTable.Rows.Count; i++)
                             {
-                                DataRow wrRow = wrHeadTable.Rows[i];
-                                string wrHeadNoStr = DataTypeConvert.GetString(wrRow["WarehouseReceipt"]);
-
-                                cmd.CommandText = string.Format("select INV_WarehouseReceiptHead.WarehouseReceipt, INV_WarehouseReceiptHead.ApprovalType, PUR_ApprovalType.ApprovalCat from INV_WarehouseReceiptHead left join PUR_ApprovalType on INV_WarehouseReceiptHead.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseReceipt = '{0}'", wrHeadNoStr);
-                                DataTable tmpTable = new DataTable();
-                                SqlDataAdapter orderadpt = new SqlDataAdapter(cmd);
-                                orderadpt.Fill(tmpTable);
-                                if (tmpTable.Rows.Count == 0)
+                                if (DataTypeConvert.GetBoolean(wrHeadTable.Rows[i]["Select"]))
                                 {
-                                    trans.Rollback();
-                                    //MessageHandler.ShowMessageBox("未查询到要操作的出库单，请刷新后再进行操作。");
-                                    MessageHandler.ShowMessageBox(f.tsmiWcxdyc.Text);
-                                    return false;
-                                }
+                                    string wrHeadNoStr = DataTypeConvert.GetString(wrHeadTable.Rows[i]["WarehouseReceipt"]);
 
-                                ////审核检查入库明细数量是否超过采购订单明细数量
-                                //DataTable orderListTable = new DataTable();
-                                //QueryWarehouseWarrantList(orderListTable, wwHeadNoStr, false);
-                                //if (!CheckOrderApplyBeyondCount(cmd, wwHeadNoStr, orderListTable))
-                                //{
-                                //    trans.Rollback();
-                                //    return false;
-                                //}
+                                    new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, wrHeadTable.Rows[i], "出库单", "WarehouseReceipt", wrHeadNoStr, serverTime);
 
-                                //Set_OrderHead_End(cmd, orderListTable);
-
-                                string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
-                                cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", wrHeadNoStr, approvalTypeStr);
-                                DataTable listTable = new DataTable();
-                                SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
-                                listadpt.Fill(listTable);
-                                if (listTable.Rows.Count == 0)
-                                {
-                                    cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState = 2 where WarehouseReceipt='{0}'", wrHeadNoStr);
-                                    cmd.ExecuteNonQuery();
-                                    wrHeadTable.Rows[i]["WarehouseState"] = 2;
-                                    continue;
-                                }
-                                int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
-                                switch (approvalCatInt)
-                                {
-                                    case 0:
-                                        if (DataTypeConvert.GetInt(listTable.Rows[0]["Approver"]) != SystemInfo.user.AutoId)
-                                            continue;
-                                        break;
-                                    case 1:
-                                    case 2:
-                                        if (listTable.Select(string.Format("Approver={0}", SystemInfo.user.AutoId)).Length == 0)
-                                            continue;
-                                        break;
-                                }
-
-                                cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", wrHeadNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                                cmd.ExecuteNonQuery();
-
-                                if (listTable.Rows.Count == 1 || approvalCatInt == 2)
-                                {
                                     cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState=2 where WarehouseReceipt='{0}'", wrHeadNoStr);
                                     cmd.ExecuteNonQuery();
+
                                     wrHeadTable.Rows[i]["WarehouseState"] = 2;
-                                }
-                                else
-                                {
-                                    cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState=4 where WarehouseReceipt='{0}'", wrHeadNoStr);
-                                    cmd.ExecuteNonQuery();
-                                    wrHeadTable.Rows[i]["WarehouseState"] = 4;
-                                }
 
-                                //保存日志到日志表中
-                                string logStr = LogHandler.RecordLog_OperateRow(cmd, "出库单", wrHeadTable.Rows[i], "WarehouseReceipt", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-
-                                if (DataTypeConvert.GetInt(wrHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    successCountInt++;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < wrHeadTable.Rows.Count; i++)
+                            {
+                                if (DataTypeConvert.GetBoolean(wrHeadTable.Rows[i]["Select"]))
                                 {
-                                    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
-                                    string errorText = "";
-                                    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, wrHeadNoStr, 1, out errorText))
+                                    DataRow wrRow = wrHeadTable.Rows[i];
+                                    string wrHeadNoStr = DataTypeConvert.GetString(wrRow["WarehouseReceipt"]);
+
+                                    cmd.CommandText = string.Format("select INV_WarehouseReceiptHead.WarehouseReceipt, INV_WarehouseReceiptHead.ApprovalType, PUR_ApprovalType.ApprovalCat from INV_WarehouseReceiptHead left join PUR_ApprovalType on INV_WarehouseReceiptHead.ApprovalType = PUR_ApprovalType.TypeNo where WarehouseReceipt = '{0}'", wrHeadNoStr);
+                                    DataTable tmpTable = new DataTable();
+                                    SqlDataAdapter orderadpt = new SqlDataAdapter(cmd);
+                                    orderadpt.Fill(tmpTable);
+                                    if (tmpTable.Rows.Count == 0)
                                     {
                                         trans.Rollback();
-                                        //MessageHandler.ShowMessageBox("出库单审核出库错误--" + errorText);
-                                        MessageHandler.ShowMessageBox(f.tsmiCkshcw.Text + "--" + errorText);
+                                        //MessageHandler.ShowMessageBox("未查询到要操作的出库单，请刷新后再进行操作。");
+                                        MessageHandler.ShowMessageBox(f.tsmiWcxdyc.Text);
                                         return false;
                                     }
-                                }
 
-                                successCountInt++;
+                                    ////审核检查入库明细数量是否超过采购订单明细数量
+                                    //DataTable orderListTable = new DataTable();
+                                    //QueryWarehouseWarrantList(orderListTable, wwHeadNoStr, false);
+                                    //if (!CheckOrderApplyBeyondCount(cmd, wwHeadNoStr, orderListTable))
+                                    //{
+                                    //    trans.Rollback();
+                                    //    return false;
+                                    //}
+
+                                    //Set_OrderHead_End(cmd, orderListTable);
+
+                                    string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
+                                    cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", wrHeadNoStr, approvalTypeStr);
+                                    DataTable listTable = new DataTable();
+                                    SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
+                                    listadpt.Fill(listTable);
+                                    if (listTable.Rows.Count == 0)
+                                    {
+                                        cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState = 2 where WarehouseReceipt='{0}'", wrHeadNoStr);
+                                        cmd.ExecuteNonQuery();
+                                        wrHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        continue;
+                                    }
+                                    int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
+                                    switch (approvalCatInt)
+                                    {
+                                        case 0:
+                                            if (DataTypeConvert.GetInt(listTable.Rows[0]["Approver"]) != SystemInfo.user.AutoId)
+                                                continue;
+                                            break;
+                                        case 1:
+                                        case 2:
+                                            if (listTable.Select(string.Format("Approver={0}", SystemInfo.user.AutoId)).Length == 0)
+                                                continue;
+                                            break;
+                                    }
+
+                                    cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", wrHeadNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    cmd.ExecuteNonQuery();
+
+                                    if (listTable.Rows.Count == 1 || approvalCatInt == 2)
+                                    {
+                                        cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState=2 where WarehouseReceipt='{0}'", wrHeadNoStr);
+                                        cmd.ExecuteNonQuery();
+                                        wrHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    }
+                                    else
+                                    {
+                                        cmd.CommandText = string.Format("Update INV_WarehouseReceiptHead set WarehouseState=4 where WarehouseReceipt='{0}'", wrHeadNoStr);
+                                        cmd.ExecuteNonQuery();
+                                        wrHeadTable.Rows[i]["WarehouseState"] = 4;
+                                    }
+
+                                    //保存日志到日志表中
+                                    string logStr = LogHandler.RecordLog_OperateRow(cmd, "出库单", wrHeadTable.Rows[i], "WarehouseReceipt", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                    //if (DataTypeConvert.GetInt(wrHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    //{
+                                    //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
+                                    //    string errorText = "";
+                                    //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, wrHeadNoStr, 1, out errorText))
+                                    //    {
+                                    //        trans.Rollback();
+                                    //        //MessageHandler.ShowMessageBox("出库单审核出库错误--" + errorText);
+                                    //        MessageHandler.ShowMessageBox(f.tsmiCkshcw.Text + "--" + errorText);
+                                    //        return false;
+                                    //    }
+                                    //}
+
+                                    successCountInt++;
+                                }
                             }
                         }
 
@@ -531,18 +592,18 @@ namespace PSAP.DAO.INVDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "出库单", orderHeadRows[i], "WarehouseReceipt", "取消审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
-                        for (int i = 0; i < approcalWRTable.Rows.Count; i++)
-                        {
-                            SqlCommand cmd_proc = new SqlCommand("", conn, trans);
-                            string errorText = "";
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalWRTable.Rows[i]["WarehouseReceipt"]), 2, out errorText))
-                            {
-                                trans.Rollback();
-                                //MessageHandler.ShowMessageBox("出库单取消审核入库错误--" + errorText);
-                                MessageHandler.ShowMessageBox(f.tsmiCkdqxs.Text + "--" + errorText);
-                                return false;
-                            }
-                        }
+                        //for (int i = 0; i < approcalWRTable.Rows.Count; i++)
+                        //{
+                        //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
+                        //    string errorText = "";
+                        //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalWRTable.Rows[i]["WarehouseReceipt"]), 2, out errorText))
+                        //    {
+                        //        trans.Rollback();
+                        //        //MessageHandler.ShowMessageBox("出库单取消审核入库错误--" + errorText);
+                        //        MessageHandler.ShowMessageBox(f.tsmiCkdqxs.Text + "--" + errorText);
+                        //        return false;
+                        //    }
+                        //}
 
                         trans.Commit();
                         wrHeadTable.AcceptChanges();

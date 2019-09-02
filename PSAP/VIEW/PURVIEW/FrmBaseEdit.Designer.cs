@@ -215,7 +215,6 @@
         private DevExpress.XtraEditors.SimpleButton btnDelete;
         private DevExpress.XtraEditors.SimpleButton btnCancel;
         private DevExpress.XtraEditors.SimpleButton btnNew;
-        private DevExpress.XtraEditors.SimpleButton btnRefresh;
         public DevExpress.XtraEditors.SimpleButton btnSaveExcel;
         private DevExpress.XtraEditors.LabelControl labContent;
         private DevExpress.XtraEditors.TextEdit textContent;
@@ -225,5 +224,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiSave;
         internal System.Windows.Forms.ToolStripMenuItem tsmiEdit;
         public DevExpress.XtraEditors.SimpleButton btnSave;
+        public DevExpress.XtraEditors.SimpleButton btnRefresh;
     }
 }

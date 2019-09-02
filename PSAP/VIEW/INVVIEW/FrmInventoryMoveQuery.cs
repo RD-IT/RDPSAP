@@ -55,6 +55,7 @@ namespace PSAP.VIEW.BSVIEW
                 SearchInLocationId.EditValue = 0;
                 SearchOutLocationId.Properties.DataSource = locationTable_t;
                 SearchOutLocationId.EditValue = 0;
+                comboBoxWarehouseState.SelectedIndex = 0;
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
                 lookUpCreator.Properties.DataSource = userInfoTable_t;
@@ -68,6 +69,7 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpLocationId.DataSource = locationTable_t;
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpCreator.DataSource = userInfoTable_t;
+                repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
 
                 gridBottomIM.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -77,6 +79,17 @@ namespace PSAP.VIEW.BSVIEW
             {
                 //ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
                 ExceptionHandler.HandleException(this.Text + "--" + f.tsmiCtjzsjcw.Text, ex);
+            }
+        }
+
+        /// <summary>
+        /// 设定列表显示信息
+        /// </summary>
+        private void gridViewIMHead_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "WarehouseState")
+            {
+                e.DisplayText = CommonHandler.Get_WarehouseState_Desc(e.Value.ToString());
             }
         }
 
@@ -130,11 +143,12 @@ namespace PSAP.VIEW.BSVIEW
                 int inLocationIdInt = DataTypeConvert.GetInt(SearchInLocationId.EditValue);
                 int outLcationIdInt = DataTypeConvert.GetInt(SearchOutLocationId.EditValue);
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
+                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
                 int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IM.Tables[0].Clear();
-                string querySqlStr = imDAO.QueryInventoryMoveHead_SQL(orderDateBeginStr, orderDateEndStr, inRepertoryIdInt, outRepertoryIdInt, inLocationIdInt, outLcationIdInt, reqDepStr, creatorInt, commonStr, false);
+                string querySqlStr = imDAO.QueryInventoryMoveHead_SQL(orderDateBeginStr, orderDateEndStr, inRepertoryIdInt, outRepertoryIdInt, inLocationIdInt, outLcationIdInt, reqDepStr, warehouseStateInt, creatorInt, -1, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomIM.QueryGridData(ref dataSet_IM, "IMHead", querySqlStr, countSqlStr, true);

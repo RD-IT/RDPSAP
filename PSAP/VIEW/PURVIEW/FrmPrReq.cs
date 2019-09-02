@@ -805,12 +805,30 @@ namespace PSAP.VIEW.BSVIEW
                 //ReportHandler.XtraReport_Handle(new REPORT.XReport_PrReq(), "Report_PrReq.repx", ds, paralist, 1);
 
                 string prReqNoStr = "";
-                if (gridViewPrReqHead.GetFocusedDataRow() != null)
-                    prReqNoStr = DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"]);
-
-                if (SystemInfo.ApproveAfterPrint)
+                DataRow dr = null;
+                DataRow[] drs = dataSet_PrReq.Tables[0].Select("select=1");
+                if (drs.Length > 1)
                 {
-                    if (DataTypeConvert.GetInt(gridViewPrReqHead.GetFocusedDataRow()["ReqState"]) != 2)
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewPrReqHead.GetFocusedDataRow() != null)
+                    {
+                        prReqNoStr = DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["PrReqNo"]);
+                        dr = gridViewPrReqHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    prReqNoStr = DataTypeConvert.GetString(drs[0]["PrReqNo"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["ReqState"]) != 2)
                     {
                         MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
                         return;

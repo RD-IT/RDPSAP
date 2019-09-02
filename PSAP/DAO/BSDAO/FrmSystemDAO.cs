@@ -286,6 +286,10 @@ namespace PSAP.DAO.BSDAO
             if (tmpStr != "")
                 SystemInfo.EnableNegativeInventory = tmpStr == "1";
 
+            tmpStr = GetValue(sysParameterTable, "Warehouse", "InventorySaveApproval");
+            if (tmpStr != "")
+                SystemInfo.InventorySaveApproval = tmpStr == "1";
+
             #endregion
 
             #region 生产
@@ -327,6 +331,15 @@ namespace PSAP.DAO.BSDAO
         {
             string sqlStr = "select * from BS_SysParameter";
             BaseSQL.Query(sqlStr, queryDataTable);
+        }
+
+        /// <summary>
+        /// 删除全部系统参数
+        /// </summary>
+        public void DeleteSystemParameter()
+        {
+            string sqlStr = "Delete from BS_SysParameter";
+            BaseSQL.ExecuteSql(sqlStr);
         }
 
         /// <summary>

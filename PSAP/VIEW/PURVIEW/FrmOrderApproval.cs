@@ -70,6 +70,12 @@ namespace PSAP.VIEW.BSVIEW
                     case "RG"://退货单
                         approvalDAO.QueryReturnedGoodsReportHead(dataSet_Order.Tables[0], orderHeadNoStr);
                         break;
+                    case "IA"://库存调整单
+                        approvalDAO.QueryInventoryAdjustmentsHead(dataSet_Order.Tables[0], orderHeadNoStr);
+                        break;
+                    case "IM"://库存移动单
+                        approvalDAO.QueryInventoryMoveHead(dataSet_Order.Tables[0], orderHeadNoStr);
+                        break;
                 }
                 if (dataSet_Order.Tables[0].Rows.Count == 0)
                 {
@@ -235,6 +241,12 @@ namespace PSAP.VIEW.BSVIEW
                         break;
                     case "RG"://退货单
                         new FrmReturnedGoodsReportDAO().RGRApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
+                        break;
+                    case "IA"://库存调整单
+                        new FrmInventoryAdjustmentsDAO().IAApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
+                        break;
+                    case "IM"://库存移动单
+                        new FrmInventoryMoveDAO().IMApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
                         break;
                 }
 

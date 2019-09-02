@@ -99,7 +99,8 @@ namespace PSAP.DAO.PBDAO
                         //    return 0;
                         //}
 
-                        if (DataTypeConvert.GetString(headRow["PsNo"]) == "")//新增
+                        //if (DataTypeConvert.GetString(headRow["PsNo"]) == "")//新增
+                        if (headRow.RowState == DataRowState.Added)//新增
                         {
                             string orderHeadNo = BaseSQL.GetMaxCodeNo(cmd, "PN");
                             headRow["PsNo"] = orderHeadNo;

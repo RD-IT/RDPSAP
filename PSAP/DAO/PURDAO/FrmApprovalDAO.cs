@@ -319,5 +319,34 @@ namespace PSAP.DAO.PURDAO
             string sqlStr = string.Format("select Head.AutoId, Head.ReturnedGoodsReportNo as OrderHeadNo, Head.ReturnedGoodsReportDate as OrderHeadDate, Head.ReqDep, Head.WarehouseState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.ReturnedGoodsReportNo, Head.WarehouseState from INV_ReturnedGoodsReportHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where ReturnedGoodsReportNo = '{0}'", returnedGoodsReportNoStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
+
+        /// <summary>
+        /// 查询库存调整单信息
+        /// </summary>
+        public void QueryInventoryAdjustmentsHead(DataTable queryDataTable, string inventoryAdjustmentsNoStr)
+        {
+            string sqlStr = string.Format("select Head.AutoId, Head.InventoryAdjustmentsNo as OrderHeadNo, Head.InventoryAdjustmentsDate as OrderHeadDate, Head.ReqDep, Head.WarehouseState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.InventoryAdjustmentsNo, Head.WarehouseState from INV_InventoryAdjustmentsHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where InventoryAdjustmentsNo = '{0}'", inventoryAdjustmentsNoStr);
+            BaseSQL.Query(sqlStr, queryDataTable);
+        }
+
+        /// <summary>
+        /// 查询库存移动单信息
+        /// </summary>
+        public void QueryInventoryMoveHead(DataTable queryDataTable, string inventoryMoveNoStr)
+        {
+            string sqlStr = string.Format("select Head.AutoId, Head.InventoryMoveNo as OrderHeadNo, Head.InventoryMoveDate as OrderHeadDate, Head.ReqDep, Head.WarehouseState as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.InventoryMoveNo, Head.WarehouseState from INV_InventoryMoveHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where InventoryMoveNo = '{0}'", inventoryMoveNoStr);
+            BaseSQL.Query(sqlStr, queryDataTable);
+        }
+
+        /// <summary>
+        /// 库存登记单保存直接审批
+        /// </summary>
+        public void InventorySaveApproval(SqlCommand cmd, DataRow headRow, string orderNameStr, string primaryKeyStr, string orderNoStr, DateTime opTime)
+        {
+            cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", orderNoStr, SystemInfo.user.AutoId, opTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            cmd.ExecuteNonQuery();
+
+            string logStr = LogHandler.RecordLog_OperateRow(cmd, orderNameStr, headRow, primaryKeyStr, "审批", SystemInfo.user.EmpName, opTime.ToString("yyyy-MM-dd HH:mm:ss"));
+        }
     }
 }

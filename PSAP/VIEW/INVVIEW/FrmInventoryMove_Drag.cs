@@ -92,6 +92,7 @@ namespace PSAP.VIEW.BSVIEW
                 DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
                 DataTable locationTable_f = commonDAO.QueryRepertoryLocationInfo(false);
                 DataTable shelfInfoTable = commonDAO.QueryShelfInfo(false);
+                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 lookUpInRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpInRepertoryId.ItemIndex = 0;
@@ -103,11 +104,15 @@ namespace PSAP.VIEW.BSVIEW
                 SearchOutLocationId.EditValue = 0;
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
-                lookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(true);
+                comboBoxWarehouseState.SelectedIndex = 0;
+                lookUpCreator.Properties.DataSource = userInfoTable_t;
                 lookUpCreator.EditValue = SystemInfo.user.AutoId;
+                lookUpApprover.Properties.DataSource = userInfoTable_t;
+                lookUpApprover.ItemIndex = -1;
 
                 repLookUpInRepertoryId.DataSource = repertoryTable_f;
                 repSearchInLocationId.DataSource = locationTable_f;
+                repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
                 repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
@@ -127,7 +132,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (textCommon.Text == "")
                 {
-                    imDAO.QueryInventoryMoveHead(dataSet_IM.Tables[0], "", "", 0, 0, 0, 0, "", 0, "", true);
+                    imDAO.QueryInventoryMoveHead(dataSet_IM.Tables[0], "", "", 0, 0, 0, 0, "", 0, 0, -1, "", true);
                     imDAO.QueryInventoryMoveList(dataSet_IM.Tables[1], "", true);
                 }
 
@@ -177,7 +182,7 @@ namespace PSAP.VIEW.BSVIEW
 
                     dataSet_IM.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    imDAO.QueryInventoryMoveHead(dataSet_IM.Tables[0], "", "", 0, 0, 0, 0, "", 0, textCommon.Text, false);
+                    imDAO.QueryInventoryMoveHead(dataSet_IM.Tables[0], "", "", 0, 0, 0, 0, "", 0, 0, -1, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_IM.Tables[0].Rows.Count > 0)
@@ -202,6 +207,17 @@ namespace PSAP.VIEW.BSVIEW
             pnlMiddle.Height = (this.Height - pnltop.Height) / 2;
 
             dockPnlLeft.Width = SystemInfo.DragForm_LeftDock_Width;
+        }
+
+        /// <summary>
+        /// 删除选项
+        /// </summary>
+        private void lookUpApprover_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
+            {
+                lookUpApprover.EditValue = null;
+            }
         }
 
         /// <summary>
@@ -231,13 +247,20 @@ namespace PSAP.VIEW.BSVIEW
                 int inLocationIdInt = DataTypeConvert.GetInt(SearchInLocationId.EditValue);
                 int outLcationIdInt = DataTypeConvert.GetInt(SearchOutLocationId.EditValue);
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
+
+                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
                 int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
+                int approverInt = -1;
+                if (lookUpApprover.ItemIndex == 0)
+                    approverInt = 0;
+                else if (lookUpApprover.ItemIndex > 0)
+                    approverInt = DataTypeConvert.GetInt(lookUpApprover.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IM.Tables[0].Clear();
                 dataSet_IM.Tables[1].Clear();
                 headFocusedLineNo = 0;
-                imDAO.QueryInventoryMoveHead(dataSet_IM.Tables[0], orderDateBeginStr, orderDateEndStr, inRepertoryIdInt, outRepertoryIdInt, inLocationIdInt, outLcationIdInt, reqDepStr, creatorInt, commonStr, false);
+                imDAO.QueryInventoryMoveHead(dataSet_IM.Tables[0], orderDateBeginStr, orderDateEndStr, inRepertoryIdInt, outRepertoryIdInt, inLocationIdInt, outLcationIdInt, reqDepStr, warehouseStateInt, creatorInt, approverInt, commonStr, false);
 
                 SetButtonAndColumnState(false);
                 checkAll.Checked = false;
@@ -346,6 +369,17 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 设定列表显示信息
+        /// </summary>
+        private void gridViewIMHead_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
+        {
+            if (e.Column.FieldName == "WarehouseState")
+            {
+                e.DisplayText = CommonHandler.Get_WarehouseState_Desc(e.Value.ToString());
+            }
+        }
+
+        /// <summary>
         /// 新增按钮事件
         /// </summary>
         private void btnNew_Click(object sender, EventArgs e)
@@ -389,8 +423,8 @@ namespace PSAP.VIEW.BSVIEW
                 if (gridViewIMHead.GetFocusedDataRow() == null)
                     return;
 
-                //if (!CheckReqState())
-                //    return;
+                if (!CheckWarehouseState())
+                    return;
 
                 if (btnSave.Tag.ToString() != f.tsmiBc.Text)
                 {
@@ -437,6 +471,12 @@ namespace PSAP.VIEW.BSVIEW
                         FocusedHeadView("ReqDep");
                         return;
                     }
+                    if (DataTypeConvert.GetString(headRow["ApprovalType"]) == "")
+                    {
+                        MessageHandler.ShowMessageBox("审批类型不能为空，请填写后再进行保存。");
+                        FocusedHeadView("ApprovalType");
+                        return;
+                    }
 
                     for (int i = gridViewIMList.DataRowCount - 1; i >= 0; i--)
                     {
@@ -446,9 +486,15 @@ namespace PSAP.VIEW.BSVIEW
                             gridViewIMList.DeleteRow(i);
                             continue;
                         }
-                        if (DataTypeConvert.GetString(listRow["Qty"]) == "")
+                        //if (DataTypeConvert.GetString(listRow["Qty"]) == "")
+                        //{
+                        //    MessageHandler.ShowMessageBox(tsmiSlbnwkbc.Text);// ("数量不能为空，请填写后再进行保存。");
+                        //    FocusedListView(true, "Qty", i);
+                        //    return;
+                        //}
+                        if (DataTypeConvert.GetDouble(listRow["Qty"]) == 0)
                         {
-                            MessageHandler.ShowMessageBox(tsmiSlbnwkbc.Text);// ("数量不能为空，请填写后再进行保存。");
+                            MessageHandler.ShowMessageBox("数量不能为空或者零，请填写后再进行保存。");
                             FocusedListView(true, "Qty", i);
                             return;
                         }
@@ -487,6 +533,12 @@ namespace PSAP.VIEW.BSVIEW
                             FocusedListView(true, "OutProjectNo", i);
                             return;
                         }
+                    }
+
+                    if (gridViewIMList.DataRowCount == 0)
+                    {
+                        MessageHandler.ShowMessageBox("库存移动单明细不能为空，请填写后再进行保存。");
+                        return;
                     }
 
                     int ret = imDAO.SaveInventoryMove(gridViewIMHead.GetFocusedDataRow(), dataSet_IM.Tables[1]);
@@ -567,8 +619,8 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                //if (!CheckReqState_Multi(false, true, true, true))
-                //    return;
+                if (!CheckWarehouseState_Multi(false, true, true, true))
+                    return;
 
                 //if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要删除当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
                 if (MessageHandler.ShowMessageBox_YesNo(string.Format(f.tsmiQdyscdqxzd.Text + "{0}" + f.tsmiTjlm.Text, count)) != DialogResult.Yes)
@@ -591,6 +643,96 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 审批按钮事件
+        /// </summary>
+        private void btnApprove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                int count = dataSet_IM.Tables[0].Select("select=1").Length;
+                if (count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
+                    return;
+                }
+
+                if (!CheckWarehouseState_Multi(false, true, true, false))
+                    return;
+
+                if (!SystemInfo.InventorySaveApproval && count == 1)
+                {
+                    //弹出审批页面
+                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_IM.Tables[0].Select("select=1")[0]["InventoryMoveNo"]));
+                    if (frmOrder.ShowDialog() == DialogResult.OK)
+                        btnQuery_Click(null, null);
+                }
+                else
+                {
+                    if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                    {
+                        return;
+                    }
+
+                    int successCountInt = 0;
+                    //直接审批，不再谈页面
+                    if (!imDAO.IMApprovalInfo_Multi(dataSet_IM.Tables[0], ref successCountInt))
+                        btnQuery_Click(null, null);
+                    else
+                    {
+                        MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
+                    }
+                }
+                ClearHeadGridAllSelect();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--审批按钮事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 取消审批按钮事件
+        /// </summary>
+        private void btnCancelApprove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                int count = dataSet_IM.Tables[0].Select("select=1").Length;
+                if (count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请在要操作的记录前面选中。");
+                    return;
+                }
+
+                if (!CheckWarehouseState_Multi(true, false, true, false))
+                    return;
+
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要取消审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                if (!imDAO.CancalIMApprovalInfo_Multi(dataSet_IM.Tables[0]))
+                    btnQuery_Click(null, null);
+                else
+                {
+                    MessageHandler.ShowMessageBox(string.Format("成功取消审批了{0}条记录。", count));
+                }
+                ClearHeadGridAllSelect();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--取消审批按钮事件错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 预览按钮事件
         /// </summary>
         private void btnPreview_Click(object sender, EventArgs e)
@@ -601,8 +743,40 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string imHeadNoStr = "";
-                if (gridViewIMHead.GetFocusedDataRow() != null)
-                    imHeadNoStr = DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"]);
+                DataRow dr = null;
+                DataRow[] drs = dataSet_IM.Tables[0].Select("select=1");
+                if (drs.Length > 1)
+                {
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewIMHead.GetFocusedDataRow() != null)
+                    {
+                        imHeadNoStr = DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"]);
+                        dr = gridViewIMHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    imHeadNoStr = DataTypeConvert.GetString(drs[0]["InventoryMoveNo"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["WarehouseState"]) != 2)
+                    {
+                        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                        return;
+                    }
+                }
+
+                //string imHeadNoStr = "";
+                //if (gridViewIMHead.GetFocusedDataRow() != null)
+                //    imHeadNoStr = DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"]);
+
                 imDAO.PrintHandle(imHeadNoStr, 1);
             }
             catch (Exception ex)
@@ -658,6 +832,7 @@ namespace PSAP.VIEW.BSVIEW
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 gridViewIMHead.SetFocusedRowCellValue("InventoryMoveDate", nowDate);
                 gridViewIMHead.SetFocusedRowCellValue("ReqDep", SystemInfo.user.DepartmentNo);
+                gridViewIMHead.SetFocusedRowCellValue("WarehouseState", 1);
                 gridViewIMHead.SetFocusedRowCellValue("Creator", SystemInfo.user.AutoId);
             }
             catch (Exception ex)
@@ -1066,6 +1241,7 @@ namespace PSAP.VIEW.BSVIEW
             colInRepertoryId.OptionsColumn.AllowEdit = ret;
             colOutLocationId.OptionsColumn.AllowEdit = ret;
             colInLocationId.OptionsColumn.AllowEdit = ret;
+            colApprovalType.OptionsColumn.AllowEdit = ret;
             colPRemark.OptionsColumn.AllowEdit = ret;
 
             colCodeFileName.OptionsColumn.AllowEdit = ret;
@@ -1092,6 +1268,79 @@ namespace PSAP.VIEW.BSVIEW
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
                 }
             }
+        }
+
+        /// <summary>
+        /// 检测出库单状态是否可以操作
+        /// </summary>
+        private bool CheckWarehouseState()
+        {
+            if (gridViewIMHead.GetFocusedDataRow() == null)
+                return false;
+            int reqState = DataTypeConvert.GetInt(gridViewIMHead.GetFocusedDataRow()["WarehouseState"]);
+            switch (reqState)
+            {
+                case 2:
+                    MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"])));
+                    return false;
+                //case 3:
+                //    MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"])));
+                //    return false;
+                case 4:
+                    MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"])));
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 检测当前选中的出库单状态是否可以操作
+        /// </summary>
+        private bool CheckWarehouseState_Multi(bool checkNoApprover, bool checkApprover, bool checkSettle, bool checkApproverBetween)
+        {
+            for (int i = 0; i < gridViewIMHead.DataRowCount; i++)
+            {
+                if (DataTypeConvert.GetBoolean(gridViewIMHead.GetDataRow(i)["Select"]))
+                {
+                    int reqState = DataTypeConvert.GetInt(gridViewIMHead.GetDataRow(i)["WarehouseState"]);
+                    switch (reqState)
+                    {
+                        case 1:
+                            if (checkNoApprover)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetDataRow(i)["InventoryMoveNo"])));
+                                gridViewIMHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                        case 2:
+                            if (checkApprover)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetDataRow(i)["InventoryMoveNo"])));
+                                gridViewIMHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                        //case 3:
+                        //    if (checkSettle)
+                        //    {
+                        //        MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetDataRow(i)["InventoryMoveNo"])));
+                        //        gridViewIMHead.FocusedRowHandle = i;
+                        //        return false;
+                        //    }
+                        //    break;
+                        case 4:
+                            if (checkApproverBetween)
+                            {
+                                MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewIMHead.GetDataRow(i)["InventoryMoveNo"])));
+                                gridViewIMHead.FocusedRowHandle = i;
+                                return false;
+                            }
+                            break;
+                    }
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -1409,6 +1658,5 @@ namespace PSAP.VIEW.BSVIEW
 
 
         #endregion
-
     }
 }

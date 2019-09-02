@@ -70,6 +70,8 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (SystemInfo.DisableShelfInfo)
                 {
+                    labShelfId.Visible = false;
+                    searchLookUpShelfId.Visible = false;
                     colShelfId.Visible = false;
                 }
 
@@ -85,7 +87,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 确定行号
         /// </summary>
-        private void gridViewPrReqList_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
+        private void gridViewPrReqList_CustomDrawRowIndicator(object sender, RowIndicatorCustomDrawEventArgs e)
         {
             ControlHandler.GridView_CustomDrawRowIndicator(e);
         }
@@ -160,7 +162,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 设置Grid单元格合并
         /// </summary>
-        private void gridViewWNowInfo_CellMerge(object sender, DevExpress.XtraGrid.Views.Grid.CellMergeEventArgs e)
+        private void gridViewWNowInfo_CellMerge(object sender, CellMergeEventArgs e)
         {
             try
             {

@@ -303,6 +303,8 @@
             this.tsmiSxtzcgddsjcw = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYzrkdzrxxtdxmhjxdj = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYzrkdzrxxtdgysjxdj = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataColumn8 = new System.Data.DataColumn();
+            this.colProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SearchLocationId.Properties)).BeginInit();
@@ -560,7 +562,7 @@
             // 
             // btnQuery
             // 
-            this.btnQuery.Location = new System.Drawing.Point(1033, 43);
+            this.btnQuery.Location = new System.Drawing.Point(1049, 43);
             this.btnQuery.Margin = new System.Windows.Forms.Padding(4);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
@@ -584,14 +586,14 @@
             this.lookUpApprover.Properties.DisplayMember = "EmpName";
             this.lookUpApprover.Properties.NullText = "";
             this.lookUpApprover.Properties.ValueMember = "AutoId";
-            this.lookUpApprover.Size = new System.Drawing.Size(100, 20);
+            this.lookUpApprover.Size = new System.Drawing.Size(120, 20);
             this.lookUpApprover.TabIndex = 8;
             this.lookUpApprover.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lookUpApprover_KeyDown);
             // 
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
-            this.textCommon.Location = new System.Drawing.Point(858, 44);
+            this.textCommon.Location = new System.Drawing.Point(874, 44);
             this.textCommon.Margin = new System.Windows.Forms.Padding(4);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
@@ -758,7 +760,7 @@
             // 
             // labCommon
             // 
-            this.labCommon.Location = new System.Drawing.Point(790, 47);
+            this.labCommon.Location = new System.Drawing.Point(806, 47);
             this.labCommon.Margin = new System.Windows.Forms.Padding(4);
             this.labCommon.Name = "labCommon";
             this.labCommon.Size = new System.Drawing.Size(60, 14);
@@ -972,7 +974,8 @@
             this.dataColPoListAutoId,
             this.dataColCodeName,
             this.dataColumnOrderHeadNo,
-            this.dataColShelfId});
+            this.dataColShelfId,
+            this.dataColumn8});
             this.dataTableWWList.TableName = "WWList";
             // 
             // dataColumnAutoId
@@ -1046,7 +1049,8 @@
             this.colStnNo,
             this.colOrderHeadNo,
             this.colDelete,
-            this.colPoListAutoId});
+            this.colPoListAutoId,
+            this.colProjectNo});
             this.gridViewWWList.GridControl = this.gridControlWWList;
             this.gridViewWWList.IndicatorWidth = 40;
             this.gridViewWWList.Name = "gridViewWWList";
@@ -3101,6 +3105,16 @@
             this.tsmiYzrkdzrxxtdgysjxdj.Size = new System.Drawing.Size(364, 22);
             this.tsmiYzrkdzrxxtdgysjxdj.Text = "一张入库单只允许相同的供应商进行登记。";
             // 
+            // dataColumn8
+            // 
+            this.dataColumn8.Caption = "项目号";
+            this.dataColumn8.ColumnName = "ProjectNo";
+            // 
+            // colProjectNo
+            // 
+            this.colProjectNo.FieldName = "ProjectNo";
+            this.colProjectNo.Name = "colProjectNo";
+            // 
             // FrmWarehouseWarrant_Drag
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3484,5 +3498,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn20;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn21;
         private DevExpress.XtraGrid.Columns.GridColumn gridColRepertoryLocationId;
+        private System.Data.DataColumn dataColumn8;
+        private DevExpress.XtraGrid.Columns.GridColumn colProjectNo;
     }
 }

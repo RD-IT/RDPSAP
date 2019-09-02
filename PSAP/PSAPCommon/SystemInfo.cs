@@ -242,6 +242,11 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static bool EnableNegativeInventory = false;
 
+        /// <summary>
+        /// 库存登记单保存直接审批
+        /// </summary>
+        public static bool InventorySaveApproval = false;
+
         #endregion
 
         ///// <summary>

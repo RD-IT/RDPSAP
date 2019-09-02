@@ -16,6 +16,8 @@ namespace PSAP.VIEW.BSVIEW
         FrmBaseEdit editForm = null;
         FrmCommonDAO commonDAO = new FrmCommonDAO();
 
+        public static string codeFileNameStr = "";
+
         /// <summary>
         /// 窗体构造函数
         /// </summary>
@@ -33,7 +35,12 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.TopLevel = false;
                     editForm.TableName = "SW_PartsCode";
                     editForm.TableCaption = "物料信息";
-                    editForm.Sql = "select * from SW_PartsCode order by AutoId";
+                    //editForm.Sql = "select * from SW_PartsCode order by AutoId";
+
+                    if (codeFileNameStr == "")
+                        editForm.Sql = "select * from SW_PartsCode order by AutoId";
+                    else
+                        editForm.Sql = string.Format("select * from SW_PartsCode where CodeFileName = '{0}' order by AutoId", codeFileNameStr);
                     editForm.PrimaryKeyColumn = "AutoId";
                     editForm.MasterDataSet = dSPartsCode;
                     editForm.MasterBindingSource = bSPartsCode;
@@ -59,17 +66,43 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchLookUpMaterial.Properties.DataSource = commonDAO.QueryMaterialSelectLib(false);
+                DataTable materialTable_f = commonDAO.QueryMaterialSelectLib(false);
+
+                searchLookUpMaterial.Properties.DataSource = materialTable_f;
                 lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(false);
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(false);
                 lookUpFinish.Properties.DataSource = commonDAO.QueryFinishCatg(false);
                 lookUpMachiningLevel.Properties.DataSource = commonDAO.QueryLevelCatg(false);
                 lookUpUnit.Properties.DataSource = commonDAO.QueryUnitCatg(false);
+
+                repLookUpMaterial.DataSource = materialTable_f;
             }
             catch (Exception ex)
             {
                 //ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
                 ExceptionHandler.HandleException(this.Text + "--" + tsmiCtjzsj.Text, ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体激活事件
+        /// </summary>
+        private void FrmPartsCode_Activated(object sender, EventArgs e)
+        {
+            try
+            {
+                if (codeFileNameStr != "")
+                {
+                    editForm.Sql = string.Format("select * from SW_PartsCode where CodeFileName = '{0}' order by AutoId", codeFileNameStr);
+                    editForm.btnRefresh_Click(null, null);
+
+                    codeFileNameStr = "";
+                    editForm.Sql = "select * from SW_PartsCode order by AutoId";
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体激活事件错误。", ex);
             }
         }
 
@@ -196,5 +229,6 @@ namespace PSAP.VIEW.BSVIEW
                 ExceptionHandler.HandleException(this.Text + "--获取单元格显示的信息错误。", ex);
             }
         }
+
     }
 }

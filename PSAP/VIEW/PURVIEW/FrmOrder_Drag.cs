@@ -971,17 +971,48 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string orderHeadNoStr = "";
-                if (gridViewOrderHead.GetFocusedDataRow() != null)
-                    orderHeadNoStr = DataTypeConvert.GetString(gridViewOrderHead.GetFocusedDataRow()["OrderHeadNo"]);
-
-                if(SystemInfo.ApproveAfterPrint)
+                DataRow dr = null;
+                DataRow[] drs = dataSet_Order.Tables[0].Select("select=1");
+                if (drs.Length > 1)
                 {
-                    if (DataTypeConvert.GetInt(gridViewOrderHead.GetFocusedDataRow()["ReqState"])!=2)
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewOrderHead.GetFocusedDataRow() != null)
+                    {
+                        orderHeadNoStr = DataTypeConvert.GetString(gridViewOrderHead.GetFocusedDataRow()["OrderHeadNo"]);
+                        dr = gridViewOrderHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    orderHeadNoStr = DataTypeConvert.GetString(drs[0]["OrderHeadNo"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["ReqState"]) != 2)
                     {
                         MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
                         return;
                     }
                 }
+
+                //string orderHeadNoStr = "";
+                //if (gridViewOrderHead.GetFocusedDataRow() != null)
+                //    orderHeadNoStr = DataTypeConvert.GetString(gridViewOrderHead.GetFocusedDataRow()["OrderHeadNo"]);
+
+                //if(SystemInfo.ApproveAfterPrint)
+                //{
+                //    if (DataTypeConvert.GetInt(gridViewOrderHead.GetFocusedDataRow()["ReqState"])!=2)
+                //    {
+                //        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                //        return;
+                //    }
+                //}
 
                 orderDAO.PrintHandle(orderHeadNoStr, 1);
             }

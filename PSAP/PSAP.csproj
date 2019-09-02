@@ -1113,6 +1113,12 @@
     <Compile Include="VIEW\SWVIEW\FrmPartsCodeImport.Designer.cs">
       <DependentUpon>FrmPartsCodeImport.cs</DependentUpon>
     </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmPartsCodeQuery.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\SWVIEW\FrmPartsCodeQuery.Designer.cs">
+      <DependentUpon>FrmPartsCodeQuery.cs</DependentUpon>
+    </Compile>
     <Compile Include="VIEW\SYSVIEW\FrmSystem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1596,6 +1602,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\SWVIEW\FrmPartsCodeImport.resx">
       <DependentUpon>FrmPartsCodeImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\SWVIEW\FrmPartsCodeQuery.resx">
+      <DependentUpon>FrmPartsCodeQuery.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\SYSVIEW\FrmSystem.resx">
       <DependentUpon>FrmSystem.cs</DependentUpon>

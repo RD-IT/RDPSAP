@@ -109,9 +109,12 @@
             this.dataColParameterValue = new System.Data.DataColumn();
             this.bindingSource_SystemParameter = new System.Windows.Forms.BindingSource(this.components);
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
+            this.btnSetinitialization = new DevExpress.XtraEditors.SimpleButton();
             this.BtnSave = new DevExpress.XtraEditors.SimpleButton();
             this.pnlTabPage = new DevExpress.XtraEditors.PanelControl();
-            this.btnSetinitialization = new DevExpress.XtraEditors.SimpleButton();
+            this.labInventorySaveApproval = new DevExpress.XtraEditors.LabelControl();
+            this.checkInventorySaveApproval = new DevExpress.XtraEditors.CheckEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabSystem)).BeginInit();
             this.xtraTabSystem.SuspendLayout();
             this.PageCommon.SuspendLayout();
@@ -161,6 +164,7 @@
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).BeginInit();
             this.pnlTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkInventorySaveApproval.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // xtraTabSystem
@@ -814,6 +818,9 @@
             // 
             // PageWarehouse
             // 
+            this.PageWarehouse.Controls.Add(this.labelControl1);
+            this.PageWarehouse.Controls.Add(this.checkInventorySaveApproval);
+            this.PageWarehouse.Controls.Add(this.labInventorySaveApproval);
             this.PageWarehouse.Controls.Add(this.labEnableNegativeInventory);
             this.PageWarehouse.Controls.Add(this.checkEnableNegativeInventory);
             this.PageWarehouse.Controls.Add(this.labDisableShelfInfoDesc);
@@ -1168,6 +1175,15 @@
             this.pnlTop.Size = new System.Drawing.Size(1123, 40);
             this.pnlTop.TabIndex = 14;
             // 
+            // btnSetinitialization
+            // 
+            this.btnSetinitialization.Location = new System.Drawing.Point(102, 9);
+            this.btnSetinitialization.Name = "btnSetinitialization";
+            this.btnSetinitialization.Size = new System.Drawing.Size(75, 23);
+            this.btnSetinitialization.TabIndex = 21;
+            this.btnSetinitialization.Text = "设定初始化";
+            this.btnSetinitialization.Click += new System.EventHandler(this.btnSetinitialization_Click);
+            // 
             // BtnSave
             // 
             this.BtnSave.Location = new System.Drawing.Point(10, 9);
@@ -1187,14 +1203,34 @@
             this.pnlTabPage.Size = new System.Drawing.Size(1123, 582);
             this.pnlTabPage.TabIndex = 15;
             // 
-            // btnSetinitialization
+            // labInventorySaveApproval
             // 
-            this.btnSetinitialization.Location = new System.Drawing.Point(102, 9);
-            this.btnSetinitialization.Name = "btnSetinitialization";
-            this.btnSetinitialization.Size = new System.Drawing.Size(75, 23);
-            this.btnSetinitialization.TabIndex = 21;
-            this.btnSetinitialization.Text = "设定初始化";
-            this.btnSetinitialization.Click += new System.EventHandler(this.btnSetinitialization_Click);
+            this.labInventorySaveApproval.Location = new System.Drawing.Point(36, 272);
+            this.labInventorySaveApproval.Name = "labInventorySaveApproval";
+            this.labInventorySaveApproval.Size = new System.Drawing.Size(156, 14);
+            this.labInventorySaveApproval.TabIndex = 29;
+            this.labInventorySaveApproval.Text = "启用库存登记单保存直接审批";
+            // 
+            // checkInventorySaveApproval
+            // 
+            this.checkInventorySaveApproval.Location = new System.Drawing.Point(231, 269);
+            this.checkInventorySaveApproval.Name = "checkInventorySaveApproval";
+            this.checkInventorySaveApproval.Properties.Caption = "";
+            this.checkInventorySaveApproval.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkInventorySaveApproval.Properties.ValueChecked = "1";
+            this.checkInventorySaveApproval.Properties.ValueGrayed = "0";
+            this.checkInventorySaveApproval.Properties.ValueUnchecked = "0";
+            this.checkInventorySaveApproval.Size = new System.Drawing.Size(31, 19);
+            this.checkInventorySaveApproval.TabIndex = 30;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.labelControl1.Location = new System.Drawing.Point(268, 272);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(276, 14);
+            this.labelControl1.TabIndex = 31;
+            this.labelControl1.Text = "（注：包括入库单、出库单以及库存的所有登记单）";
             // 
             // FrmSystemSet
             // 
@@ -1261,6 +1297,7 @@
             this.pnlTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).EndInit();
             this.pnlTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.checkInventorySaveApproval.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1350,5 +1387,8 @@
         private DevExpress.XtraEditors.GroupControl groupClearBasicData;
         private DevExpress.XtraEditors.SimpleButton btnClearBasicData;
         private DevExpress.XtraEditors.SimpleButton btnSetinitialization;
+        private DevExpress.XtraEditors.LabelControl labInventorySaveApproval;
+        private DevExpress.XtraEditors.CheckEdit checkInventorySaveApproval;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
     }
 }

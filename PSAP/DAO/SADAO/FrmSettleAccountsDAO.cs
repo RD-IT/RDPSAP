@@ -113,7 +113,8 @@ namespace PSAP.DAO.SADAO
                             return 0;
                         }
 
-                        if (DataTypeConvert.GetString(SettleAccountsHeadRow["SettleAccountNo"]) == "")//新增
+                        //if (DataTypeConvert.GetString(SettleAccountsHeadRow["SettleAccountNo"]) == "")//新增
+                        if (SettleAccountsHeadRow.RowState == DataRowState.Added)//新增
                         {
                             string saNo = BaseSQL.GetMaxCodeNo(cmd, "SA");
                             SettleAccountsHeadRow["SettleAccountNo"] = saNo;

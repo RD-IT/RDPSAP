@@ -600,7 +600,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (!CheckWarehouseState_Multi(false, true, true, false))
                     return;
 
-                if (count == 1)
+                if (!SystemInfo.InventorySaveApproval && count == 1)
                 {
                     //弹出审批页面
                     FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_SWR.Tables[0].Select("select=1")[0]["SpecialWarehouseReceipt"]));
@@ -681,17 +681,48 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string swrHeadNoStr = "";
-                if (gridViewSWRHead.GetFocusedDataRow() != null)
-                    swrHeadNoStr = DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]);
-
-                if (SystemInfo.ApproveAfterPrint)
+                DataRow dr = null;
+                DataRow[] drs = dataSet_SWR.Tables[0].Select("select=1");
+                if (drs.Length > 1)
                 {
-                    if (DataTypeConvert.GetInt(gridViewSWRHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                    MessageHandler.ShowMessageBox("只能选中一条记录进行打印预览，请重新选择。");
+                    return;
+                }
+                else if (drs.Length == 0)
+                {
+                    if (gridViewSWRHead.GetFocusedDataRow() != null)
+                    {
+                        swrHeadNoStr = DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]);
+                        dr = gridViewSWRHead.GetFocusedDataRow();
+                    }
+                }
+                else
+                {
+                    swrHeadNoStr = DataTypeConvert.GetString(drs[0]["SpecialWarehouseReceipt"]);
+                    dr = drs[0];
+                }
+
+                if (dr != null && SystemInfo.ApproveAfterPrint)
+                {
+                    if (DataTypeConvert.GetInt(dr["WarehouseState"]) != 2)
                     {
                         MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
                         return;
                     }
                 }
+
+                //string swrHeadNoStr = "";
+                //if (gridViewSWRHead.GetFocusedDataRow() != null)
+                //    swrHeadNoStr = DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]);
+
+                //if (SystemInfo.ApproveAfterPrint)
+                //{
+                //    if (DataTypeConvert.GetInt(gridViewSWRHead.GetFocusedDataRow()["WarehouseState"]) != 2)
+                //    {
+                //        MessageHandler.ShowMessageBox("请审批通过后，再进行打印预览操作。");
+                //        return;
+                //    }
+                //}
 
                 swrDAO.PrintHandle(swrHeadNoStr, 1);
             }
@@ -762,16 +793,22 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 gridViewSWRList.SetFocusedRowCellValue("SpecialWarehouseReceipt", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]));
-                if (dataSet_SWR.Tables[1].Rows.Count > 0)
+                if (gridViewSWRList.DataRowCount > 0)
                 {
                     if (gridViewSWRList.GetFocusedDataSourceRowIndex() == 0)
+                    {
+                        gridViewSWRList.SetFocusedRowCellValue("ProjectNo", gridViewSWRList.GetDataRow(1)["ProjectNo"]);
                         gridViewSWRList.SetFocusedRowCellValue("ProjectName", gridViewSWRList.GetDataRow(1)["ProjectName"]);
+                    }
                     else
+                    {
+                        gridViewSWRList.SetFocusedRowCellValue("ProjectNo", gridViewSWRList.GetDataRow(0)["ProjectNo"]);
                         gridViewSWRList.SetFocusedRowCellValue("ProjectName", gridViewSWRList.GetDataRow(0)["ProjectName"]);
+                    }
                 }
-
                 if (SystemInfo.DisableProjectNo)
                 {
+                    gridViewSWRList.SetFocusedRowCellValue("ProjectNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
                     gridViewSWRList.SetFocusedRowCellValue("ProjectName", SystemInfo.DisableProjectNo_Default_ProjectName);
                     gridViewSWRList.SetFocusedRowCellValue("StnNo", SystemInfo.DisableProjectNo_Default_ProjectNoAndStnNo);
                 }
