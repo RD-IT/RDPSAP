@@ -103,6 +103,7 @@
             this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeFileName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlMiddle = new DevExpress.XtraEditors.PanelControl();
+            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_WNowInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableWNowInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_WNowInfo)).BeginInit();
@@ -362,7 +363,8 @@
             this.gridColumn6,
             this.gridColumn2,
             this.gridColumn4,
-            this.gridColumn5});
+            this.gridColumn5,
+            this.gridColumn9});
             this.searchLookUpShelfView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
             this.searchLookUpShelfView.IndicatorWidth = 60;
             this.searchLookUpShelfView.Name = "searchLookUpShelfView";
@@ -397,8 +399,6 @@
             this.gridColumn5.Caption = "货架说明";
             this.gridColumn5.FieldName = "ShelfDescription";
             this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 2;
             // 
             // labShelfId
             // 
@@ -851,6 +851,14 @@
             this.pnlMiddle.Size = new System.Drawing.Size(1334, 425);
             this.pnlMiddle.TabIndex = 8;
             // 
+            // gridColumn9
+            // 
+            this.gridColumn9.Caption = "仓位名称";
+            this.gridColumn9.FieldName = "LocationName";
+            this.gridColumn9.Name = "gridColumn9";
+            this.gridColumn9.Visible = true;
+            this.gridColumn9.VisibleIndex = 2;
+            // 
             // FrmWarehouseNowInfo
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -968,5 +976,6 @@
         private System.Data.DataColumn dataColLocationId;
         private DevExpress.XtraGrid.Columns.GridColumn colLocationId;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpLocationId;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
     }
 }

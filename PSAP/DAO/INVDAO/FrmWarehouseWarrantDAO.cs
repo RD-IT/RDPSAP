@@ -214,6 +214,11 @@ namespace PSAP.DAO.INVDAO
                             return 0;
                         }
 
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
+                        if (!whDAO.IsSaveWarehouseOrder(cmd, wwHeadRow, DataTypeConvert.GetDateTime(wwHeadRow["WarehouseWarrantDate"])))
+                            return 0;
+
                         //if (DataTypeConvert.GetString(wwHeadRow["WarehouseWarrant"]) == "")//新增
                         if (wwHeadRow.RowState == DataRowState.Added)//新增
                         {
@@ -261,7 +266,7 @@ namespace PSAP.DAO.INVDAO
                         adapterList.Fill(tmpListTable);
                         BaseSQL.UpdateDataTable(adapterList, wwListTable.GetChanges());                        
 
-                        if (new FrmWarehouseNowInfoDAO().SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wwHeadRow, wwListTable.Copy(), wwNoStr, dbListTable, "入库单", "入库", true) != 1)
+                        if (whDAO.SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wwHeadRow, wwListTable.Copy(), wwNoStr, dbListTable, "入库单", "入库", true) != 1)
                             return 0;
 
                         if (SystemInfo.InventorySaveApproval)
@@ -428,12 +433,17 @@ namespace PSAP.DAO.INVDAO
 
                         //保存日志到日志表中
                         DataRow[] wwHeadRows = wwHeadTable.Select("select=1");
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
                         for (int i = 0; i < wwHeadRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "入库单", wwHeadRows[i], "WarehouseWarrant");
 
+                            if (!whDAO.IsDeleteWarehouseOrder(cmd, DataTypeConvert.GetDateTime(wwHeadRows[i]["WarehouseWarrantDate"])))
+                                return false;
+
                             SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);                            
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(wwHeadRows[i]["WarehouseWarrant"]), 2, out errorText))
+                            if (!whDAO.Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(wwHeadRows[i]["WarehouseWarrant"]), 2, out errorText))
                             {
                                 trans.Rollback();
                                 MessageHandler.ShowMessageBox("入库单删除入库错误--" + errorText);

@@ -23,6 +23,7 @@ namespace PSAP.VIEW.BSVIEW
 
         FrmCommonDAO commonDAO = new FrmCommonDAO();
         FrmSpecialWarehouseWarrantDAO swwDAO = new FrmSpecialWarehouseWarrantDAO();
+        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
 
         /// <summary>
         /// 主表聚焦的行号
@@ -356,6 +357,9 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
+                if (!whDAO.IsNewWarehouseOrder())
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 gridViewSWWHead.AddNewRow();
@@ -393,6 +397,9 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (btnSave.Text != "保存")
                 {
+                    if (!whDAO.IsAlterWarehouseOrder(DataTypeConvert.GetDateTime(gridViewSWWHead.GetFocusedDataRow()["SpecialWarehouseWarrantDate"])))
+                        return;
+
                     ClearHeadGridAllSelect();
 
                     SetButtonAndColumnState(true);

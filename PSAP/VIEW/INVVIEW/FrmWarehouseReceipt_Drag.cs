@@ -24,6 +24,7 @@ namespace PSAP.VIEW.BSVIEW
         FrmWarehouseReceiptDAO wrDAO = new FrmWarehouseReceiptDAO();
         FrmWarehouseWarrantDAO wwDAO = new FrmWarehouseWarrantDAO();
         FrmCommonDAO commonDAO = new FrmCommonDAO();
+        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
 
         /// <summary>
         /// 主表聚焦的行号
@@ -371,6 +372,9 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
+                if (!whDAO.IsNewWarehouseOrder())
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 gridViewWRHead.AddNewRow();
@@ -409,6 +413,9 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (btnSave.Tag.ToString() != "保存")
                 {
+                    if (!whDAO.IsAlterWarehouseOrder(DataTypeConvert.GetDateTime(gridViewWRHead.GetFocusedDataRow()["WarehouseReceiptDate"])))
+                        return;
+
                     ClearHeadGridAllSelect();
 
                     SetButtonAndColumnState(true);

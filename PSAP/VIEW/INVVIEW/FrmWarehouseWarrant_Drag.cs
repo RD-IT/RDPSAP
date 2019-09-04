@@ -1,5 +1,4 @@
-﻿using DevExpress.Data.Filtering;
-using DevExpress.XtraEditors;
+﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
@@ -25,6 +24,7 @@ namespace PSAP.VIEW.BSVIEW
         FrmWarehouseWarrantDAO wwDAO = new FrmWarehouseWarrantDAO();
         FrmCommonDAO commonDAO = new FrmCommonDAO();
         FrmOrderApplyDAO applyDAO = new FrmOrderApplyDAO();
+        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
 
         /// <summary>
         /// 主表聚焦的行号
@@ -394,6 +394,9 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
+                if (!whDAO.IsNewWarehouseOrder())
+                    return;
+
                 FrmOrderApply orderApplyForm = new FrmOrderApply();
                 if (orderApplyForm.ShowDialog() == DialogResult.OK)
                 {
@@ -425,6 +428,9 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (btnSave.Tag.ToString() != "保存")
                 {
+                    if (!whDAO.IsAlterWarehouseOrder(DataTypeConvert.GetDateTime(gridViewWWHead.GetFocusedDataRow()["WarehouseWarrantDate"])))
+                        return;
+
                     ClearHeadGridAllSelect();
 
                     SetButtonAndColumnState(true);
@@ -1492,6 +1498,9 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void POToWW_DragOrder(object sender, List<DataRow> drs)
         {
+            if (!whDAO.IsNewWarehouseOrder())
+                return;
+
             DataRow headRow = gridViewOrderHead.GetFocusedDataRow();
 
             if (btnApprove.Enabled)

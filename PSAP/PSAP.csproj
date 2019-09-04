@@ -166,6 +166,7 @@
     <Compile Include="DAO\INVDAO\FrmReturnedGoodsReportDAO.cs" />
     <Compile Include="DAO\INVDAO\FrmSpecialWarehouseReceiptDAO.cs" />
     <Compile Include="DAO\INVDAO\FrmSpecialWarehouseWarrantDAO.cs" />
+    <Compile Include="DAO\INVDAO\FrmWarehouseCommonDAO.cs" />
     <Compile Include="DAO\INVDAO\FrmWarehouseNowInfoDAO.cs" />
     <Compile Include="DAO\INVDAO\FrmWarehouseReceiptDAO.cs" />
     <Compile Include="DAO\PBDAO\FrmPBDesignBomDAO.cs" />
@@ -398,6 +399,18 @@
     </Compile>
     <Compile Include="VIEW\Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmProductOpenAccount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmProductOpenAccount.Designer.cs">
+      <DependentUpon>FrmProductOpenAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmProductOpenAccount_Day.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VIEW\INVVIEW\FrmProductOpenAccount_Day.Designer.cs">
+      <DependentUpon>FrmProductOpenAccount_Day.cs</DependentUpon>
     </Compile>
     <Compile Include="VIEW\INVVIEW\FrmQueryStockDurationTotal.cs">
       <SubType>Form</SubType>
@@ -1243,6 +1256,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\CommonVIEW\FrmSelectUserList.resx">
       <DependentUpon>FrmSelectUserList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmProductOpenAccount.resx">
+      <DependentUpon>FrmProductOpenAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VIEW\INVVIEW\FrmProductOpenAccount_Day.resx">
+      <DependentUpon>FrmProductOpenAccount_Day.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VIEW\INVVIEW\FrmQueryStockDurationTotal.resx">
       <DependentUpon>FrmQueryStockDurationTotal.cs</DependentUpon>

@@ -71,6 +71,12 @@
             this.spinSettlementDefaultTax = new DevExpress.XtraEditors.SpinEdit();
             this.labSettlementDefaultTax = new DevExpress.XtraEditors.LabelControl();
             this.PageWarehouse = new DevExpress.XtraTab.XtraTabPage();
+            this.groupRetryTotalWarehouse = new DevExpress.XtraEditors.GroupControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.BtnRetryTotalWarehouse = new DevExpress.XtraEditors.SimpleButton();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.checkInventorySaveApproval = new DevExpress.XtraEditors.CheckEdit();
+            this.labInventorySaveApproval = new DevExpress.XtraEditors.LabelControl();
             this.labEnableNegativeInventory = new DevExpress.XtraEditors.LabelControl();
             this.checkEnableNegativeInventory = new DevExpress.XtraEditors.CheckEdit();
             this.labDisableShelfInfoDesc = new DevExpress.XtraEditors.LabelControl();
@@ -112,9 +118,6 @@
             this.btnSetinitialization = new DevExpress.XtraEditors.SimpleButton();
             this.BtnSave = new DevExpress.XtraEditors.SimpleButton();
             this.pnlTabPage = new DevExpress.XtraEditors.PanelControl();
-            this.labInventorySaveApproval = new DevExpress.XtraEditors.LabelControl();
-            this.checkInventorySaveApproval = new DevExpress.XtraEditors.CheckEdit();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabSystem)).BeginInit();
             this.xtraTabSystem.SuspendLayout();
             this.PageCommon.SuspendLayout();
@@ -140,6 +143,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.spinOrderNoWarehousingDays.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinSettlementDefaultTax.Properties)).BeginInit();
             this.PageWarehouse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupRetryTotalWarehouse)).BeginInit();
+            this.groupRetryTotalWarehouse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.checkInventorySaveApproval.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEnableNegativeInventory.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkDisableShelfInfo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkDisableProjectNo.Properties)).BeginInit();
@@ -164,7 +170,6 @@
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).BeginInit();
             this.pnlTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkInventorySaveApproval.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // xtraTabSystem
@@ -818,6 +823,7 @@
             // 
             // PageWarehouse
             // 
+            this.PageWarehouse.Controls.Add(this.groupRetryTotalWarehouse);
             this.PageWarehouse.Controls.Add(this.labelControl1);
             this.PageWarehouse.Controls.Add(this.checkInventorySaveApproval);
             this.PageWarehouse.Controls.Add(this.labInventorySaveApproval);
@@ -840,9 +846,70 @@
             this.PageWarehouse.Tag = "Warehouse";
             this.PageWarehouse.Text = "库存";
             // 
+            // groupRetryTotalWarehouse
+            // 
+            this.groupRetryTotalWarehouse.Controls.Add(this.BtnRetryTotalWarehouse);
+            this.groupRetryTotalWarehouse.Controls.Add(this.labelControl2);
+            this.groupRetryTotalWarehouse.Location = new System.Drawing.Point(706, 18);
+            this.groupRetryTotalWarehouse.LookAndFeel.UseDefaultLookAndFeel = false;
+            this.groupRetryTotalWarehouse.LookAndFeel.UseWindowsXPTheme = true;
+            this.groupRetryTotalWarehouse.Name = "groupRetryTotalWarehouse";
+            this.groupRetryTotalWarehouse.Size = new System.Drawing.Size(315, 150);
+            this.groupRetryTotalWarehouse.TabIndex = 34;
+            this.groupRetryTotalWarehouse.Text = "重新统计当前库存数";
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.labelControl2.Appearance.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.labelControl2.AutoSizeMode = DevExpress.XtraEditors.LabelAutoSizeMode.None;
+            this.labelControl2.Location = new System.Drawing.Point(21, 64);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(278, 61);
+            this.labelControl2.TabIndex = 33;
+            this.labelControl2.Text = "（注：此操作会根据当年的期初库存数累加当年的所有库存单据出入库数来进行全部重新计算当前的库存数，请谨慎操作。）";
+            // 
+            // BtnRetryTotalWarehouse
+            // 
+            this.BtnRetryTotalWarehouse.Location = new System.Drawing.Point(21, 35);
+            this.BtnRetryTotalWarehouse.Name = "BtnRetryTotalWarehouse";
+            this.BtnRetryTotalWarehouse.Size = new System.Drawing.Size(129, 23);
+            this.BtnRetryTotalWarehouse.TabIndex = 32;
+            this.BtnRetryTotalWarehouse.Text = "重新统计当前库存数";
+            this.BtnRetryTotalWarehouse.Click += new System.EventHandler(this.BtnRetryTotalWarehouse_Click);
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Appearance.ForeColor = System.Drawing.Color.Red;
+            this.labelControl1.Location = new System.Drawing.Point(268, 272);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(276, 14);
+            this.labelControl1.TabIndex = 31;
+            this.labelControl1.Text = "（注：包括入库单、出库单以及库存的所有登记单）";
+            // 
+            // checkInventorySaveApproval
+            // 
+            this.checkInventorySaveApproval.Location = new System.Drawing.Point(231, 269);
+            this.checkInventorySaveApproval.Name = "checkInventorySaveApproval";
+            this.checkInventorySaveApproval.Properties.Caption = "";
+            this.checkInventorySaveApproval.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
+            this.checkInventorySaveApproval.Properties.ValueChecked = "1";
+            this.checkInventorySaveApproval.Properties.ValueGrayed = "0";
+            this.checkInventorySaveApproval.Properties.ValueUnchecked = "0";
+            this.checkInventorySaveApproval.Size = new System.Drawing.Size(31, 19);
+            this.checkInventorySaveApproval.TabIndex = 30;
+            // 
+            // labInventorySaveApproval
+            // 
+            this.labInventorySaveApproval.Location = new System.Drawing.Point(36, 272);
+            this.labInventorySaveApproval.Name = "labInventorySaveApproval";
+            this.labInventorySaveApproval.Size = new System.Drawing.Size(156, 14);
+            this.labInventorySaveApproval.TabIndex = 29;
+            this.labInventorySaveApproval.Text = "启用库存登记单保存直接审批";
+            // 
             // labEnableNegativeInventory
             // 
-            this.labEnableNegativeInventory.Location = new System.Drawing.Point(36, 232);
+            this.labEnableNegativeInventory.Location = new System.Drawing.Point(36, 152);
             this.labEnableNegativeInventory.Name = "labEnableNegativeInventory";
             this.labEnableNegativeInventory.Size = new System.Drawing.Size(96, 14);
             this.labEnableNegativeInventory.TabIndex = 28;
@@ -850,7 +917,7 @@
             // 
             // checkEnableNegativeInventory
             // 
-            this.checkEnableNegativeInventory.Location = new System.Drawing.Point(231, 229);
+            this.checkEnableNegativeInventory.Location = new System.Drawing.Point(231, 149);
             this.checkEnableNegativeInventory.Name = "checkEnableNegativeInventory";
             this.checkEnableNegativeInventory.Properties.Caption = "";
             this.checkEnableNegativeInventory.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -863,7 +930,7 @@
             // labDisableShelfInfoDesc
             // 
             this.labDisableShelfInfoDesc.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.labDisableShelfInfoDesc.Location = new System.Drawing.Point(268, 192);
+            this.labDisableShelfInfoDesc.Location = new System.Drawing.Point(268, 232);
             this.labDisableShelfInfoDesc.Name = "labDisableShelfInfoDesc";
             this.labDisableShelfInfoDesc.Size = new System.Drawing.Size(540, 14);
             this.labDisableShelfInfoDesc.TabIndex = 26;
@@ -872,7 +939,7 @@
             // checkDisableShelfInfo
             // 
             this.checkDisableShelfInfo.EditValue = "0";
-            this.checkDisableShelfInfo.Location = new System.Drawing.Point(231, 189);
+            this.checkDisableShelfInfo.Location = new System.Drawing.Point(231, 229);
             this.checkDisableShelfInfo.Name = "checkDisableShelfInfo";
             this.checkDisableShelfInfo.Properties.Caption = "";
             this.checkDisableShelfInfo.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -885,7 +952,7 @@
             // 
             // labDisableShelfInfo
             // 
-            this.labDisableShelfInfo.Location = new System.Drawing.Point(36, 192);
+            this.labDisableShelfInfo.Location = new System.Drawing.Point(36, 232);
             this.labDisableShelfInfo.Name = "labDisableShelfInfo";
             this.labDisableShelfInfo.Size = new System.Drawing.Size(108, 14);
             this.labDisableShelfInfo.TabIndex = 24;
@@ -894,7 +961,7 @@
             // labDisableProjectNoDesc
             // 
             this.labDisableProjectNoDesc.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.labDisableProjectNoDesc.Location = new System.Drawing.Point(268, 152);
+            this.labDisableProjectNoDesc.Location = new System.Drawing.Point(268, 192);
             this.labDisableProjectNoDesc.Name = "labDisableProjectNoDesc";
             this.labDisableProjectNoDesc.Size = new System.Drawing.Size(636, 14);
             this.labDisableProjectNoDesc.TabIndex = 23;
@@ -903,7 +970,7 @@
             // checkDisableProjectNo
             // 
             this.checkDisableProjectNo.EditValue = "0";
-            this.checkDisableProjectNo.Location = new System.Drawing.Point(231, 149);
+            this.checkDisableProjectNo.Location = new System.Drawing.Point(231, 189);
             this.checkDisableProjectNo.Name = "checkDisableProjectNo";
             this.checkDisableProjectNo.Properties.Caption = "";
             this.checkDisableProjectNo.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
@@ -916,7 +983,7 @@
             // 
             // labDisableProjectNo
             // 
-            this.labDisableProjectNo.Location = new System.Drawing.Point(36, 152);
+            this.labDisableProjectNo.Location = new System.Drawing.Point(36, 192);
             this.labDisableProjectNo.Name = "labDisableProjectNo";
             this.labDisableProjectNo.Size = new System.Drawing.Size(156, 14);
             this.labDisableProjectNo.TabIndex = 21;
@@ -1203,35 +1270,6 @@
             this.pnlTabPage.Size = new System.Drawing.Size(1123, 582);
             this.pnlTabPage.TabIndex = 15;
             // 
-            // labInventorySaveApproval
-            // 
-            this.labInventorySaveApproval.Location = new System.Drawing.Point(36, 272);
-            this.labInventorySaveApproval.Name = "labInventorySaveApproval";
-            this.labInventorySaveApproval.Size = new System.Drawing.Size(156, 14);
-            this.labInventorySaveApproval.TabIndex = 29;
-            this.labInventorySaveApproval.Text = "启用库存登记单保存直接审批";
-            // 
-            // checkInventorySaveApproval
-            // 
-            this.checkInventorySaveApproval.Location = new System.Drawing.Point(231, 269);
-            this.checkInventorySaveApproval.Name = "checkInventorySaveApproval";
-            this.checkInventorySaveApproval.Properties.Caption = "";
-            this.checkInventorySaveApproval.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
-            this.checkInventorySaveApproval.Properties.ValueChecked = "1";
-            this.checkInventorySaveApproval.Properties.ValueGrayed = "0";
-            this.checkInventorySaveApproval.Properties.ValueUnchecked = "0";
-            this.checkInventorySaveApproval.Size = new System.Drawing.Size(31, 19);
-            this.checkInventorySaveApproval.TabIndex = 30;
-            // 
-            // labelControl1
-            // 
-            this.labelControl1.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.labelControl1.Location = new System.Drawing.Point(268, 272);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(276, 14);
-            this.labelControl1.TabIndex = 31;
-            this.labelControl1.Text = "（注：包括入库单、出库单以及库存的所有登记单）";
-            // 
             // FrmSystemSet
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1272,6 +1310,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.spinSettlementDefaultTax.Properties)).EndInit();
             this.PageWarehouse.ResumeLayout(false);
             this.PageWarehouse.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.groupRetryTotalWarehouse)).EndInit();
+            this.groupRetryTotalWarehouse.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.checkInventorySaveApproval.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkEnableNegativeInventory.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkDisableShelfInfo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkDisableProjectNo.Properties)).EndInit();
@@ -1297,7 +1338,6 @@
             this.pnlTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlTabPage)).EndInit();
             this.pnlTabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.checkInventorySaveApproval.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1390,5 +1430,8 @@
         private DevExpress.XtraEditors.LabelControl labInventorySaveApproval;
         private DevExpress.XtraEditors.CheckEdit checkInventorySaveApproval;
         private DevExpress.XtraEditors.LabelControl labelControl1;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.SimpleButton BtnRetryTotalWarehouse;
+        private DevExpress.XtraEditors.GroupControl groupRetryTotalWarehouse;
     }
 }

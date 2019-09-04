@@ -125,6 +125,11 @@ namespace PSAP.DAO.INVDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
 
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
+                        if (!whDAO.IsSaveWarehouseOrder(cmd, IMHeadRow, DataTypeConvert.GetDateTime(IMHeadRow["InventoryMoveDate"])))
+                            return 0;
+
                         for (int i = 0; i < IMListTable.Rows.Count; i++)
                         {
                             if (IMListTable.Rows[i].RowState == DataRowState.Deleted)
@@ -165,16 +170,6 @@ namespace PSAP.DAO.INVDAO
                         }
 
                         string imNoStr = DataTypeConvert.GetString(IMHeadRow["InventoryMoveNo"]);
-                        //if (IMHeadRow.RowState != DataRowState.Added)
-                        //{
-                        //    SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
-                        //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, imNoStr, 2, out errorText))
-                        //    {
-                        //        trans.Rollback();
-                        //        MessageHandler.ShowMessageBox("库存移动单取消入库错误--" + errorText);
-                        //        return 0;
-                        //    }
-                        //}
 
                         DataTable dbInListTable = new DataTable();
                         DataTable dbOutListTable = new DataTable();
@@ -204,17 +199,7 @@ namespace PSAP.DAO.INVDAO
                         adapterList.Fill(tmpListTable);
                         BaseSQL.UpdateDataTable(adapterList, IMListTable.GetChanges());
 
-                        //Set_WWHead_End(cmd, IMListTable);
-
-                        //SqlCommand cmd_proc = new SqlCommand("", conn, trans);
-                        //if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, imNoStr, 1, out errorText))
-                        //{
-                        //    trans.Rollback();
-                        //    MessageHandler.ShowMessageBox("库存移动单入库错误--" + errorText);
-                        //    return 0;
-                        //}
-
-                        if (new FrmWarehouseNowInfoDAO().SaveMoveUpdate_WarehouseNowInfo(conn, trans, cmd, IMHeadRow, IMListTable.Copy(), imNoStr, dbInListTable, dbOutListTable) != 1)
+                        if (whDAO.SaveMoveUpdate_WarehouseNowInfo(conn, trans, cmd, IMHeadRow, IMListTable.Copy(), imNoStr, dbInListTable, dbOutListTable) != 1)
                             return 0;
 
                         if (SystemInfo.InventorySaveApproval)
@@ -368,12 +353,17 @@ namespace PSAP.DAO.INVDAO
 
                         //保存日志到日志表中
                         DataRow[] headRows = imHeadTable.Select("select=1");
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
                         for (int i = 0; i < headRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "库存移动单", headRows[i], "InventoryMoveNo");
 
+                            if (!whDAO.IsDeleteWarehouseOrder(cmd, DataTypeConvert.GetDateTime(headRows[i]["InventoryMoveDate"])))
+                                return false;
+
                             SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(headRows[i]["InventoryMoveNo"]), 2, out errorText))
+                            if (!whDAO.Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(headRows[i]["InventoryMoveNo"]), 2, out errorText))
                             {
                                 trans.Rollback();
                                 MessageHandler.ShowMessageBox("库存移动单删除入库错误--" + errorText);

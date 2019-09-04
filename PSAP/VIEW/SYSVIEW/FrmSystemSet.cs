@@ -600,16 +600,16 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if (MessageHandler.ShowMessageBox_YesNo("确认要清空基础资料吗？（请谨慎操作此步骤，清空后所有的基础资料都将会进行删除）", 2) == DialogResult.Yes)
-                {
-                    if (MessageHandler.ShowMessageBox_YesNo("确认要清空吗？", 2) != DialogResult.Yes)
-                        return;
+                //if (MessageHandler.ShowMessageBox_YesNo("确认要清空基础资料吗？（请谨慎操作此步骤，清空后所有的基础资料都将会进行删除）", 2) == DialogResult.Yes)
+                //{
+                //    if (MessageHandler.ShowMessageBox_YesNo("确认要清空吗？", 2) != DialogResult.Yes)
+                //        return;
 
-                    //if (systemDAO.ClearBasicData())
-                    //{
-                    //    MessageHandler.ShowMessageBox("清空基础资料成功。");
-                    //}
-                }
+                //    if (systemDAO.ClearBasicData())
+                //    {
+                //        MessageHandler.ShowMessageBox("清空基础资料成功。");
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -617,5 +617,23 @@ namespace PSAP.VIEW.BSVIEW
             }
         }
 
+        /// <summary>
+        /// 重新统计当前库存数
+        /// </summary>
+        private void BtnRetryTotalWarehouse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime serverTime = BaseSQL.GetServerDateTime();
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("此操作会根据[{0}]年的期初库存数累加[{0}]年的所有库存单据出入库数来进行重新计算当前的库存数。\r\n由于要清零当前的库存数，所以请谨慎操作此步骤。\r\n确认重新统计当前库存数吗？", serverTime.Year), 2) == DialogResult.Yes)
+                {
+                    new DAO.INVDAO.FrmWarehouseCommonDAO().UpdateWarehouseNowInfo_AllOrderTotal_YearAgain(serverTime.Year);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--重新统计当前库存数错误。", ex);
+            }
+        }
     }
 }

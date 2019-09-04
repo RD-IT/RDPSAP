@@ -122,6 +122,33 @@ namespace PSAP.PSAPCommon
         }
 
         /// <summary>
+        /// 根据单据编号得到单据名称
+        /// </summary>
+        public static string Get_WarehouseOrderType_Desc(string orderTypeNo)
+        {
+            switch (orderTypeNo)
+            {
+                case "1":
+                    return "入库单";
+                case "2":
+                    return "预算外入库单";
+                case "3":
+                    return "库存移动单-入库";
+                case "4":
+                    return "库存调整单";
+                case "5":
+                    return "出库单";
+                case "6":
+                    return "预算外出库单";
+                case "7":
+                    return "退货单";
+                case "8":
+                    return "库存移动单-出库";
+            }
+            return "";
+        }
+
+        /// <summary>
         /// 根据审批类型编号得到审批类型描述
         /// </summary>
         public static string Get_ApprovalCat_Desc(string approvalCatStr)

@@ -111,10 +111,10 @@ namespace PSAP.DAO.INVDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
 
-                        //if (!CheckOrderApplyBeyondCount(cmd, DataTypeConvert.GetString(wwHeadRow["WarehouseReceipt"]), wwListTable))
-                        //{
-                        //    return 0;
-                        //}
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
+                        if (!whDAO.IsSaveWarehouseOrder(cmd, swrHeadRow, DataTypeConvert.GetDateTime(swrHeadRow["SpecialWarehouseReceiptDate"])))
+                            return 0;
 
                         //if (DataTypeConvert.GetString(swwHeadRow["SpecialWarehouseReceipt"]) == "")//新增
                         if (swrHeadRow.RowState == DataRowState.Added)//新增
@@ -165,7 +165,7 @@ namespace PSAP.DAO.INVDAO
 
                         //Set_OrderHead_End(cmd, swwListTable);
 
-                        if (new FrmWarehouseNowInfoDAO().SaveUpdate_WarehouseNowInfo(conn, trans, cmd, swrHeadRow, swrListTable.Copy(), swrNoStr, dbListTable, "预算外出库单", "出库", false) != 1)
+                        if (whDAO.SaveUpdate_WarehouseNowInfo(conn, trans, cmd, swrHeadRow, swrListTable.Copy(), swrNoStr, dbListTable, "预算外出库单", "出库", false) != 1)
                             return 0;
 
                         if (SystemInfo.InventorySaveApproval)
@@ -293,12 +293,17 @@ namespace PSAP.DAO.INVDAO
 
                         //保存日志到日志表中
                         DataRow[] swwHeadRows = swwHeadTable.Select("select=1");
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
                         for (int i = 0; i < swwHeadRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "预算外出库单", swwHeadRows[i], "SpecialWarehouseReceipt");
 
+                            if (!whDAO.IsDeleteWarehouseOrder(cmd, DataTypeConvert.GetDateTime(swwHeadRows[i]["SpecialWarehouseReceiptDate"])))
+                                return false;
+
                             SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(swwHeadRows[i]["SpecialWarehouseReceipt"]), 2, out errorText))
+                            if (!whDAO.Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(swwHeadRows[i]["SpecialWarehouseReceipt"]), 2, out errorText))
                             {
                                 trans.Rollback();
                                 MessageHandler.ShowMessageBox("预算外出库单删除出库错误--" + errorText);

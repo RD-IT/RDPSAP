@@ -158,10 +158,10 @@ namespace PSAP.DAO.INVDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
 
-                        //if (!CheckOrderApplyBeyondCount(cmd, DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]), wrListTable))
-                        //{
-                        //    return 0;
-                        //}
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
+                        if (!whDAO.IsSaveWarehouseOrder(cmd, wrHeadRow, DataTypeConvert.GetDateTime(wrHeadRow["WarehouseReceiptDate"])))
+                            return 0;
 
                         //if (DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]) == "")//新增
                         if (wrHeadRow.RowState == DataRowState.Added)//新增
@@ -212,7 +212,7 @@ namespace PSAP.DAO.INVDAO
 
                         //Set_PrReqHead_End(cmd, wwListTable);
 
-                        if (new FrmWarehouseNowInfoDAO().SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wrHeadRow, wrListTable.Copy(), wrNoStr, dbListTable, "出库单", "出库", false) != 1)
+                        if (whDAO.SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wrHeadRow, wrListTable.Copy(), wrNoStr, dbListTable, "出库单", "出库", false) != 1)
                             return 0;
 
                         if (SystemInfo.InventorySaveApproval)
@@ -342,12 +342,17 @@ namespace PSAP.DAO.INVDAO
 
                         //保存日志到日志表中
                         DataRow[] wrHeadRows = wrHeadTable.Select("select=1");
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
                         for (int i = 0; i < wrHeadRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "出库单", wrHeadRows[i], "WarehouseReceipt");
 
+                            if (!whDAO.IsDeleteWarehouseOrder(cmd, DataTypeConvert.GetDateTime(wrHeadRows[i]["WarehouseReceiptDate"])))
+                                return false;
+
                             SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(wrHeadRows[i]["WarehouseReceipt"]), 2, out errorText))
+                            if (!whDAO.Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(wrHeadRows[i]["WarehouseReceipt"]), 2, out errorText))
                             {
                                 trans.Rollback();
                                 MessageHandler.ShowMessageBox("出库单删除出库错误--" + errorText);

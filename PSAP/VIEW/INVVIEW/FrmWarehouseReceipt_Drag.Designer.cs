@@ -460,6 +460,7 @@
             this.hideContainerLeft.Location = new System.Drawing.Point(0, 0);
             this.hideContainerLeft.Name = "hideContainerLeft";
             this.hideContainerLeft.Size = new System.Drawing.Size(22, 545);
+            this.hideContainerLeft.Visible = false;
             // 
             // dockPnlLeft
             // 

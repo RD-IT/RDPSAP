@@ -116,6 +116,11 @@ namespace PSAP.DAO.INVDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
 
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
+                        if (!whDAO.IsSaveWarehouseOrder(cmd, IAHeadRow, DataTypeConvert.GetDateTime(IAHeadRow["InventoryAdjustmentsDate"])))
+                            return 0;
+
                         for (int i = 0; i < IAListTable.Rows.Count; i++)
                         {
                             if (IAListTable.Rows[i].RowState == DataRowState.Deleted)
@@ -272,7 +277,7 @@ namespace PSAP.DAO.INVDAO
                         //    return 0;
                         //}
 
-                        if (new FrmWarehouseNowInfoDAO().SaveUpdate_WarehouseNowInfo(conn, trans, cmd, IAHeadRow, IAListTable.Copy(), iaNoStr, dbListTable, "库存调整单", "入库", true) != 1)
+                        if (whDAO.SaveUpdate_WarehouseNowInfo(conn, trans, cmd, IAHeadRow, IAListTable.Copy(), iaNoStr, dbListTable, "库存调整单", "入库", true) != 1)
                             return 0;
 
                         if (SystemInfo.InventorySaveApproval)
@@ -398,12 +403,17 @@ namespace PSAP.DAO.INVDAO
 
                         //保存日志到日志表中
                         DataRow[] headRows = iaHeadTable.Select("select=1");
+                        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
+
                         for (int i = 0; i < headRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_DeleteRow(cmd, "库存调整单", headRows[i], "InventoryAdjustmentsNo");
-                            
+
+                            if (!whDAO.IsDeleteWarehouseOrder(cmd, DataTypeConvert.GetDateTime(headRows[i]["InventoryAdjustmentsDate"])))
+                                return false;
+
                             SqlCommand cmd_proc_cancel = new SqlCommand("", conn, trans);
-                            if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(headRows[i]["InventoryAdjustmentsNo"]), 2, out errorText))
+                            if (!whDAO.Update_WarehouseNowInfo(cmd_proc_cancel, DataTypeConvert.GetString(headRows[i]["InventoryAdjustmentsNo"]), 2, out errorText))
                             {
                                 trans.Rollback();
                                 MessageHandler.ShowMessageBox("库存调整单删除入库错误--" + errorText);

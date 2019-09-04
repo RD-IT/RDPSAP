@@ -24,6 +24,7 @@ namespace PSAP.VIEW.BSVIEW
         FrmCommonDAO commonDAO = new FrmCommonDAO();
         FrmInventoryMoveDAO imDAO = new FrmInventoryMoveDAO();
         FrmWarehouseNowInfoDAO nowInfoDAO = new FrmWarehouseNowInfoDAO();
+        FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
 
         /// <summary>
         /// 主表聚焦的行号
@@ -389,6 +390,9 @@ namespace PSAP.VIEW.BSVIEW
                 if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
                     return;
 
+                if (!whDAO.IsNewWarehouseOrder())
+                    return;
+
                 ClearHeadGridAllSelect();
 
                 //gridViewPrReqHead.PostEditor();
@@ -428,6 +432,9 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (btnSave.Tag.ToString() != f.tsmiBc.Text)
                 {
+                    if (!whDAO.IsAlterWarehouseOrder(DataTypeConvert.GetDateTime(gridViewIMHead.GetFocusedDataRow()["InventoryMoveDate"])))
+                        return;
+
                     ClearHeadGridAllSelect();
 
                     SetButtonAndColumnState(true);
@@ -1532,6 +1539,9 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void WNowInfoToInvMove_DragOrder(object sender, List<DataRow> drs)
         {
+            if (!whDAO.IsNewWarehouseOrder())
+                return;
+
             int repertoryIdInt = 0;
             int locationIdInt = 0;
             if (drs.Count > 0)
