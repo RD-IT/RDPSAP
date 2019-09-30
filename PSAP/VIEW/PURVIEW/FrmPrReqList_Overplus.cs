@@ -51,7 +51,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = projectTable_t;
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
                 comboBoxReqState.SelectedIndex = 0;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -138,12 +138,12 @@ namespace PSAP.VIEW.BSVIEW
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string purCategoryStr = lookUpPurCategory.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPurCategory.EditValue) : "";
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
-                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text); 
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text);
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string commonStr = textCommon.Text.Trim();
                 dataSet_PrReq.Tables[0].Clear();
 
-                string querySqlStr = prReqDAO.Query_PrReqList_Overplus(reqDateBeginStr, reqDateEndStr, reqDepStr, purCategoryStr, projectNoStr, reqStateInt, codeFileNameStr, checkOverplus.Checked, commonStr);
+                string querySqlStr = prReqDAO.Query_PrReqList_Overplus(reqDateBeginStr, reqDateEndStr, reqDepStr, purCategoryStr, projectNoStr, reqStateInt, codeIdInt, checkOverplus.Checked, commonStr);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomPrReq.QueryGridData(ref dataSet_PrReq, "PrReqList", querySqlStr, countSqlStr, true);

@@ -14,6 +14,7 @@ using PSAP.PSAPCommon;
 using PSAP.DAO.WORKFLOWDAO;
 using DevExpress.XtraBars.Alerter;
 using PSAP.DAO.BSDAO;
+using PSAP.DAO.PURDAO;
 
 namespace PSAP.VIEW.BSVIEW
 {
@@ -447,15 +448,26 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                FrmQueryUserWorkFlowDAO userWFDAO = new FrmQueryUserWorkFlowDAO();
-
-                int userWFInt = userWFDAO.QueryUserWorkFlow_Count();
-                int rejectInt = userWFDAO.QueryRejectOrder_Count();
-
-                if (userWFInt + rejectInt > 0)
+                if (SystemInfo.EnableWorkFlowMessage)//流程图提醒
                 {
-                    alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", userWFInt + rejectInt));
-                    //new AlertControl().Show(null, "消息提示", DataTypeConvert.GetString(msg));
+                    FrmQueryUserWorkFlowDAO userWFDAO = new FrmQueryUserWorkFlowDAO();
+
+                    int userWFInt = userWFDAO.QueryUserWorkFlow_Count();
+                    int rejectInt = userWFDAO.QueryRejectOrder_Count();
+
+                    if (userWFInt + rejectInt > 0)
+                    {
+                        alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", userWFInt + rejectInt), null, null, "EnableWorkFlowMessage");
+                    }
+                }
+
+                if (SystemInfo.PrListDistributionMessage)//请购单明细任务分配提醒
+                {
+                    int countInt = new FrmPrReqListDistributionDAO().QueryPrReqList_ArrangementCount(SystemInfo.user.AutoId);
+                    if (countInt > 0)
+                    {
+                        alertControlMessage.Show(this, "消息提示", string.Format("有{0}条请购明细指定您处理。", countInt), null, null, "PrListDistributionMessage");
+                    }
                 }
             }
             catch (Exception ex)
@@ -471,8 +483,17 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                ViewHandler.ShowRightWindow("FrmQueryUserWorkFlow");
-                e.AlertForm.Close();
+                switch (DataTypeConvert.GetString(e.Info.Tag))
+                {
+                    case "EnableWorkFlowMessage":
+                        ViewHandler.ShowRightWindow("FrmQueryUserWorkFlow");
+                        e.AlertForm.Close();
+                        break;
+                    case "PrListDistributionMessage":
+                        ViewHandler.ShowRightWindow("FrmPrReqListDistributionQuery");
+                        e.AlertForm.Close();
+                        break;
+                }
             }
             catch (Exception ex)
             {

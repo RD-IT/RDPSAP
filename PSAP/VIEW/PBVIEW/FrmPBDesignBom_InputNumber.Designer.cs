@@ -66,6 +66,8 @@
             this.coluTotalQty = new System.Data.DataColumn();
             this.coluRemainQty = new System.Data.DataColumn();
             this.coluHasLevel = new System.Data.DataColumn();
+            this.ColuCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottom)).BeginInit();
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
@@ -209,7 +211,8 @@
             this.colHasLevel,
             this.colIsUse,
             this.colRemainQty,
-            this.colPbBomNo});
+            this.colPbBomNo,
+            this.colCodeId});
             this.treeListDesignBom.DataSource = this.bindingSource_DesignBom;
             this.treeListDesignBom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeListDesignBom.IndicatorWidth = 40;
@@ -361,7 +364,8 @@
             this.coluIsUse,
             this.coluTotalQty,
             this.coluRemainQty,
-            this.coluHasLevel});
+            this.coluHasLevel,
+            this.ColuCodeId});
             this.dataTableDesignBom.TableName = "DesignBom";
             // 
             // coluReId
@@ -420,6 +424,17 @@
             this.coluHasLevel.Caption = "类型";
             this.coluHasLevel.ColumnName = "HasLevel";
             this.coluHasLevel.DataType = typeof(short);
+            // 
+            // ColuCodeId
+            // 
+            this.ColuCodeId.Caption = "零件ID";
+            this.ColuCodeId.ColumnName = "CodeId";
+            this.ColuCodeId.DataType = typeof(int);
+            // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
             // 
             // FrmPBDesignBom_InputNumber
             // 
@@ -497,5 +512,7 @@
         private System.Data.DataColumn coluHasLevel;
         private DevExpress.XtraEditors.LabelControl labPartsCodeId;
         private DevExpress.XtraEditors.TextEdit textCodeFileName;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn colCodeId;
+        private System.Data.DataColumn ColuCodeId;
     }
 }

@@ -111,6 +111,8 @@
             this.tsmiCxjgc = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSjcx = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSzgrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.dataColCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkOverplus.Properties)).BeginInit();
@@ -248,7 +250,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
             this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 6;
@@ -479,7 +481,8 @@
             this.dataColQty,
             this.dataColRequirementDate,
             this.dataColPrReqListRemark,
-            this.dataColCodeFileName});
+            this.dataColCodeFileName,
+            this.dataColCodeId});
             this.dataTablePrReqList.TableName = "PrReqList";
             // 
             // dataColAutoId
@@ -652,7 +655,8 @@
             this.gridColumn7,
             this.colRequirementDate,
             this.colPrReqListRemark,
-            this.colCodeFileName});
+            this.colCodeFileName,
+            this.colCodeId});
             this.gridViewPrReqList.GridControl = this.gridControlPrReqList;
             this.gridViewPrReqList.IndicatorWidth = 40;
             this.gridViewPrReqList.Name = "gridViewPrReqList";
@@ -939,6 +943,17 @@
             this.tsmiSzgrid.Size = new System.Drawing.Size(316, 22);
             this.tsmiSzgrid.Text = "设置Grid单元格合并错误。";
             // 
+            // dataColCodeId
+            // 
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
             // FrmPrReqList_Overplus
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1067,5 +1082,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiCxjgc;
         private System.Windows.Forms.ToolStripMenuItem tsmiSjcx;
         private System.Windows.Forms.ToolStripMenuItem tsmiSzgrid;
+        private System.Data.DataColumn dataColCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
     }
 }

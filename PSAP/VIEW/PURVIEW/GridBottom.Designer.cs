@@ -62,16 +62,21 @@
             this.comboBoxPageNo.Name = "comboBoxPageNo";
             this.comboBoxPageNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comboBoxPageNo.Properties.DisplayFormat.FormatString = "d";
+            this.comboBoxPageNo.Properties.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
+            this.comboBoxPageNo.Properties.DropDownRows = 10;
+            this.comboBoxPageNo.Properties.EditFormat.FormatString = "d";
+            this.comboBoxPageNo.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.comboBoxPageNo.Properties.Items.AddRange(new object[] {
             "1"});
-            this.comboBoxPageNo.Size = new System.Drawing.Size(58, 20);
+            this.comboBoxPageNo.Size = new System.Drawing.Size(68, 20);
             this.comboBoxPageNo.TabIndex = 6;
             this.comboBoxPageNo.SelectedIndexChanged += new System.EventHandler(this.comboBoxPageNo_SelectedIndexChanged);
             // 
             // btnEnd
             // 
             this.btnEnd.Enabled = false;
-            this.btnEnd.Location = new System.Drawing.Point(563, 12);
+            this.btnEnd.Location = new System.Drawing.Point(573, 12);
             this.btnEnd.Name = "btnEnd";
             this.btnEnd.Size = new System.Drawing.Size(26, 23);
             this.btnEnd.TabIndex = 5;
@@ -81,7 +86,7 @@
             // btnRight
             // 
             this.btnRight.Enabled = false;
-            this.btnRight.Location = new System.Drawing.Point(531, 12);
+            this.btnRight.Location = new System.Drawing.Point(541, 12);
             this.btnRight.Name = "btnRight";
             this.btnRight.Size = new System.Drawing.Size(26, 23);
             this.btnRight.TabIndex = 4;

@@ -256,6 +256,14 @@ namespace PSAP.DAO.BSDAO
             if (tmpStr != "")
                 SystemInfo.WarehouseWarrantApplyBeyondCountIsSave = tmpStr == "1";
 
+            tmpStr = GetValue(sysParameterTable, "Purchase", "PrListDistributionMessage");
+            if (tmpStr != "")
+                SystemInfo.PrListDistributionMessage = tmpStr == "1";
+
+            tmpStr = GetValue(sysParameterTable, "Purchase", "PrListDistributionAllHandle");
+            if (tmpStr != "")
+                SystemInfo.PrListDistributionAllHandle = tmpStr == "1";
+
             #endregion
 
             #region 库存
@@ -267,6 +275,10 @@ namespace PSAP.DAO.BSDAO
             tmpStr = GetValue(sysParameterTable, "Warehouse", "WWIsAlterDate");
             if (tmpStr != "")
                 SystemInfo.WarehouseWarrantIsAlterDate = tmpStr == "1";
+
+            tmpStr = GetValue(sysParameterTable, "Warehouse", "PPApplyBeyondCountIsSave");
+            if (tmpStr != "")
+                SystemInfo.PPApplyBeyondCountIsSave = tmpStr == "1";
 
             tmpStr = GetValue(sysParameterTable, "Warehouse", "WRIsAlterDate");
             if (tmpStr != "")

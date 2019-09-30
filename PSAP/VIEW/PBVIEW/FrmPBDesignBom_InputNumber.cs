@@ -21,7 +21,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 零件编号列表
         /// </summary>
-        List<string> codeFileNameList;
+        Dictionary<int, string> codeIdList;        
 
         /// <summary>
         /// 是否是新增信息
@@ -37,14 +37,14 @@ namespace PSAP.VIEW.BSVIEW
         /// <param name="salesOrderNoStr">销售单号</param>
         /// <param name="codeFileNameList">零件编号列表</param>
         /// <returns>输入数量</returns>
-        public static float Show_FrmPBDesignBom_InputNumber(string formText, string labelText, decimal defaultNumber,string salesOrderNoStr, List<string> codeFileNameList,bool isNew)
+        public static float Show_FrmPBDesignBom_InputNumber(string formText, string labelText, decimal defaultNumber,string salesOrderNoStr, Dictionary<int, string> codeIdList, bool isNew)
         {
             FrmPBDesignBom_InputNumber form = new FrmPBDesignBom_InputNumber();
             form.Text = formText;
             form.labNumber.Text = labelText;
             form.spinNumber.Value = defaultNumber;
             form.salesOrderNoStr = salesOrderNoStr;
-            form.codeFileNameList = codeFileNameList;
+            form.codeIdList = codeIdList;
             form.isNew = isNew;
             if (form.ShowDialog() == DialogResult.OK)
             {
@@ -67,7 +67,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 string listStr = "";
-                foreach(string cfn in codeFileNameList)
+                foreach(string cfn in codeIdList.Values)
                 {
                     listStr += string.Format("'{0}',", cfn);
                 }
@@ -138,7 +138,7 @@ namespace PSAP.VIEW.BSVIEW
         private void RefreshDesignBomInfo()
         {
             dataSet_DesignBom.Tables[0].Rows.Clear();
-            bomDAO.QueryDesignBomTree_CodeFileName(dataSet_DesignBom.Tables[0], salesOrderNoStr, textCodeFileName.Text);
+            bomDAO.QueryDesignBomTree_CodeFileName(dataSet_DesignBom.Tables[0], salesOrderNoStr, codeIdList);
         }
 
     }

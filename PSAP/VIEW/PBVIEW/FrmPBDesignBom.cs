@@ -638,7 +638,7 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                List<string> codeFileNameList = new List<string>();
+                Dictionary<int, string> codeIdList = new Dictionary<int, string>();
                 List<TreeListNode> nodes = e.Data.GetData(typeof(List<TreeListNode>)) as List<TreeListNode>;
                 if (nodes != null)//拖拽Bom信息
                 {
@@ -650,8 +650,9 @@ namespace PSAP.VIEW.BSVIEW
                         foreach (TreeListNode node in nodes)
                         {
                             //treeList1.Nodes.Add(node);
-                            codeFileNameList.Add(DataTypeConvert.GetString(node["CodeFileName"]));
+                            //codeFileNameList.Add(DataTypeConvert.GetString(node["CodeFileName"]));
                             //MessageBox.Show(node["CodeFileName"].ToString());
+                            codeIdList.Add(DataTypeConvert.GetInt(node["PCAutoId"]), DataTypeConvert.GetString(node["CodeFileName"]));
                         }
                     }
                 }
@@ -663,17 +664,18 @@ namespace PSAP.VIEW.BSVIEW
                         foreach (DataRow dr in drs)
                         {
                             //MessageBox.Show(drs[0]["CodeFileName"].ToString().ToString());
-                            codeFileNameList.Add(DataTypeConvert.GetString(dr["CodeFileName"]));
+                            //codeFileNameList.Add(DataTypeConvert.GetString(dr["CodeFileName"]));
+                            codeIdList.Add(DataTypeConvert.GetInt(dr["AutoId"]), DataTypeConvert.GetString(dr["CodeFileName"]));
                         }
                     }
                 }
 
-                if (codeFileNameList.Count > 0)
+                if (codeIdList.Count > 0)
                 {
-                    float qty = FrmPBDesignBom_InputNumber.Show_FrmPBDesignBom_InputNumber("输入增加数量", "增加数量", 1, salesOrderNoStr, codeFileNameList, true);
+                    float qty = FrmPBDesignBom_InputNumber.Show_FrmPBDesignBom_InputNumber("输入增加数量", "增加数量", 1, salesOrderNoStr, codeIdList, true);
                     if (qty != 0)
                     {
-                        bomDAO.SaveDesignBom(salesOrderNoStr, codeFileNameList, qty);
+                        bomDAO.SaveDesignBom(salesOrderNoStr, codeIdList, qty);
                         RefreshDesignBomInfo(null);
                     }
                     gridViewPartsCode.ClearSelection();
@@ -709,12 +711,12 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                List<string> codeFileNameList = new List<string>();
-                codeFileNameList.Add(DataTypeConvert.GetString(focusedNode["CodeFileName"]));
-                float qty = FrmPBDesignBom_InputNumber.Show_FrmPBDesignBom_InputNumber("输入增加数量", "增加数量", 1, salesOrderNoStr, codeFileNameList, false);
+                Dictionary<int, string> codeIdList = new Dictionary<int, string>();
+                codeIdList.Add(DataTypeConvert.GetInt(focusedNode["CodeId"]), DataTypeConvert.GetString(focusedNode["CodeFileName"]));
+                float qty = FrmPBDesignBom_InputNumber.Show_FrmPBDesignBom_InputNumber("输入增加数量", "增加数量", 1, salesOrderNoStr, codeIdList, false);
                 if (qty != 0)
                 {
-                    bomDAO.SaveDesignBom(salesOrderNoStr, codeFileNameList, qty);
+                    bomDAO.SaveDesignBom(salesOrderNoStr, codeIdList, qty);
                     RefreshDesignBomInfo(focusedNode);
                 }
             }

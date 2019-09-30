@@ -1244,8 +1244,8 @@ namespace PSAP.VIEW.BSVIEW
                 
                 if (wfEditDAO.DeleteWorkFlowNodeHandle(gridViewNodeHandle.GetFocusedDataRow()))
                 {
-                    MessageHandler.ShowMessageBox("删除节点处理人员信息成功。");
                     QueryNodeHandle(autoIdInt);
+                    MessageHandler.ShowMessageBox("删除节点处理人员信息成功。");                    
                 }
             }
             catch (Exception ex)

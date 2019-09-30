@@ -208,6 +208,8 @@
             this.colStatusText.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colStatusText.FieldName = "StatusText";
             this.colStatusText.Name = "colStatusText";
+            this.colStatusText.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "StatusText", "共计{0}条")});
             this.colStatusText.Visible = true;
             this.colStatusText.VisibleIndex = 0;
             this.colStatusText.Width = 200;

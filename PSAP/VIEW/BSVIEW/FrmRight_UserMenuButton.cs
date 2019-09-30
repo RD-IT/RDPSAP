@@ -72,7 +72,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 窗体加载事件
         /// </summary>
-        private void FrmRight_UserMenuButton_Load(object sender, EventArgs e)
+        public void FrmRight_UserMenuButton_Load(object sender, EventArgs e)
         {
             try
             {
@@ -164,8 +164,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                SetCheckedChildNodes(e.Node, e.Node.CheckState);
-                SetCheckedParentNodes(e.Node, e.Node.CheckState);
+                ControlHandler.SetCheckedChildNodes(e.Node, e.Node.CheckState);
+                ControlHandler.SetCheckedParentNodes(e.Node, e.Node.CheckState);
             }
             catch (Exception ex)
             {
@@ -177,43 +177,7 @@ namespace PSAP.VIEW.BSVIEW
         private void treeListRole_BeforeCheckNode(object sender, DevExpress.XtraTreeList.CheckNodeEventArgs e)
         {
             e.State = (e.PrevState == CheckState.Checked ? CheckState.Unchecked : CheckState.Checked);
-        }
-
-        /// <summary>
-        /// 设置子节点的状态
-        /// </summary>
-        private void SetCheckedChildNodes(DevExpress.XtraTreeList.Nodes.TreeListNode node, CheckState check)
-        {
-            for (int i = 0; i < node.Nodes.Count; i++)
-            {
-                node.Nodes[i].CheckState = check;
-                SetCheckedChildNodes(node.Nodes[i], check);
-            }
-        }
-
-        /// <summary>
-        /// 设置父节点的状态
-        /// </summary>
-        private void SetCheckedParentNodes(DevExpress.XtraTreeList.Nodes.TreeListNode node, CheckState check)
-        {
-            if (node.ParentNode != null)
-            {
-                bool b = false;
-                CheckState state;
-                for (int i = 0; i < node.ParentNode.Nodes.Count; i++)
-                {
-                    state = (CheckState)node.ParentNode.Nodes[i].CheckState;
-                    if (!check.Equals(state))
-                    {
-                        b = !b;
-                        break;
-                    }
-                }
-                //node.ParentNode.CheckState = b ? CheckState.Indeterminate : check;
-                node.ParentNode.CheckState = b ? CheckState.Checked : check;
-                SetCheckedParentNodes(node.ParentNode, check);
-            }
-        }
+        }        
 
         /// <summary>
         /// 保存权限事件

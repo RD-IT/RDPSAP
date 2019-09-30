@@ -267,6 +267,10 @@ namespace PSAP.VIEW.BSVIEW
                 case "PB_ProductionScheduleBom"://生产视图登记
                     ViewHandler.ShowRightWindow("FrmPBDesignBom_PS");
                     break;
+                case "PB_ProductionPlan"://工单
+                    FrmProductionPlan.queryPlanNo = newOrderNoStr;
+                    ViewHandler.ShowRightWindow("FrmProductionPlan");
+                    break;
             }
         }
 

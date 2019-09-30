@@ -86,7 +86,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
-                repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
+                //repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
                 repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
 
                 repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
@@ -397,12 +397,12 @@ namespace PSAP.VIEW.BSVIEW
                         FocusedHeadView("PurCategory");
                         return;
                     }
-                    if (DataTypeConvert.GetString(headRow["ApprovalType"]) == "")
-                    {
-                        MessageHandler.ShowMessageBox("审批类型不能为空，请填写后再进行保存。");
-                        FocusedHeadView("ApprovalType");
-                        return;
-                    }
+                    //if (DataTypeConvert.GetString(headRow["ApprovalType"]) == "")
+                    //{
+                    //    MessageHandler.ShowMessageBox("审批类型不能为空，请填写后再进行保存。");
+                    //    FocusedHeadView("ApprovalType");
+                    //    return;
+                    //}
 
                     if (!commonDAO.StnNoIsContainProjectNo(DataTypeConvert.GetString(headRow["ProjectNo"]), DataTypeConvert.GetString(headRow["StnNo"])))
                     {
@@ -614,55 +614,93 @@ namespace PSAP.VIEW.BSVIEW
                 if (!CheckReqState_Multi(true, true, true, false, false, true,"（请确保订单提交后再进行审批操作）"))
                     return;
 
-                if (count == 1)
-                {
-                    ////弹出审批页面
-                    //FrmPrReqApproval frmPrReq = new FrmPrReqApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
-                    //if (frmPrReq.ShowDialog() == DialogResult.OK)
-                    //    btnQuery_Click(null, null);
+                //if (count == 1)
+                //{
+                //    ////弹出审批页面
+                //    //FrmPrReqApproval frmPrReq = new FrmPrReqApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
+                //    //if (frmPrReq.ShowDialog() == DialogResult.OK)
+                //    //    btnQuery_Click(null, null);
 
-                    //弹出审批页面
-                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
-                    if (frmOrder.ShowDialog() == DialogResult.OK)
-                        btnQuery_Click(null, null);
+                //    //弹出审批页面
+                //    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_PrReq.Tables[0].Select("select=1")[0]["PrReqNo"]));
+                //    if (frmOrder.ShowDialog() == DialogResult.OK)
+                //        btnQuery_Click(null, null);
+                //}
+                //else
+                //{
+                //    if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                //    {
+                //        return;
+                //    }
+                //    List<string> dataNoList = new List<string>();
+                //    DataRow[] drs = dataSet_PrReq.Tables[0].Select("select=1");
+                //    for (int i = 0; i < drs.Length; i++)
+                //    {
+                //        dataNoList.Add(DataTypeConvert.GetString(drs[i]["PrReqNo"]));
+                //    }
+
+                //    FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                //    wfDataHandle.orderNameStr = "请购单";
+                //    wfDataHandle.dataNoList = dataNoList;
+                //    wfDataHandle.workFlowTypeText = "采购流程";
+                //    wfDataHandle.tableNameStr = "PUR_PrReqHead";
+                //    wfDataHandle.moduleTypeInt = 2;
+                //    if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                //    {
+                //        int nodeIdInt = wfDataHandle.nodeIdInt;
+                //        string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                //        string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                //        int approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+
+                //        int successCountInt = 0;
+                //        //直接审批，不再谈页面
+                //        if (!prReqDAO.PrReqApprovalInfo_Multi(dataSet_PrReq.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                //            btnQuery_Click(null, null);
+                //        else
+                //        {
+                //            if (approverResultInt == 1)
+                //                MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
+                //            else
+                //                MessageHandler.ShowMessageBox(string.Format("成功拒绝了{0}条记录。", successCountInt));
+                //        }
+                //    }
+                //}
+
+
+                if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
+                {
+                    return;
                 }
-                else
+                List<string> dataNoList = new List<string>();
+                DataRow[] drs = dataSet_PrReq.Tables[0].Select("select=1");
+                for (int i = 0; i < drs.Length; i++)
                 {
-                    if (MessageHandler.ShowMessageBox_YesNo(string.Format("确定要审批当前选中的{0}条记录吗？", count)) != DialogResult.Yes)
-                    {
-                        return;
-                    }
-                    List<string> dataNoList = new List<string>();
-                    DataRow[] drs = dataSet_PrReq.Tables[0].Select("select=1");
-                    for (int i = 0; i < drs.Length; i++)
-                    {
-                        dataNoList.Add(DataTypeConvert.GetString(drs[i]["PrReqNo"]));
-                    }
+                    dataNoList.Add(DataTypeConvert.GetString(drs[i]["PrReqNo"]));
+                }
 
-                    FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
-                    wfDataHandle.orderNameStr = "请购单";
-                    wfDataHandle.dataNoList = dataNoList;
-                    wfDataHandle.workFlowTypeText = "采购流程";
-                    wfDataHandle.tableNameStr = "PUR_PrReqHead";
-                    wfDataHandle.moduleTypeInt = 2;
-                    if (wfDataHandle.ShowDialog() == DialogResult.OK)
-                    {
-                        int nodeIdInt = wfDataHandle.nodeIdInt;
-                        string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
-                        string approverOptionStr = wfDataHandle.memoApproverOption.Text;
-                        int approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+                FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                wfDataHandle.orderNameStr = "请购单";
+                wfDataHandle.dataNoList = dataNoList;
+                wfDataHandle.workFlowTypeText = "采购流程";
+                wfDataHandle.tableNameStr = "PUR_PrReqHead";
+                wfDataHandle.moduleTypeInt = 2;
+                if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                {
+                    int nodeIdInt = wfDataHandle.nodeIdInt;
+                    string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                    string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                    int approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
 
-                        int successCountInt = 0;
-                        //直接审批，不再谈页面
-                        if (!prReqDAO.PrReqApprovalInfo_Multi(dataSet_PrReq.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
-                            btnQuery_Click(null, null);
+                    int successCountInt = 0;
+                    //直接审批，不再谈页面
+                    if (!prReqDAO.PrReqApprovalInfo2_Multi(dataSet_PrReq.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                        btnQuery_Click(null, null);
+                    else
+                    {
+                        if (approverResultInt == 1)
+                            MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
                         else
-                        {
-                            if (approverResultInt == 1)
-                                MessageHandler.ShowMessageBox(string.Format("成功审批了{0}条记录。", successCountInt));
-                            else
-                                MessageHandler.ShowMessageBox(string.Format("成功拒绝了{0}条记录。", successCountInt));
-                        }
+                            MessageHandler.ShowMessageBox(string.Format("成功拒绝了{0}条记录。", successCountInt));
                     }
                 }
 
@@ -1031,14 +1069,18 @@ namespace PSAP.VIEW.BSVIEW
                     case "CodeFileName":
                         string tmpStr = DataTypeConvert.GetString(gridViewPrReqList.GetDataRow(e.RowHandle)["CodeFileName"]);
                         if (tmpStr == "")
-                            gridViewPrReqList.SetRowCellValue(e.RowHandle, "CodeName", "");
+                        {
+                            gridViewPrReqList.SetRowCellValue(e.RowHandle, "CodeId", null);
+                            gridViewPrReqList.SetRowCellValue(e.RowHandle, "CodeName", "");                            
+                        }
                         else
                         {
                             DataTable temp = (DataTable)repSearchCodeFileName.DataSource;
                             DataRow[] drs = temp.Select(string.Format("CodeFileName='{0}'", tmpStr));
                             if (drs.Length > 0)
                             {
-                                gridViewPrReqList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));
+                                gridViewPrReqList.SetRowCellValue(e.RowHandle, "CodeId", DataTypeConvert.GetString(drs[0]["AutoId"]));
+                                gridViewPrReqList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));                                
                             }
                         }
                         break;
@@ -1166,6 +1208,7 @@ namespace PSAP.VIEW.BSVIEW
                 btnDelete.Enabled = true;
             }
             btnSubmit.Enabled = !ret;
+            btnCancelSubmit.Enabled = !ret;
             btnApprove.Enabled = !ret;
             btnCancelApprove.Enabled = !ret;
             btnClose.Enabled = !ret;
@@ -1177,7 +1220,7 @@ namespace PSAP.VIEW.BSVIEW
             colProjectNo.OptionsColumn.AllowEdit = ret;
             colStnNo.OptionsColumn.AllowEdit = ret;
             colPurCategory.OptionsColumn.AllowEdit = ret;
-            colApprovalType.OptionsColumn.AllowEdit = ret;
+            //colApprovalType.OptionsColumn.AllowEdit = ret;
             colPrReqRemark.OptionsColumn.AllowEdit = ret;
 
             colCodeFileName.OptionsColumn.AllowEdit = ret;

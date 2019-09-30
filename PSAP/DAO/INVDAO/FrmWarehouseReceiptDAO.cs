@@ -32,21 +32,6 @@ namespace PSAP.DAO.INVDAO
         }
 
         /// <summary>
-        /// 查询制造工程信息（增加一个全部选项）
-        /// </summary>
-        public DataTable QueryManufactureInfo(bool addAllItem)
-        {
-            string sqlStr = "select AutoId, ManufactureNo, ManufactureName, ManufactureType, ManufactureTypeText from V_BS_ManufactureInfo Order by AutoId";
-            if (addAllItem)
-            {
-                //sqlStr = "select 0 as AutoId, '全部' as ManufactureNo, '全部' as ManufactureName, 1 as ManufactureType, '正常' as ManufactureTypeText union " + sqlStr;
-                sqlStr = "select 0 as AutoId, '" + f.tsmiQb.Text + "' as ManufactureNo, '" + f.tsmiQb.Text + "' as ManufactureName, 1 as ManufactureType, '" + f.tsmiZc.Text + "' as ManufactureTypeText union " + sqlStr;
-
-            }
-            return BaseSQL.GetTableBySql(sqlStr);
-        }
-
-        /// <summary>
         /// 查询出库单表头
         /// </summary>
         /// <param name="queryDataTable">要查询填充的数据表</param>
@@ -70,7 +55,8 @@ namespace PSAP.DAO.INVDAO
             string sqlStr = " 1=1";
             if (beginDateStr != "")
             {
-                sqlStr += string.Format(" and WarehouseReceiptDate between '{0}' and '{1}'", beginDateStr, endDateStr);
+                //sqlStr += string.Format(" and WarehouseReceiptDate between '{0}' and '{1}'", beginDateStr, endDateStr);
+                sqlStr += BaseSQL.GetDateRegion_SingleColumn_WhereSql("WarehouseReceiptDate", beginDateStr, endDateStr);
             }
             if (reqDepStr != "")
             {
@@ -137,7 +123,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_WarehouseReceiptList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo from INV_WarehouseReceiptList left join SW_PartsCode on INV_WarehouseReceiptList.CodeFileName = SW_PartsCode.CodeFileName left join BS_ProjectList on INV_WarehouseReceiptList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_WarehouseReceiptList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo, PB_ProductionPlanList.PlanNo from INV_WarehouseReceiptList left join SW_PartsCode on INV_WarehouseReceiptList.CodeFileName = SW_PartsCode.CodeFileName left join BS_ProjectList on INV_WarehouseReceiptList.ProjectName = BS_ProjectList.ProjectName left join PB_ProductionPlanList on PB_ProductionPlanList.AutoId = INV_WarehouseReceiptList.ProductionPlanListId where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -157,6 +143,11 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
+
+                        if (!CheckProductionPlanApplyBeyondCount(cmd, DataTypeConvert.GetString(wrHeadRow["WarehouseReceipt"]), wrListTable))
+                        {
+                            return 0;
+                        }
 
                         FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
 
@@ -210,8 +201,6 @@ namespace PSAP.DAO.INVDAO
                         adapterList.Fill(tmpListTable);
                         BaseSQL.UpdateDataTable(adapterList, wrListTable.GetChanges());
 
-                        //Set_PrReqHead_End(cmd, wwListTable);
-
                         if (whDAO.SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wrHeadRow, wrListTable.Copy(), wrNoStr, dbListTable, "出库单", "出库", false) != 1)
                             return 0;
 
@@ -228,6 +217,8 @@ namespace PSAP.DAO.INVDAO
 
                             wrHeadRow["WarehouseState"] = 2;
                         }
+
+                        Set_ProductionPlan_End(cmd, QueryProductionPlanList_PlanNo(cmd, wrNoStr));
 
                         trans.Commit();
                         wrHeadRow.Table.AcceptChanges();
@@ -340,6 +331,8 @@ namespace PSAP.DAO.INVDAO
                         //SqlDataAdapter adpt = new SqlDataAdapter(cmd);
                         //adpt.Fill(tmpTable);
 
+                        DataTable tmpTable = QueryProductionPlanList_PlanNo_Multi(cmd, wrHeadNoListStr);
+
                         //保存日志到日志表中
                         DataRow[] wrHeadRows = wrHeadTable.Select("select=1");
                         FrmWarehouseCommonDAO whDAO = new FrmWarehouseCommonDAO();
@@ -365,7 +358,7 @@ namespace PSAP.DAO.INVDAO
                         cmd.CommandText = string.Format("Delete from INV_WarehouseReceiptHead where WarehouseReceipt in ({0})", wrHeadNoListStr);
                         cmd.ExecuteNonQuery();
 
-                        //Set_OrderHead_End(cmd, tmpTable);
+                        Set_ProductionPlan_End(cmd, tmpTable);
 
                         trans.Commit();
                         return true;
@@ -451,16 +444,16 @@ namespace PSAP.DAO.INVDAO
                                         return false;
                                     }
 
-                                    ////审核检查入库明细数量是否超过采购订单明细数量
-                                    //DataTable orderListTable = new DataTable();
-                                    //QueryWarehouseWarrantList(orderListTable, wwHeadNoStr, false);
-                                    //if (!CheckOrderApplyBeyondCount(cmd, wwHeadNoStr, orderListTable))
-                                    //{
-                                    //    trans.Rollback();
-                                    //    return false;
-                                    //}
+                                    //审核检查入库明细数量是否超过采购订单明细数量
+                                    DataTable orderListTable = new DataTable();
+                                    QueryWarehouseReceiptList(orderListTable, wrHeadNoStr, false);
+                                    if (!CheckProductionPlanApplyBeyondCount(cmd, wrHeadNoStr, orderListTable))
+                                    {
+                                        trans.Rollback();
+                                        return false;
+                                    }
 
-                                    //Set_OrderHead_End(cmd, orderListTable);
+                                    Set_ProductionPlan_End(cmd, QueryProductionPlanList_PlanNo(cmd, wrHeadNoStr));
 
                                     string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
                                     cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", wrHeadNoStr, approvalTypeStr);
@@ -808,6 +801,120 @@ namespace PSAP.DAO.INVDAO
             ReportHandler rptHandler = new ReportHandler();
             List<DevExpress.XtraReports.Parameters.Parameter> paralist = rptHandler.GetSystemInfo_ParamList();
             rptHandler.XtraReport_Handle("INV_WarehouseReceiptHead", ds, paralist, handleTypeInt);
+        }
+
+        /// <summary>
+        /// 查询工单表
+        /// </summary>
+        public void QueryProductionPlan(DataTable queryDataTable, string planNoStr, string planDateBeginStr, string planDateEndStr, string projectNoStr, string commonStr)
+        {
+            string sqlStr = " Head.CurrentStatus in (2) and PlanStatus = 1 and IsNull(IsEnd, 0) = 0";
+            if (planNoStr != "")
+            {
+                sqlStr += string.Format(" and Head.PlanNo like '%{0}%'", planNoStr);
+            }
+            if (planDateBeginStr != "")
+            {
+                //sqlStr += string.Format(" and (StartTime between '{0}' and '{1}' or EndTime between '{0}' and '{1}')", planDateBeginStr, planDateEndStr);
+                sqlStr += BaseSQL.GetDateRegion_DoubleColumn_WhereSql("StartTime", "EndTime", planDateBeginStr, planDateEndStr);
+            }
+            if (projectNoStr != "")
+            {
+                sqlStr += string.Format(" and Head.ProjectNo='{0}'", projectNoStr);
+            }
+            if (commonStr != "")
+            {
+                sqlStr += string.Format(" and (PlanNo like '%{0}%' or Head.ProjectNo like '%{0}%' or Head.Line like '%{0}%' or Head.Remark like '%{0}%')", commonStr);
+            }
+            sqlStr = string.Format("select Head.*, BS_ProjectList.ProjectName, CodeFileName, CodeName from PB_ProductionPlan as Head join BS_ProjectList on Head.ProjectNo = BS_ProjectList.ProjectNo left join SW_PartsCode on Head.CodeId = SW_PartsCode.AutoId where {0} order by Head.AutoId", sqlStr);
+            BaseSQL.Query(sqlStr, queryDataTable);
+        }
+
+        /// <summary>
+        /// 查询工单明细表 
+        /// </summary>
+        public void QueryProductionPlanList(DataTable queryDataTable, string planNoStr)
+        {
+            string sqlStr = "";
+            if (planNoStr != "")
+            {
+                sqlStr += string.Format(" and PlanNo='{0}'", planNoStr);
+            }
+            sqlStr = string.Format("select PPList.*, Case When ISNULL(LevelCodeId, 0) = 0 then pc.CodeFileName else levelpc.CodeFileName end as CodeFileName, Case When ISNULL(LevelCodeId, 0) = 0 then pc.CodeName else levelpc.CodeName end as CodeName, PPList.Qty - PPList.WarehouseReceiptCount as Overplus from V_PB_ProductionPlanList_WarehouseReceipt as PPList left join SW_PartsCode as pc on PPList.CodeId = pc.AutoId left join SW_PartsCode as levelpc on PPList.LevelCodeId = levelpc.AutoId where 1 = 1 {0} order by PPList.AutoId", sqlStr);
+            BaseSQL.Query(sqlStr, queryDataTable);
+        }
+
+        /// <summary>
+        /// 检查订单明细的数量是否超过采购订单明细的数量
+        /// </summary>
+        private bool CheckProductionPlanApplyBeyondCount(SqlCommand cmd, string wrHeadNoStr, DataTable wrListTable)
+        {
+            if (SystemInfo.PPApplyBeyondCountIsSave)
+                return true;
+
+            foreach (DataRow lrow in wrListTable.Rows)
+            {
+                if (lrow.RowState == DataRowState.Deleted)
+                    continue;
+
+                int codeIdInt = DataTypeConvert.GetInt(lrow["CodeId"]);
+                string codeFileNameStr = DataTypeConvert.GetString(lrow["CodeFileName"]);
+                int ppListId = DataTypeConvert.GetInt(lrow["ProductionPlanListId"]);
+                string sqlStr = string.Format("ProductionPlanListId = {0}", ppListId);
+                double qtySum = DataTypeConvert.GetDouble(wrListTable.Compute("Sum(Qty)", sqlStr));
+                cmd.CommandText = string.Format("select Sum(Qty) from INV_WarehouseReceiptList where ProductionPlanListId = {0} and WarehouseReceipt != '{1}'", ppListId, wrHeadNoStr);
+                double otherWWQtySum = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
+                cmd.CommandText = string.Format("select Qty from PB_ProductionPlanList where AutoId = {0}", ppListId);
+                double orderQtySum = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
+                if (qtySum + otherWWQtySum > orderQtySum)
+                {
+                    MessageHandler.ShowMessageBox(string.Format("出库单中明细[{0}]的数量[{1}]超过工单的数量[{2}]，不可以保存。", codeFileNameStr, qtySum + otherWWQtySum, orderQtySum));
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 查询出库单相关联的工单号列表
+        /// </summary>
+        private DataTable QueryProductionPlanList_PlanNo_Multi(SqlCommand cmd, string wrHeadNoListStr)
+        {
+            cmd.CommandText = string.Format("select PlanNo from PB_ProductionPlanList where AutoId in (select IsNull(ProductionPlanListId, 0) from INV_WarehouseReceiptList where WarehouseReceipt in ({0})) group by PlanNo", wrHeadNoListStr);
+            DataTable planNoTable = BaseSQL.GetTableBySql(cmd);
+            return planNoTable;
+        }
+
+        /// <summary>
+        /// 查询出库单相关联的工单号列表
+        /// </summary>
+        private DataTable QueryProductionPlanList_PlanNo(SqlCommand cmd, string wrHeadNoStr)
+        {
+            cmd.CommandText = string.Format("select PlanNo from PB_ProductionPlanList where AutoId in (select IsNull(ProductionPlanListId, 0) from INV_WarehouseReceiptList where WarehouseReceipt = '{0}') group by PlanNo", wrHeadNoStr);
+            DataTable planNoTable = BaseSQL.GetTableBySql(cmd);
+            return planNoTable;
+        }
+
+        /// <summary>
+        /// 设定工单完结标志
+        /// </summary>
+        private void Set_ProductionPlan_End(SqlCommand cmd, DataTable planNoTable)
+        {
+            foreach (DataRow planNoRow in planNoTable.Rows)
+            {
+                string planNoStr = DataTypeConvert.GetString(planNoRow["PlanNo"]);
+
+                cmd.CommandText = string.Format("Update PB_ProductionPlan set IsEnd = case when (select Count(*) from V_PB_ProductionPlanList_WarehouseReceipt where PlanNo = '{0}' and Qty>WarehouseReceiptCount) = 0 then 1 else 0 end where PlanNo='{0}'", planNoStr);
+                cmd.ExecuteNonQuery();
+
+                //cmd.CommandText = string.Format("select Count(*) from V_PB_ProductionPlanList_WarehouseReceipt where PlanNo = '{0}' and Qty>WarehouseReceiptCount", planNoStr);
+                //int count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
+                //int isEnd = 0;
+                //if (count == 0)
+                //    isEnd = 1;
+                //cmd.CommandText = string.Format("Update PB_ProductionPlan set IsEnd={1} where PlanNo='{0}'", planNoStr, isEnd);
+                //cmd.ExecuteNonQuery();
+            }
         }
     }
 }

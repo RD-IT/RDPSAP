@@ -527,6 +527,22 @@ namespace PSAP.DAO.BSDAO
         }
 
         /// <summary>
+        /// 得到查询单列日期区域的条件SQL
+        /// </summary>
+        public static string GetDateRegion_SingleColumn_WhereSql(string columnStr, string beginDateStr, string endDateStr)
+        {
+            return string.Format(" and {0} >= '{1}' and {0} < '{2}'", columnStr, beginDateStr, endDateStr);
+        }
+
+        /// <summary>
+        /// 得到查询双列日期区域的条件SQL
+        /// </summary>
+        public static string GetDateRegion_DoubleColumn_WhereSql(string oneColumnStr, string twoColumnStr, string beginDateStr, string endDateStr)
+        {
+            return string.Format(" and (({0} >= '{2}' and {0} < '{3}') or ({1} >= '{2}' and {1} < '{3}'))", oneColumnStr, twoColumnStr, beginDateStr, endDateStr);
+        }
+
+        /// <summary>
         /// 备份数据库
         /// </summary>
         /// <param name="databaseNameStr">数据库名称</param>

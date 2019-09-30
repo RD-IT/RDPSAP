@@ -225,6 +225,8 @@
             this.colPayTypeNo.Name = "colPayTypeNo";
             this.colPayTypeNo.OptionsColumn.AllowEdit = false;
             this.colPayTypeNo.OptionsColumn.TabStop = false;
+            this.colPayTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "PayTypeNo", "共计{0}条")});
             this.colPayTypeNo.Visible = true;
             this.colPayTypeNo.VisibleIndex = 0;
             this.colPayTypeNo.Width = 120;

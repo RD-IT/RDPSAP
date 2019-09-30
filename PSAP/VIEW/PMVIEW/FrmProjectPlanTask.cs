@@ -786,10 +786,5 @@ namespace PSAP.VIEW.BSVIEW
         #endregion
 
         #endregion
-
-        //schedulerPlanTask.Views[SchedulerViewType.Gantt].AppointmentDisplayOptions.AppointmentHeight = resourcesTreePlanTask.RowHeight - 2;
-        //满级：矿工13，电法13，刺客13，滚木12-1，幽灵12-8，
-        //积累：公主11-1，蛮羊9-10，骷髅召唤9-6，天狗9-3，樵夫11-5，地狱龙11-1，渔夫9-3
-        //放弃：冰法11-0，神剑9-0，女巫10-0，电磁炮10-0，超骑11-0
     }
 }

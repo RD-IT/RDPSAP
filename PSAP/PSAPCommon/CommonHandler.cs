@@ -280,5 +280,26 @@ namespace PSAP.PSAPCommon
             }
             return stateDescStr;
         }
+
+        /// <summary>
+        /// 根据购买方式编号得到购买方式描述
+        /// </summary>
+        public static string Get_DesignBomList_IsBuy_Desc(string isBuyStr)
+        {
+            string buyDescStr = "";
+            switch (isBuyStr)
+            {
+                case "1":
+                    buyDescStr = "整体采购";
+                    break;
+                case "2":
+                    buyDescStr = "下级采购";
+                    break;
+                case "3":
+                    buyDescStr = "不采购";
+                    break;
+            }
+            return buyDescStr;
+        }
     }
 }

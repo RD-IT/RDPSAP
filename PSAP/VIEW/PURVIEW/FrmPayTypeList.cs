@@ -165,6 +165,17 @@ namespace PSAP.VIEW.BSVIEW
                         return;
                     }
 
+                    for (int i = 0; i < gridViewPayTypeList.RowCount; i++)
+                    {
+                        if (DataTypeConvert.GetDouble(gridViewPayTypeList.GetDataRow(i)["PayPercentum"]) == 0)
+                        {
+                            MessageHandler.ShowMessageBox("付款百分比不能为0，请重新设置。");
+                            gridViewPayTypeList.Focus();
+                            gridViewPayTypeList.FocusedRowHandle = i;
+                            return;
+                        }
+                    }
+
                     bSPayTypeList.EndEdit();
 
                     if (!payTypeDAO.SavePayTypeList(dSPayTypeList.Tables[0], payTypeNoStr))

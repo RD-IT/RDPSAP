@@ -230,6 +230,8 @@
             this.colWarehouseWarrantTypeNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colWarehouseWarrantTypeNo.FieldName = "WarehouseWarrantTypeNo";
             this.colWarehouseWarrantTypeNo.Name = "colWarehouseWarrantTypeNo";
+            this.colWarehouseWarrantTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "WarehouseWarrantTypeNo", "共计{0}条")});
             this.colWarehouseWarrantTypeNo.Visible = true;
             this.colWarehouseWarrantTypeNo.VisibleIndex = 0;
             this.colWarehouseWarrantTypeNo.Width = 160;

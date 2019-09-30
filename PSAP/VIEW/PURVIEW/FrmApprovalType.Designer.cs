@@ -260,6 +260,8 @@
             this.colTypeNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colTypeNo.FieldName = "TypeNo";
             this.colTypeNo.Name = "colTypeNo";
+            this.colTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "TypeNo", "共计{0}条")});
             this.colTypeNo.Visible = true;
             this.colTypeNo.VisibleIndex = 0;
             this.colTypeNo.Width = 160;

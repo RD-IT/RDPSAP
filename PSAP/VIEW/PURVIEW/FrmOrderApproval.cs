@@ -1,4 +1,5 @@
 ﻿using PSAP.DAO.INVDAO;
+using PSAP.DAO.PBDAO;
 using PSAP.DAO.PURDAO;
 using PSAP.PSAPCommon;
 using System;
@@ -75,6 +76,10 @@ namespace PSAP.VIEW.BSVIEW
                         break;
                     case "IM"://库存移动单
                         approvalDAO.QueryInventoryMoveHead(dataSet_Order.Tables[0], orderHeadNoStr);
+                        break;
+
+                    case "PP"://工单
+                        approvalDAO.QueryProductionPlan(dataSet_Order.Tables[0], orderHeadNoStr);
                         break;
                 }
                 if (dataSet_Order.Tables[0].Rows.Count == 0)
@@ -247,6 +252,31 @@ namespace PSAP.VIEW.BSVIEW
                         break;
                     case "IM"://库存移动单
                         new FrmInventoryMoveDAO().IMApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
+                        break;
+
+                    case "PP":
+                        #region 工单
+                        {
+                            FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                            wfDataHandle.orderNameStr = "工单";
+                            wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
+                            wfDataHandle.workFlowTypeText = "生产流程";
+                            wfDataHandle.tableNameStr = "PB_ProductionPlan";
+                            wfDataHandle.moduleTypeInt = 2;
+                            if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                            {
+                                int nodeIdInt = wfDataHandle.nodeIdInt;
+                                string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                                string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                                approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+
+                                if (!new FrmProductionPlanDAO().PPlanApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                                {
+
+                                }
+                            }
+                        }
+                        #endregion
                         break;
                 }
 

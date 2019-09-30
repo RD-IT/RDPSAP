@@ -295,6 +295,21 @@ namespace PSAP.DAO.BSDAO
         }
 
         /// <summary>
+        /// 查询制造工程信息（增加一个全部选项）
+        /// </summary>
+        public DataTable QueryManufactureInfo(bool addAllItem)
+        {
+            string sqlStr = "select AutoId, ManufactureNo, ManufactureName, ManufactureType, ManufactureTypeText from V_BS_ManufactureInfo Order by AutoId";
+            if (addAllItem)
+            {
+                //sqlStr = "select 0 as AutoId, '全部' as ManufactureNo, '全部' as ManufactureName, 1 as ManufactureType, '正常' as ManufactureTypeText union " + sqlStr;
+                sqlStr = "select 0 as AutoId, '" + f.tsmiQb.Text + "' as ManufactureNo, '" + f.tsmiQb.Text + "' as ManufactureName, 1 as ManufactureType, '" + f.tsmiZc.Text + "' as ManufactureTypeText union " + sqlStr;
+
+            }
+            return BaseSQL.GetTableBySql(sqlStr);
+        }
+
+        /// <summary>
         /// 查询仓库信息（增加一个全部选项）
         /// </summary>
         public DataTable QueryRepertoryInfo(bool addAllItem)

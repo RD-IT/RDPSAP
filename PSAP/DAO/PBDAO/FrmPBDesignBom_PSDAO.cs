@@ -108,20 +108,25 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询包含某个零件的设计Bom的树类型信息
         /// </summary>
-        public void QueryDesignBomTree_CodeFileName(DataTable queryDataTable, string salesOrderNoStr, string codeFileNameStr)
+        public void QueryDesignBomTree_CodeFileName(DataTable queryDataTable, string salesOrderNoStr, Dictionary<int, string> codeIdList)
         {
-            string sqlStr = string.Format("select * from V_PB_DesignBom_Tree where SalesOrderNo = '{0}' and PbBomNo in (select PbBomNo from PB_DesignBomList where MaterielNo in ({1}) or LevelMaterielNo in ({1})) Order by ReId", salesOrderNoStr, codeFileNameStr);
+            string codeIdStr = "";
+            foreach (int codeId in codeIdList.Keys)
+            {
+                codeIdStr += string.Format("{0},", codeId);
+            }
+            string sqlStr = string.Format("select * from V_PB_DesignBom_Tree where SalesOrderNo = '{0}' and PbBomNo in (select PbBomNo from PB_DesignBomList where IsNull(CodeId, 0) in ({1}) or IsNull(LevelCodeId, 0) in ({1})) Order by ReId", salesOrderNoStr, codeIdStr.Substring(0, codeIdStr.Length - 1));
             BaseSQL.Query(sqlStr, queryDataTable);
         }        
 
         /// <summary>
         /// 保存设计Bom信息
         /// </summary>
-        public bool SaveDesignBom(string salesOrderNoStr, List<String> codeFileNameList, float qty)
+        public bool SaveDesignBom(string salesOrderNoStr, Dictionary<int, string> codeIdList, float qty)
         {
             bool result = false;
 
-            foreach (string codeFileName in codeFileNameList)
+            foreach (string codeFileName in codeIdList.Values)
             {
                 string sqlStr = string.Format("select COUNT(*) from BS_BomMateriel where MaterielNo = '{0}'", codeFileName);
                 int count = DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));

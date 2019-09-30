@@ -336,9 +336,9 @@
             this.pnlRight.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlRight.Controls.Add(this.TabControlOtherInfo);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(826, 2);
+            this.pnlRight.Location = new System.Drawing.Point(828, 0);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(400, 493);
+            this.pnlRight.Size = new System.Drawing.Size(400, 497);
             this.pnlRight.TabIndex = 4;
             // 
             // TabControlOtherInfo
@@ -347,7 +347,7 @@
             this.TabControlOtherInfo.Location = new System.Drawing.Point(0, 0);
             this.TabControlOtherInfo.Name = "TabControlOtherInfo";
             this.TabControlOtherInfo.SelectedTabPage = this.PageDetailInfo;
-            this.TabControlOtherInfo.Size = new System.Drawing.Size(400, 493);
+            this.TabControlOtherInfo.Size = new System.Drawing.Size(400, 497);
             this.TabControlOtherInfo.TabIndex = 0;
             this.TabControlOtherInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageDetailInfo,
@@ -357,7 +357,7 @@
             // 
             this.PageDetailInfo.Controls.Add(this.pnlDetailInfo);
             this.PageDetailInfo.Name = "PageDetailInfo";
-            this.PageDetailInfo.Size = new System.Drawing.Size(394, 464);
+            this.PageDetailInfo.Size = new System.Drawing.Size(394, 468);
             this.PageDetailInfo.Text = "详细信息";
             // 
             // pnlDetailInfo
@@ -383,7 +383,7 @@
             this.pnlDetailInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDetailInfo.Location = new System.Drawing.Point(0, 0);
             this.pnlDetailInfo.Name = "pnlDetailInfo";
-            this.pnlDetailInfo.Size = new System.Drawing.Size(394, 464);
+            this.pnlDetailInfo.Size = new System.Drawing.Size(394, 468);
             this.pnlDetailInfo.TabIndex = 0;
             // 
             // textContact
@@ -551,7 +551,7 @@
             // 
             this.PageFinancialInfo.Controls.Add(this.pnlFinancialInfo);
             this.PageFinancialInfo.Name = "PageFinancialInfo";
-            this.PageFinancialInfo.Size = new System.Drawing.Size(394, 464);
+            this.PageFinancialInfo.Size = new System.Drawing.Size(394, 468);
             this.PageFinancialInfo.Text = "金融信息";
             // 
             // pnlFinancialInfo
@@ -565,7 +565,7 @@
             this.pnlFinancialInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFinancialInfo.Location = new System.Drawing.Point(0, 0);
             this.pnlFinancialInfo.Name = "pnlFinancialInfo";
-            this.pnlFinancialInfo.Size = new System.Drawing.Size(394, 464);
+            this.pnlFinancialInfo.Size = new System.Drawing.Size(394, 468);
             this.pnlFinancialInfo.TabIndex = 1;
             // 
             // textBussinessLicense
@@ -625,9 +625,9 @@
             this.pnlLeft.Controls.Add(this.pnlGrid);
             this.pnlLeft.Controls.Add(this.pnlEdit);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlLeft.Location = new System.Drawing.Point(2, 2);
+            this.pnlLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(819, 493);
+            this.pnlLeft.Size = new System.Drawing.Size(823, 497);
             this.pnlLeft.TabIndex = 15;
             // 
             // pnlGrid
@@ -636,7 +636,7 @@
             this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGrid.Location = new System.Drawing.Point(0, 97);
             this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(819, 396);
+            this.pnlGrid.Size = new System.Drawing.Size(823, 400);
             this.pnlGrid.TabIndex = 8;
             // 
             // gridCrlBaseInfo
@@ -646,7 +646,7 @@
             this.gridCrlBaseInfo.Location = new System.Drawing.Point(2, 2);
             this.gridCrlBaseInfo.MainView = this.gridViewBaseInfo;
             this.gridCrlBaseInfo.Name = "gridCrlBaseInfo";
-            this.gridCrlBaseInfo.Size = new System.Drawing.Size(815, 392);
+            this.gridCrlBaseInfo.Size = new System.Drawing.Size(819, 396);
             this.gridCrlBaseInfo.TabIndex = 100;
             this.gridCrlBaseInfo.TabStop = false;
             this.gridCrlBaseInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -683,6 +683,8 @@
             this.colBussinessBaseNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colBussinessBaseNo.FieldName = "BussinessBaseNo";
             this.colBussinessBaseNo.Name = "colBussinessBaseNo";
+            this.colBussinessBaseNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "BussinessBaseNo", "共计{0}条")});
             this.colBussinessBaseNo.Visible = true;
             this.colBussinessBaseNo.VisibleIndex = 0;
             this.colBussinessBaseNo.Width = 180;
@@ -736,7 +738,7 @@
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 0);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(819, 97);
+            this.pnlEdit.Size = new System.Drawing.Size(823, 97);
             this.pnlEdit.TabIndex = 7;
             // 
             // labelControl1
@@ -819,6 +821,7 @@
             // 
             // pnlBottom
             // 
+            this.pnlBottom.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.pnlBottom.Controls.Add(this.pnlLeft);
             this.pnlBottom.Controls.Add(this.splitterMiddle);
             this.pnlBottom.Controls.Add(this.pnlRight);
@@ -832,9 +835,9 @@
             // 
             this.splitterMiddle.Cursor = System.Windows.Forms.Cursors.NoMoveHoriz;
             this.splitterMiddle.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitterMiddle.Location = new System.Drawing.Point(821, 2);
+            this.splitterMiddle.Location = new System.Drawing.Point(823, 0);
             this.splitterMiddle.Name = "splitterMiddle";
-            this.splitterMiddle.Size = new System.Drawing.Size(5, 493);
+            this.splitterMiddle.Size = new System.Drawing.Size(5, 497);
             this.splitterMiddle.TabIndex = 15;
             this.splitterMiddle.TabStop = false;
             // 

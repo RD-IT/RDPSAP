@@ -93,6 +93,7 @@
             this.dataColRequirementDate = new System.Data.DataColumn();
             this.dataColPrReqListRemark = new System.Data.DataColumn();
             this.dataColListAutoId = new System.Data.DataColumn();
+            this.dataColCodeId = new System.Data.DataColumn();
             this.bindingSource_PrReqHead = new System.Windows.Forms.BindingSource(this.components);
             this.pnlMiddle = new DevExpress.XtraEditors.PanelControl();
             this.gridControlPrReqHead = new DevExpress.XtraGrid.GridControl();
@@ -117,6 +118,7 @@
             this.colClosed = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrReqRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colListAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCodeFileName.Properties)).BeginInit();
@@ -189,7 +191,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
             this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 9;
@@ -573,7 +575,8 @@
             this.dataColQty,
             this.dataColRequirementDate,
             this.dataColPrReqListRemark,
-            this.dataColListAutoId});
+            this.dataColListAutoId,
+            this.dataColCodeId});
             this.dataTablePrReqHead.TableName = "PrReqHead";
             // 
             // dataColAutoId
@@ -730,6 +733,12 @@
             this.dataColListAutoId.ColumnName = "ListAutoId";
             this.dataColListAutoId.DataType = typeof(int);
             // 
+            // dataColCodeId
+            // 
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
             // bindingSource_PrReqHead
             // 
             this.bindingSource_PrReqHead.DataMember = "PrReqHead";
@@ -779,7 +788,8 @@
             this.colModifier,
             this.colClosed,
             this.colPrReqRemark,
-            this.colListAutoId});
+            this.colListAutoId,
+            this.colCodeId});
             this.gridViewPrReqHead.GridControl = this.gridControlPrReqHead;
             this.gridViewPrReqHead.IndicatorWidth = 40;
             this.gridViewPrReqHead.Name = "gridViewPrReqHead";
@@ -999,6 +1009,11 @@
             this.colListAutoId.FieldName = "ListAutoId";
             this.colListAutoId.Name = "colListAutoId";
             // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
             // FrmPrReqListQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1135,5 +1150,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colRequirementDate;
         private DevExpress.XtraGrid.Columns.GridColumn colPrReqListRemark;
         private DevExpress.XtraGrid.Columns.GridColumn colListAutoId;
+        private System.Data.DataColumn dataColCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
     }
 }

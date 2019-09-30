@@ -103,6 +103,7 @@
             this.colbeginingQty = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colLocationId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repLookUpLocationId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+            this.repLookUpCatgName = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_DurationStock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableDurationStock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_DurationStock)).BeginInit();
@@ -128,6 +129,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewDurationStock)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpLocationId)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).BeginInit();
             this.SuspendLayout();
             // 
             // dataSet_DurationStock
@@ -262,7 +264,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 503);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1549, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1860, 58);
             this.pnlBottom.TabIndex = 7;
             // 
             // gridBottomWNowInfo
@@ -272,7 +274,7 @@
             this.gridBottomWNowInfo.MasterDataSet = this.dataSet_DurationStock;
             this.gridBottomWNowInfo.Name = "gridBottomWNowInfo";
             this.gridBottomWNowInfo.pageRowCount = 5;
-            this.gridBottomWNowInfo.Size = new System.Drawing.Size(1545, 54);
+            this.gridBottomWNowInfo.Size = new System.Drawing.Size(1856, 54);
             this.gridBottomWNowInfo.TabIndex = 0;
             // 
             // pnltop
@@ -296,7 +298,7 @@
             this.pnltop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1549, 78);
+            this.pnltop.Size = new System.Drawing.Size(1860, 78);
             this.pnltop.TabIndex = 8;
             // 
             // labLocationId
@@ -596,7 +598,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1549, 425);
+            this.pnlMiddle.Size = new System.Drawing.Size(1860, 425);
             this.pnlMiddle.TabIndex = 9;
             // 
             // gridControlDurationStock
@@ -608,8 +610,9 @@
             this.gridControlDurationStock.Name = "gridControlDurationStock";
             this.gridControlDurationStock.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repLookUpRepertoryId,
-            this.repLookUpLocationId});
-            this.gridControlDurationStock.Size = new System.Drawing.Size(1545, 421);
+            this.repLookUpLocationId,
+            this.repLookUpCatgName});
+            this.gridControlDurationStock.Size = new System.Drawing.Size(1856, 421);
             this.gridControlDurationStock.TabIndex = 7;
             this.gridControlDurationStock.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewDurationStock});
@@ -658,6 +661,7 @@
             // 
             this.colCatgName.AppearanceHeader.Options.UseTextOptions = true;
             this.colCatgName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colCatgName.ColumnEdit = this.repLookUpCatgName;
             this.colCatgName.FieldName = "CatgName";
             this.colCatgName.Name = "colCatgName";
             this.colCatgName.OptionsColumn.AllowMerge = DevExpress.Utils.DefaultBoolean.False;
@@ -882,10 +886,20 @@
             this.repLookUpLocationId.NullText = "";
             this.repLookUpLocationId.ValueMember = "AutoId";
             // 
+            // repLookUpCatgName
+            // 
+            this.repLookUpCatgName.AutoHeight = false;
+            this.repLookUpCatgName.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpCatgName.DisplayMember = "CatgDescription";
+            this.repLookUpCatgName.Name = "repLookUpCatgName";
+            this.repLookUpCatgName.NullText = "";
+            this.repLookUpCatgName.ValueMember = "CatgName";
+            // 
             // FrmQueryStockDurationTotal
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1549, 561);
+            this.ClientSize = new System.Drawing.Size(1860, 561);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);
@@ -919,6 +933,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridViewDurationStock)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpRepertoryId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpLocationId)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -999,5 +1014,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColuRepertoryName;
         private DevExpress.XtraGrid.Columns.GridColumn colLocationId;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpLocationId;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCatgName;
     }
 }

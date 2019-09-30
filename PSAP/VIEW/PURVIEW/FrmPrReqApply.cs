@@ -181,44 +181,28 @@ namespace PSAP.VIEW.BSVIEW
             }
         }
 
-        /// <summary>
-        /// 设定子表当前行选择事件
-        /// </summary>
-        private void repCheckListSelect_EditValueChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (DataTypeConvert.GetBoolean(gridViewPrReqList.GetFocusedDataRow()["ListSelect"]))
-                {
-                    gridViewPrReqList.GetFocusedDataRow()["ListSelect"] = false;
-                }
-                else
-                {
-                    gridViewPrReqList.GetFocusedDataRow()["ListSelect"] = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                //ExceptionHandler.HandleException(this.Text + "--设定子表当前行选择事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + tsmiSdzbdqh.Text, ex);
-            }
-        }
-
-        /// <summary>
-        /// 全部选中
-        /// </summary>
-        private void checkAll_CheckedChanged(object sender, EventArgs e)
-        {
-            bool value = false;
-            if (checkAll.Checked)
-            {
-                value = true;
-            }
-            foreach (DataRow dr in dataSet_PrReq.Tables[1].Rows)
-            {
-                dr["ListSelect"] = value;
-            }
-        }
+        ///// <summary>
+        ///// 设定子表当前行选择事件
+        ///// </summary>
+        //private void repCheckListSelect_EditValueChanged(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (DataTypeConvert.GetBoolean(gridViewPrReqList.GetFocusedDataRow()["ListSelect"]))
+        //        {
+        //            gridViewPrReqList.GetFocusedDataRow()["ListSelect"] = false;
+        //        }
+        //        else
+        //        {
+        //            gridViewPrReqList.GetFocusedDataRow()["ListSelect"] = true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //ExceptionHandler.HandleException(this.Text + "--设定子表当前行选择事件错误。", ex);
+        //        ExceptionHandler.HandleException(this.Text + "--" + tsmiSdzbdqh.Text, ex);
+        //    }
+        //}
 
         /// <summary>
         /// 选择请购日期
@@ -250,12 +234,27 @@ namespace PSAP.VIEW.BSVIEW
                     textPrReqNo.Focus();
                     return;
                 }
-                int count = dataSet_PrReq.Tables[1].Select("ListSelect=1").Length;
-                if (count == 0)
+                //int count = dataSet_PrReq.Tables[1].Select("ListSelect=1").Length;
+                //if (count == 0)
+                //{
+                //    MessageHandler.ShowMessageBox(tsmiQxzysydqg.Text);// ("请选择要适用的请购单明细记录，请重新操作。");
+                //    gridViewPrReqList.Focus();
+                //    return;
+                //}
+
+                int[] selectRows = gridViewPrReqList.GetSelectedRows();
+                if (selectRows.Length == 0)
                 {
-                    MessageHandler.ShowMessageBox(tsmiQxzysydqg.Text);// ("请选择要适用的请购单明细记录，请重新操作。");
+                    MessageHandler.ShowMessageBox("请选择要适用的请购单明细记录，请重新操作。");
                     gridViewPrReqList.Focus();
                     return;
+                }
+                else
+                {
+                    for (int i = 0; i < selectRows.Length; i++)
+                    {
+                        gridViewPrReqList.SetRowCellValue(selectRows[i], "ListSelect", 1);
+                    }
                 }
 
                 this.DialogResult = DialogResult.OK;

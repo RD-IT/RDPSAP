@@ -163,6 +163,17 @@ namespace PSAP.VIEW.BSVIEW
                         return;
                     }
 
+                    for (int i = 0; i < gridViewCollectionTypeList.RowCount; i++)
+                    {
+                        if (DataTypeConvert.GetDouble(gridViewCollectionTypeList.GetDataRow(i)["CollectionPercentum"]) == 0)
+                        {
+                            MessageHandler.ShowMessageBox("收款百分比不能为0，请重新设置。");
+                            gridViewCollectionTypeList.Focus();
+                            gridViewCollectionTypeList.FocusedRowHandle = i;
+                            return;
+                        }
+                    }
+
                     bSCollectionTypeList.EndEdit();
 
                     if (!collectionTypeDAO.SaveCollectionTypeList(dSCollectionTypeList.Tables[0], collectionTypeNoStr))

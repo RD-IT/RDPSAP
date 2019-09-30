@@ -118,6 +118,8 @@
             this.tsmiSjcx = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSzgrid = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dataColCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_PrReq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTablePrReqList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_PrReqList)).BeginInit();
@@ -179,7 +181,8 @@
             this.dataColPlanDate,
             this.dataColOrderHeadNo,
             this.dataColOrderState,
-            this.dataColOrderHeadDate});
+            this.dataColOrderHeadDate,
+            this.dataColCodeId});
             this.dataTablePrReqList.TableName = "PrReqList";
             // 
             // dataColAutoId
@@ -407,7 +410,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
             this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 6;
@@ -676,7 +679,8 @@
             this.colOrderState,
             this.colPlanDate,
             this.colPrice,
-            this.colAmount});
+            this.colAmount,
+            this.colCodeId});
             this.gridViewPrReqList.GridControl = this.gridControlPrReqList;
             this.gridViewPrReqList.IndicatorWidth = 40;
             this.gridViewPrReqList.Name = "gridViewPrReqList";
@@ -1012,6 +1016,17 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // dataColCodeId
+            // 
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
             // FrmPrReqListAndOrderList
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1146,5 +1161,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiSjcx;
         private System.Windows.Forms.ToolStripMenuItem tsmiSzgrid;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Data.DataColumn dataColCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
     }
 }

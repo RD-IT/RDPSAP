@@ -560,7 +560,7 @@ namespace PSAP.DAO.INVDAO
                             return;
                         }
 
-                        //涉及不涉及把当前库存数为0的删除了
+                        //是否涉及把当前库存数为0的删除了，等做的时候再确认
 
                         cmd.CommandText = string.Format("insert into INV_WarehouseBeginingInfo (BeginingDate, RepertoryId, LocationId, ProjectNo, ShelfId, CodeFileName, BeginingQty) select {0}, RepertoryId, LocationId, ProjectNo, ShelfId, CodeFileName, Qty from INV_WarehouseNowInfo", yearInt);
                         cmd.ExecuteNonQuery();

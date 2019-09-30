@@ -67,15 +67,21 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DataTable materialTable_f = commonDAO.QueryMaterialSelectLib(false);
+                DataTable catgNameTable_f = commonDAO.QueryPartNoCatg(false);
+                DataTable finishTable_f = commonDAO.QueryFinishCatg(false);
+                DataTable machTable_f = commonDAO.QueryLevelCatg(false);
 
                 searchLookUpMaterial.Properties.DataSource = materialTable_f;
-                lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(false);
+                lookUpCatgName.Properties.DataSource = catgNameTable_f;
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(false);
-                lookUpFinish.Properties.DataSource = commonDAO.QueryFinishCatg(false);
-                lookUpMachiningLevel.Properties.DataSource = commonDAO.QueryLevelCatg(false);
+                lookUpFinish.Properties.DataSource = finishTable_f;
+                lookUpMachiningLevel.Properties.DataSource = machTable_f;
                 lookUpUnit.Properties.DataSource = commonDAO.QueryUnitCatg(false);
 
                 repLookUpMaterial.DataSource = materialTable_f;
+                repLookUpCatgName.DataSource = catgNameTable_f;
+                repLookUpFinish.DataSource = finishTable_f;
+                repLookUpMachiningLevel.DataSource = machTable_f;
             }
             catch (Exception ex)
             {

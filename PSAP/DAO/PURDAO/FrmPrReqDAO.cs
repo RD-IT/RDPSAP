@@ -88,13 +88,23 @@ namespace PSAP.DAO.PURDAO
             }
             if (approverInt >= 0)
             {
+                //if (approverInt == 0)
+                //    sqlStr += string.Format(" and ReqState in (4, 5)");
+                //else
+                //{
+                //    //sqlStr = string.Format("select PUR_PrReqHead.* from PUR_PrReqHead left join PUR_ApprovalType on PUR_PrReqHead.ApprovalType = PUR_ApprovalType.TypeNo where {0} and PUR_PrReqHead.ReqState in (1, 4) and( (PUR_ApprovalType.ApprovalCat = 0 and exists (select * from (select top 1 * from F_PrReqNoApprovalList(PUR_PrReqHead.PrReqNo, PUR_PrReqHead.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or (PUR_ApprovalType.ApprovalCat = 1 and exists (select * from F_PrReqNoApprovalList(PUR_PrReqHead.PrReqNo, PUR_PrReqHead.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+
+                //    sqlStr = string.Format("select Head.* from PUR_PrReqHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where {0} and Head.ReqState in (4, 5) and ((PUR_ApprovalType.ApprovalCat = 0 and exists (select * from(select top 1 * from F_OrderNoApprovalList(Head.PrReqNo, Head.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or(PUR_ApprovalType.ApprovalCat = 1 and exists(select * from F_OrderNoApprovalList(Head.PrReqNo, Head.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+                //    return sqlStr;
+                //}
                 if (approverInt == 0)
                     sqlStr += string.Format(" and ReqState in (4, 5)");
                 else
                 {
-                    //sqlStr = string.Format("select PUR_PrReqHead.* from PUR_PrReqHead left join PUR_ApprovalType on PUR_PrReqHead.ApprovalType = PUR_ApprovalType.TypeNo where {0} and PUR_PrReqHead.ReqState in (1, 4) and( (PUR_ApprovalType.ApprovalCat = 0 and exists (select * from (select top 1 * from F_PrReqNoApprovalList(PUR_PrReqHead.PrReqNo, PUR_PrReqHead.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or (PUR_ApprovalType.ApprovalCat = 1 and exists (select * from F_PrReqNoApprovalList(PUR_PrReqHead.PrReqNo, PUR_PrReqHead.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
-
-                    sqlStr = string.Format("select Head.* from PUR_PrReqHead as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where {0} and Head.ReqState in (4, 5) and ((PUR_ApprovalType.ApprovalCat = 0 and exists (select * from(select top 1 * from F_OrderNoApprovalList(Head.PrReqNo, Head.ApprovalType) Order by AppSequence) as minlist where Approver = {1})) or(PUR_ApprovalType.ApprovalCat = 1 and exists(select * from F_OrderNoApprovalList(Head.PrReqNo, Head.ApprovalType) where Approver = {1}))) order by AutoId", sqlStr, approverInt);
+                    string tableNameStr = "PUR_PrReqHead";
+                    int moduleTypeInt = 2;
+                    string tmpSqlStr = new FrmWorkFlowDataHandleDAO().GetWorkFlowLine_ConditionString(tableNameStr, moduleTypeInt, approverInt);
+                    sqlStr = string.Format("select * from PUR_PrReqHead where {0} {1} order by AutoId", sqlStr, tmpSqlStr);
                     return sqlStr;
                 }
             }
@@ -204,7 +214,7 @@ namespace PSAP.DAO.PURDAO
                         cmd.CommandText = string.Format("Delete from PUR_PrReqHead where PrReqNo in ({0})", prReqNoListStr);
                         cmd.ExecuteNonQuery();
 
-                        if (SystemInfo.EnableWorkFlowMessage)
+                        //if (SystemInfo.EnableWorkFlowMessage)
                         {
                             //new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, prReqNoListStr, 3, 1);
                             new FrmWorkFlowDataHandleDAO().DeleteDataCurrentNode(cmd, prReqNoListStr);
@@ -376,14 +386,21 @@ namespace PSAP.DAO.PURDAO
                         {
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "提交", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                            if (SystemInfo.EnableWorkFlowMessage)
+                            //if (SystemInfo.EnableWorkFlowMessage)
                             {
-                                if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]) }, "采购流程", "PUR_PrReqHead", 1, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), "", "", 1, false))
+                                int stateInt = 5;
+                                if (!new FrmWorkFlowDataHandleDAO().HandleWorkFlowData(cmd, DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]), "采购流程", "PUR_PrReqHead", "PrReqNo", 1, ref stateInt, -1, "", "", 0, false))
                                 {
                                     trans.Rollback();
-                                    MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
                                     return false;
                                 }
+
+                                //if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]) }, "采购流程", "PUR_PrReqHead", 1, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), "", "", 1, false))
+                                //{
+                                //    trans.Rollback();
+                                //    MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
+                                //    return false;
+                                //}
                             }
                         }
                         trans.Commit();
@@ -442,7 +459,7 @@ namespace PSAP.DAO.PURDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "取消提交", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));                            
                         }
 
-                        if (SystemInfo.EnableWorkFlowMessage)
+                        //if (SystemInfo.EnableWorkFlowMessage)
                         {
                             //if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]) }, "采购流程", "PUR_PrReqHead", 1, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), "", "", 1, false))
                             //{
@@ -795,7 +812,7 @@ namespace PSAP.DAO.PURDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "关闭", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
-                        if (SystemInfo.EnableWorkFlowMessage)
+                        //if (SystemInfo.EnableWorkFlowMessage)
                         {
                             new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, prReqNoListStr, 3, 1);
                         }
@@ -854,15 +871,17 @@ namespace PSAP.DAO.PURDAO
                         DataRow[] prReqHeadRows = prReqHeadTable.Select("select=1");
                         for (int i = 0; i < prReqHeadRows.Length; i++)
                         {
-                            cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1}, Closed='{2}', ClosedIp='{3}', ClosedTime=null where PrReqNo = '{0}'", DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]), DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), "", "");
+                            string prReqNoStr = DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]);
+
+                            cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1}, Closed='{2}', ClosedIp='{3}', ClosedTime=null where PrReqNo = '{0}'", prReqNoStr, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), "", "");
                             cmd.ExecuteNonQuery();
 
                             //保存日志到日志表中
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "取消关闭", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                            if (SystemInfo.EnableWorkFlowMessage)
+                            //if (SystemInfo.EnableWorkFlowMessage)
                             {
-                                new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, new List<string>() { DataTypeConvert.GetString(prReqHeadRows[i]["PrReqNo"]) }, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), 0);
+                                new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, new List<string>() { prReqNoStr }, DataTypeConvert.GetInt(prReqHeadRows[i]["ReqState"]), 0);
                             }
                         }
 
@@ -976,31 +995,6 @@ namespace PSAP.DAO.PURDAO
             //return true;
         }
 
-        ///// <summary>
-        ///// 得到订单最大的编号
-        ///// </summary>
-        ///// <param name="tableName">数据表名</param>
-        ///// <param name="columnName">数据列名</param>
-        ///// <param name="headCharacter">头字母</param>
-        ///// <param name="numberLong">后数字的长度</param>
-        //public string GetMaxOrderNo(string tableName, string columnName, string headCharacter, int numberLong)
-        //{
-        //    string sqlStr = string.Format("select max({1}) from {0}", tableName, columnName);
-        //    string maxNo = DataTypeConvert.GetString(BaseSQL.GetSingle(sqlStr));
-        //    if (string.IsNullOrEmpty(maxNo))
-        //    {
-        //        maxNo = headCharacter + "1".PadLeft(numberLong, '0');
-        //        return maxNo;
-        //    }
-        //    else
-        //    {
-        //        int number = DataTypeConvert.GetInt(maxNo.Replace(headCharacter, ""));
-        //        maxNo = headCharacter + (number + 1).ToString().PadLeft(numberLong, '0');
-        //        return maxNo;
-        //    }
-        //}
-
-
         /// <summary>
         /// 审批选中的多条请购单
         /// </summary>
@@ -1073,7 +1067,7 @@ namespace PSAP.DAO.PURDAO
                                         break;
                                 }
 
-                                if (!SystemInfo.EnableWorkFlowMessage || (SystemInfo.EnableWorkFlowMessage && approverResultInt == 1))
+                                if (approverResultInt == 1)
                                 {
                                     cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", prReqNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                                     cmd.ExecuteNonQuery();
@@ -1097,13 +1091,13 @@ namespace PSAP.DAO.PURDAO
                                     prReqHeadTable.Rows[i]["ReqState"] = 4;
                                 }
 
+                                if (approverResultInt != 1)
+                                {
+                                    prReqHeadTable.Rows[i]["ReqState"] = 6;
+                                }
+
                                 if (SystemInfo.EnableWorkFlowMessage)
                                 {
-                                    if (approverResultInt != 1)
-                                    {
-                                        prReqHeadTable.Rows[i]["ReqState"] = 6;
-                                    }
-
                                     if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { prReqNoStr }, "采购流程", "PUR_PrReqHead", approverResultInt == 1 ? 2 : 1, DataTypeConvert.GetInt(prReqHeadTable.Rows[i]["ReqState"]), SystemInfo.user.LoginID, approverOptionStr, approverResultInt, true))
                                     {
                                         trans.Rollback();
@@ -1119,7 +1113,7 @@ namespace PSAP.DAO.PURDAO
                                 else
                                 {
                                     cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1} where PrReqNo='{0}'", prReqNoStr, prReqHeadTable.Rows[i]["ReqState"]);
-                                }                                
+                                }
                                 cmd.ExecuteNonQuery();
                             }
                         }
@@ -1143,7 +1137,7 @@ namespace PSAP.DAO.PURDAO
         }
 
         /// <summary>
-        /// 取消审批选中的多条采购订单
+        /// 取消审批选中的多条请购单
         /// </summary>
         public bool CancalPrReqApprovalInfo_Multi(DataTable prReqHeadTable)
         {
@@ -1191,9 +1185,9 @@ namespace PSAP.DAO.PURDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadRows[i], "PrReqNo", "取消审批", SystemInfo.user.EmpName, BaseSQL.GetServerDateTime().ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
-                        if (SystemInfo.EnableWorkFlowMessage)
+                        //if (SystemInfo.EnableWorkFlowMessage)
                         {
-                            new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, prReqNoListStr, 1, 1);
+                            new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, prReqNoListStr, 1, 0);
                         }
 
                         trans.Commit();
@@ -1391,7 +1385,7 @@ namespace PSAP.DAO.PURDAO
         /// <summary>
         /// 查询请购余量表的SQL
         /// </summary>
-        public string Query_PrReqList_Overplus(string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, string projectNoStr, int reqStateInt, string codeFileNameStr, bool overplusBool, string commonStr)
+        public string Query_PrReqList_Overplus(string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, string projectNoStr, int reqStateInt, int codeIdInt, bool overplusBool, string commonStr)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -1414,9 +1408,9 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and ReqState={0}", reqStateInt);
             }
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and CodeFileName='{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and CodeId={0}", codeIdInt);
             }
             if (overplusBool)
             {
@@ -1433,7 +1427,7 @@ namespace PSAP.DAO.PURDAO
         /// <summary>
         /// 请购与采购查询的SQL
         /// </summary>
-        public string Query_PrReqListAndOrderList(string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, string projectNoStr, int reqStateInt, string codeFileNameStr, string commonStr)
+        public string Query_PrReqListAndOrderList(string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, string projectNoStr, int reqStateInt, int codeIdInt, string commonStr)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -1456,9 +1450,9 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and ReqState={0}", reqStateInt);
             }
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and CodeFileName='{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and CodeId={0}", codeIdInt);
             }
             if (commonStr != "")
             {
@@ -1483,7 +1477,7 @@ namespace PSAP.DAO.PURDAO
         /// <summary>
         /// 查询请购单明细表关联表头表的SQL
         /// </summary>
-        public string QueryPrReqList_Head_SQL(string beginRequirementDateStr, string endRequirementDateStr, string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, int reqStateInt, string projectNoStr, string codeFileNameStr, string commonStr)
+        public string QueryPrReqList_Head_SQL(string beginRequirementDateStr, string endRequirementDateStr, string beginDateStr, string endDateStr, string reqDepStr, string purCategoryStr, int reqStateInt, string projectNoStr, int codeIdInt, string commonStr)
         {
             string sqlStr = " 1=1";
             if (beginRequirementDateStr != "")
@@ -1510,9 +1504,9 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and ProjectNo='{0}'", projectNoStr);
             }
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and List.CodeFileName='{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and List.CodeId={0}", codeIdInt);
             }
             if (commonStr != "")
             {
@@ -1520,6 +1514,98 @@ namespace PSAP.DAO.PURDAO
             }
             sqlStr = string.Format("select List.*, Parts.CodeName from V_PUR_PrReqList_Head as List left join SW_PartsCode as Parts on List.CodeFileName = Parts.CodeFileName where {0} order by ListAutoId", sqlStr);
             return sqlStr;
+        }
+
+        /// <summary>
+        /// 审批选中的多条请购单
+        /// </summary>
+        public bool PrReqApprovalInfo2_Multi(DataTable prReqHeadTable, int nodeIdInt, string flowModuleIdStr, string approverOptionStr, int approverResultInt, ref int successCountInt)
+        {
+            string prReqNoListStr = "";
+            for (int i = 0; i < prReqHeadTable.Rows.Count; i++)
+            {
+                if (DataTypeConvert.GetBoolean(prReqHeadTable.Rows[i]["Select"]))
+                {
+                    prReqNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(prReqHeadTable.Rows[i]["PrReqNo"]));
+                }
+            }
+
+            prReqNoListStr = prReqNoListStr.Substring(0, prReqNoListStr.Length - 1);
+            if (!CheckReqState(prReqHeadTable, null, prReqNoListStr, true, true, true, false, false, true))
+                return false;
+            successCountInt = 0;
+
+            FrmWorkFlowDataHandleDAO wfdhDAO = new FrmWorkFlowDataHandleDAO();
+            using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction trans = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        SqlCommand cmd = new SqlCommand("", conn, trans);
+                        DateTime serverTime = BaseSQL.GetServerDateTime();
+                        for (int i = 0; i < prReqHeadTable.Rows.Count; i++)
+                        {
+                            if (DataTypeConvert.GetBoolean(prReqHeadTable.Rows[i]["Select"]))
+                            {
+                                DataRow prReqRow = prReqHeadTable.Rows[i];
+                                string prReqNoStr = DataTypeConvert.GetString(prReqRow["PrReqNo"]);
+
+                                int reqStateInt = 2;
+                                if (!wfdhDAO.HandleWorkFlowData(cmd, prReqNoStr, "采购流程", "PUR_PrReqHead", "PrReqNo", 2, ref reqStateInt, SystemInfo.user.AutoId, SystemInfo.user.LoginID, approverOptionStr, approverResultInt, true))
+                                {
+                                    trans.Rollback();
+                                    return false;
+                                }
+
+                                if (approverResultInt == 1)
+                                {
+                                    prReqHeadTable.Rows[i]["ReqState"] = reqStateInt;
+
+                                    //保存日志到日志表中
+                                    string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadTable.Rows[i], "PrReqNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else
+                                {
+                                    wfdhDAO.HandleDataCurrentNode_IsEnd(cmd, "'" + prReqNoStr + "'", 6, 0);
+
+                                    prReqHeadTable.Rows[i]["ReqState"] = 6;
+
+                                    //保存日志到日志表中
+                                    string logStr = LogHandler.RecordLog_OperateRow(cmd, "请购单", prReqHeadTable.Rows[i], "PrReqNo", "拒绝审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                }
+
+                                successCountInt++;
+
+                                if (DataTypeConvert.GetInt(prReqHeadTable.Rows[i]["ReqState"]) == 2)
+                                {
+                                    cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState = {1}, Approver = '{2}', ApproverIp = '{3}', ApproverTime = '{4}' where PrReqNo = '{0}'", prReqNoStr, prReqHeadTable.Rows[i]["ReqState"], SystemInfo.user.EmpName, SystemInfo.HostIpAddress, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                }
+                                else
+                                {
+                                    cmd.CommandText = string.Format("Update PUR_PrReqHead set ReqState={1} where PrReqNo='{0}'", prReqNoStr, prReqHeadTable.Rows[i]["ReqState"]);
+                                }
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        trans.Commit();
+                        prReqHeadTable.AcceptChanges();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        prReqHeadTable.RejectChanges();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
         }
     }
 }

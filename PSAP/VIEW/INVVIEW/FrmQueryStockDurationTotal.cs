@@ -40,6 +40,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
                 DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
+                DataTable catgNameTable_f = commonDAO.QueryPartNoCatg(false);
 
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
@@ -54,6 +55,7 @@ namespace PSAP.VIEW.BSVIEW
                 //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
                 repLookUpLocationId.DataSource = locationTable_t;
+                repLookUpCatgName.DataSource = catgNameTable_f;
 
                 if (SystemInfo.DisableProjectNo)
                 {

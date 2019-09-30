@@ -253,9 +253,9 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 保存设计Bom信息
         /// </summary>
-        public void SaveDesignBom(string salesOrderNoStr, List<String> codeFileNameList, float qty)
+        public void SaveDesignBom(string salesOrderNoStr, Dictionary<int, string> codeIdList, float qty)
         {
-            foreach (string codeFileName in codeFileNameList)
+            foreach (string codeFileName in codeIdList.Values)
             {
                 string sqlStr = string.Format("select COUNT(*) from BS_BomMateriel where MaterielNo = '{0}'", codeFileName);
                 int count = DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));

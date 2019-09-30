@@ -61,7 +61,6 @@
             this.labOrderHeadNo = new DevExpress.XtraEditors.LabelControl();
             this.pnlMiddle = new DevExpress.XtraEditors.PanelControl();
             this.pnlMiddleBottom = new DevExpress.XtraEditors.PanelControl();
-            this.checkAll = new DevExpress.XtraEditors.CheckEdit();
             this.gridControlOrderList = new DevExpress.XtraGrid.GridControl();
             this.bindingSource_OrderList = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet_Order = new System.Data.DataSet();
@@ -194,7 +193,6 @@
             this.pnlMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddleBottom)).BeginInit();
             this.pnlMiddleBottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.checkAll.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlOrderList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_OrderList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_Order)).BeginInit();
@@ -574,25 +572,12 @@
             // 
             // pnlMiddleBottom
             // 
-            this.pnlMiddleBottom.Controls.Add(this.checkAll);
             this.pnlMiddleBottom.Controls.Add(this.gridControlOrderList);
             this.pnlMiddleBottom.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddleBottom.Location = new System.Drawing.Point(2, 157);
             this.pnlMiddleBottom.Name = "pnlMiddleBottom";
             this.pnlMiddleBottom.Size = new System.Drawing.Size(1004, 254);
             this.pnlMiddleBottom.TabIndex = 2;
-            // 
-            // checkAll
-            // 
-            this.checkAll.Location = new System.Drawing.Point(53, 6);
-            this.checkAll.Margin = new System.Windows.Forms.Padding(4);
-            this.checkAll.Name = "checkAll";
-            this.checkAll.Properties.AutoHeight = false;
-            this.checkAll.Properties.Caption = "";
-            this.checkAll.Size = new System.Drawing.Size(16, 15);
-            this.checkAll.TabIndex = 18;
-            this.checkAll.TabStop = false;
-            this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
             // 
             // gridControlOrderList
             // 
@@ -926,7 +911,12 @@
             this.gridViewOrderList.GridControl = this.gridControlOrderList;
             this.gridViewOrderList.IndicatorWidth = 40;
             this.gridViewOrderList.Name = "gridViewOrderList";
+            this.gridViewOrderList.OptionsBehavior.Editable = false;
+            this.gridViewOrderList.OptionsBehavior.ReadOnly = true;
+            this.gridViewOrderList.OptionsSelection.CheckBoxSelectorColumnWidth = 40;
             this.gridViewOrderList.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.gridViewOrderList.OptionsSelection.MultiSelect = true;
+            this.gridViewOrderList.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             this.gridViewOrderList.OptionsView.ColumnAutoWidth = false;
             this.gridViewOrderList.OptionsView.EnableAppearanceOddRow = true;
             this.gridViewOrderList.OptionsView.ShowFooter = true;
@@ -944,10 +934,7 @@
             // 
             this.colListSelect.ColumnEdit = this.repCheckListSelect;
             this.colListSelect.FieldName = "ListSelect";
-            this.colListSelect.Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
             this.colListSelect.Name = "colListSelect";
-            this.colListSelect.Visible = true;
-            this.colListSelect.VisibleIndex = 0;
             this.colListSelect.Width = 35;
             // 
             // repCheckListSelect
@@ -956,7 +943,6 @@
             this.repCheckListSelect.Name = "repCheckListSelect";
             this.repCheckListSelect.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.repCheckListSelect.ValueGrayed = false;
-            this.repCheckListSelect.EditValueChanged += new System.EventHandler(this.repCheckListSelect_EditValueChanged);
             // 
             // colOrderHeadNo1
             // 
@@ -964,7 +950,6 @@
             this.colOrderHeadNo1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colOrderHeadNo1.FieldName = "OrderHeadNo";
             this.colOrderHeadNo1.Name = "colOrderHeadNo1";
-            this.colOrderHeadNo1.OptionsColumn.AllowEdit = false;
             this.colOrderHeadNo1.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "PrReqNo", "共计{0}条")});
             this.colOrderHeadNo1.Visible = true;
@@ -977,7 +962,6 @@
             this.colCodeFileName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colCodeFileName.FieldName = "CodeFileName";
             this.colCodeFileName.Name = "colCodeFileName";
-            this.colCodeFileName.OptionsColumn.AllowEdit = false;
             this.colCodeFileName.Visible = true;
             this.colCodeFileName.VisibleIndex = 2;
             this.colCodeFileName.Width = 110;
@@ -988,7 +972,6 @@
             this.colCodeName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colCodeName.FieldName = "CodeName";
             this.colCodeName.Name = "colCodeName";
-            this.colCodeName.OptionsColumn.AllowEdit = false;
             this.colCodeName.Visible = true;
             this.colCodeName.VisibleIndex = 3;
             this.colCodeName.Width = 110;
@@ -1000,12 +983,11 @@
             this.colQty.ColumnEdit = this.repSpinQty;
             this.colQty.FieldName = "Qty";
             this.colQty.Name = "colQty";
-            this.colQty.OptionsColumn.AllowEdit = false;
             this.colQty.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Qty", "{0:0.##}")});
             this.colQty.Visible = true;
             this.colQty.VisibleIndex = 4;
-            this.colQty.Width = 80;
+            this.colQty.Width = 70;
             // 
             // repSpinQty
             // 
@@ -1029,12 +1011,11 @@
             this.colWarehouseWarrentCount.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colWarehouseWarrentCount.FieldName = "WarehouseWarrentCount";
             this.colWarehouseWarrentCount.Name = "colWarehouseWarrentCount";
-            this.colWarehouseWarrentCount.OptionsColumn.AllowEdit = false;
             this.colWarehouseWarrentCount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "WarehouseWarrentCount", "{0:0.##}")});
             this.colWarehouseWarrentCount.Visible = true;
             this.colWarehouseWarrentCount.VisibleIndex = 5;
-            this.colWarehouseWarrentCount.Width = 80;
+            this.colWarehouseWarrentCount.Width = 70;
             // 
             // colOverplus
             // 
@@ -1046,12 +1027,11 @@
             this.colOverplus.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colOverplus.FieldName = "Overplus";
             this.colOverplus.Name = "colOverplus";
-            this.colOverplus.OptionsColumn.AllowEdit = false;
             this.colOverplus.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Overplus", "{0:0.##}")});
             this.colOverplus.Visible = true;
             this.colOverplus.VisibleIndex = 6;
-            this.colOverplus.Width = 80;
+            this.colOverplus.Width = 70;
             // 
             // colUnit
             // 
@@ -1062,10 +1042,9 @@
             this.colUnit.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colUnit.FieldName = "Unit";
             this.colUnit.Name = "colUnit";
-            this.colUnit.OptionsColumn.AllowEdit = false;
             this.colUnit.Visible = true;
             this.colUnit.VisibleIndex = 7;
-            this.colUnit.Width = 100;
+            this.colUnit.Width = 80;
             // 
             // repSpinUnit
             // 
@@ -1089,12 +1068,11 @@
             this.colAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colAmount.FieldName = "Amount";
             this.colAmount.Name = "colAmount";
-            this.colAmount.OptionsColumn.AllowEdit = false;
             this.colAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "Amount", "{0:N2}")});
             this.colAmount.Visible = true;
             this.colAmount.VisibleIndex = 8;
-            this.colAmount.Width = 80;
+            this.colAmount.Width = 100;
             // 
             // colTax1
             // 
@@ -1105,9 +1083,6 @@
             this.colTax1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colTax1.FieldName = "Tax";
             this.colTax1.Name = "colTax1";
-            this.colTax1.OptionsColumn.AllowEdit = false;
-            this.colTax1.Visible = true;
-            this.colTax1.VisibleIndex = 9;
             this.colTax1.Width = 60;
             // 
             // repSpinTax1
@@ -1135,11 +1110,8 @@
             this.colTaxAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colTaxAmount.FieldName = "TaxAmount";
             this.colTaxAmount.Name = "colTaxAmount";
-            this.colTaxAmount.OptionsColumn.AllowEdit = false;
             this.colTaxAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "TaxAmount", "{0:N2}")});
-            this.colTaxAmount.Visible = true;
-            this.colTaxAmount.VisibleIndex = 10;
             this.colTaxAmount.Width = 80;
             // 
             // colSumAmount
@@ -1150,11 +1122,8 @@
             this.colSumAmount.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.colSumAmount.FieldName = "SumAmount";
             this.colSumAmount.Name = "colSumAmount";
-            this.colSumAmount.OptionsColumn.AllowEdit = false;
             this.colSumAmount.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
             new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Sum, "SumAmount", "{0:N2}")});
-            this.colSumAmount.Visible = true;
-            this.colSumAmount.VisibleIndex = 11;
             this.colSumAmount.Width = 80;
             // 
             // colPlanDate1
@@ -1165,9 +1134,8 @@
             this.colPlanDate1.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colPlanDate1.FieldName = "PlanDate";
             this.colPlanDate1.Name = "colPlanDate1";
-            this.colPlanDate1.OptionsColumn.AllowEdit = false;
             this.colPlanDate1.Visible = true;
-            this.colPlanDate1.VisibleIndex = 12;
+            this.colPlanDate1.VisibleIndex = 9;
             this.colPlanDate1.Width = 90;
             // 
             // colRemark
@@ -1176,10 +1144,9 @@
             this.colRemark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colRemark.FieldName = "Remark";
             this.colRemark.Name = "colRemark";
-            this.colRemark.OptionsColumn.AllowEdit = false;
             this.colRemark.Visible = true;
-            this.colRemark.VisibleIndex = 13;
-            this.colRemark.Width = 140;
+            this.colRemark.VisibleIndex = 10;
+            this.colRemark.Width = 100;
             // 
             // colPrReqNo
             // 
@@ -1187,14 +1154,12 @@
             this.colPrReqNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colPrReqNo.FieldName = "PrReqNo";
             this.colPrReqNo.Name = "colPrReqNo";
-            this.colPrReqNo.OptionsColumn.AllowEdit = false;
             this.colPrReqNo.Width = 110;
             // 
             // colPrListAutoId
             // 
             this.colPrListAutoId.FieldName = "PrListAutoId";
             this.colPrListAutoId.Name = "colPrListAutoId";
-            this.colPrListAutoId.OptionsColumn.AllowEdit = false;
             // 
             // repSearchCodeFileName
             // 
@@ -1352,8 +1317,6 @@
             this.colReqState.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colReqState.FieldName = "ReqState";
             this.colReqState.Name = "colReqState";
-            this.colReqState.Visible = true;
-            this.colReqState.VisibleIndex = 1;
             this.colReqState.Width = 60;
             // 
             // colOrderHeadDate
@@ -1365,7 +1328,7 @@
             this.colOrderHeadDate.FieldName = "OrderHeadDate";
             this.colOrderHeadDate.Name = "colOrderHeadDate";
             this.colOrderHeadDate.Visible = true;
-            this.colOrderHeadDate.VisibleIndex = 2;
+            this.colOrderHeadDate.VisibleIndex = 1;
             this.colOrderHeadDate.Width = 90;
             // 
             // colPurCategory
@@ -1376,7 +1339,7 @@
             this.colPurCategory.FieldName = "PurCategory";
             this.colPurCategory.Name = "colPurCategory";
             this.colPurCategory.Visible = true;
-            this.colPurCategory.VisibleIndex = 3;
+            this.colPurCategory.VisibleIndex = 2;
             this.colPurCategory.Width = 80;
             // 
             // repLookUpPurCategory
@@ -1400,7 +1363,7 @@
             this.colBussinessBaseNo.FieldName = "BussinessBaseNo";
             this.colBussinessBaseNo.Name = "colBussinessBaseNo";
             this.colBussinessBaseNo.Visible = true;
-            this.colBussinessBaseNo.VisibleIndex = 4;
+            this.colBussinessBaseNo.VisibleIndex = 3;
             this.colBussinessBaseNo.Width = 130;
             // 
             // repSearchBussinessBaseNo
@@ -1465,7 +1428,7 @@
             this.colReqDep.FieldName = "ReqDep";
             this.colReqDep.Name = "colReqDep";
             this.colReqDep.Visible = true;
-            this.colReqDep.VisibleIndex = 5;
+            this.colReqDep.VisibleIndex = 4;
             this.colReqDep.Width = 100;
             // 
             // repLookUpReqDep
@@ -1487,8 +1450,6 @@
             this.colTax.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colTax.FieldName = "Tax";
             this.colTax.Name = "colTax";
-            this.colTax.Visible = true;
-            this.colTax.VisibleIndex = 6;
             this.colTax.Width = 60;
             // 
             // colProjectName
@@ -1498,7 +1459,7 @@
             this.colProjectName.FieldName = "ProjectName";
             this.colProjectName.Name = "colProjectName";
             this.colProjectName.Visible = true;
-            this.colProjectName.VisibleIndex = 7;
+            this.colProjectName.VisibleIndex = 5;
             this.colProjectName.Width = 100;
             // 
             // colStnNo
@@ -1508,7 +1469,7 @@
             this.colStnNo.FieldName = "StnNo";
             this.colStnNo.Name = "colStnNo";
             this.colStnNo.Visible = true;
-            this.colStnNo.VisibleIndex = 8;
+            this.colStnNo.VisibleIndex = 6;
             this.colStnNo.Width = 100;
             // 
             // colApprovalType
@@ -1575,7 +1536,7 @@
             this.colPrReqRemark.FieldName = "PrReqRemark";
             this.colPrReqRemark.Name = "colPrReqRemark";
             this.colPrReqRemark.Visible = true;
-            this.colPrReqRemark.VisibleIndex = 9;
+            this.colPrReqRemark.VisibleIndex = 7;
             this.colPrReqRemark.Width = 140;
             // 
             // colPrepared
@@ -1585,7 +1546,7 @@
             this.colPrepared.FieldName = "Prepared";
             this.colPrepared.Name = "colPrepared";
             this.colPrepared.Visible = true;
-            this.colPrepared.VisibleIndex = 10;
+            this.colPrepared.VisibleIndex = 8;
             this.colPrepared.Width = 70;
             // 
             // colClosed
@@ -1681,7 +1642,6 @@
             this.pnlMiddle.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddleBottom)).EndInit();
             this.pnlMiddleBottom.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.checkAll.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlOrderList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_OrderList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_Order)).EndInit();
@@ -1853,7 +1813,6 @@
         private DevExpress.XtraEditors.SimpleButton btnCancel;
         private DevExpress.XtraEditors.SimpleButton BtnConfirm;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckListSelect;
-        private DevExpress.XtraEditors.CheckEdit checkAll;
         public System.Data.DataSet dataSet_Order;
         public DevExpress.XtraGrid.Views.Grid.GridView gridViewOrderHead;
         private System.Data.DataColumn dataColProjectName;

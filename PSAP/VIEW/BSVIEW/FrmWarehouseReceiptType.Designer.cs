@@ -229,6 +229,8 @@
             this.colWarehouseReceiptTypeNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colWarehouseReceiptTypeNo.FieldName = "WarehouseReceiptTypeNo";
             this.colWarehouseReceiptTypeNo.Name = "colWarehouseReceiptTypeNo";
+            this.colWarehouseReceiptTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "WarehouseReceiptTypeNo", "共计{0}条")});
             this.colWarehouseReceiptTypeNo.Visible = true;
             this.colWarehouseReceiptTypeNo.VisibleIndex = 0;
             this.colWarehouseReceiptTypeNo.Width = 160;

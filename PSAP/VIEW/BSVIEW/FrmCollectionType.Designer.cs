@@ -215,6 +215,8 @@
             this.colCollectionTypeNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colCollectionTypeNo.FieldName = "CollectionTypeNo";
             this.colCollectionTypeNo.Name = "colCollectionTypeNo";
+            this.colCollectionTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "CollectionTypeNo", "共计{0}条")});
             this.colCollectionTypeNo.Visible = true;
             this.colCollectionTypeNo.VisibleIndex = 0;
             this.colCollectionTypeNo.Width = 160;

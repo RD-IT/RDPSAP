@@ -243,6 +243,8 @@
             this.colManufactureNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colManufactureNo.FieldName = "ManufactureNo";
             this.colManufactureNo.Name = "colManufactureNo";
+            this.colManufactureNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "ManufactureNo", "共计{0}条")});
             this.colManufactureNo.Visible = true;
             this.colManufactureNo.VisibleIndex = 0;
             this.colManufactureNo.Width = 160;

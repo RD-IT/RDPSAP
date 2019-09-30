@@ -340,12 +340,16 @@ namespace PSAP.BLL.BSBLL
             //1.获取TreeView的所有根节点
             Assembly a = Assembly.LoadFile(Application.ExecutablePath);//.net中的反射
             Type[] types = a.GetTypes();
+
+            DataTable formNameTable = BaseSQL.GetTableBySql("select FormName from BS_Menu where ISNULL(FormName, '') != '' group by FormName");
+
             Dictionary<string, Type> typeDict = new Dictionary<string, Type>();
             foreach (Type type in types)
             {
                 if (type.FullName.Contains("PSAP.VIEW.BSVIEW") && type.BaseType.Name == "DockContent")
                 {
-                    typeDict.Add(type.Name, type);
+                    if (formNameTable.Select(string.Format("FormName='{0}'", type.Name)).Length > 0)
+                        typeDict.Add(type.Name, type);
                 }
             }
 

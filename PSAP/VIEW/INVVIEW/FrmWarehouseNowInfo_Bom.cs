@@ -34,6 +34,8 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpRepertoryId.ItemIndex = 0;
                 SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
                 SearchLocationId.EditValue = 0;
+
+                repLookUpCatgName.DataSource = commonDAO.QueryPartNoCatg(false);
             }
             catch (Exception ex)
             {

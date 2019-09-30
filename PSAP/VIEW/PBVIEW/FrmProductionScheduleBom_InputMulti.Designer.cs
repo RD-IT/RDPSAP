@@ -106,9 +106,10 @@
             this.labDesc.Appearance.ForeColor = System.Drawing.Color.Red;
             this.labDesc.Location = new System.Drawing.Point(52, 158);
             this.labDesc.Name = "labDesc";
-            this.labDesc.Size = new System.Drawing.Size(280, 28);
+            this.labDesc.Size = new System.Drawing.Size(274, 14);
             this.labDesc.TabIndex = 13;
-            this.labDesc.Text = "(注：1 全部计划方式下，数量默认为设计Bom的数量\r\n       2 购买方式默认为物料基础信息的购买方式)";
+            this.labDesc.Tag = "(注：1 全部计划方式下，数量默认为设计Bom的数量";
+            this.labDesc.Text = "(注：全部计划方式下，数量默认为设计Bom的数量)";
             // 
             // labPlanDate
             // 

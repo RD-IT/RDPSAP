@@ -41,6 +41,8 @@
             this.textPbBomNo = new DevExpress.XtraEditors.TextEdit();
             this.labPbBomNo = new DevExpress.XtraEditors.LabelControl();
             this.pnlPSBomInfo = new DevExpress.XtraEditors.PanelControl();
+            this.labLevel = new DevExpress.XtraEditors.LabelControl();
+            this.radioLevel = new DevExpress.XtraEditors.RadioGroup();
             this.labDesc = new DevExpress.XtraEditors.LabelControl();
             this.labPlanDate = new DevExpress.XtraEditors.LabelControl();
             this.labType = new DevExpress.XtraEditors.LabelControl();
@@ -48,8 +50,6 @@
             this.labelRemainQty = new DevExpress.XtraEditors.LabelControl();
             this.spinRemainQty = new DevExpress.XtraEditors.SpinEdit();
             this.radioType = new DevExpress.XtraEditors.RadioGroup();
-            this.radioLevel = new DevExpress.XtraEditors.RadioGroup();
-            this.labLevel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottom)).BeginInit();
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlDesignBom)).BeginInit();
@@ -60,11 +60,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.textPbBomNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlPSBomInfo)).BeginInit();
             this.pnlPSBomInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radioLevel.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDate.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDate.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinRemainQty.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radioType.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radioLevel.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBottom
@@ -72,7 +72,7 @@
             this.pnlBottom.Controls.Add(this.btnCancel);
             this.pnlBottom.Controls.Add(this.BtnConfirm);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 305);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 205);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(544, 36);
             this.pnlBottom.TabIndex = 2;
@@ -85,7 +85,7 @@
             this.btnCancel.Location = new System.Drawing.Point(455, 7);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 15;
+            this.btnCancel.TabIndex = 7;
             this.btnCancel.TabStop = false;
             this.btnCancel.Text = "取消";
             // 
@@ -95,7 +95,7 @@
             this.BtnConfirm.Location = new System.Drawing.Point(374, 7);
             this.BtnConfirm.Name = "BtnConfirm";
             this.BtnConfirm.Size = new System.Drawing.Size(75, 23);
-            this.BtnConfirm.TabIndex = 13;
+            this.BtnConfirm.TabIndex = 6;
             this.BtnConfirm.Text = "确定";
             this.BtnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
             // 
@@ -201,22 +201,47 @@
             this.pnlPSBomInfo.LookAndFeel.UseDefaultLookAndFeel = false;
             this.pnlPSBomInfo.LookAndFeel.UseWindowsXPTheme = true;
             this.pnlPSBomInfo.Name = "pnlPSBomInfo";
-            this.pnlPSBomInfo.Size = new System.Drawing.Size(544, 220);
+            this.pnlPSBomInfo.Size = new System.Drawing.Size(544, 120);
             this.pnlPSBomInfo.TabIndex = 1;
             this.pnlPSBomInfo.TabStop = true;
+            // 
+            // labLevel
+            // 
+            this.labLevel.Location = new System.Drawing.Point(330, 247);
+            this.labLevel.Name = "labLevel";
+            this.labLevel.Size = new System.Drawing.Size(24, 14);
+            this.labLevel.TabIndex = 16;
+            this.labLevel.Text = "级别";
+            // 
+            // radioLevel
+            // 
+            this.radioLevel.EditValue = ((short)(0));
+            this.radioLevel.EnterMoveNextControl = true;
+            this.radioLevel.Location = new System.Drawing.Point(377, 240);
+            this.radioLevel.Name = "radioLevel";
+            this.radioLevel.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
+            this.radioLevel.Properties.Appearance.Options.UseBackColor = true;
+            this.radioLevel.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.radioLevel.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "本级别"),
+            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "所有下级")});
+            this.radioLevel.Size = new System.Drawing.Size(153, 29);
+            this.radioLevel.TabIndex = 15;
+            this.radioLevel.TabStop = false;
             // 
             // labDesc
             // 
             this.labDesc.Appearance.ForeColor = System.Drawing.Color.Red;
-            this.labDesc.Location = new System.Drawing.Point(64, 180);
+            this.labDesc.Location = new System.Drawing.Point(57, 197);
             this.labDesc.Name = "labDesc";
             this.labDesc.Size = new System.Drawing.Size(358, 14);
             this.labDesc.TabIndex = 14;
             this.labDesc.Text = "(注：物料基础信息如果设定为不购买，则不能修改上面的购买方式)";
+            this.labDesc.Visible = false;
             // 
             // labPlanDate
             // 
-            this.labPlanDate.Location = new System.Drawing.Point(47, 138);
+            this.labPlanDate.Location = new System.Drawing.Point(37, 70);
             this.labPlanDate.Name = "labPlanDate";
             this.labPlanDate.Size = new System.Drawing.Size(48, 14);
             this.labPlanDate.TabIndex = 8;
@@ -224,7 +249,7 @@
             // 
             // labType
             // 
-            this.labType.Location = new System.Drawing.Point(47, 38);
+            this.labType.Location = new System.Drawing.Point(57, 247);
             this.labType.Name = "labType";
             this.labType.Size = new System.Drawing.Size(48, 14);
             this.labType.TabIndex = 7;
@@ -234,7 +259,7 @@
             // 
             this.datePlanDate.EditValue = null;
             this.datePlanDate.EnterMoveNextControl = true;
-            this.datePlanDate.Location = new System.Drawing.Point(119, 135);
+            this.datePlanDate.Location = new System.Drawing.Point(109, 67);
             this.datePlanDate.Name = "datePlanDate";
             this.datePlanDate.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -245,11 +270,11 @@
             this.datePlanDate.Properties.EditFormat.FormatString = "yyyy-MM-dd";
             this.datePlanDate.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.datePlanDate.Size = new System.Drawing.Size(150, 20);
-            this.datePlanDate.TabIndex = 12;
+            this.datePlanDate.TabIndex = 5;
             // 
             // labelRemainQty
             // 
-            this.labelRemainQty.Location = new System.Drawing.Point(47, 88);
+            this.labelRemainQty.Location = new System.Drawing.Point(37, 31);
             this.labelRemainQty.Name = "labelRemainQty";
             this.labelRemainQty.Size = new System.Drawing.Size(48, 14);
             this.labelRemainQty.TabIndex = 5;
@@ -263,7 +288,7 @@
             0,
             0});
             this.spinRemainQty.EnterMoveNextControl = true;
-            this.spinRemainQty.Location = new System.Drawing.Point(119, 85);
+            this.spinRemainQty.Location = new System.Drawing.Point(109, 28);
             this.spinRemainQty.Name = "spinRemainQty";
             this.spinRemainQty.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -273,13 +298,13 @@
             0,
             0});
             this.spinRemainQty.Size = new System.Drawing.Size(150, 20);
-            this.spinRemainQty.TabIndex = 11;
+            this.spinRemainQty.TabIndex = 4;
             // 
             // radioType
             // 
             this.radioType.EditValue = ((short)(1));
             this.radioType.EnterMoveNextControl = true;
-            this.radioType.Location = new System.Drawing.Point(122, 31);
+            this.radioType.Location = new System.Drawing.Point(132, 240);
             this.radioType.Name = "radioType";
             this.radioType.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
             this.radioType.Properties.Appearance.Options.UseBackColor = true;
@@ -289,35 +314,13 @@
             new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "不购买")});
             this.radioType.Size = new System.Drawing.Size(137, 29);
             this.radioType.TabIndex = 10;
+            this.radioType.TabStop = false;
             this.radioType.SelectedIndexChanged += new System.EventHandler(this.radioType_SelectedIndexChanged);
-            // 
-            // radioLevel
-            // 
-            this.radioLevel.EditValue = ((short)(0));
-            this.radioLevel.EnterMoveNextControl = true;
-            this.radioLevel.Location = new System.Drawing.Point(367, 31);
-            this.radioLevel.Name = "radioLevel";
-            this.radioLevel.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
-            this.radioLevel.Properties.Appearance.Options.UseBackColor = true;
-            this.radioLevel.Properties.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.radioLevel.Properties.Items.AddRange(new DevExpress.XtraEditors.Controls.RadioGroupItem[] {
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(0)), "本级别"),
-            new DevExpress.XtraEditors.Controls.RadioGroupItem(((short)(1)), "所有下级")});
-            this.radioLevel.Size = new System.Drawing.Size(153, 29);
-            this.radioLevel.TabIndex = 15;
-            // 
-            // labLevel
-            // 
-            this.labLevel.Location = new System.Drawing.Point(320, 38);
-            this.labLevel.Name = "labLevel";
-            this.labLevel.Size = new System.Drawing.Size(24, 14);
-            this.labLevel.TabIndex = 16;
-            this.labLevel.Text = "级别";
             // 
             // FrmProductionScheduleBom_InputSingle
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(544, 341);
+            this.ClientSize = new System.Drawing.Size(544, 241);
             this.Controls.Add(this.pnlPSBomInfo);
             this.Controls.Add(this.pnlDesignBom);
             this.Controls.Add(this.pnlBottom);
@@ -341,11 +344,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlPSBomInfo)).EndInit();
             this.pnlPSBomInfo.ResumeLayout(false);
             this.pnlPSBomInfo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.radioLevel.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDate.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDate.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinRemainQty.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.radioType.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.radioLevel.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

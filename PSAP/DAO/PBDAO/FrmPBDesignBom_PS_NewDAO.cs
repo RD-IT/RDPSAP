@@ -119,7 +119,7 @@ namespace PSAP.DAO.PBDAO
         /// </summary>
         public void QueryDesignBomList(DataTable queryDataTable, int autoIdInt)
         {
-            string sqlStr = string.Format("select PB_DesignBomList.*, SW_PartsCode.CodeName, case when ParentId = 0 then MaterielNo else LevelMaterielNo end as CodeFileName from PB_DesignBomList left join SW_PartsCode on PB_DesignBomList.LevelMaterielNo = SW_PartsCode.CodeFileName where PB_DesignBomList.AutoId = {0}", autoIdInt);
+            string sqlStr = string.Format("select PB_DesignBomList.*, case when ParentId = 0 then pc1.CodeName else pc2.CodeName end as CodeName, case when ParentId = 0 then MaterielNo else LevelMaterielNo end as CodeFileName, case when ParentId = 0 then pc1.AutoId else pc2.AutoId end as CodeAutoId from PB_DesignBomList left join SW_PartsCode as pc1 on PB_DesignBomList.MaterielNo = pc1.CodeFileName left join SW_PartsCode as pc2 on PB_DesignBomList.LevelMaterielNo = pc2.CodeFileName where PB_DesignBomList.AutoId = {0}", autoIdInt);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -144,22 +144,22 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 保存设计Bom信息
         /// </summary>
-        public bool SaveDesignBom(string salesOrderNoStr, List<String> codeFileNameList, float qty)
+        public bool SaveDesignBom(string salesOrderNoStr, Dictionary<int, string> codeIdList, float qty, int isBuyInt)
         {
             bool result = false;
 
-            foreach (string codeFileName in codeFileNameList)
+            foreach (int codeId in codeIdList.Keys)
             {
-                string sqlStr = string.Format("select COUNT(*) from BS_BomMateriel where MaterielNo = '{0}'", codeFileName);
+                string sqlStr = string.Format("select Count(*) from BS_BomMateriel left join SW_PartsCode on BS_BomMateriel.MaterielNo = SW_PartsCode.CodeFileName where SW_PartsCode.AutoId = {0}                ", codeId);
                 int count = DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));
                 if (count == 0)//按照零件进行录入
                 {
-                    if (SaveDesignBom_PartsCode(salesOrderNoStr, codeFileName, qty))
+                    if (SaveDesignBom_PartsCode(salesOrderNoStr, codeId, codeIdList[codeId], qty, isBuyInt))
                         result = true;
                 }
                 else//按照Bom进行录入
                 {
-                    if (SaveDesignBom_Bom(salesOrderNoStr, codeFileName, qty))
+                    if (SaveDesignBom_Bom(salesOrderNoStr, codeId, codeIdList[codeId], qty, isBuyInt))
                         result = true;
                 }
             }
@@ -170,7 +170,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 保存设计Bom信息处理零件方法
         /// </summary>
-        private bool SaveDesignBom_PartsCode(string salesOrderNoStr, string codeFileNameStr, float qty)
+        private bool SaveDesignBom_PartsCode(string salesOrderNoStr, int codeIdInt, string codeFileNameStr, float qty, int isBuyInt)
         {
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -187,7 +187,7 @@ namespace PSAP.DAO.PBDAO
                         string logStr = string.Format("设计Bom信息增加零件[{0}]，数量为[{1}]。", codeFileNameStr, qty);
                         LogHandler.RecordLog(cmd, logStr);
 
-                        cmd.CommandText = string.Format("select * from PB_DesignBomList where SalesOrderNo = '{0}' and MaterielNo = '{1}' and RemainQty > 0 and ParentId = 0", salesOrderNoStr, codeFileNameStr);
+                        cmd.CommandText = string.Format("select * from PB_DesignBomList where SalesOrderNo = '{0}' and CodeId = {1} and RemainQty > 0 and ParentId = 0", salesOrderNoStr, codeIdInt);
                         DataTable bomMagTable = BaseSQL.GetTableBySql(cmd);
                         if (bomMagTable.Rows.Count > 0)//更新数量
                         {
@@ -224,15 +224,19 @@ namespace PSAP.DAO.PBDAO
                             p1.Value = salesOrderNoStr;
                             SqlParameter p2 = new SqlParameter("@PbBomNo", SqlDbType.VarChar);
                             p2.Value = pbBomNo;
-                            SqlParameter p3 = new SqlParameter("@CodeFileName", SqlDbType.VarChar);
-                            p3.Value = codeFileNameStr;
-                            SqlParameter p4 = new SqlParameter("@Qty", SqlDbType.Float);
-                            p4.Value = qty;
-                            SqlParameter p5 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            p5.Value = SystemInfo.user.EmpName;
-                            SqlParameter p6 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
-                            p6.Value = SystemInfo.HostIpAddress;
-                            IDataParameter[] parameters = new IDataParameter[] { p1, p2, p3, p4, p5, p6 };
+                            SqlParameter p3 = new SqlParameter("@CodeId", SqlDbType.Int);
+                            p3.Value = codeIdInt;
+                            SqlParameter p4 = new SqlParameter("@CodeFileName", SqlDbType.VarChar);
+                            p4.Value = codeFileNameStr;
+                            SqlParameter p5 = new SqlParameter("@Qty", SqlDbType.Float);
+                            p5.Value = qty;
+                            SqlParameter p6 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
+                            p6.Value = SystemInfo.user.EmpName;
+                            SqlParameter p7 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
+                            p7.Value = SystemInfo.HostIpAddress;
+                            SqlParameter p8 = new SqlParameter("@IsBuy", SqlDbType.Int);
+                            p8.Value = isBuyInt;
+                            IDataParameter[] parameters = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7, p8 };
                             BaseSQL.RunProcedure(cmd_proc, "P_DesignBom_Parts_Insert", parameters, out resultInt, out errorText);
                             if (resultInt != 1)
                             {
@@ -263,7 +267,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 保存设计Bom信息处理Bom方法
         /// </summary>
-        private bool SaveDesignBom_Bom(string salesOrderNoStr, string codeFileNameStr, float qty)
+        private bool SaveDesignBom_Bom(string salesOrderNoStr, int codeIdInt, string codeFileNameStr, float qty, int isBuyInt)
         {
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -282,7 +286,7 @@ namespace PSAP.DAO.PBDAO
                         string logStr = string.Format("设计Bom信息增加Bom[{0}]，数量为[{1}]。", codeFileNameStr, qty);
                         LogHandler.RecordLog(cmd, logStr);
 
-                        cmd.CommandText = string.Format("select * from PB_DesignBomList where SalesOrderNo = '{0}' and MaterielNo = '{1}' and RemainQty > 0 and ParentId = 0", salesOrderNoStr, codeFileNameStr);
+                        cmd.CommandText = string.Format("select * from PB_DesignBomList where SalesOrderNo = '{0}' and CodeId = {1} and RemainQty > 0 and ParentId = 0", salesOrderNoStr, codeIdInt);
                         DataTable bomMagTable = BaseSQL.GetTableBySql(cmd);
                         if (bomMagTable.Rows.Count > 0)//更新数量
                         {
@@ -319,15 +323,19 @@ namespace PSAP.DAO.PBDAO
                             p1.Value = salesOrderNoStr;
                             SqlParameter p2 = new SqlParameter("@PbBomNo", SqlDbType.VarChar);
                             p2.Value = pbBomNo;
-                            SqlParameter p3 = new SqlParameter("@CodeFileName", SqlDbType.VarChar);
-                            p3.Value = codeFileNameStr;
-                            SqlParameter p4 = new SqlParameter("@Qty", SqlDbType.Float);
-                            p4.Value = qty;
-                            SqlParameter p5 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            p5.Value = SystemInfo.user.EmpName;
-                            SqlParameter p6 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
-                            p6.Value = SystemInfo.HostIpAddress;
-                            IDataParameter[] insertParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6 };
+                            SqlParameter p3 = new SqlParameter("@CodeId", SqlDbType.Int);
+                            p3.Value = codeIdInt;
+                            SqlParameter p4 = new SqlParameter("@CodeFileName", SqlDbType.VarChar);
+                            p4.Value = codeFileNameStr;
+                            SqlParameter p5 = new SqlParameter("@Qty", SqlDbType.Float);
+                            p5.Value = qty;
+                            SqlParameter p6 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
+                            p6.Value = SystemInfo.user.EmpName;
+                            SqlParameter p7 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
+                            p7.Value = SystemInfo.HostIpAddress;
+                            SqlParameter p8 = new SqlParameter("@IsBuy", SqlDbType.Int);
+                            p8.Value = isBuyInt;
+                            IDataParameter[] insertParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7, p8 };
                             BaseSQL.RunProcedure(cmd_proc, "P_DesignBom_Bom_Insert", insertParas, out resultInt, out errorText);
                             if (resultInt != 1)
                             {
@@ -424,7 +432,15 @@ namespace PSAP.DAO.PBDAO
                         string errorText = "";
                         foreach (string pbBomNoStr in pbBomNoList)
                         {
-                            string logStr = string.Format("删除设计Bom中的信息[{0}]。", pbBomNoStr);
+                            cmd.CommandText = string.Format("select COUNT(*) from V_PB_ProductionPlanList_All where DesignBomListId in (select AutoId from PB_DesignBomList where PbBomNo = '{0}')", pbBomNoStr);
+                            if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0)
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox(string.Format("设计Bom信息[{0}]已经生成工单，不可以删除。", pbBomNoStr));
+                                return 0;
+                            }
+
+                            string logStr = string.Format("删除设计Bom信息[{0}]。", pbBomNoStr);
                             LogHandler.RecordLog(cmd, logStr);
 
                             SqlCommand cmd_proc = new SqlCommand("", conn, trans);
@@ -475,6 +491,14 @@ namespace PSAP.DAO.PBDAO
                         string pbBomNoStr = "";
                         foreach (string pbBomNo in pbBomNoList)
                         {
+                            cmd.CommandText = string.Format("select COUNT(*) from V_PB_ProductionPlanList_All where DesignBomListId in (select AutoId from PB_DesignBomList where PbBomNo = '{0}')", pbBomNoStr);
+                            if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0)
+                            {
+                                trans.Rollback();
+                                MessageHandler.ShowMessageBox(string.Format("设计Bom信息[{0}]已经生成工单，不可以停用。", pbBomNoStr));
+                                return false;
+                            }
+
                             string logStr = string.Format("设计Bom信息[{0}]停用。", pbBomNo);
                             LogHandler.RecordLog(cmd, logStr);
                             pbBomNoStr += string.Format("'{0}',", pbBomNo);
@@ -893,7 +917,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 新增工序信息
         /// </summary>
-        public bool Insert_WorkProcess(string salesOrderNo, string pbBomNo, int parentId, string parentCodeFileName, decimal parentQty, string workProcessNo, decimal Qty)
+        public bool Insert_WorkProcess(string salesOrderNo, string pbBomNo, int parentId, int parentCodeId, string parentCodeFileName, decimal parentQty, string workProcessNo, decimal Qty, int isBuyInt)
         {
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -904,7 +928,7 @@ namespace PSAP.DAO.PBDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
 
-                        cmd.CommandText = string.Format("select Count(*) from PB_DesignBomList where LevelMaterielNo = '{0}' and ParentId = {1}", workProcessNo, parentId);
+                        cmd.CommandText = string.Format("select Count(*) from PB_DesignBomList where IsNull(LevelCodeId, 0) = 0 and LevelMaterielNo = '{0}' and ParentId = {1}", workProcessNo, parentId);
                         if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0)
                         {
                             trans.Rollback();
@@ -913,7 +937,7 @@ namespace PSAP.DAO.PBDAO
                         }
 
                         decimal totalQty = parentQty * Qty;
-                        cmd.CommandText = string.Format("Insert Into PB_DesignBomList(SalesOrderNo, PbBomNo, MaterielNo, LevelMaterielNo, Qty, TotalQty, IsAbsorbed, AbsorbedQty, RemainQty, GetTime, ParentId, IsAll, HasLevel, IsUse, Prepared, PreparedIp, IsMaterial) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, 0, 0, {5}, GETDATE(), {6}, 0, 0, 1, '{7}', '{8}', 2)", salesOrderNo, pbBomNo, parentCodeFileName, workProcessNo, Qty, totalQty, parentId, SystemInfo.user.EmpName, SystemInfo.HostIpAddress);
+                        cmd.CommandText = string.Format("Insert Into PB_DesignBomList(SalesOrderNo, PbBomNo, MaterielNo, LevelMaterielNo, Qty, TotalQty, IsAbsorbed, AbsorbedQty, RemainQty, GetTime, ParentId, IsAll, HasLevel, IsUse, Prepared, PreparedIp, IsMaterial, CodeId, LevelCodeId, IsBuy) values('{0}', '{1}', '{2}', '{3}', {4}, {5}, 0, 0, {5}, GETDATE(), {6}, 0, 0, 1, '{7}', '{8}', 2, {9}, Null, {10})", salesOrderNo, pbBomNo, parentCodeFileName, workProcessNo, Qty, totalQty, parentId, SystemInfo.user.EmpName, SystemInfo.HostIpAddress, parentCodeId, isBuyInt);
                         cmd.ExecuteNonQuery();
 
                         string logStr = string.Format("新增制作Bom工序信息：[制作Bom编号]的值[{0}]，[工序名称]的值[{1}]，[数量]的值[{2}]。", pbBomNo, workProcessNo, Qty);
@@ -1008,6 +1032,5 @@ namespace PSAP.DAO.PBDAO
                 }
             }
         }
-
     }
 }

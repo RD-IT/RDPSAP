@@ -10,6 +10,7 @@ using PSAP.BLL.BSBLL;
 using PSAP.VIEW.BSVIEW;
 using PSAP.PSAPCommon;
 using System.Configuration;
+using System.Threading;
 
 namespace PSAP
 {
@@ -87,7 +88,7 @@ namespace PSAP
                 EncryptMD5 en = new EncryptMD5(txtPassword.Text);//实例化EncryptMD5, 加密后值引用en.str2
                 if (FrmLoginBLL.CheckUser(txtUserID.Text, en.str2, cboLanguage))// en.str2为加密后密码
                 {
-                    if(SystemInfo.user.IsDisable == 1)
+                    if (SystemInfo.user.IsDisable == 1)
                     {
                         MessageHandler.ShowMessageBox("当前用户已经停用，不可以登陆系统。");
                         txtUserID.Focus();
@@ -114,6 +115,10 @@ namespace PSAP
                     // cfa.AppSettings.Settings["last"].Value = "111";
                     //            cfa.Save();
 
+
+                    Thread formThread = new Thread(ThreadInitializeForm);
+                    formThread.Start();
+
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -134,7 +139,6 @@ namespace PSAP
             FrmChangePassword f = new FrmChangePassword(txtUserID.Text.Trim());
             f.ShowDialog();
             txtUserID.Focus();
-
         }
 
         private void FrmLogin_Load(object sender, EventArgs e)
@@ -166,6 +170,24 @@ namespace PSAP
             }
         }
 
-
+        /// <summary>
+        /// 单独线程初始化第一次加载速度慢的窗体
+        /// </summary>
+        private void ThreadInitializeForm()
+        {
+            using (FrmRight_UserMenuButton userForm = new FrmRight_UserMenuButton())
+            {
+                userForm.FormBorderStyle = FormBorderStyle.None;
+                userForm.TopLevel = false;
+                userForm.Dock = DockStyle.Fill;
+                DevExpress.XtraEditors.PanelControl pnl = new DevExpress.XtraEditors.PanelControl();
+                pnl.Visible = false;
+                pnl.Controls.Add(userForm);
+                userForm.Show();
+                userForm.FrmRight_UserMenuButton_Load(null, null);
+                userForm.Dispose();
+                pnl.Dispose();
+            }
+        }
     }
 }

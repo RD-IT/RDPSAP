@@ -533,7 +533,7 @@
             this.labCodeFileName.Name = "labCodeFileName";
             this.labCodeFileName.Size = new System.Drawing.Size(60, 14);
             this.labCodeFileName.TabIndex = 35;
-            this.labCodeFileName.Text = "物料名称：";
+            this.labCodeFileName.Text = "零件名称：";
             // 
             // labProjectNo
             // 

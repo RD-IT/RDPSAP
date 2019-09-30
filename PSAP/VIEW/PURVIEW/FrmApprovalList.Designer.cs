@@ -199,6 +199,8 @@
             this.colTypeNo.Name = "colTypeNo";
             this.colTypeNo.OptionsColumn.AllowEdit = false;
             this.colTypeNo.OptionsColumn.TabStop = false;
+            this.colTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "TypeNo", "共计{0}条")});
             this.colTypeNo.Visible = true;
             this.colTypeNo.VisibleIndex = 0;
             this.colTypeNo.Width = 120;

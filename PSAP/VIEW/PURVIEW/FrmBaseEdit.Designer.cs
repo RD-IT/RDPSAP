@@ -70,6 +70,7 @@
             // 
             // btnSaveExcel
             // 
+            this.btnSaveExcel.AllowFocus = false;
             this.btnSaveExcel.Location = new System.Drawing.Point(415, 9);
             this.btnSaveExcel.Name = "btnSaveExcel";
             this.btnSaveExcel.Size = new System.Drawing.Size(75, 23);
@@ -80,6 +81,7 @@
             // 
             // btnRefresh
             // 
+            this.btnRefresh.AllowFocus = false;
             this.btnRefresh.Location = new System.Drawing.Point(334, 9);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
@@ -90,6 +92,7 @@
             // 
             // btnDelete
             // 
+            this.btnDelete.AllowFocus = false;
             this.btnDelete.Location = new System.Drawing.Point(253, 9);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
@@ -100,6 +103,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.AllowFocus = false;
             this.btnCancel.Location = new System.Drawing.Point(172, 9);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -110,6 +114,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.AllowFocus = false;
             this.btnSave.Location = new System.Drawing.Point(91, 9);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
@@ -120,6 +125,7 @@
             // 
             // btnNew
             // 
+            this.btnNew.AllowFocus = false;
             this.btnNew.Location = new System.Drawing.Point(10, 9);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(75, 23);
@@ -130,6 +136,7 @@
             // 
             // btnCollapse
             // 
+            this.btnCollapse.AllowFocus = false;
             this.btnCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCollapse.Image = ((System.Drawing.Image)(resources.GetObject("btnCollapse.Image")));
             this.btnCollapse.Location = new System.Drawing.Point(1056, 9);
@@ -142,6 +149,7 @@
             // 
             // btnExpand
             // 
+            this.btnExpand.AllowFocus = false;
             this.btnExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExpand.Image = ((System.Drawing.Image)(resources.GetObject("btnExpand.Image")));
             this.btnExpand.Location = new System.Drawing.Point(1024, 9);

@@ -1,17 +1,16 @@
 ﻿using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
-using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using DevExpress.XtraTreeList;
+using DevExpress.XtraTreeList.Nodes;
 using PSAP.DAO.BSDAO;
 using PSAP.DAO.INVDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -47,6 +46,11 @@ namespace PSAP.VIEW.BSVIEW
         //GridHitInfo GriddownHitInfo = null;
 
         /// <summary>
+        /// 拖动Tree区域的信息
+        /// </summary>
+        TreeListHitInfo downHitInfo = null;
+
+        /// <summary>
         /// 控件锁
         /// </summary>
         bool isLockControl = false;
@@ -66,6 +70,8 @@ namespace PSAP.VIEW.BSVIEW
 
         #endregion
 
+        #region 窗体事件
+
         /// <summary>
         /// 窗体加载事件
         /// </summary>
@@ -81,6 +87,9 @@ namespace PSAP.VIEW.BSVIEW
                 dateWRDateEnd.DateTime = nowDate.Date;
 
                 DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
+                DataTable manufactureInfo_f = commonDAO.QueryManufactureInfo(false);
+                DataTable projectNo_f = commonDAO.QueryProjectList(false);
+                DataTable codeIdInfoTable_f = commonDAO.QueryPartsCode(false);
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
@@ -95,7 +104,7 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
                 lookUpApprover.Properties.DataSource = userInfoTable_t;
                 lookUpApprover.ItemIndex = -1;
-                lookUpManufactureNo.Properties.DataSource = wrDAO.QueryManufactureInfo(true);
+                lookUpManufactureNo.Properties.DataSource = commonDAO.QueryManufactureInfo(true);
                 lookUpManufactureNo.ItemIndex = 0;
 
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -103,11 +112,22 @@ namespace PSAP.VIEW.BSVIEW
                 repSearchRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 repLookUpWRTypeNo.DataSource = wrDAO.QueryWarehouseReceiptType(false);
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
-                repLookUpManufactureNo.DataSource = wrDAO.QueryManufactureInfo(false);
+                repLookUpManufactureNo.DataSource = manufactureInfo_f;
 
-                repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
+                repSearchCodeFileName.DataSource = codeIdInfoTable_f;
                 repSearchShelfId.DataSource = commonDAO.QueryShelfInfo(false);
-                repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                repSearchProjectNo.DataSource = projectNo_f;
+
+                datePlanDateBegin.DateTime = dateWRDateBegin.DateTime;
+                datePlanDateEnd.DateTime = dateWRDateEnd.DateTime;
+                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                searchLookUpProjectNo.Text = "全部";
+
+                //repLookUpManufactureNo.DataSource = manufactureInfo_f;
+                repItemSearchProjectNo.DataSource = projectNo_f;
+                //repLookUpCreator.DataSource = userInfoTable_t;
+
+                repLookUpCodeId.DataSource = codeIdInfoTable_f;
 
                 if (textCommon.Text == "")
                 {
@@ -117,8 +137,14 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (SystemInfo.DisableProjectNo)
                 {
+                    btnOrderQuery.Location = new Point(243, 13);
+                    pnlLeftTop.Height = 80;
+
+                    labProjectNo.Visible = false;
+                    searchLookUpProjectNo.Visible = false;
                     colProjectName.Visible = false;
                     colStnNo.Visible = false;
+                    gridColumProjectNo.Visible = false;
                 }
 
                 if (SystemInfo.DisableShelfInfo)
@@ -155,7 +181,7 @@ namespace PSAP.VIEW.BSVIEW
 
                     dataSet_WR.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], "", "", "", 0, 0,"", "", 0, "", -1, textCommon.Text, false);
+                    wrDAO.QueryWarehouseReceiptHead(dataSet_WR.Tables[0], "", "", "", 0, 0, "", "", 0, "", -1, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_WR.Tables[0].Rows.Count > 0)
@@ -178,9 +204,14 @@ namespace PSAP.VIEW.BSVIEW
         private void FrmWarehouseReceipt_Shown(object sender, EventArgs e)
         {
             pnlMiddle.Height = (this.Height - pnltop.Height) / 2;
+            pnlLeftMiddle.Height = gridControlWRHead.Height - 17;
 
             dockPnlLeft.Width = SystemInfo.DragForm_LeftDock_Width;
         }
+
+        #endregion
+
+        #region 右侧材料出库单模块的相关事件和方法
 
         /// <summary>
         /// 删除选项
@@ -221,7 +252,7 @@ namespace PSAP.VIEW.BSVIEW
                 string wrTypeNoStr = lookUpWarehouseReceiptTypeNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpWarehouseReceiptTypeNo.EditValue) : "";
                 string manufactureNoStr = lookUpManufactureNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpManufactureNo.EditValue) : "";
 
-                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text); 
+                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
                 string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
                 int approverInt = -1;
                 if (lookUpApprover.ItemIndex == 0)
@@ -311,6 +342,22 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     string projectNoStr = DataTypeConvert.GetString(gridViewWRList.GetFocusedDataRow()["ProjectNo"]);
                     BingStnListComboBox(projectNoStr);
+
+                    if (!btnApprove.Enabled && DataTypeConvert.GetInt(gridViewWRList.GetFocusedDataRow()["ProductionPlanListId"]) == 0)
+                    {
+                        colCodeFileName.OptionsColumn.AllowEdit = true;
+                        colProjectName.OptionsColumn.AllowEdit = true;
+                    }
+                    else
+                    {
+                        colCodeFileName.OptionsColumn.AllowEdit = false;
+                        colProjectName.OptionsColumn.AllowEdit = false;
+                    }
+                }
+                else
+                {
+                    colCodeFileName.OptionsColumn.AllowEdit = false;
+                    colProjectName.OptionsColumn.AllowEdit = false;
                 }
             }
             catch (Exception ex)
@@ -566,7 +613,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (gridViewWRHead.GetFocusedDataRow() != null)
                     wrDAO.QueryWarehouseReceiptList(dataSet_WR.Tables[1], DataTypeConvert.GetString(gridViewWRHead.GetFocusedDataRow()["WarehouseReceipt"]), false);
 
-                //gridViewOrderHead_FocusedRowChanged(sender, null);
+                gridViewProductionPlan_FocusedRowChanged(sender, null);
             }
             catch (Exception ex)
             {
@@ -925,7 +972,13 @@ namespace PSAP.VIEW.BSVIEW
                         return;
                     }
                 }
+
+                int ppListIdInt = 0;
+                if (gridViewWRList.GetFocusedDataRow() != null)
+                    ppListIdInt = DataTypeConvert.GetInt(gridViewWRList.GetFocusedDataRow()["ProductionPlanListId"]);
                 gridViewWRList.DeleteRow(gridViewWRList.FocusedRowHandle);
+                if (ppListIdInt > 0)
+                    gridViewProductionPlan_FocusedRowChanged(sender, null);
             }
             catch (Exception ex)
             {
@@ -937,7 +990,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 主表单元格值变化进行的操作
         /// </summary>
-        private void gridViewWRHead_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        private void gridViewWRHead_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             try
             {
@@ -1007,7 +1060,7 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 子表单元格值变化进行的操作
         /// </summary>
-        private void gridViewWRList_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        private void gridViewWRList_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             try
             {
@@ -1016,13 +1069,17 @@ namespace PSAP.VIEW.BSVIEW
                     case "CodeFileName":
                         string tmpStr = DataTypeConvert.GetString(gridViewWRList.GetDataRow(e.RowHandle)["CodeFileName"]);
                         if (tmpStr == "")
+                        {
+                            gridViewWRList.SetRowCellValue(e.RowHandle, "CodeId", null);
                             gridViewWRList.SetRowCellValue(e.RowHandle, "CodeName", "");
+                        }
                         else
                         {
                             DataTable temp = (DataTable)repSearchCodeFileName.DataSource;
                             DataRow[] drs = temp.Select(string.Format("CodeFileName='{0}'", tmpStr));
                             if (drs.Length > 0)
                             {
+                                gridViewWRList.SetRowCellValue(e.RowHandle, "CodeId", DataTypeConvert.GetInt(drs[0]["AutoId"]));
                                 gridViewWRList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));
                             }
                         }
@@ -1097,7 +1154,7 @@ namespace PSAP.VIEW.BSVIEW
             GridView gridView = edit.Properties.View as GridView;
 
             gridView.ActiveFilterString = string.Format("{0} = {1}", fieldNameStr, DataTypeConvert.GetInt(gridViewWRHead.GetFocusedDataRow()[gridColumnNameStr]));
-            gridView.OptionsView.ShowFilterPanelMode = ShowFilterPanelMode.Never;
+            gridView.OptionsView.ShowFilterPanelMode = DevExpress.XtraGrid.Views.Base.ShowFilterPanelMode.Never;
 
             MethodInfo mi = gridView.GetType().GetMethod("ApplyColumnsFilterEx", BindingFlags.NonPublic | BindingFlags.Instance);
             mi.Invoke(gridView, null);
@@ -1217,12 +1274,14 @@ namespace PSAP.VIEW.BSVIEW
             colManufactureNo.OptionsColumn.AllowEdit = ret;
             colRemark1.OptionsColumn.AllowEdit = ret;
 
-            colCodeFileName.OptionsColumn.AllowEdit = ret;
+            //colCodeFileName.OptionsColumn.AllowEdit = ret;
+            //colProjectName.OptionsColumn.AllowEdit = ret;
             colQty.OptionsColumn.AllowEdit = ret;
             colShelfId.OptionsColumn.AllowEdit = ret;
-            colProjectName.OptionsColumn.AllowEdit = ret;
             colStnNo.OptionsColumn.AllowEdit = ret;
             colRemark.OptionsColumn.AllowEdit = ret;
+
+            gridViewWRList_FocusedRowChanged(null, null);
 
             repbtnDelete.Buttons[0].Enabled = ret;
             repCheckSelect.ReadOnly = ret;
@@ -1372,6 +1431,308 @@ namespace PSAP.VIEW.BSVIEW
             onlySelectColChangeRowState = false;
         }
 
-        
+        #endregion
+
+        #region 左侧工单模块的相关事件和方法
+
+        /// <summary>
+        /// 确定行号
+        /// </summary>
+        private void treeProductionPlanList_CustomDrawNodeIndicator(object sender, CustomDrawNodeIndicatorEventArgs e)
+        {
+            ControlHandler.TreeList_CustomDrawNodeIndicator_RootNode(sender, e);
+        }
+
+        /// <summary>
+        /// 查询工单事件
+        /// </summary>
+        private void btnOrderQuery_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                if (datePlanDateBegin.EditValue == null || datePlanDateEnd.EditValue == null)
+                {
+                    MessageHandler.ShowMessageBox("计划日期不能为空，请设置后重新进行查询。");
+                    if (datePlanDateBegin.EditValue == null)
+                        datePlanDateBegin.Focus();
+                    else
+                        datePlanDateEnd.Focus();
+                    return;
+                }
+                string planNoStr = textPlanNo.Text.Trim();
+                string reqDateBeginStr = datePlanDateBegin.DateTime.ToString("yyyy-MM-dd");
+                string reqDateEndStr = datePlanDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
+                string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
+
+                dataSet_ProductionPlan.Tables[0].Clear();
+                dataSet_ProductionPlan.Tables[1].Clear();
+                wrDAO.QueryProductionPlan(dataSet_ProductionPlan.Tables[0], planNoStr, reqDateBeginStr, reqDateEndStr, projectNoStr, "");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--查询工单事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 聚焦查询工单明细事件
+        /// </summary>
+        private void gridViewProductionPlan_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            try
+            {
+                if (gridViewProductionPlan.GetFocusedDataRow() != null && sender != null)
+                {
+                    dataSet_ProductionPlan.Tables[1].Clear();
+                    wrDAO.QueryProductionPlanList(dataSet_ProductionPlan.Tables[1], DataTypeConvert.GetString(gridViewProductionPlan.GetFocusedDataRow()["PlanNo"]));
+                    ClearAlreadyDragPPList();
+
+                    treeProductionPlanList.ExpandAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--聚焦查询工单明细事件错误。", ex);
+            }
+        }
+
+        #region 拖出
+
+        /// <summary>
+        /// 在TreeList中按下鼠标事件
+        /// </summary>
+        private void treeListDesignBom_MouseDown(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                TreeList treelist = sender as TreeList;
+                downHitInfo = null;
+                TreeListHitInfo hitInfo = treelist.CalcHitInfo(new Point(e.X, e.Y));
+
+                if (Control.ModifierKeys != Keys.None)
+                    return;
+                if (e.Button == MouseButtons.Left)
+                {
+                    downHitInfo = hitInfo;
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    TreeListNode node = hitInfo.Node;
+
+                    node.Checked = !node.Checked;
+                    ControlHandler.SetCheckedChildNodes(node, node.CheckState);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--在TreeList中按下鼠标事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 在TreeList中移动鼠标事件
+        /// </summary>
+        private void treeListDesignBom_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                TreeList treelist = sender as TreeList;
+                if (e.Button == MouseButtons.Left && downHitInfo != null)
+                {
+                    if (treelist.Selection.Count == 0)
+                        return;
+
+                    Size dragSize = SystemInformation.DragSize;
+                    Rectangle dragRect = new Rectangle(new Point(downHitInfo.MousePoint.X - dragSize.Width / 2,
+                        downHitInfo.MousePoint.Y - dragSize.Height / 2), dragSize);
+
+                    if (!dragRect.Contains(new Point(e.X, e.Y)))
+                    {
+                        List<TreeListNode> nodes = new List<TreeListNode>();
+                        foreach (TreeListNode checkNode in treelist.GetAllCheckedNodes())
+                        {
+                            if (DataTypeConvert.GetDouble(checkNode["Overplus"]) <= 0)
+                                continue;
+
+                            nodes.Add(checkNode);
+                        }
+                        if (nodes.Count > 0)
+                        {
+                            treelist.DoDragDrop(nodes, DragDropEffects.Move);
+                            downHitInfo = null;
+                            DevExpress.Utils.DXMouseEventArgs.GetMouseArgs(e).Handled = true;
+                        }
+                        else if (treelist.GetAllCheckedNodes().Count > 0 && nodes.Count == 0)
+                        {
+                            MessageHandler.ShowMessageBox("选择工单列表明细的剩余数量必须大于零。");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--在TreeList中移动鼠标事件错误。", ex);
+            }
+        }
+
+        #endregion
+
+        #region 拖入
+
+        /// <summary>
+        /// 拖拽在GridControl上面
+        /// </summary>
+        private void gridControlWRHead_DragOver(object sender, DragEventArgs e)
+        {
+            TreeList treelist = sender as TreeList;
+            if (treelist != null)
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+        }
+
+        /// <summary>
+        /// 拖拽进入到GridControl控件
+        /// </summary>
+        private void gridControlWRHead_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        /// <summary>
+        /// 实现拖拽工单事件
+        /// </summary>
+        private void gridControlWRHead_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                List<TreeListNode> nodes = e.Data.GetData(typeof(List<TreeListNode>)) as List<TreeListNode>;
+                if (nodes != null)
+                {
+                    PPToWR_DragOrder(sender, nodes);
+                    ClearAlreadyDragPPList();
+
+                    checkPPList.Checked = false;
+                    treeProductionPlanList.UncheckAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--实现拖拽采购订单事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 拖拽工单转成材料出库单
+        /// </summary>
+        private void PPToWR_DragOrder(object sender, List<TreeListNode> nodes)
+        {
+            if (!whDAO.IsNewWarehouseOrder())
+                return;
+
+            DataRow headRow = gridViewProductionPlan.GetFocusedDataRow();
+
+            if (btnApprove.Enabled)
+            {
+                ClearHeadGridAllSelect();
+                gridViewWRHead.AddNewRow();
+                FocusedHeadView("RepertoryId");
+
+                gridViewWRHead.SetFocusedRowCellValue("WarehouseReceiptDate", BaseSQL.GetServerDateTime());
+                gridViewWRHead.SetFocusedRowCellValue("ReqDep", SystemInfo.user.DepartmentNo);
+                gridViewWRHead.SetFocusedRowCellValue("WarehouseReceiptTypeNo", wwDAO.Get_WarehouseType_TypeNo("BS_WarehouseReceiptType", "WarehouseReceiptTypeNo"));
+                gridViewWRHead.SetFocusedRowCellValue("Prepared", SystemInfo.user.EmpName);
+                gridViewWRHead.SetFocusedRowCellValue("WarehouseState", 1);
+
+                dataSet_WR.Tables[1].Clear();
+
+                foreach (TreeListNode node in nodes)
+                {
+                    gridViewWRList.AddNewRow();
+                    gridViewWRList.SetFocusedRowCellValue("WarehouseReceipt", gridViewWRHead.GetFocusedDataRow()["WarehouseReceipt"]);
+                    gridViewWRList.SetFocusedRowCellValue("PlanNo", node["PlanNo"]);
+                    gridViewWRList.SetFocusedRowCellValue("CodeId", node["CodeId"]);
+                    gridViewWRList.SetFocusedRowCellValue("CodeFileName", node["CodeFileName"]);
+                    gridViewWRList.SetFocusedRowCellValue("CodeName", node["CodeName"]);
+                    gridViewWRList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(node["Overplus"]));
+                    gridViewWRList.SetFocusedRowCellValue("ProjectNo", headRow["ProjectNo"]);
+                    gridViewWRList.SetFocusedRowCellValue("ProjectName", headRow["ProjectName"]);
+                    gridViewWRList.SetFocusedRowCellValue("ProductionPlanListId", node["AutoId"]);
+                    //gridViewWRList.SetFocusedRowCellValue("OrderHeadNo", headRow["OrderHeadNo"]);
+                }
+                //FocusedListView(false, "Qty", gridViewWRList.GetFocusedDataSourceRowIndex());
+                FocusedListView(false, "Qty", 0);
+                gridViewWRList.RefreshData();
+
+                SetButtonAndColumnState(true);
+                headFocusedLineNo = gridViewWRHead.DataRowCount;
+            }
+            else
+            {
+                if (dataSet_WR.Tables[1].Rows.Count > 0)
+                {
+                    if (DataTypeConvert.GetString(dataSet_WR.Tables[1].Rows[0]["ProjectName"]) != DataTypeConvert.GetString(headRow["ProjectName"]))
+                    {
+                        MessageHandler.ShowMessageBox("一张出库单只允许相同的项目号进行登记。");
+                        return;
+                    }
+                }
+
+                foreach (TreeListNode node in nodes)
+                {
+                    if (dataSet_WR.Tables[1].Select(string.Format("ProductionPlanListId={0}", DataTypeConvert.GetString(node["AutoId"]))).Length > 0)
+                        continue;
+                    gridViewWRList.AddNewRow();
+                    gridViewWRList.SetFocusedRowCellValue("WarehouseReceipt", gridViewWRHead.GetFocusedDataRow()["WarehouseReceipt"]);
+                    gridViewWRList.SetFocusedRowCellValue("PlanNo", node["PlanNo"]);
+                    gridViewWRList.SetFocusedRowCellValue("CodeId", node["CodeId"]);
+                    gridViewWRList.SetFocusedRowCellValue("CodeFileName", node["CodeFileName"]);
+                    gridViewWRList.SetFocusedRowCellValue("CodeName", node["CodeName"]);
+                    gridViewWRList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(node["Overplus"]));
+                    gridViewWRList.SetFocusedRowCellValue("ProjectNo", headRow["ProjectNo"]);
+                    gridViewWRList.SetFocusedRowCellValue("ProjectName", headRow["ProjectName"]);
+                    gridViewWRList.SetFocusedRowCellValue("ProductionPlanListId", node["AutoId"]);
+                }
+
+                gridViewWRList.FocusedRowHandle = gridViewWRList.DataRowCount;
+                FocusedListView(false, "Qty", gridViewWRList.GetFocusedDataSourceRowIndex());
+                gridViewWRList.RefreshData();
+            }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 选择工单明细
+        /// </summary>
+        private void checkPPList_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkPPList.Checked)
+            {
+                treeProductionPlanList.CheckAll();
+            }
+            else
+            {
+                treeProductionPlanList.UncheckAll();
+            }
+        }
+
+        /// <summary>
+        /// 清空已经拖拽的采购订单明细
+        /// </summary>
+        private void ClearAlreadyDragPPList()
+        {
+            for (int i = dataSet_ProductionPlan.Tables[1].Rows.Count - 1; i >= 0; i--)
+            {
+                if (dataSet_WR.Tables[1].Select(string.Format("ProductionPlanListId={0}", DataTypeConvert.GetString(dataSet_ProductionPlan.Tables[1].Rows[i]["AutoId"]))).Length > 0)
+                    dataSet_ProductionPlan.Tables[1].Rows.RemoveAt(i);
+            }
+        }
+
+        #endregion
+
     }
 }

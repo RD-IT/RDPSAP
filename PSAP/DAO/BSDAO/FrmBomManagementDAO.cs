@@ -65,6 +65,16 @@ namespace PSAP.DAO.BSDAO
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
+        ///// <summary>
+        ///// 查询Bom子表信息
+        ///// </summary>
+        //public void QueryBomMateriel(DataTable queryDataTable, int codeIdInt)
+        //{
+        //    string sqlStr = string.Format("1=1 and pc1.AutoId = {0}", codeIdInt);
+        //    sqlStr = string.Format("select bom.*, pc2.AutoId as LevelCodeId, pc2.CodeName as LevelCodeName from BS_BomMateriel as bom left join SW_PartsCode as pc1 on bom.MaterielNo = pc1.CodeFileName left join SW_PartsCode as pc2 on bom.LevelMaterielNo = pc2.CodeFileName where {0} order by bom.AutoId", sqlStr);
+        //    BaseSQL.Query(sqlStr, queryDataTable);
+        //}
+
         /// <summary>
         /// 查询Bom的树形基本信息
         /// </summary>

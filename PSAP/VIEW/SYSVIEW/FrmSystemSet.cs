@@ -172,6 +172,18 @@ namespace PSAP.VIEW.BSVIEW
             else
                 checkWWApplyBeyondCountIsSave.Checked = false;
 
+            tmpStr = GetValue("Purchase", "PrListDistributionMessage");
+            if (tmpStr != "")
+                checkPrListDistributionMessage.EditValue = tmpStr;
+            else
+                checkPrListDistributionMessage.Checked = false;
+
+            tmpStr = GetValue("Purchase", "PrListDistributionAllHandle");
+            if (tmpStr != "")
+                checkPrListDistributionAllHandle.EditValue = tmpStr;
+            else
+                checkPrListDistributionAllHandle.Checked = false;
+
             #endregion
 
             #region 库存
@@ -188,6 +200,12 @@ namespace PSAP.VIEW.BSVIEW
             else
                 checkWWIsAlterDate.Checked = false;
 
+            tmpStr = GetValue("Warehouse", "PPApplyBeyondCountIsSave");
+            if (tmpStr != "")
+                checkPPApplyBeyondCountIsSave.EditValue = tmpStr;
+            else
+                checkPPApplyBeyondCountIsSave.Checked = false;
+            
             tmpStr = GetValue("Warehouse", "WRIsAlterDate");
             if (tmpStr != "")
                 checkWRIsAlterDate.EditValue = tmpStr;
@@ -287,11 +305,14 @@ namespace PSAP.VIEW.BSVIEW
                 SetValue("Purchase", "OrderNoWarehousingDays", DataTypeConvert.GetString(spinOrderNoWarehousingDays.Value));
                 SetValue("Purchase", "PrReqApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrReqApplyBeyondCountIsSave.EditValue)));
                 SetValue("Purchase", "WWApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWApplyBeyondCountIsSave.EditValue)));
+                SetValue("Purchase", "PrListDistributionMessage", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrListDistributionMessage.EditValue)));
+                SetValue("Purchase", "PrListDistributionAllHandle", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPrListDistributionAllHandle.EditValue)));
                 #endregion
-
+                
                 #region 库存
                 SetValue("Warehouse", "OrderApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkOrderApplyBeyondCountIsSave.EditValue)));
                 SetValue("Warehouse", "WWIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWWIsAlterDate.EditValue)));
+                SetValue("Warehouse", "PPApplyBeyondCountIsSave", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkPPApplyBeyondCountIsSave.EditValue)));
                 SetValue("Warehouse", "WRIsAlterDate", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkWRIsAlterDate.EditValue)));
                 SetValue("Warehouse", "DisableProjectNo", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkDisableProjectNo.EditValue)));
                 SetValue("Warehouse", "DisableShelfInfo", DataTypeConvert.GetString(DataTypeConvert.GetInt(checkDisableShelfInfo.EditValue)));

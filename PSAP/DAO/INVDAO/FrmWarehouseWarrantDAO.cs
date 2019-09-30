@@ -260,11 +260,12 @@ namespace PSAP.DAO.INVDAO
                         adapterHead.Fill(tmpHeadTable);
                         BaseSQL.UpdateDataTable(adapterHead, wwHeadRow.Table.GetChanges());
 
+                        DataTable copyTable = wwListTable.GetChanges();
                         cmd.CommandText = "select * from INV_WarehouseWarrantList where 1=2";
                         SqlDataAdapter adapterList = new SqlDataAdapter(cmd);
                         DataTable tmpListTable = new DataTable();
                         adapterList.Fill(tmpListTable);
-                        BaseSQL.UpdateDataTable(adapterList, wwListTable.GetChanges());                        
+                        BaseSQL.UpdateDataTable(adapterList, copyTable);
 
                         if (whDAO.SaveUpdate_WarehouseNowInfo(conn, trans, cmd, wwHeadRow, wwListTable.Copy(), wwNoStr, dbListTable, "入库单", "入库", true) != 1)
                             return 0;
@@ -282,13 +283,12 @@ namespace PSAP.DAO.INVDAO
 
                             wwHeadRow["WarehouseState"] = 2;
                         }
-                        
-                        wwListTable.AcceptChanges();
 
-                        Set_OrderHead_End(cmd, wwListTable);
+                        Set_OrderHead_End(cmd, copyTable);
 
                         trans.Commit();
                         wwHeadRow.Table.AcceptChanges();
+                        wwListTable.AcceptChanges();
 
                         return 1;
                     }

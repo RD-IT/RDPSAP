@@ -339,6 +339,15 @@ namespace PSAP.DAO.PURDAO
         }
 
         /// <summary>
+        /// 查询工单信息
+        /// </summary>
+        public void QueryProductionPlan(DataTable queryDataTable, string planNoStr)
+        {
+            string sqlStr = string.Format("select Head.AutoId, Head.PlanNo as OrderHeadNo, Head.Currentdatetime as OrderHeadDate, '' as ReqDep, Head.CurrentStatus as ReqState, Head.ApprovalType, PUR_ApprovalType.TypeNoText, PUR_ApprovalType.ApprovalCat, Head.PlanNo, Head.CurrentStatus from PB_ProductionPlan as Head left join PUR_ApprovalType on Head.ApprovalType = PUR_ApprovalType.TypeNo where PlanNo = '{0}'", planNoStr);
+            BaseSQL.Query(sqlStr, queryDataTable);
+        }
+
+        /// <summary>
         /// 库存登记单保存直接审批
         /// </summary>
         public void InventorySaveApproval(SqlCommand cmd, DataRow headRow, string orderNameStr, string primaryKeyStr, string orderNoStr, DateTime opTime)

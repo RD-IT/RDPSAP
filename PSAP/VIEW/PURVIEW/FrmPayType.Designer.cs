@@ -215,6 +215,8 @@
             this.colPayTypeNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colPayTypeNo.FieldName = "PayTypeNo";
             this.colPayTypeNo.Name = "colPayTypeNo";
+            this.colPayTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "PayTypeNo", "共计{0}条")});
             this.colPayTypeNo.Visible = true;
             this.colPayTypeNo.VisibleIndex = 0;
             this.colPayTypeNo.Width = 160;

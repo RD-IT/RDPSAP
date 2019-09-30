@@ -99,7 +99,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 DataRow headRow = TableDesignBom.Rows[0];
                 decimal remainQty = DataTypeConvert.GetDecimal(headRow["RemainQty"]);
-                if (bomDAO.Insert_WorkProcess(textSalesOrderNo.Text, textPbBomNo.Text, designBomListAutoId, textCodeFileName.Text, remainQty, textWorkProcessNo.Text, spinWorkProcessQty.Value))
+                if (bomDAO.Insert_WorkProcess(textSalesOrderNo.Text, textPbBomNo.Text, designBomListAutoId, DataTypeConvert.GetInt(spinCodeId.Value), textCodeFileName.Text, remainQty, textWorkProcessNo.Text, spinWorkProcessQty.Value, 3))
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();

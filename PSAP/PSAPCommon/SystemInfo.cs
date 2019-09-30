@@ -193,6 +193,16 @@ namespace PSAP.PSAPCommon
         /// </summary>
         public static bool WarehouseWarrantApplyBeyondCountIsSave = false;
 
+        /// <summary>
+        /// 请购单明细分配执行人消息提醒
+        /// </summary>
+        public static bool PrListDistributionMessage = false;
+
+        /// <summary>
+        /// 请购单明细分配执行人后是否全部操作员都可以处理
+        /// </summary>
+        public static bool PrListDistributionAllHandle = false; 
+
         #endregion
 
         #region 库存
@@ -201,6 +211,11 @@ namespace PSAP.PSAPCommon
         /// 采购订单适用转换为入库单，明细的合计总数是否可以超过原采购订单的数量 
         /// </summary>
         public static bool OrderApplyBeyondCountIsSave = false;
+
+        /// <summary>
+        /// 工单适用转换为出库单，明细的合计总数是否可以超过原工单的数量
+        /// </summary>
+        public static bool PPApplyBeyondCountIsSave = false;
 
         /// <summary>
         /// 入库单是否可以修改入库日期

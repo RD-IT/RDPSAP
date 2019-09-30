@@ -190,6 +190,7 @@ namespace PSAP.VIEW.BSVIEW
                 }
 
                 int isBuy = DataTypeConvert.GetInt(radioType.EditValue);
+
                 int isChildLevel = DataTypeConvert.GetInt(radioLevel.EditValue);
 
                 if (bomDAO.SaveProductionScheduleBom(bomListAutoId, psBomAutoId, 0, datePlanDate.DateTime, DataTypeConvert.GetDouble(spinRemainQty.Value), isBuy, isChildLevel))

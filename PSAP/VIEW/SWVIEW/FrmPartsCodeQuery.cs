@@ -34,15 +34,21 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DataTable materialTable_t = commonDAO.QueryMaterialSelectLib(true);
+                DataTable catgNameTable_t = commonDAO.QueryPartNoCatg(true);
+                DataTable finishTable_f = commonDAO.QueryFinishCatg(false);
+                DataTable machTable_f = commonDAO.QueryLevelCatg(false);
 
                 searchLookUpMaterial.Properties.DataSource = materialTable_t;
                 searchLookUpMaterial.EditValue = 0;
-                lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(true);
+                lookUpCatgName.Properties.DataSource = catgNameTable_t;
                 lookUpCatgName.ItemIndex = 0;
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(true);
                 lookUpBrand.ItemIndex = 0;
 
                 repLookUpMaterial.DataSource = materialTable_t;
+                repLookUpCatgName.DataSource = catgNameTable_t;
+                repLookUpFinish.DataSource = finishTable_f;
+                repLookUpMachiningLevel.DataSource = machTable_f;
 
                 gridBottomPrReq.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
             }

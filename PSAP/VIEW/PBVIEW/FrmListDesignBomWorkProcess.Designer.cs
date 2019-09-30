@@ -44,10 +44,13 @@
             this.coluHasLevel = new System.Data.DataColumn();
             this.ColuQty = new System.Data.DataColumn();
             this.ColuIsMaterial = new System.Data.DataColumn();
+            this.ColuCodeAutoId = new System.Data.DataColumn();
             this.pnlBottom = new DevExpress.XtraEditors.PanelControl();
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.BtnConfirm = new DevExpress.XtraEditors.SimpleButton();
             this.pnlRightTop = new DevExpress.XtraEditors.PanelControl();
+            this.labCodeId = new DevExpress.XtraEditors.LabelControl();
+            this.spinCodeId = new DevExpress.XtraEditors.SpinEdit();
             this.labWorkProcessQty = new DevExpress.XtraEditors.LabelControl();
             this.spinWorkProcessQty = new DevExpress.XtraEditors.SpinEdit();
             this.textWorkProcessNo = new DevExpress.XtraEditors.TextEdit();
@@ -62,13 +65,6 @@
             this.labSalesOrderNo = new DevExpress.XtraEditors.LabelControl();
             this.pnlMiddle = new DevExpress.XtraEditors.PanelControl();
             this.gridCrlWorkProcess = new DevExpress.XtraGrid.GridControl();
-            this.gridViewWorkProcess = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.colAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colWorkProcessNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colWorkProcessText = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repCheckIsBuy = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.bSWorkProcess = new System.Windows.Forms.BindingSource(this.components);
             this.dSWorkProcess = new System.Data.DataSet();
             this.TableWorkProcess = new System.Data.DataTable();
@@ -77,6 +73,13 @@
             this.dataColWorkProcessText = new System.Data.DataColumn();
             this.dataColIsBuy = new System.Data.DataColumn();
             this.dataColRemark = new System.Data.DataColumn();
+            this.gridViewWorkProcess = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.colAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colWorkProcessNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colWorkProcessText = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colIsBuy = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repCheckIsBuy = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.btnQuery = new DevExpress.XtraEditors.SimpleButton();
             this.textCommon = new DevExpress.XtraEditors.TextEdit();
             this.labCommon = new DevExpress.XtraEditors.LabelControl();
@@ -88,6 +91,7 @@
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRightTop)).BeginInit();
             this.pnlRightTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinCodeId.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinWorkProcessQty.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textWorkProcessNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCodeName.Properties)).BeginInit();
@@ -97,11 +101,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddle)).BeginInit();
             this.pnlMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlWorkProcess)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewWorkProcess)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSWorkProcess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableWorkProcess)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewWorkProcess)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlCondition)).BeginInit();
             this.pnlCondition.SuspendLayout();
@@ -132,7 +136,8 @@
             this.coluRemainQty,
             this.coluHasLevel,
             this.ColuQty,
-            this.ColuIsMaterial});
+            this.ColuIsMaterial,
+            this.ColuCodeAutoId});
             this.TableDesignBom.TableName = "DesignBom";
             // 
             // coluAutoId
@@ -201,6 +206,12 @@
             this.ColuIsMaterial.ColumnName = "IsMaterial";
             this.ColuIsMaterial.DataType = typeof(short);
             // 
+            // ColuCodeAutoId
+            // 
+            this.ColuCodeAutoId.Caption = "零件Id";
+            this.ColuCodeAutoId.ColumnName = "CodeAutoId";
+            this.ColuCodeAutoId.DataType = typeof(int);
+            // 
             // pnlBottom
             // 
             this.pnlBottom.Controls.Add(this.btnCancel);
@@ -233,6 +244,8 @@
             // 
             // pnlRightTop
             // 
+            this.pnlRightTop.Controls.Add(this.labCodeId);
+            this.pnlRightTop.Controls.Add(this.spinCodeId);
             this.pnlRightTop.Controls.Add(this.labWorkProcessQty);
             this.pnlRightTop.Controls.Add(this.spinWorkProcessQty);
             this.pnlRightTop.Controls.Add(this.textWorkProcessNo);
@@ -250,6 +263,31 @@
             this.pnlRightTop.Name = "pnlRightTop";
             this.pnlRightTop.Size = new System.Drawing.Size(704, 124);
             this.pnlRightTop.TabIndex = 0;
+            // 
+            // labCodeId
+            // 
+            this.labCodeId.Location = new System.Drawing.Point(28, 152);
+            this.labCodeId.Name = "labCodeId";
+            this.labCodeId.Size = new System.Drawing.Size(48, 14);
+            this.labCodeId.TabIndex = 114;
+            this.labCodeId.Text = "零件编号";
+            // 
+            // spinCodeId
+            // 
+            this.spinCodeId.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_DesignBom, "CodeAutoId", true));
+            this.spinCodeId.EditValue = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.spinCodeId.Location = new System.Drawing.Point(95, 149);
+            this.spinCodeId.Name = "spinCodeId";
+            this.spinCodeId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.spinCodeId.Properties.Mask.EditMask = "d";
+            this.spinCodeId.Properties.ReadOnly = true;
+            this.spinCodeId.Size = new System.Drawing.Size(100, 20);
+            this.spinCodeId.TabIndex = 113;
             // 
             // labWorkProcessQty
             // 
@@ -396,6 +434,53 @@
             this.gridCrlWorkProcess.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewWorkProcess});
             // 
+            // bSWorkProcess
+            // 
+            this.bSWorkProcess.DataMember = "WorkProcess";
+            this.bSWorkProcess.DataSource = this.dSWorkProcess;
+            // 
+            // dSWorkProcess
+            // 
+            this.dSWorkProcess.DataSetName = "NewDataSet";
+            this.dSWorkProcess.Tables.AddRange(new System.Data.DataTable[] {
+            this.TableWorkProcess});
+            // 
+            // TableWorkProcess
+            // 
+            this.TableWorkProcess.Columns.AddRange(new System.Data.DataColumn[] {
+            this.dataColAutoId,
+            this.dataColWorkProcessNo,
+            this.dataColWorkProcessText,
+            this.dataColIsBuy,
+            this.dataColRemark});
+            this.TableWorkProcess.TableName = "WorkProcess";
+            // 
+            // dataColAutoId
+            // 
+            this.dataColAutoId.ColumnName = "AutoId";
+            this.dataColAutoId.DataType = typeof(System.Guid);
+            // 
+            // dataColWorkProcessNo
+            // 
+            this.dataColWorkProcessNo.Caption = "工序编号";
+            this.dataColWorkProcessNo.ColumnName = "WorkProcessNo";
+            // 
+            // dataColWorkProcessText
+            // 
+            this.dataColWorkProcessText.Caption = "工序名称";
+            this.dataColWorkProcessText.ColumnName = "WorkProcessText";
+            // 
+            // dataColIsBuy
+            // 
+            this.dataColIsBuy.Caption = "是否购买";
+            this.dataColIsBuy.ColumnName = "IsBuy";
+            this.dataColIsBuy.DataType = typeof(short);
+            // 
+            // dataColRemark
+            // 
+            this.dataColRemark.Caption = "备注";
+            this.dataColRemark.ColumnName = "Remark";
+            // 
             // gridViewWorkProcess
             // 
             this.gridViewWorkProcess.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -481,53 +566,6 @@
             this.colRemark.VisibleIndex = 3;
             this.colRemark.Width = 220;
             // 
-            // bSWorkProcess
-            // 
-            this.bSWorkProcess.DataMember = "WorkProcess";
-            this.bSWorkProcess.DataSource = this.dSWorkProcess;
-            // 
-            // dSWorkProcess
-            // 
-            this.dSWorkProcess.DataSetName = "NewDataSet";
-            this.dSWorkProcess.Tables.AddRange(new System.Data.DataTable[] {
-            this.TableWorkProcess});
-            // 
-            // TableWorkProcess
-            // 
-            this.TableWorkProcess.Columns.AddRange(new System.Data.DataColumn[] {
-            this.dataColAutoId,
-            this.dataColWorkProcessNo,
-            this.dataColWorkProcessText,
-            this.dataColIsBuy,
-            this.dataColRemark});
-            this.TableWorkProcess.TableName = "WorkProcess";
-            // 
-            // dataColAutoId
-            // 
-            this.dataColAutoId.ColumnName = "AutoId";
-            this.dataColAutoId.DataType = typeof(System.Guid);
-            // 
-            // dataColWorkProcessNo
-            // 
-            this.dataColWorkProcessNo.Caption = "工序编号";
-            this.dataColWorkProcessNo.ColumnName = "WorkProcessNo";
-            // 
-            // dataColWorkProcessText
-            // 
-            this.dataColWorkProcessText.Caption = "工序名称";
-            this.dataColWorkProcessText.ColumnName = "WorkProcessText";
-            // 
-            // dataColIsBuy
-            // 
-            this.dataColIsBuy.Caption = "是否购买";
-            this.dataColIsBuy.ColumnName = "IsBuy";
-            this.dataColIsBuy.DataType = typeof(short);
-            // 
-            // dataColRemark
-            // 
-            this.dataColRemark.Caption = "备注";
-            this.dataColRemark.ColumnName = "Remark";
-            // 
             // btnQuery
             // 
             this.btnQuery.Location = new System.Drawing.Point(303, 7);
@@ -588,6 +626,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlRightTop)).EndInit();
             this.pnlRightTop.ResumeLayout(false);
             this.pnlRightTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.spinCodeId.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinWorkProcessQty.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textWorkProcessNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCodeName.Properties)).EndInit();
@@ -597,11 +636,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddle)).EndInit();
             this.pnlMiddle.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlWorkProcess)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewWorkProcess)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSWorkProcess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSWorkProcess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableWorkProcess)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewWorkProcess)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlCondition)).EndInit();
             this.pnlCondition.ResumeLayout(false);
@@ -664,5 +703,8 @@
         private DevExpress.XtraEditors.TextEdit textCommon;
         private DevExpress.XtraEditors.LabelControl labCommon;
         private DevExpress.XtraEditors.PanelControl pnlCondition;
+        private DevExpress.XtraEditors.LabelControl labCodeId;
+        private DevExpress.XtraEditors.SpinEdit spinCodeId;
+        private System.Data.DataColumn ColuCodeAutoId;
     }
 }

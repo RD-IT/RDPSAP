@@ -46,7 +46,7 @@ namespace PSAP.VIEW.BSVIEW
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
                 DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
                 DataTable wrTypeTable_t = wrDAO.QueryWarehouseReceiptType(true);
-                DataTable manuInfoTable_t = wrDAO.QueryManufactureInfo(true);
+                DataTable manuInfoTable_t = commonDAO.QueryManufactureInfo(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;

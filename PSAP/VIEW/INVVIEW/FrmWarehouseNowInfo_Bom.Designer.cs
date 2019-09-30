@@ -66,6 +66,7 @@
             this.CFilePath = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.CWarehouseQty = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.pnlPage = new DevExpress.XtraEditors.PanelControl();
+            this.repLookUpCatgName = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SearchLocationId.Properties)).BeginInit();
@@ -80,6 +81,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.treeListBom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlPage)).BeginInit();
             this.pnlPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlTop
@@ -97,7 +99,7 @@
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(1124, 68);
+            this.pnlTop.Size = new System.Drawing.Size(1303, 68);
             this.pnlTop.TabIndex = 1;
             // 
             // labLocationId
@@ -291,7 +293,7 @@
             this.xtraTabBom.Location = new System.Drawing.Point(2, 2);
             this.xtraTabBom.Name = "xtraTabBom";
             this.xtraTabBom.SelectedTabPage = this.PageBomInfo;
-            this.xtraTabBom.Size = new System.Drawing.Size(1120, 553);
+            this.xtraTabBom.Size = new System.Drawing.Size(1299, 553);
             this.xtraTabBom.TabIndex = 2;
             this.xtraTabBom.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageBomInfo});
@@ -300,7 +302,7 @@
             // 
             this.PageBomInfo.Controls.Add(this.treeListBom);
             this.PageBomInfo.Name = "PageBomInfo";
-            this.PageBomInfo.Size = new System.Drawing.Size(1114, 524);
+            this.PageBomInfo.Size = new System.Drawing.Size(1293, 524);
             this.PageBomInfo.Text = "Bom零件库存";
             // 
             // treeListBom
@@ -337,7 +339,9 @@
             this.treeListBom.OptionsView.ShowIndicator = false;
             this.treeListBom.OptionsView.ShowVertLines = false;
             this.treeListBom.ParentFieldName = "ReParent";
-            this.treeListBom.Size = new System.Drawing.Size(1114, 524);
+            this.treeListBom.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repLookUpCatgName});
+            this.treeListBom.Size = new System.Drawing.Size(1293, 524);
             this.treeListBom.TabIndex = 3;
             this.treeListBom.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeListBom_KeyDown);
             // 
@@ -446,7 +450,8 @@
             // 
             this.CCatgName.AppearanceHeader.Options.UseTextOptions = true;
             this.CCatgName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.CCatgName.Caption = "分类";
+            this.CCatgName.Caption = "分类名称";
+            this.CCatgName.ColumnEdit = this.repLookUpCatgName;
             this.CCatgName.FieldName = "CatgName";
             this.CCatgName.Name = "CCatgName";
             this.CCatgName.Visible = true;
@@ -485,13 +490,23 @@
             this.pnlPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPage.Location = new System.Drawing.Point(0, 68);
             this.pnlPage.Name = "pnlPage";
-            this.pnlPage.Size = new System.Drawing.Size(1124, 557);
+            this.pnlPage.Size = new System.Drawing.Size(1303, 557);
             this.pnlPage.TabIndex = 3;
+            // 
+            // repLookUpCatgName
+            // 
+            this.repLookUpCatgName.AutoHeight = false;
+            this.repLookUpCatgName.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpCatgName.DisplayMember = "CatgDescription";
+            this.repLookUpCatgName.Name = "repLookUpCatgName";
+            this.repLookUpCatgName.NullText = "";
+            this.repLookUpCatgName.ValueMember = "CatgName";
             // 
             // FrmWarehouseNowInfo_Bom
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1124, 625);
+            this.ClientSize = new System.Drawing.Size(1303, 625);
             this.Controls.Add(this.pnlPage);
             this.Controls.Add(this.pnlTop);
             this.Name = "FrmWarehouseNowInfo_Bom";
@@ -513,6 +528,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.treeListBom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlPage)).EndInit();
             this.pnlPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -557,5 +573,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColuLocationNo;
         private DevExpress.XtraGrid.Columns.GridColumn gridColuLocationName;
         private DevExpress.XtraGrid.Columns.GridColumn gridColuRepertoryName;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCatgName;
     }
 }

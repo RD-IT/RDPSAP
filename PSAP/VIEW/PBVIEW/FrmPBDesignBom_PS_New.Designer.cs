@@ -46,6 +46,8 @@
             this.repSpinRemainQty = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
             this.colPbBomNo = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.colReId = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.colPlanMark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.colPrReqMark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.bindingSource_DesignBom = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet_DesignBom = new System.Data.DataSet();
             this.dataTableDesignBom = new System.Data.DataTable();
@@ -61,6 +63,10 @@
             this.coluHasLevel = new System.Data.DataColumn();
             this.ColuNewQty = new System.Data.DataColumn();
             this.ColuIsMaterial = new System.Data.DataColumn();
+            this.ColuPlanMark = new System.Data.DataColumn();
+            this.ColuPrReqMark = new System.Data.DataColumn();
+            this.ColuCodeId = new System.Data.DataColumn();
+            this.ColuParentCodeId = new System.Data.DataColumn();
             this.pnlDesignBomToolBar = new DevExpress.XtraEditors.PanelControl();
             this.btnToPr = new DevExpress.XtraEditors.SimpleButton();
             this.btnWorkProcess = new DevExpress.XtraEditors.SimpleButton();
@@ -171,9 +177,11 @@
             this.colCodeNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCatgName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpCatgName = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colCodeSpec = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeWeight = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterial = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpMaterial = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colBrand = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colUnit = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPreferred = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -209,10 +217,6 @@
             this.barBtnDeleteWorkProcess = new DevExpress.XtraBars.BarButtonItem();
             this.barBtnPrReq = new DevExpress.XtraBars.BarButtonItem();
             this.popupMenuDBom = new DevExpress.XtraBars.PopupMenu(this.components);
-            this.ColuPlanMark = new System.Data.DataColumn();
-            this.ColuPrReqMark = new System.Data.DataColumn();
-            this.colPlanMark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
-            this.colPrReqMark = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddle)).BeginInit();
             this.pnlMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlDesignBom)).BeginInit();
@@ -268,6 +272,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dSPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpMaterial)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpBrand.Properties)).BeginInit();
@@ -477,6 +483,32 @@
             this.colReId.FieldName = "ReId";
             this.colReId.Name = "colReId";
             // 
+            // colPlanMark
+            // 
+            this.colPlanMark.AppearanceHeader.Options.UseTextOptions = true;
+            this.colPlanMark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colPlanMark.Caption = "生产计划";
+            this.colPlanMark.ColumnEdit = this.repCheckEditIsUse;
+            this.colPlanMark.FieldName = "PlanMark";
+            this.colPlanMark.Name = "colPlanMark";
+            this.colPlanMark.OptionsColumn.AllowEdit = false;
+            this.colPlanMark.Visible = true;
+            this.colPlanMark.VisibleIndex = 5;
+            this.colPlanMark.Width = 60;
+            // 
+            // colPrReqMark
+            // 
+            this.colPrReqMark.AppearanceHeader.Options.UseTextOptions = true;
+            this.colPrReqMark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colPrReqMark.Caption = "请购单";
+            this.colPrReqMark.ColumnEdit = this.repCheckEditIsUse;
+            this.colPrReqMark.FieldName = "PrReqMark";
+            this.colPrReqMark.Name = "colPrReqMark";
+            this.colPrReqMark.OptionsColumn.AllowEdit = false;
+            this.colPrReqMark.Visible = true;
+            this.colPrReqMark.VisibleIndex = 6;
+            this.colPrReqMark.Width = 60;
+            // 
             // bindingSource_DesignBom
             // 
             this.bindingSource_DesignBom.DataMember = "DesignBom";
@@ -504,7 +536,9 @@
             this.ColuNewQty,
             this.ColuIsMaterial,
             this.ColuPlanMark,
-            this.ColuPrReqMark});
+            this.ColuPrReqMark,
+            this.ColuCodeId,
+            this.ColuParentCodeId});
             this.dataTableDesignBom.TableName = "DesignBom";
             // 
             // coluReId
@@ -570,6 +604,30 @@
             this.ColuIsMaterial.Caption = "零件";
             this.ColuIsMaterial.ColumnName = "IsMaterial";
             this.ColuIsMaterial.DataType = typeof(short);
+            // 
+            // ColuPlanMark
+            // 
+            this.ColuPlanMark.Caption = "生产计划";
+            this.ColuPlanMark.ColumnName = "PlanMark";
+            this.ColuPlanMark.DataType = typeof(short);
+            // 
+            // ColuPrReqMark
+            // 
+            this.ColuPrReqMark.Caption = "请购单";
+            this.ColuPrReqMark.ColumnName = "PrReqMark";
+            this.ColuPrReqMark.DataType = typeof(short);
+            // 
+            // ColuCodeId
+            // 
+            this.ColuCodeId.Caption = "零件ID";
+            this.ColuCodeId.ColumnName = "CodeId";
+            this.ColuCodeId.DataType = typeof(int);
+            // 
+            // ColuParentCodeId
+            // 
+            this.ColuParentCodeId.Caption = "父零件ID";
+            this.ColuParentCodeId.ColumnName = "ParentCodeId";
+            this.ColuParentCodeId.DataType = typeof(int);
             // 
             // pnlDesignBomToolBar
             // 
@@ -915,8 +973,6 @@
             this.colIsBuy.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colIsBuy.FieldName = "IsBuy";
             this.colIsBuy.Name = "colIsBuy";
-            this.colIsBuy.Visible = true;
-            this.colIsBuy.VisibleIndex = 5;
             this.colIsBuy.Width = 60;
             // 
             // colPbBomNo1
@@ -926,7 +982,7 @@
             this.colPbBomNo1.FieldName = "PbBomNo";
             this.colPbBomNo1.Name = "colPbBomNo1";
             this.colPbBomNo1.Visible = true;
-            this.colPbBomNo1.VisibleIndex = 6;
+            this.colPbBomNo1.VisibleIndex = 5;
             this.colPbBomNo1.Width = 100;
             // 
             // colIsAbsorb1
@@ -937,7 +993,7 @@
             this.colIsAbsorb1.FieldName = "IsAbsorb";
             this.colIsAbsorb1.Name = "colIsAbsorb1";
             this.colIsAbsorb1.Visible = true;
-            this.colIsAbsorb1.VisibleIndex = 7;
+            this.colIsAbsorb1.VisibleIndex = 6;
             this.colIsAbsorb1.Width = 40;
             // 
             // repCheckIsAbsorb
@@ -956,7 +1012,7 @@
             this.colprReqNo1.FieldName = "PrReqNo";
             this.colprReqNo1.Name = "colprReqNo1";
             this.colprReqNo1.Visible = true;
-            this.colprReqNo1.VisibleIndex = 8;
+            this.colprReqNo1.VisibleIndex = 7;
             this.colprReqNo1.Width = 120;
             // 
             // repLookUpReqDep
@@ -1436,6 +1492,9 @@
             this.gridCrlPartsCode.Location = new System.Drawing.Point(0, 0);
             this.gridCrlPartsCode.MainView = this.gridViewPartsCode;
             this.gridCrlPartsCode.Name = "gridCrlPartsCode";
+            this.gridCrlPartsCode.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repLookUpMaterial,
+            this.repLookUpCatgName});
             this.gridCrlPartsCode.Size = new System.Drawing.Size(382, 485);
             this.gridCrlPartsCode.TabIndex = 1;
             this.gridCrlPartsCode.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -1629,8 +1688,6 @@
             this.colCodeNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.colCodeNo.FieldName = "CodeNo";
             this.colCodeNo.Name = "colCodeNo";
-            this.colCodeNo.Visible = true;
-            this.colCodeNo.VisibleIndex = 2;
             this.colCodeNo.Width = 120;
             // 
             // colCodeName
@@ -1640,17 +1697,29 @@
             this.colCodeName.FieldName = "CodeName";
             this.colCodeName.Name = "colCodeName";
             this.colCodeName.Visible = true;
-            this.colCodeName.VisibleIndex = 3;
+            this.colCodeName.VisibleIndex = 2;
             this.colCodeName.Width = 120;
             // 
             // colCatgName
             // 
             this.colCatgName.AppearanceHeader.Options.UseTextOptions = true;
             this.colCatgName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colCatgName.ColumnEdit = this.repLookUpCatgName;
             this.colCatgName.FieldName = "CatgName";
             this.colCatgName.Name = "colCatgName";
             this.colCatgName.Visible = true;
-            this.colCatgName.VisibleIndex = 4;
+            this.colCatgName.VisibleIndex = 3;
+            this.colCatgName.Width = 80;
+            // 
+            // repLookUpCatgName
+            // 
+            this.repLookUpCatgName.AutoHeight = false;
+            this.repLookUpCatgName.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpCatgName.DisplayMember = "CatgDescription";
+            this.repLookUpCatgName.Name = "repLookUpCatgName";
+            this.repLookUpCatgName.NullText = "";
+            this.repLookUpCatgName.ValueMember = "CatgName";
             // 
             // colCodeSpec
             // 
@@ -1659,7 +1728,7 @@
             this.colCodeSpec.FieldName = "CodeSpec";
             this.colCodeSpec.Name = "colCodeSpec";
             this.colCodeSpec.Visible = true;
-            this.colCodeSpec.VisibleIndex = 5;
+            this.colCodeSpec.VisibleIndex = 4;
             this.colCodeSpec.Width = 130;
             // 
             // colCodeWeight
@@ -1669,17 +1738,28 @@
             this.colCodeWeight.FieldName = "CodeWeight";
             this.colCodeWeight.Name = "colCodeWeight";
             this.colCodeWeight.Visible = true;
-            this.colCodeWeight.VisibleIndex = 6;
+            this.colCodeWeight.VisibleIndex = 5;
             this.colCodeWeight.Width = 90;
             // 
             // colMaterial
             // 
             this.colMaterial.AppearanceHeader.Options.UseTextOptions = true;
             this.colMaterial.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colMaterial.ColumnEdit = this.repLookUpMaterial;
             this.colMaterial.FieldName = "Material";
             this.colMaterial.Name = "colMaterial";
             this.colMaterial.Visible = true;
-            this.colMaterial.VisibleIndex = 7;
+            this.colMaterial.VisibleIndex = 6;
+            // 
+            // repLookUpMaterial
+            // 
+            this.repLookUpMaterial.AutoHeight = false;
+            this.repLookUpMaterial.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpMaterial.DisplayMember = "MaterialName";
+            this.repLookUpMaterial.Name = "repLookUpMaterial";
+            this.repLookUpMaterial.NullText = "";
+            this.repLookUpMaterial.ValueMember = "AutoId";
             // 
             // colBrand
             // 
@@ -1688,7 +1768,7 @@
             this.colBrand.FieldName = "Brand";
             this.colBrand.Name = "colBrand";
             this.colBrand.Visible = true;
-            this.colBrand.VisibleIndex = 8;
+            this.colBrand.VisibleIndex = 7;
             this.colBrand.Width = 90;
             // 
             // colUnit
@@ -1698,7 +1778,7 @@
             this.colUnit.FieldName = "Unit";
             this.colUnit.Name = "colUnit";
             this.colUnit.Visible = true;
-            this.colUnit.VisibleIndex = 9;
+            this.colUnit.VisibleIndex = 8;
             this.colUnit.Width = 60;
             // 
             // colIsPreferred
@@ -1708,7 +1788,7 @@
             this.colIsPreferred.FieldName = "IsPreferred";
             this.colIsPreferred.Name = "colIsPreferred";
             this.colIsPreferred.Visible = true;
-            this.colIsPreferred.VisibleIndex = 10;
+            this.colIsPreferred.VisibleIndex = 9;
             this.colIsPreferred.Width = 60;
             // 
             // colIsLongPeriod
@@ -1718,7 +1798,7 @@
             this.colIsLongPeriod.FieldName = "IsLongPeriod";
             this.colIsLongPeriod.Name = "colIsLongPeriod";
             this.colIsLongPeriod.Visible = true;
-            this.colIsLongPeriod.VisibleIndex = 11;
+            this.colIsLongPeriod.VisibleIndex = 10;
             this.colIsLongPeriod.Width = 60;
             // 
             // colIsPrecious
@@ -1728,7 +1808,7 @@
             this.colIsPrecious.FieldName = "IsPrecious";
             this.colIsPrecious.Name = "colIsPrecious";
             this.colIsPrecious.Visible = true;
-            this.colIsPrecious.VisibleIndex = 12;
+            this.colIsPrecious.VisibleIndex = 11;
             this.colIsPrecious.Width = 60;
             // 
             // colIsPreprocessing
@@ -1738,7 +1818,7 @@
             this.colIsPreprocessing.FieldName = "IsPreprocessing";
             this.colIsPreprocessing.Name = "colIsPreprocessing";
             this.colIsPreprocessing.Visible = true;
-            this.colIsPreprocessing.VisibleIndex = 13;
+            this.colIsPreprocessing.VisibleIndex = 12;
             this.colIsPreprocessing.Width = 60;
             // 
             // colIsBuy1
@@ -1746,7 +1826,7 @@
             this.colIsBuy1.FieldName = "IsBuy";
             this.colIsBuy1.Name = "colIsBuy1";
             this.colIsBuy1.Visible = true;
-            this.colIsBuy1.VisibleIndex = 14;
+            this.colIsBuy1.VisibleIndex = 13;
             this.colIsBuy1.Width = 60;
             // 
             // colDesigner
@@ -1756,7 +1836,7 @@
             this.colDesigner.FieldName = "Designer";
             this.colDesigner.Name = "colDesigner";
             this.colDesigner.Visible = true;
-            this.colDesigner.VisibleIndex = 15;
+            this.colDesigner.VisibleIndex = 14;
             this.colDesigner.Width = 60;
             // 
             // colGetTime
@@ -1768,7 +1848,7 @@
             this.colGetTime.FieldName = "GetTime";
             this.colGetTime.Name = "colGetTime";
             this.colGetTime.Visible = true;
-            this.colGetTime.VisibleIndex = 16;
+            this.colGetTime.VisibleIndex = 15;
             this.colGetTime.Width = 90;
             // 
             // pnlTop
@@ -2026,44 +2106,6 @@
             this.popupMenuDBom.Manager = this.barManagerPS;
             this.popupMenuDBom.Name = "popupMenuDBom";
             // 
-            // ColuPlanMark
-            // 
-            this.ColuPlanMark.Caption = "生产计划";
-            this.ColuPlanMark.ColumnName = "PlanMark";
-            this.ColuPlanMark.DataType = typeof(short);
-            // 
-            // ColuPrReqMark
-            // 
-            this.ColuPrReqMark.Caption = "请购单";
-            this.ColuPrReqMark.ColumnName = "PrReqMark";
-            this.ColuPrReqMark.DataType = typeof(short);
-            // 
-            // colPlanMark
-            // 
-            this.colPlanMark.AppearanceHeader.Options.UseTextOptions = true;
-            this.colPlanMark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colPlanMark.Caption = "生产计划";
-            this.colPlanMark.ColumnEdit = this.repCheckEditIsUse;
-            this.colPlanMark.FieldName = "PlanMark";
-            this.colPlanMark.Name = "colPlanMark";
-            this.colPlanMark.OptionsColumn.AllowEdit = false;
-            this.colPlanMark.Visible = true;
-            this.colPlanMark.VisibleIndex = 5;
-            this.colPlanMark.Width = 60;
-            // 
-            // colPrReqMark
-            // 
-            this.colPrReqMark.AppearanceHeader.Options.UseTextOptions = true;
-            this.colPrReqMark.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colPrReqMark.Caption = "请购单";
-            this.colPrReqMark.ColumnEdit = this.repCheckEditIsUse;
-            this.colPrReqMark.FieldName = "PrReqMark";
-            this.colPrReqMark.Name = "colPrReqMark";
-            this.colPrReqMark.OptionsColumn.AllowEdit = false;
-            this.colPrReqMark.Visible = true;
-            this.colPrReqMark.VisibleIndex = 6;
-            this.colPrReqMark.Width = 60;
-            // 
             // FrmPBDesignBom_PS_New
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2137,6 +2179,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dSPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpMaterial)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
@@ -2340,5 +2384,9 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn colPrReqMark;
         private System.Data.DataColumn ColuPlanMark;
         private System.Data.DataColumn ColuPrReqMark;
+        private System.Data.DataColumn ColuCodeId;
+        private System.Data.DataColumn ColuParentCodeId;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpMaterial;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCatgName;
     }
 }

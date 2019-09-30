@@ -225,6 +225,8 @@
             this.colCollectionTypeNo.Name = "colCollectionTypeNo";
             this.colCollectionTypeNo.OptionsColumn.AllowEdit = false;
             this.colCollectionTypeNo.OptionsColumn.TabStop = false;
+            this.colCollectionTypeNo.Summary.AddRange(new DevExpress.XtraGrid.GridSummaryItem[] {
+            new DevExpress.XtraGrid.GridColumnSummaryItem(DevExpress.Data.SummaryItemType.Count, "CollectionTypeNo", "共计{0}条")});
             this.colCollectionTypeNo.Visible = true;
             this.colCollectionTypeNo.VisibleIndex = 0;
             this.colCollectionTypeNo.Width = 120;

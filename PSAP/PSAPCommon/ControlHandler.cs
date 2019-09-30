@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using DevExpress.Utils.Drawing;
 using DevExpress.Utils;
+using DevExpress.XtraTreeList.Nodes;
 
 namespace PSAP.PSAPCommon
 {
@@ -242,6 +243,42 @@ namespace PSAP.PSAPCommon
                 int rowNum = tmpTree.GetVisibleIndexByNode(e.Node) + 1;
                 //this.treeList.IndicatorWidth = rowNum.ToString().Length * 10 + 10;
                 args.DisplayText = rowNum.ToString();
+            }
+        }
+
+        /// <summary>
+        /// 设置子节点的状态  选择某一节点时,该节点的子节点全部选择  取消某一节点时,该节点的子节点全部取消选择
+        /// </summary>
+        public static void SetCheckedChildNodes(TreeListNode node, CheckState check)
+        {
+            for (int i = 0; i < node.Nodes.Count; i++)
+            {
+                node.Nodes[i].CheckState = check;
+                SetCheckedChildNodes(node.Nodes[i], check);
+            }
+        }
+
+        /// <summary>
+        /// 设置父节点的状态
+        /// </summary>
+        public static void SetCheckedParentNodes(TreeListNode node, CheckState check)
+        {
+            if (node.ParentNode != null)
+            {
+                bool b = false;
+                CheckState state;
+                for (int i = 0; i < node.ParentNode.Nodes.Count; i++)
+                {
+                    state = (CheckState)node.ParentNode.Nodes[i].CheckState;
+                    if (!check.Equals(state))
+                    {
+                        b = !b;
+                        break;
+                    }
+                }
+                //node.ParentNode.CheckState = b ? CheckState.Indeterminate : check;
+                node.ParentNode.CheckState = b ? CheckState.Checked : check;
+                SetCheckedParentNodes(node.ParentNode, check);
             }
         }
 

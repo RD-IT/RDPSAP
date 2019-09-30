@@ -84,6 +84,7 @@
             this.colCodeName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFilePath = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCatgName = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpCatgName = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colCodeSpec = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCodeWeight = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterialVersion = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -91,7 +92,9 @@
             this.repLookUpMaterial = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colBrand = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFinish = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpFinish = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colMachiningLevel = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpMachiningLevel = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colUnit = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsPreferred = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colIsLongPeriod = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -121,7 +124,10 @@
             this.pnlGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpMaterial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpFinish)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpMachiningLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
             this.SuspendLayout();
             // 
@@ -305,7 +311,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 642);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1202, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1611, 58);
             this.pnlBottom.TabIndex = 4;
             // 
             // gridBottomPrReq
@@ -315,7 +321,7 @@
             this.gridBottomPrReq.MasterDataSet = this.dSPartsCode;
             this.gridBottomPrReq.Name = "gridBottomPrReq";
             this.gridBottomPrReq.pageRowCount = 5;
-            this.gridBottomPrReq.Size = new System.Drawing.Size(1198, 54);
+            this.gridBottomPrReq.Size = new System.Drawing.Size(1607, 54);
             this.gridBottomPrReq.TabIndex = 0;
             // 
             // pnltop
@@ -333,7 +339,7 @@
             this.pnltop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1202, 78);
+            this.pnltop.Size = new System.Drawing.Size(1611, 78);
             this.pnltop.TabIndex = 5;
             // 
             // lookUpBrand
@@ -454,7 +460,7 @@
             this.lookUpCatgName.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("CatgName", "分类名称"),
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("CatgDescription", "分类说明")});
-            this.lookUpCatgName.Properties.DisplayMember = "CatgName";
+            this.lookUpCatgName.Properties.DisplayMember = "CatgDescription";
             this.lookUpCatgName.Properties.NullText = "";
             this.lookUpCatgName.Properties.ValueMember = "CatgName";
             this.lookUpCatgName.Size = new System.Drawing.Size(120, 20);
@@ -491,7 +497,7 @@
             this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGrid.Location = new System.Drawing.Point(0, 78);
             this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(1202, 564);
+            this.pnlGrid.Size = new System.Drawing.Size(1611, 564);
             this.pnlGrid.TabIndex = 9;
             // 
             // gridCrlPartsCode
@@ -503,8 +509,11 @@
             this.gridCrlPartsCode.Name = "gridCrlPartsCode";
             this.gridCrlPartsCode.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repCheckIsBuy,
-            this.repLookUpMaterial});
-            this.gridCrlPartsCode.Size = new System.Drawing.Size(1198, 560);
+            this.repLookUpMaterial,
+            this.repLookUpCatgName,
+            this.repLookUpFinish,
+            this.repLookUpMachiningLevel});
+            this.gridCrlPartsCode.Size = new System.Drawing.Size(1607, 560);
             this.gridCrlPartsCode.TabIndex = 0;
             this.gridCrlPartsCode.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPartsCode});
@@ -601,10 +610,22 @@
             // 
             this.colCatgName.AppearanceHeader.Options.UseTextOptions = true;
             this.colCatgName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colCatgName.ColumnEdit = this.repLookUpCatgName;
             this.colCatgName.FieldName = "CatgName";
             this.colCatgName.Name = "colCatgName";
             this.colCatgName.Visible = true;
             this.colCatgName.VisibleIndex = 4;
+            this.colCatgName.Width = 80;
+            // 
+            // repLookUpCatgName
+            // 
+            this.repLookUpCatgName.AutoHeight = false;
+            this.repLookUpCatgName.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpCatgName.DisplayMember = "CatgDescription";
+            this.repLookUpCatgName.Name = "repLookUpCatgName";
+            this.repLookUpCatgName.NullText = "";
+            this.repLookUpCatgName.ValueMember = "CatgName";
             // 
             // colCodeSpec
             // 
@@ -670,19 +691,41 @@
             // 
             this.colFinish.AppearanceHeader.Options.UseTextOptions = true;
             this.colFinish.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colFinish.ColumnEdit = this.repLookUpFinish;
             this.colFinish.FieldName = "Finish";
             this.colFinish.Name = "colFinish";
             this.colFinish.Visible = true;
             this.colFinish.VisibleIndex = 10;
             // 
+            // repLookUpFinish
+            // 
+            this.repLookUpFinish.AutoHeight = false;
+            this.repLookUpFinish.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpFinish.DisplayMember = "FinishCatg";
+            this.repLookUpFinish.Name = "repLookUpFinish";
+            this.repLookUpFinish.NullText = "";
+            this.repLookUpFinish.ValueMember = "AutoId";
+            // 
             // colMachiningLevel
             // 
             this.colMachiningLevel.AppearanceHeader.Options.UseTextOptions = true;
             this.colMachiningLevel.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colMachiningLevel.ColumnEdit = this.repLookUpMachiningLevel;
             this.colMachiningLevel.FieldName = "MachiningLevel";
             this.colMachiningLevel.Name = "colMachiningLevel";
             this.colMachiningLevel.Visible = true;
             this.colMachiningLevel.VisibleIndex = 11;
+            // 
+            // repLookUpMachiningLevel
+            // 
+            this.repLookUpMachiningLevel.AutoHeight = false;
+            this.repLookUpMachiningLevel.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpMachiningLevel.DisplayMember = "LevelCatg";
+            this.repLookUpMachiningLevel.Name = "repLookUpMachiningLevel";
+            this.repLookUpMachiningLevel.NullText = "";
+            this.repLookUpMachiningLevel.ValueMember = "AutoId";
             // 
             // colUnit
             // 
@@ -802,7 +845,7 @@
             // FrmPartsCodeQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1202, 700);
+            this.ClientSize = new System.Drawing.Size(1611, 700);
             this.Controls.Add(this.pnlGrid);
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);
@@ -827,7 +870,10 @@
             this.pnlGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewPartsCode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCatgName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpMaterial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpFinish)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpMachiningLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
             this.ResumeLayout(false);
 
@@ -911,5 +957,8 @@
         private DevExpress.XtraEditors.LookUpEdit lookUpCatgName;
         private DevExpress.XtraEditors.LabelControl labCatgName;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpMaterial;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCatgName;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpFinish;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpMachiningLevel;
     }
 }

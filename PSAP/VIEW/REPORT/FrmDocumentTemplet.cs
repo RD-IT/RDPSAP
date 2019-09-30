@@ -85,6 +85,9 @@ namespace PSAP.VIEW.BSVIEW
                             case "PUR_PrReqHead"://请购单
                                 new FrmPrReqDAO().PrintHandle("", 3);
                                 break;
+                            case "PUR_InquiryHead"://询价单
+                                new FrmInquiryDAO().PrintHandle("", 3);
+                                break;
                             case "PUR_OrderHead"://采购订单
                                 new FrmOrderDAO().PrintHandle("", 3);
                                 break;
@@ -118,6 +121,9 @@ namespace PSAP.VIEW.BSVIEW
                             //生产管理
                             case "PB_ProductionSchedule"://生产计划单
                                 new FrmProductionScheduleDAO().PrintHandle("", 3);
+                                break;
+                            case "PB_ProductionPlan"://工单
+                                new FrmProductionPlanDAO().PrintHandle("", 3);
                                 break;
 
                             //人事管理

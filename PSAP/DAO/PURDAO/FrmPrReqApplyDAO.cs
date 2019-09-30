@@ -1,4 +1,5 @@
 ﻿using PSAP.DAO.BSDAO;
+using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -60,6 +61,10 @@ namespace PSAP.DAO.PURDAO
             if (prReqNoStr != "")
             {
                 sqlStr += string.Format(" and PrReqNo='{0}'", prReqNoStr);
+            }
+            if (!SystemInfo.PrListDistributionAllHandle)
+            {
+                sqlStr += string.Format(" and IsNull(Arrangement, {0})={0}", SystemInfo.user.AutoId);
             }
             sqlStr = string.Format("select PrReq.*, Parts.CodeName, PrReq.Qty-PrReq.OrderCount as Overplus from V_PUR_PrReqList_Order as PrReq left join SW_PartsCode as Parts on PrReq.CodeFileName = Parts.CodeFileName where PrReq.Qty>PrReq.OrderCount {0} order by PrReq.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
