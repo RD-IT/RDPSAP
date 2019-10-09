@@ -116,6 +116,7 @@
             this.tsmiCxan = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCxjgcw = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSjcx = new System.Windows.Forms.ToolStripMenuItem();
+            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinwwListAutoId.Properties)).BeginInit();
@@ -183,7 +184,7 @@
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Margin = new System.Windows.Forms.Padding(4);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1189, 78);
+            this.pnltop.Size = new System.Drawing.Size(1513, 78);
             this.pnltop.TabIndex = 2;
             // 
             // spinwwListAutoId
@@ -649,7 +650,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 549);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1189, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1513, 58);
             this.pnlBottom.TabIndex = 6;
             // 
             // gridBottomOrderHead
@@ -659,7 +660,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_Settlement;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1185, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1509, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // gridControlSettlementHead
@@ -676,7 +677,7 @@
             this.repSpinTax,
             this.repLookUpApprovalType,
             this.repCheckIsVoucher});
-            this.gridControlSettlementHead.Size = new System.Drawing.Size(1185, 467);
+            this.gridControlSettlementHead.Size = new System.Drawing.Size(1509, 467);
             this.gridControlSettlementHead.TabIndex = 7;
             this.gridControlSettlementHead.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewSettlementHead});
@@ -697,7 +698,8 @@
             this.colRemark,
             this.colPrepared,
             this.colModifier,
-            this.colInvoiceNo});
+            this.colInvoiceNo,
+            this.colModifierTime});
             this.gridViewSettlementHead.GridControl = this.gridControlSettlementHead;
             this.gridViewSettlementHead.IndicatorWidth = 40;
             this.gridViewSettlementHead.Name = "gridViewSettlementHead";
@@ -743,13 +745,13 @@
             // 
             this.colSettlementDate.AppearanceHeader.Options.UseTextOptions = true;
             this.colSettlementDate.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colSettlementDate.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.colSettlementDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.colSettlementDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colSettlementDate.FieldName = "SettlementDate";
             this.colSettlementDate.Name = "colSettlementDate";
             this.colSettlementDate.Visible = true;
             this.colSettlementDate.VisibleIndex = 2;
-            this.colSettlementDate.Width = 90;
+            this.colSettlementDate.Width = 135;
             // 
             // colReqDep
             // 
@@ -976,7 +978,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1189, 471);
+            this.pnlMiddle.Size = new System.Drawing.Size(1513, 471);
             this.pnlMiddle.TabIndex = 8;
             // 
             // cms
@@ -1034,10 +1036,22 @@
             this.tsmiSjcx.Size = new System.Drawing.Size(316, 22);
             this.tsmiSjcx.Text = "双击查询明细错误。";
             // 
+            // colModifierTime
+            // 
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colModifierTime.FieldName = "ModifierTime";
+            this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 13;
+            this.colModifierTime.Width = 135;
+            // 
             // FrmSettlementQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1189, 607);
+            this.ClientSize = new System.Drawing.Size(1513, 607);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnltop);
@@ -1176,5 +1190,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiCxan;
         private System.Windows.Forms.ToolStripMenuItem tsmiCxjgcw;
         private System.Windows.Forms.ToolStripMenuItem tsmiSjcx;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifierTime;
     }
 }

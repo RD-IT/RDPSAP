@@ -58,6 +58,7 @@ namespace PSAP.DAO.INVDAO
                 bool locationIsList = dbListTable.Columns.Contains("LocationId");
                 foreach (DataRow dbRow in dbListTable.Rows)
                 {
+                    int dbCodeId = DataTypeConvert.GetInt(dbRow["CodeId"]);
                     string dbCodeFileName = DataTypeConvert.GetString(dbRow["CodeFileName"]);
                     int dbRepertoryId = DataTypeConvert.GetInt(dbRow["RepertoryId"]);
                     int dbLocationId = DataTypeConvert.GetInt(dbRow[columnName]);
@@ -67,9 +68,9 @@ namespace PSAP.DAO.INVDAO
                     double iaSumQty = 0;
 
                     if (locationIsList)
-                        iaSumQty = DataTypeConvert.GetDouble(updateListTable.Compute("Sum(Qty)", string.Format("CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId)));
+                        iaSumQty = DataTypeConvert.GetDouble(updateListTable.Compute("Sum(Qty)", string.Format("CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId)));
                     else
-                        iaSumQty = DataTypeConvert.GetDouble(updateListTable.Compute("Sum(Qty)", string.Format("CodeFileName='{0}' and ProjectNo='{1}' and ShelfId={2}", dbCodeFileName, dbProjectNo, dbShelfId)));
+                        iaSumQty = DataTypeConvert.GetDouble(updateListTable.Compute("Sum(Qty)", string.Format("CodeId={0} and CodeFileName='{1}' and ProjectNo='{2}' and ShelfId={3}", dbCodeId, dbCodeFileName, dbProjectNo, dbShelfId)));
 
                     if (dbQty == iaSumQty)
                     {
@@ -81,11 +82,11 @@ namespace PSAP.DAO.INVDAO
                         if (!inoutStockSign)
                             modifiedQty = 0 - modifiedQty;
 
-                        UpdateWarehouseNowInfo(cmd, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId, modifiedQty);
+                        UpdateWarehouseNowInfo(cmd, dbCodeId, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId, modifiedQty);
 
                         if (!SystemInfo.EnableNegativeInventory)
                         {
-                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId);
+                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId);
 
                             double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                             if (nowQty < 0)
@@ -99,9 +100,9 @@ namespace PSAP.DAO.INVDAO
 
                     DataRow[] drs;
                     if (locationIsList)
-                        drs = updateListTable.Select(string.Format("CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId));
+                        drs = updateListTable.Select(string.Format("CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId));
                     else
-                        drs = updateListTable.Select(string.Format("CodeFileName='{0}' and ProjectNo='{1}' and ShelfId={2}", dbCodeFileName, dbProjectNo, dbShelfId));
+                        drs = updateListTable.Select(string.Format("CodeId={0} and CodeFileName='{1}' and ProjectNo='{2}' and ShelfId={3}", dbCodeId, dbCodeFileName, dbProjectNo, dbShelfId));
 
                     foreach (DataRow dr in drs)
                     {
@@ -111,6 +112,7 @@ namespace PSAP.DAO.INVDAO
 
                 foreach (DataRow updateRow in updateListTable.Rows)
                 {
+                    int updateCodeId = DataTypeConvert.GetInt(updateRow["CodeId"]);
                     string updateCodeFileName = DataTypeConvert.GetString(updateRow["CodeFileName"]);
                     int updateRepertoryId = locationIsList ? DataTypeConvert.GetInt(updateRow["RepertoryId"]) : DataTypeConvert.GetInt(headRow["RepertoryId"]);
                     int updateLocationId = locationIsList ? DataTypeConvert.GetInt(updateRow["RepertoryId"]) : DataTypeConvert.GetInt(headRow["RepertoryLocationId"]);
@@ -121,11 +123,11 @@ namespace PSAP.DAO.INVDAO
                     if (!inoutStockSign)
                         updateQty = 0 - updateQty;
 
-                    UpdateWarehouseNowInfo(cmd, updateCodeFileName, updateRepertoryId, updateLocationId, updateProjectNo, updateShelfId, updateQty);
+                    UpdateWarehouseNowInfo(cmd, updateCodeId, updateCodeFileName, updateRepertoryId, updateLocationId, updateProjectNo, updateShelfId, updateQty);
 
                     if (!SystemInfo.EnableNegativeInventory)
                     {
-                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", updateCodeFileName, updateRepertoryId, updateLocationId, updateProjectNo, updateShelfId);
+                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", updateCodeId, updateCodeFileName, updateRepertoryId, updateLocationId, updateProjectNo, updateShelfId);
 
                         double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                         if (nowQty < 0)
@@ -177,13 +179,14 @@ namespace PSAP.DAO.INVDAO
                 DataTable updateOutListTable = updateInListTable.Copy();
                 foreach (DataRow dbOutRow in dbOutListTable.Rows)
                 {
+                    int dbCodeId = DataTypeConvert.GetInt(dbOutRow["CodeId"]);
                     string dbCodeFileName = DataTypeConvert.GetString(dbOutRow["CodeFileName"]);
                     int dbOutLocationId = DataTypeConvert.GetInt(dbOutRow["OutLocationId"]);
                     int dbOutRepertoryId = DataTypeConvert.GetInt(dbOutRow["OutRepertoryId"]);
                     string dbOutProjectNo = DataTypeConvert.GetString(dbOutRow["OutProjectNo"]);
                     int dbOutShelfId = DataTypeConvert.GetInt(dbOutRow["OutShelfId"]);
                     double dbOutQty = DataTypeConvert.GetDouble(dbOutRow["Qty"]);
-                    double imOutSumQty = DataTypeConvert.GetDouble(updateOutListTable.Compute("Sum(Qty)", string.Format("CodeFileName='{0}' and OutRepertoryId={1} and OutLocationId={2} and OutProjectNo='{3}' and OutShelfId={4}", dbCodeFileName, dbOutLocationId, dbOutRepertoryId, dbOutProjectNo, dbOutShelfId)));
+                    double imOutSumQty = DataTypeConvert.GetDouble(updateOutListTable.Compute("Sum(Qty)", string.Format("CodeId={0} and CodeFileName='{1}' and OutRepertoryId={2} and OutLocationId={3} and OutProjectNo='{4}' and OutShelfId={5}", dbCodeId, dbCodeFileName, dbOutLocationId, dbOutRepertoryId, dbOutProjectNo, dbOutShelfId)));
 
                     if (dbOutQty == imOutSumQty)
                     {
@@ -193,11 +196,11 @@ namespace PSAP.DAO.INVDAO
                     {
                         double modifiedQty = 0 - (imOutSumQty - dbOutQty);
 
-                        UpdateWarehouseNowInfo(cmd, dbCodeFileName, dbOutRepertoryId, dbOutLocationId, dbOutProjectNo, dbOutShelfId, modifiedQty);
+                        UpdateWarehouseNowInfo(cmd, dbCodeId, dbCodeFileName, dbOutRepertoryId, dbOutLocationId, dbOutProjectNo, dbOutShelfId, modifiedQty);
 
                         if (!SystemInfo.EnableNegativeInventory)
                         {
-                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", dbCodeFileName, dbOutRepertoryId, dbOutLocationId, dbOutProjectNo, dbOutShelfId);
+                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbOutRepertoryId, dbOutLocationId, dbOutProjectNo, dbOutShelfId);
 
                             double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                             if (nowQty < 0)
@@ -209,7 +212,7 @@ namespace PSAP.DAO.INVDAO
                         }
                     }
 
-                    DataRow[] drs = updateOutListTable.Select(string.Format("CodeFileName='{0}' and OutRepertoryId={1} and OutLocationId={2} and OutProjectNo='{3}' and OutShelfId={4}", dbCodeFileName, dbOutLocationId, dbOutRepertoryId, dbOutProjectNo, dbOutShelfId));
+                    DataRow[] drs = updateOutListTable.Select(string.Format("CodeId={0} and CodeFileName='{1}' and OutRepertoryId={2} and OutLocationId={3} and OutProjectNo='{4}' and OutShelfId={5}", dbCodeId, dbCodeFileName, dbOutLocationId, dbOutRepertoryId, dbOutProjectNo, dbOutShelfId));
 
                     foreach (DataRow dr in drs)
                     {
@@ -219,6 +222,7 @@ namespace PSAP.DAO.INVDAO
 
                 foreach (DataRow updateOutRow in updateOutListTable.Rows)
                 {
+                    int updateCodeId = DataTypeConvert.GetInt(updateOutRow["CodeId"]);
                     string updateCodeFileName = DataTypeConvert.GetString(updateOutRow["CodeFileName"]);
                     int updateOutRepertoryId = DataTypeConvert.GetInt(updateOutRow["OutRepertoryId"]);
                     int updateOutLocationId = DataTypeConvert.GetInt(updateOutRow["OutLocationId"]);
@@ -226,11 +230,11 @@ namespace PSAP.DAO.INVDAO
                     int updateOutShelfId = DataTypeConvert.GetInt(updateOutRow["OutShelfId"]);
                     double updateOutQty = DataTypeConvert.GetDouble(updateOutRow["Qty"]);
 
-                    UpdateWarehouseNowInfo(cmd, updateCodeFileName, updateOutRepertoryId, updateOutLocationId, updateOutProjectNo, updateOutShelfId, 0 - updateOutQty);
+                    UpdateWarehouseNowInfo(cmd, updateCodeId, updateCodeFileName, updateOutRepertoryId, updateOutLocationId, updateOutProjectNo, updateOutShelfId, 0 - updateOutQty);
 
                     if (!SystemInfo.EnableNegativeInventory)
                     {
-                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", updateCodeFileName, updateOutRepertoryId, updateOutLocationId, updateOutProjectNo, updateOutShelfId);
+                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", updateCodeId, updateCodeFileName, updateOutRepertoryId, updateOutLocationId, updateOutProjectNo, updateOutShelfId);
 
                         double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                         if (nowQty < 0)
@@ -248,6 +252,7 @@ namespace PSAP.DAO.INVDAO
 
                 foreach (DataRow dbInRow in dbInListTable.Rows)
                 {
+                    int dbCodeId = DataTypeConvert.GetInt(dbInRow["CodeId"]);
                     string dbCodeFileName = DataTypeConvert.GetString(dbInRow["CodeFileName"]);
                     int dbInRepertoryId = DataTypeConvert.GetInt(dbInRow["InRepertoryId"]);
                     int dbInLocationId = DataTypeConvert.GetInt(dbInRow["InLocationId"]);
@@ -255,7 +260,7 @@ namespace PSAP.DAO.INVDAO
                     int dbInShelfId = DataTypeConvert.GetInt(dbInRow["InShelfId"]);
 
                     double dbInQty = DataTypeConvert.GetDouble(dbInRow["Qty"]);
-                    double imInSumQty = DataTypeConvert.GetDouble(updateInListTable.Compute("Sum(Qty)", string.Format("CodeFileName='{0}' and InRepertoryId={1} and InLocationId={2} and InProjectNo='{3}' and InShelfId={4}", dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId)));
+                    double imInSumQty = DataTypeConvert.GetDouble(updateInListTable.Compute("Sum(Qty)", string.Format("CodeId={0} and CodeFileName='{1}' and InRepertoryId={2} and InLocationId={3} and InProjectNo='{4}' and InShelfId={5}", dbCodeId, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId)));
 
                     if (dbInQty == imInSumQty)
                     {
@@ -265,11 +270,11 @@ namespace PSAP.DAO.INVDAO
                     {
                         double modifiedQty = imInSumQty - dbInQty;
 
-                        UpdateWarehouseNowInfo(cmd, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId, modifiedQty);
+                        UpdateWarehouseNowInfo(cmd, dbCodeId, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId, modifiedQty);
 
                         if (!SystemInfo.EnableNegativeInventory)
                         {
-                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId);
+                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId);
 
                             double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                             if (nowQty < 0)
@@ -281,7 +286,7 @@ namespace PSAP.DAO.INVDAO
                         }
                     }
 
-                    DataRow[] drs = updateInListTable.Select(string.Format("CodeFileName='{0}' and InRepertoryId={1} and InLocationId={2} and InProjectNo='{3}' and InShelfId={4}", dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId));
+                    DataRow[] drs = updateInListTable.Select(string.Format("CodeId={0} and CodeFileName='{1}' and InRepertoryId={2} and InLocationId={3} and InProjectNo='{4}' and InShelfId={5}", dbCodeId, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId));
 
                     foreach (DataRow dr in drs)
                     {
@@ -291,6 +296,7 @@ namespace PSAP.DAO.INVDAO
 
                 foreach (DataRow updateInRow in updateInListTable.Rows)
                 {
+                    int updateCodeId = DataTypeConvert.GetInt(updateInRow["CodeId"]);
                     string updateCodeFileName = DataTypeConvert.GetString(updateInRow["CodeFileName"]);
                     int updateInRepertoryId = DataTypeConvert.GetInt(updateInRow["InRepertoryId"]);
                     int updateInLocationId = DataTypeConvert.GetInt(updateInRow["InLocationId"]);
@@ -298,11 +304,11 @@ namespace PSAP.DAO.INVDAO
                     int updateInShelfId = DataTypeConvert.GetInt(updateInRow["InShelfId"]);
                     double updateInQty = DataTypeConvert.GetDouble(updateInRow["Qty"]);
 
-                    UpdateWarehouseNowInfo(cmd, updateCodeFileName, updateInRepertoryId, updateInLocationId, updateInProjectNo, updateInShelfId, updateInQty);
+                    UpdateWarehouseNowInfo(cmd, updateCodeId, updateCodeFileName, updateInRepertoryId, updateInLocationId, updateInProjectNo, updateInShelfId, updateInQty);
 
                     if (!SystemInfo.EnableNegativeInventory)
                     {
-                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", updateCodeFileName, updateInRepertoryId, updateInLocationId, updateInProjectNo, updateInShelfId);
+                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", updateCodeId, updateCodeFileName, updateInRepertoryId, updateInLocationId, updateInProjectNo, updateInShelfId);
 
                         double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                         if (nowQty < 0)
@@ -323,14 +329,14 @@ namespace PSAP.DAO.INVDAO
         /// <summary>
         /// 更新当前库存数
         /// </summary>
-        private void UpdateWarehouseNowInfo(SqlCommand cmd, string codeFileNameStr, int repertoryIdInt, int locationIdInt, string projectNoStr, int shelfIdInt, double qtyDouble)
+        private void UpdateWarehouseNowInfo(SqlCommand cmd, int codeIdInt, string codeFileNameStr, int repertoryIdInt, int locationIdInt, string projectNoStr, int shelfIdInt, double qtyDouble)
         {
             int affectedRowNo = 0;
-            cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = Qty + ({5}) where CodeFileName='{0}' and RepertoryId={1} and LocationId={2} and ProjectNo='{3}' and ShelfId={4}", codeFileNameStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, qtyDouble);
+            cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = Qty + ({6}) where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", codeIdInt, codeFileNameStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, qtyDouble);
             affectedRowNo = cmd.ExecuteNonQuery();
             if (affectedRowNo == 0)
             {
-                cmd.CommandText = string.Format("insert into INV_WarehouseNowInfo(CodeFileName, RepertoryId, LocationId, ProjectNo, ShelfId, Qty) values ('{0}', {1}, {2}, '{3}', {4}, {5})", codeFileNameStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, qtyDouble);
+                cmd.CommandText = string.Format("insert into INV_WarehouseNowInfo(CodeId, CodeFileName, RepertoryId, LocationId, ProjectNo, ShelfId, Qty) values ({0}, '{1}', {2}, {3}, '{4}', {5}, {6})", codeIdInt, codeFileNameStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, qtyDouble);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -363,10 +369,10 @@ namespace PSAP.DAO.INVDAO
                         cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = 0");
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = IsNull(beg.Qty, 0) from INV_WarehouseNowInfo as nowInfo left join F_ProductOpenAccount_Beginning('{0}', '{1}') as beg on nowInfo.CodeFileName = beg.CodeFileName and nowInfo.RepertoryId = beg.RepertoryId and nowInfo.LocationId = beg.LocationId and nowInfo.ProjectNo = beg.ProjectNo and nowInfo.ShelfId = beg.ShelfId", curYearFirstDate.ToString("yyyy-MM-dd"), nextYearFirstDate.ToString("yyyy-MM-dd"));
+                        cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = IsNull(beg.Qty, 0) from INV_WarehouseNowInfo as nowInfo left join F_ProductOpenAccount_Beginning('{0}', '{1}') as beg on nowInfo.CodeId = beg.CodeId and nowInfo.CodeFileName = beg.CodeFileName and nowInfo.RepertoryId = beg.RepertoryId and nowInfo.LocationId = beg.LocationId and nowInfo.ProjectNo = beg.ProjectNo and nowInfo.ShelfId = beg.ShelfId", curYearFirstDate.ToString("yyyy-MM-dd"), nextYearFirstDate.ToString("yyyy-MM-dd"));
                         cmd.ExecuteNonQuery();
 
-                        cmd.CommandText = string.Format("insert into INV_WarehouseNowInfo (CodeFileName, RepertoryId, LocationId, ProjectNo, ShelfId, Qty) select CodeFileName, RepertoryId, LocationId, ProjectNo, ShelfId, Qty from F_ProductOpenAccount_Beginning('{0}', '{1}') as beg where not exists (select * from INV_WarehouseNowInfo as nowInfo where nowInfo.CodeFileName = beg.CodeFileName and nowInfo.RepertoryId = beg.RepertoryId and nowInfo.LocationId = beg.LocationId and nowInfo.ProjectNo = beg.ProjectNo and nowInfo.ShelfId = beg.ShelfId)", curYearFirstDate.ToString("yyyy-MM-dd"), nextYearFirstDate.ToString("yyyy-MM-dd"));
+                        cmd.CommandText = string.Format("insert into INV_WarehouseNowInfo (CodeId, CodeFileName, RepertoryId, LocationId, ProjectNo, ShelfId, Qty) select CodeId, CodeFileName, RepertoryId, LocationId, ProjectNo, ShelfId, Qty from F_ProductOpenAccount_Beginning('{0}', '{1}') as beg where not exists (select * from INV_WarehouseNowInfo as nowInfo where nowInfo.CodeId = beg.CodeId and nowInfo.CodeFileName = beg.CodeFileName and nowInfo.RepertoryId = beg.RepertoryId and nowInfo.LocationId = beg.LocationId and nowInfo.ProjectNo = beg.ProjectNo and nowInfo.ShelfId = beg.ShelfId)", curYearFirstDate.ToString("yyyy-MM-dd"), nextYearFirstDate.ToString("yyyy-MM-dd"));
                         cmd.ExecuteNonQuery();
 
                         LogHandler.RecordLog(cmd, "当前库存数全部重新更新。");
@@ -562,7 +568,7 @@ namespace PSAP.DAO.INVDAO
 
                         //是否涉及把当前库存数为0的删除了，等做的时候再确认
 
-                        cmd.CommandText = string.Format("insert into INV_WarehouseBeginingInfo (BeginingDate, RepertoryId, LocationId, ProjectNo, ShelfId, CodeFileName, BeginingQty) select {0}, RepertoryId, LocationId, ProjectNo, ShelfId, CodeFileName, Qty from INV_WarehouseNowInfo", yearInt);
+                        cmd.CommandText = string.Format("insert into INV_WarehouseBeginingInfo (BeginingDate, RepertoryId, LocationId, ProjectNo, ShelfId, CodeId, CodeFileName, BeginingQty) select {0}, RepertoryId, LocationId, ProjectNo, ShelfId, CodeId, CodeFileName, Qty from INV_WarehouseNowInfo", yearInt);
                         cmd.ExecuteNonQuery();
 
                         LogHandler.RecordLog(cmd, string.Format("[{0}]年的库存结转成功。", yearInt - 1));

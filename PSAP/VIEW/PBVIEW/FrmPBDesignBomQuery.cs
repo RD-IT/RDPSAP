@@ -38,7 +38,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
                 lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
                 lookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
@@ -105,12 +105,13 @@ namespace PSAP.VIEW.BSVIEW
                     return;
 
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                //string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_DesignBom.Tables[0].Rows.Clear();
-                string querySqlStr = bomDAO.Query_DesignBomList_SQL(projectNoStr, codeFileNameStr, checkIsUse.Checked, empNameStr, commonStr, false);
+                string querySqlStr = bomDAO.Query_DesignBomList_SQL(projectNoStr, codeIdInt, checkIsUse.Checked, empNameStr, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 
@@ -153,11 +154,15 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmPBDesignBom_PS_New";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string salesOrderNoStr = DataTypeConvert.GetString(gridViewDesignBom.GetFocusedDataRow()["SalesOrderNo"]);
                     int autoIdInt = DataTypeConvert.GetInt(gridViewDesignBom.GetFocusedDataRow()["AutoId"]);
-                    FrmPBDesignBom_PS.QuerySalesOrderNoStr = salesOrderNoStr;
-                    FrmPBDesignBom_PS.QueryPBBomListAutoId = autoIdInt;
-                    ViewHandler.ShowRightWindow("FrmPBDesignBom_PS");
+                    FrmPBDesignBom_PS_New.QuerySalesOrderNoStr = salesOrderNoStr;
+                    FrmPBDesignBom_PS_New.QueryPBBomListAutoId = autoIdInt;
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

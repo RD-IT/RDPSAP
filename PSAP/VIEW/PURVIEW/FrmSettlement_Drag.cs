@@ -824,13 +824,17 @@ namespace PSAP.VIEW.BSVIEW
                     case "CodeFileName":
                         string tmpStr = DataTypeConvert.GetString(gridViewSettlementList.GetDataRow(e.RowHandle)["CodeFileName"]);
                         if (tmpStr == "")
+                        {
+                            gridViewSettlementList.SetRowCellValue(e.RowHandle, "CodeId", null);
                             gridViewSettlementList.SetRowCellValue(e.RowHandle, "CodeName", "");
+                        }
                         else
                         {
                             DataTable temp = (DataTable)repSearchCodeFileName.DataSource;
                             DataRow[] drs = temp.Select(string.Format("CodeFileName='{0}'", tmpStr));
                             if (drs.Length > 0)
                             {
+                                gridViewSettlementList.SetRowCellValue(e.RowHandle, "CodeId", DataTypeConvert.GetString(drs[0]["AutoId"]));
                                 gridViewSettlementList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));
                             }
                         }
@@ -904,13 +908,17 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (gridViewSettlementList.GetFocusedDataRow() != null)
                 {
+                    string formNameStr = "FrmWarehouseWarrant_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string wwHeadNoStr = DataTypeConvert.GetString(gridViewSettlementList.GetFocusedDataRow()["WarehouseWarrant"]);
                     int wwListAutoId = DataTypeConvert.GetInt(gridViewSettlementList.GetFocusedDataRow()["WarehouseWarrantListAutoId"]);
                     if (wwHeadNoStr == "" || wwListAutoId == 0)
                         return;
                     FrmWarehouseWarrant_Drag.queryWWHeadNo = wwHeadNoStr;
                     FrmWarehouseWarrant_Drag.queryListAutoId = wwListAutoId;
-                    ViewHandler.ShowRightWindow("FrmWarehouseWarrant_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)
@@ -947,7 +955,7 @@ namespace PSAP.VIEW.BSVIEW
             btnPreview.Enabled = !ret;
 
             colInvoiceNo.OptionsColumn.AllowEdit = ret;
-            colBussinessBaseNo.OptionsColumn.AllowEdit = ret;
+            //colBussinessBaseNo.OptionsColumn.AllowEdit = ret;
             colReqDep.OptionsColumn.AllowEdit = ret;
             colTax.OptionsColumn.AllowEdit = ret;
             colPayDate.OptionsColumn.AllowEdit = ret;
@@ -1291,6 +1299,7 @@ namespace PSAP.VIEW.BSVIEW
                     gridViewSettlementList.SetFocusedRowCellValue("SettlementNo", gridViewSettlementHead.GetFocusedDataRow()["SettlementNo"]);
                     gridViewSettlementList.SetFocusedRowCellValue("WarehouseWarrantListAutoId", dr["AutoId"]);
                     gridViewSettlementList.SetFocusedRowCellValue("WarehouseWarrant", headRow["WarehouseWarrant"]);
+                    gridViewSettlementList.SetFocusedRowCellValue("CodeId", dr["CodeId"]);
                     gridViewSettlementList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewSettlementList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
 
@@ -1329,6 +1338,7 @@ namespace PSAP.VIEW.BSVIEW
                     gridViewSettlementList.SetFocusedRowCellValue("SettlementNo", gridViewSettlementHead.GetFocusedDataRow()["SettlementNo"]);
                     gridViewSettlementList.SetFocusedRowCellValue("WarehouseWarrantListAutoId", dr["AutoId"]);
                     gridViewSettlementList.SetFocusedRowCellValue("WarehouseWarrant", headRow["WarehouseWarrant"]);
+                    gridViewSettlementList.SetFocusedRowCellValue("CodeId", dr["CodeId"]);
                     gridViewSettlementList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewSettlementList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
 

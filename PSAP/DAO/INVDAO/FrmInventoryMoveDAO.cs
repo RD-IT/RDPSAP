@@ -104,7 +104,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_InventoryMoveList.*, SW_PartsCode.CodeName from INV_InventoryMoveList left join SW_PartsCode on INV_InventoryMoveList.CodeFileName = SW_PartsCode.CodeFileName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_InventoryMoveList.*, SW_PartsCode.CodeName from INV_InventoryMoveList left join SW_PartsCode on INV_InventoryMoveList.CodeId = SW_PartsCode.AutoId where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -175,11 +175,11 @@ namespace PSAP.DAO.INVDAO
                         DataTable dbOutListTable = new DataTable();
                         if (IMHeadRow.RowState != DataRowState.Added)
                         {
-                            cmd.CommandText = string.Format("select CodeFileName, head.InRepertoryId, head.InLocationId, list.InProjectNo, list.InShelfId, Sum(Qty) as Qty from INV_InventoryMoveList as list left join INV_InventoryMoveHead as head on list.InventoryMoveNo = head.InventoryMoveNo where list.InventoryMoveNo = '{0}' group by CodeFileName, head.InRepertoryId, head.InLocationId, list.InProjectNo, list.InShelfId", imNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.InRepertoryId, head.InLocationId, list.InProjectNo, list.InShelfId, Sum(Qty) as Qty from INV_InventoryMoveList as list left join INV_InventoryMoveHead as head on list.InventoryMoveNo = head.InventoryMoveNo where list.InventoryMoveNo = '{0}' group by CodeId, CodeFileName, head.InRepertoryId, head.InLocationId, list.InProjectNo, list.InShelfId", imNoStr);
                             SqlDataAdapter dbInListAdapter = new SqlDataAdapter(cmd);
                             dbInListAdapter.Fill(dbInListTable);
 
-                            cmd.CommandText = string.Format("select CodeFileName, head.OutLocationId, head.OutRepertoryId, list.OutProjectNo, list.OutShelfId, Sum(Qty) as Qty from INV_InventoryMoveList as list left join INV_InventoryMoveHead as head on list.InventoryMoveNo = head.InventoryMoveNo where list.InventoryMoveNo = '{0}' group by CodeFileName, head.OutLocationId, head.OutRepertoryId, list.OutProjectNo, list.OutShelfId", imNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.OutLocationId, head.OutRepertoryId, list.OutProjectNo, list.OutShelfId, Sum(Qty) as Qty from INV_InventoryMoveList as list left join INV_InventoryMoveHead as head on list.InventoryMoveNo = head.InventoryMoveNo where list.InventoryMoveNo = '{0}' group by CodeId, CodeFileName, head.OutLocationId, head.OutRepertoryId, list.OutProjectNo, list.OutShelfId", imNoStr);
                             SqlDataAdapter dbOutListAdapter = new SqlDataAdapter(cmd);
                             dbOutListAdapter.Fill(dbOutListTable);
                         }

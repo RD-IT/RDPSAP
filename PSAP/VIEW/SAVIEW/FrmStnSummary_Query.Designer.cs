@@ -117,7 +117,7 @@
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Margin = new System.Windows.Forms.Padding(4);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1218, 78);
+            this.pnltop.Size = new System.Drawing.Size(1213, 78);
             this.pnltop.TabIndex = 4;
             // 
             // btnSaveExcel
@@ -390,7 +390,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 503);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1218, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1213, 58);
             this.pnlBottom.TabIndex = 8;
             // 
             // gridBottomOrderHead
@@ -400,7 +400,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_StnSummaryList;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1214, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1209, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // pnlMiddle
@@ -409,7 +409,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1218, 425);
+            this.pnlMiddle.Size = new System.Drawing.Size(1213, 425);
             this.pnlMiddle.TabIndex = 9;
             // 
             // gridCtlStnSummaryList
@@ -421,7 +421,7 @@
             this.gridCtlStnSummaryList.Name = "gridCtlStnSummaryList";
             this.gridCtlStnSummaryList.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repMemoStnDesc});
-            this.gridCtlStnSummaryList.Size = new System.Drawing.Size(1214, 421);
+            this.gridCtlStnSummaryList.Size = new System.Drawing.Size(1209, 421);
             this.gridCtlStnSummaryList.TabIndex = 5;
             this.gridCtlStnSummaryList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewStnSummaryList});
@@ -516,7 +516,7 @@
             this.colGetTime.Name = "colGetTime";
             this.colGetTime.Visible = true;
             this.colGetTime.VisibleIndex = 4;
-            this.colGetTime.Width = 130;
+            this.colGetTime.Width = 135;
             // 
             // colAutoQuotationNo
             // 
@@ -569,7 +569,7 @@
             // FrmStnSummary_Query
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1218, 561);
+            this.ClientSize = new System.Drawing.Size(1213, 561);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnltop);

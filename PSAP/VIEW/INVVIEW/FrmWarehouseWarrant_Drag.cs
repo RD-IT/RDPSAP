@@ -915,13 +915,17 @@ namespace PSAP.VIEW.BSVIEW
                     case "CodeFileName":
                         string tmpStr = DataTypeConvert.GetString(gridViewWWList.GetDataRow(e.RowHandle)["CodeFileName"]);
                         if (tmpStr == "")
+                        {
+                            gridViewWWList.SetRowCellValue(e.RowHandle, "CodeId", null);
                             gridViewWWList.SetRowCellValue(e.RowHandle, "CodeName", "");
+                        }
                         else
                         {
                             DataTable temp = (DataTable)repSearchCodeFileName.DataSource;
                             DataRow[] drs = temp.Select(string.Format("CodeFileName='{0}'", tmpStr));
                             if (drs.Length > 0)
                             {
+                                gridViewWWList.SetRowCellValue(e.RowHandle, "CodeId", DataTypeConvert.GetInt(drs[0]["AutoId"]));
                                 gridViewWWList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));
                             }
                         }
@@ -1035,13 +1039,17 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (gridViewWWList.GetFocusedDataRow() != null)
                 {
+                    string formNameStr = "FrmOrder_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string orderHeadNoStr = DataTypeConvert.GetString(gridViewWWList.GetFocusedDataRow()["OrderHeadNo"]);
                     int poListAutoId = DataTypeConvert.GetInt(gridViewWWList.GetFocusedDataRow()["PoListAutoId"]);
                     if (orderHeadNoStr == "" || poListAutoId == 0)
                         return;
-                    FrmOrder.queryOrderHeadNo = orderHeadNoStr;
-                    FrmOrder.queryListAutoId = poListAutoId;
-                    ViewHandler.ShowRightWindow("FrmOrder");
+                    FrmOrder_Drag.queryOrderHeadNo = orderHeadNoStr;
+                    FrmOrder_Drag.queryListAutoId = poListAutoId;
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)
@@ -1060,9 +1068,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (gridViewWWList.GetFocusedDataRow() != null)
                 {
+                    string formNameStr = "FrmSettlementQuery";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     int autoIdInt = DataTypeConvert.GetInt(gridViewWWList.GetFocusedDataRow()["AutoId"]);
                     FrmSettlementQuery.wwListAutoId = autoIdInt;
-                    ViewHandler.ShowRightWindow("FrmSettlementQuery");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)
@@ -1522,6 +1534,7 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     gridViewWWList.AddNewRow();
                     gridViewWWList.SetFocusedRowCellValue("WarehouseWarrant", gridViewWWHead.GetFocusedDataRow()["WarehouseWarrant"]);
+                    gridViewWWList.SetFocusedRowCellValue("CodeId", dr["CodeId"]);
                     gridViewWWList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewWWList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
                     gridViewWWList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(dr["Overplus"]));
@@ -1541,15 +1554,25 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (dataSet_WW.Tables[1].Rows.Count > 0)
                 {
-                    if (DataTypeConvert.GetString(dataSet_WW.Tables[1].Rows[0]["ProjectName"]) != DataTypeConvert.GetString(headRow["ProjectName"]))
+                    string projectNameStr = "";
+                    if (dataSet_WW.Tables[1].Rows[0].RowState == DataRowState.Deleted)
                     {
-                        MessageHandler.ShowMessageBox(tsmiYzrkdzrxxtdxmhjxdj.Text);// ("一张入库单只允许相同的项目号进行登记。");
+                        projectNameStr = DataTypeConvert.GetString(dataSet_WW.Tables[1].Rows[0]["ProjectName", DataRowVersion.Original]);
+                    }
+                    else
+                    {
+                        projectNameStr = DataTypeConvert.GetString(dataSet_WW.Tables[1].Rows[0]["ProjectName"]);
+                    }
+
+                    if (projectNameStr != DataTypeConvert.GetString(headRow["ProjectName"]))
+                    {
+                        MessageHandler.ShowMessageBox("一张入库单只允许相同的项目号进行登记。");
                         return;
                     }
                 }
                 if (DataTypeConvert.GetString(gridViewWWHead.GetFocusedDataRow()["BussinessBaseNo"]) != DataTypeConvert.GetString(headRow["BussinessBaseNo"]))
                 {
-                    MessageHandler.ShowMessageBox(tsmiYzrkdzrxxtdgysjxdj.Text);// ("一张入库单只允许相同的供应商进行登记。");
+                    MessageHandler.ShowMessageBox("一张入库单只允许相同的供应商进行登记。");
                     return;
                 }
 
@@ -1559,6 +1582,7 @@ namespace PSAP.VIEW.BSVIEW
                         continue;
                     gridViewWWList.AddNewRow();
                     gridViewWWList.SetFocusedRowCellValue("WarehouseWarrant", gridViewWWHead.GetFocusedDataRow()["WarehouseWarrant"]);
+                    gridViewWWList.SetFocusedRowCellValue("CodeId", dr["CodeId"]);
                     gridViewWWList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewWWList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
                     gridViewWWList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(dr["Overplus"]));

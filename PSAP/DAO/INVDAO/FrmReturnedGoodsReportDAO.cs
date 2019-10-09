@@ -97,7 +97,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_ReturnedGoodsReportList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo from INV_ReturnedGoodsReportList left join SW_PartsCode on INV_ReturnedGoodsReportList.CodeFileName = SW_PartsCode.CodeFileName left join BS_ProjectList on INV_ReturnedGoodsReportList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_ReturnedGoodsReportList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo from INV_ReturnedGoodsReportList left join SW_PartsCode on INV_ReturnedGoodsReportList.CodeId = SW_PartsCode.AutoId left join BS_ProjectList on INV_ReturnedGoodsReportList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -151,7 +151,7 @@ namespace PSAP.DAO.INVDAO
                         DataTable dbListTable = new DataTable();
                         if (rgrHeadRow.RowState != DataRowState.Added)
                         {
-                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_ReturnedGoodsReportList as list left join INV_ReturnedGoodsReportHead as head on list.ReturnedGoodsReportNo = head.ReturnedGoodsReportNo left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.ReturnedGoodsReportNo = '{0}' group by CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", rgrNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_ReturnedGoodsReportList as list left join INV_ReturnedGoodsReportHead as head on list.ReturnedGoodsReportNo = head.ReturnedGoodsReportNo left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.ReturnedGoodsReportNo = '{0}' group by CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", rgrNoStr);
                             SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
                             dbListAdapter.Fill(dbListTable);
                         }

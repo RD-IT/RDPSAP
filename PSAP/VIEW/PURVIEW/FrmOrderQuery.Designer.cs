@@ -122,6 +122,7 @@
             this.colPlanDate = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrReqRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrepared = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colClosed = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repCheckSelect = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
             this.pnlBottom = new DevExpress.XtraEditors.PanelControl();
@@ -129,7 +130,8 @@
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiDgrqbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiJhdhrqbnwk = new System.Windows.Forms.ToolStripMenuItem();
-            this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colClosedTime = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spinprReqListAutoId.Properties)).BeginInit();
@@ -202,7 +204,7 @@
             this.pnltop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1218, 78);
+            this.pnltop.Size = new System.Drawing.Size(1207, 78);
             this.pnltop.TabIndex = 2;
             // 
             // spinprReqListAutoId
@@ -554,7 +556,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1218, 287);
+            this.pnlMiddle.Size = new System.Drawing.Size(1207, 287);
             this.pnlMiddle.TabIndex = 3;
             // 
             // gridControlPrReqHead
@@ -573,7 +575,7 @@
             this.repCheckSelect,
             this.repLookUpApprovalType,
             this.repLookUpPayTypeNo});
-            this.gridControlPrReqHead.Size = new System.Drawing.Size(1214, 283);
+            this.gridControlPrReqHead.Size = new System.Drawing.Size(1203, 283);
             this.gridControlPrReqHead.TabIndex = 4;
             this.gridControlPrReqHead.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPrReqHead});
@@ -771,7 +773,9 @@
             this.colPrReqRemark,
             this.colPrepared,
             this.colModifier,
-            this.colClosed});
+            this.colClosed,
+            this.colModifierTime,
+            this.colClosedTime});
             this.gridViewPrReqHead.GridControl = this.gridControlPrReqHead;
             this.gridViewPrReqHead.IndicatorWidth = 40;
             this.gridViewPrReqHead.Name = "gridViewPrReqHead";
@@ -817,13 +821,13 @@
             // 
             this.colOrderHeadDate.AppearanceHeader.Options.UseTextOptions = true;
             this.colOrderHeadDate.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colOrderHeadDate.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.colOrderHeadDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.colOrderHeadDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colOrderHeadDate.FieldName = "OrderHeadDate";
             this.colOrderHeadDate.Name = "colOrderHeadDate";
             this.colOrderHeadDate.Visible = true;
             this.colOrderHeadDate.VisibleIndex = 2;
-            this.colOrderHeadDate.Width = 90;
+            this.colOrderHeadDate.Width = 135;
             // 
             // colPurCategory
             // 
@@ -1102,6 +1106,16 @@
             this.colPrepared.VisibleIndex = 13;
             this.colPrepared.Width = 70;
             // 
+            // colModifier
+            // 
+            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifier.FieldName = "Modifier";
+            this.colModifier.Name = "colModifier";
+            this.colModifier.Visible = true;
+            this.colModifier.VisibleIndex = 14;
+            this.colModifier.Width = 70;
+            // 
             // colClosed
             // 
             this.colClosed.AppearanceHeader.Options.UseTextOptions = true;
@@ -1109,7 +1123,7 @@
             this.colClosed.FieldName = "Closed";
             this.colClosed.Name = "colClosed";
             this.colClosed.Visible = true;
-            this.colClosed.VisibleIndex = 15;
+            this.colClosed.VisibleIndex = 16;
             this.colClosed.Width = 70;
             // 
             // repCheckSelect
@@ -1125,7 +1139,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 365);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1218, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1207, 58);
             this.pnlBottom.TabIndex = 4;
             // 
             // gridBottomOrderHead
@@ -1135,7 +1149,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_Order;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1214, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1203, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // cms
@@ -1158,20 +1172,34 @@
             this.tsmiJhdhrqbnwk.Size = new System.Drawing.Size(340, 22);
             this.tsmiJhdhrqbnwk.Text = "计划到货日期不能为空，请设置后重新进行查询。";
             // 
-            // colModifier
+            // colModifierTime
             // 
-            this.colModifier.AppearanceHeader.Options.UseTextOptions = true;
-            this.colModifier.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colModifier.FieldName = "Modifier";
-            this.colModifier.Name = "colModifier";
-            this.colModifier.Visible = true;
-            this.colModifier.VisibleIndex = 14;
-            this.colModifier.Width = 70;
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colModifierTime.FieldName = "ModifierTime";
+            this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 15;
+            this.colModifierTime.Width = 135;
+            // 
+            // colClosedTime
+            // 
+            this.colClosedTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colClosedTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colClosedTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colClosedTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colClosedTime.FieldName = "ClosedTime";
+            this.colClosedTime.Name = "colClosedTime";
+            this.colClosedTime.Visible = true;
+            this.colClosedTime.VisibleIndex = 17;
+            this.colClosedTime.Width = 135;
             // 
             // FrmOrderQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1218, 423);
+            this.ClientSize = new System.Drawing.Size(1207, 423);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);
@@ -1328,5 +1356,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiDgrqbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiJhdhrqbnwk;
         private DevExpress.XtraGrid.Columns.GridColumn colModifier;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifierTime;
+        private DevExpress.XtraGrid.Columns.GridColumn colClosedTime;
     }
 }

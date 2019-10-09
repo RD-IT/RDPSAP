@@ -158,6 +158,10 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmStnSummary";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string autoQuotationNoStr = DataTypeConvert.GetString(gridViewStnSummaryList.GetFocusedDataRow()["AutoQuotationNo"]);
                     //string ssNoStr = DataTypeConvert.GetString(gridViewStnSummaryList.GetFocusedDataRow()["SSNo"]);
                     int stnSummaryListAutoIdInt = DataTypeConvert.GetInt(gridViewStnSummaryList.GetFocusedDataRow()["AutoId"]);
@@ -166,7 +170,7 @@ namespace PSAP.VIEW.BSVIEW
                     //FrmStnSummary.querySSNoStr = ssNoStr;
                     FrmStnSummary.queryStnSummaryListAutoIdInt = stnSummaryListAutoIdInt;
                     FrmStnSummary.queryListModuleAutoIdInt = listModuleAutoIdInt;
-                    ViewHandler.ShowRightWindow("FrmStnSummary");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

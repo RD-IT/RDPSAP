@@ -988,13 +988,17 @@ namespace PSAP.VIEW.BSVIEW
                     case "CodeFileName":
                         string tmpStr = DataTypeConvert.GetString(gridViewRGRList.GetDataRow(e.RowHandle)["CodeFileName"]);
                         if (tmpStr == "")
+                        {
+                            gridViewRGRList.SetRowCellValue(e.RowHandle, "CodeId", null);
                             gridViewRGRList.SetRowCellValue(e.RowHandle, "CodeName", "");
+                        }
                         else
                         {
                             DataTable temp = (DataTable)repSearchCodeFileName.DataSource;
                             DataRow[] drs = temp.Select(string.Format("CodeFileName='{0}'", tmpStr));
                             if (drs.Length > 0)
                             {
+                                gridViewRGRList.SetRowCellValue(e.RowHandle, "CodeId", DataTypeConvert.GetInt(drs[0]["AutoId"]));
                                 gridViewRGRList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));
                             }
                         }

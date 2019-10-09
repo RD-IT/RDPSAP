@@ -14,6 +14,7 @@ namespace PSAP.VIEW.BSVIEW
 {
     public partial class FrmQueryUserWorkFlow : DockContent
     {
+        FrmCommonDAO commonDAO = new FrmCommonDAO();
         FrmQueryUserWorkFlowDAO userWFDAO = new FrmQueryUserWorkFlowDAO();
         FrmWorkFlowModuleDAO wfDAO = new FrmWorkFlowModuleDAO();
 
@@ -192,86 +193,120 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void OpenRelationForm(string tableNameStr, string newOrderNoStr, string oldOrderNoStr)
         {
+            string formNameStr = "";
             switch (tableNameStr)
             {
                 //采购
                 case "PUR_PrReqHead"://请购单
+                    formNameStr = "FrmPrReq";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmPrReq.queryPrReqNo = newOrderNoStr;
-                    FrmPrReq.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmPrReq");
+                    FrmPrReq.queryListAutoId = 0;                    
                     break;
                 case "PUR_OrderHead"://采购单
+                    formNameStr = "FrmOrder_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmOrder_Drag.queryOrderHeadNo = newOrderNoStr;
                     if (newOrderNoStr == "")
                         FrmOrder_Drag.queryPrReqNo = oldOrderNoStr;
                     FrmOrder_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmOrder_Drag");
                     break;
                 case "PUR_SettlementHead"://采购结账单
+                    formNameStr = "FrmSettlement_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmSettlement_Drag.querySettlementNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmSettlement_Drag");
                     break;
 
                 //销售
                 case "SA_QuotationBaseInfo"://报价单
+                    formNameStr = "FrmQuotationInfo_History";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmQuotationInfo_History.queryAutoQuotationNoStr = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmQuotationInfo_History");
                     break;
                 case "SA_SalesOrder"://销售订单
+                    formNameStr = "FrmSalesOrder_History";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmSalesOrder_History.queryAutoSalesOrderNoStr = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmSalesOrder_History");
                     break;
                 case "SA_SettleAccountsHead"://销售结账单
+                    formNameStr = "FrmSettleAccounts_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmSettleAccounts_Drag.querySettleAccountNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmSettleAccounts_Drag");
                     break;
                 case "SA_StnSummary"://工位描述登记
+                    formNameStr = "FrmStnModule";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmStnModule.querySMNoStr = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmStnModule");
                     break;
 
                 //库存
                 case "INV_WarehouseWarrantHead"://入库单
-                    string wwHeadNoStr = newOrderNoStr;
-                    FrmWarehouseWarrant_Drag.queryWWHeadNo = wwHeadNoStr;
-                    ViewHandler.ShowRightWindow("FrmWarehouseWarrant_Drag");
+                    formNameStr = "FrmWarehouseWarrant_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+                    FrmWarehouseWarrant_Drag.queryWWHeadNo = newOrderNoStr;
                     break;
                 case "INV_WarehouseReceiptHead"://出库单
+                    formNameStr = "FrmWarehouseReceipt_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmWarehouseReceipt_Drag.queryWRHeadNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmWarehouseReceipt_Drag");
                     break;
                 case "INV_SpecialWarehouseWarrantHead"://预算外入库单
+                    formNameStr = "FrmSpecialWarehouseWarrant";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmSpecialWarehouseWarrant.querySWWHeadNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmSpecialWarehouseWarrant");
                     break;
                 case "INV_SpecialWarehouseReceiptHead"://预算外出库单
+                    formNameStr = "FrmSpecialWarehouseReceipt";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmSpecialWarehouseReceipt.querySWRHeadNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmSpecialWarehouseReceipt");
                     break;
                 case "INV_InventoryMoveHead"://库存移动单
+                    formNameStr = "FrmInventoryMove_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmInventoryMove_Drag.queryIMHeadNo = newOrderNoStr;
                     FrmInventoryMove_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmInventoryMove_Drag");
                     break;
                 case "INV_InventoryAdjustmentsHead"://库存调整单
+                    formNameStr = "FrmInventoryAdjustments_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmInventoryAdjustments_Drag.queryIAHeadNo = newOrderNoStr;
                     FrmInventoryAdjustments_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmInventoryAdjustments_Drag");
                     break;
                 case "INV_ReturnedGoodsReportHead"://退货单
+                    formNameStr = "FrmReturnedGoodsReport";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmReturnedGoodsReport.queryRGRHeadNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmReturnedGoodsReport");
                     break;
 
                 //生产
                 case "PB_ProductionScheduleBom"://生产视图登记
-                    ViewHandler.ShowRightWindow("FrmPBDesignBom_PS");
+                    formNameStr = "FrmPBDesignBom_PS_New";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     break;
                 case "PB_ProductionPlan"://工单
+                    formNameStr = "FrmProductionPlan";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
                     FrmProductionPlan.queryPlanNo = newOrderNoStr;
-                    ViewHandler.ShowRightWindow("FrmProductionPlan");
                     break;
             }
+
+            ViewHandler.ShowRightWindow(formNameStr);
         }
 
 

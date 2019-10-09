@@ -66,7 +66,7 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and IsNull(Arrangement, {0})={0}", SystemInfo.user.AutoId);
             }
-            sqlStr = string.Format("select PrReq.*, Parts.CodeName, PrReq.Qty-PrReq.OrderCount as Overplus from V_PUR_PrReqList_Order as PrReq left join SW_PartsCode as Parts on PrReq.CodeFileName = Parts.CodeFileName where PrReq.Qty>PrReq.OrderCount {0} order by PrReq.AutoId", sqlStr);
+            sqlStr = string.Format("select PrReq.*, Parts.CodeName, PrReq.Qty-PrReq.OrderCount as Overplus from V_PUR_PrReqList_Order as PrReq left join SW_PartsCode as Parts on PrReq.CodeId = Parts.AutoId where PrReq.Qty>PrReq.OrderCount {0} order by PrReq.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
     }

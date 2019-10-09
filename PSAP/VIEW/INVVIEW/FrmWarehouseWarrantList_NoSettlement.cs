@@ -63,7 +63,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
@@ -165,11 +165,12 @@ namespace PSAP.VIEW.BSVIEW
 
                 int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text); 
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text : "";
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                //string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_WW.Tables[0].Rows.Clear();
-                string querySqlStr = wwDAO.Query_WWList_NoSettlement_SQL(orderDateBeginStr, orderDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, wwTypeNoStr, warehouseStateInt, projectNameStr, codeFileNameStr, checkOverplus.Checked, commonStr);
+                string querySqlStr = wwDAO.Query_WWList_NoSettlement_SQL(orderDateBeginStr, orderDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, wwTypeNoStr, warehouseStateInt, projectNameStr, codeIdInt, checkOverplus.Checked, commonStr);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 
@@ -214,11 +215,15 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmWarehouseWarrant_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string wwHeadNoStr = DataTypeConvert.GetString(gridViewWWList.GetFocusedDataRow()["WarehouseWarrant"]);
                     int autoIdInt = DataTypeConvert.GetInt(gridViewWWList.GetFocusedDataRow()["AutoId"]);
                     FrmWarehouseWarrant_Drag.queryWWHeadNo = wwHeadNoStr;
                     FrmWarehouseWarrant_Drag.queryListAutoId = autoIdInt;
-                    ViewHandler.ShowRightWindow("FrmWarehouseWarrant_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

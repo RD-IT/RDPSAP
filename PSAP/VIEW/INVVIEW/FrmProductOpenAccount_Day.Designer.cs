@@ -81,6 +81,7 @@
             this.searchLookUpCodeFileNameView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -119,6 +120,8 @@
             this.repLookUpShelfId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colStockId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTypeNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dataColCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_OpenAccount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableOpenAccount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_OpenAccount)).BeginInit();
@@ -178,7 +181,8 @@
             this.dataColOrderNo,
             this.dataColShelfId,
             this.dataColCurQty,
-            this.dataColQty});
+            this.dataColQty,
+            this.dataColCodeId});
             this.TableOpenAccount.TableName = "OpenAccount";
             // 
             // dataColCodeFileName
@@ -555,7 +559,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
             this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 5;
@@ -564,7 +568,8 @@
             // 
             this.searchLookUpCodeFileNameView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
-            this.gridColumn3});
+            this.gridColumn3,
+            this.gridColumn10});
             this.searchLookUpCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
             this.searchLookUpCodeFileNameView.IndicatorWidth = 60;
             this.searchLookUpCodeFileNameView.Name = "searchLookUpCodeFileNameView";
@@ -587,6 +592,12 @@
             this.gridColumn3.Name = "gridColumn3";
             this.gridColumn3.Visible = true;
             this.gridColumn3.VisibleIndex = 1;
+            // 
+            // gridColumn10
+            // 
+            this.gridColumn10.Caption = "AutoId";
+            this.gridColumn10.FieldName = "AutoId";
+            this.gridColumn10.Name = "gridColumn10";
             // 
             // searchLookUpProjectNo
             // 
@@ -723,7 +734,8 @@
             this.colOrderNo,
             this.colShelfId,
             this.colStockId,
-            this.colTypeNo});
+            this.colTypeNo,
+            this.colCodeId});
             this.gridViewOpenAccount.GridControl = this.gridControlOpenAccount;
             this.gridViewOpenAccount.IndicatorWidth = 40;
             this.gridViewOpenAccount.Name = "gridViewOpenAccount";
@@ -1003,6 +1015,17 @@
             this.colTypeNo.VisibleIndex = 7;
             this.colTypeNo.Width = 120;
             // 
+            // dataColCodeId
+            // 
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
             // FrmProductOpenAccount_Day
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1136,5 +1159,8 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpShelfId;
         private DevExpress.XtraGrid.Columns.GridColumn colStockId;
         private DevExpress.XtraGrid.Columns.GridColumn colTypeNo;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
+        private System.Data.DataColumn dataColCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
     }
 }

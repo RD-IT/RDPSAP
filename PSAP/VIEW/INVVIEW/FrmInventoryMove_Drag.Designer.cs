@@ -48,6 +48,7 @@
             this.dataColInLocationId = new System.Data.DataColumn();
             this.dataColOutLocationId = new System.Data.DataColumn();
             this.dataColWarehouseState = new System.Data.DataColumn();
+            this.dataColApprovalType = new System.Data.DataColumn();
             this.dataTableIMList = new System.Data.DataTable();
             this.dataColumnAutoId = new System.Data.DataColumn();
             this.dataColumnInventoryMoveNo = new System.Data.DataColumn();
@@ -185,6 +186,8 @@
             this.gridColumn25 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colOutLocationId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWarehouseState = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colApprovalType = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpApprovalType = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.pnlMiddleTop = new DevExpress.XtraEditors.PanelControl();
             this.btnCancelApprove = new DevExpress.XtraEditors.SimpleButton();
             this.btnApprove = new DevExpress.XtraEditors.SimpleButton();
@@ -268,9 +271,11 @@
             this.tsmiCkdckxmhhjhhrk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSxtddqkcsjcw = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.dataColApprovalType = new System.Data.DataColumn();
-            this.colApprovalType = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.repLookUpApprovalType = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
+            this.dataColCodeId = new System.Data.DataColumn();
+            this.dataColuCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCodeId1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn26 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_IM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTableIMHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTableIMList)).BeginInit();
@@ -322,6 +327,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpCreator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchInLocationId)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchInLocationIdView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpApprovalType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddleTop)).BeginInit();
             this.pnlMiddleTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
@@ -343,7 +349,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateIMDateBegin.Properties)).BeginInit();
             this.cms1.SuspendLayout();
             this.cms.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.repLookUpApprovalType)).BeginInit();
             this.SuspendLayout();
             // 
             // dataSet_IM
@@ -465,6 +470,11 @@
             this.dataColWarehouseState.ColumnName = "WarehouseState";
             this.dataColWarehouseState.DataType = typeof(int);
             // 
+            // dataColApprovalType
+            // 
+            this.dataColApprovalType.Caption = "审核类型";
+            this.dataColApprovalType.ColumnName = "ApprovalType";
+            // 
             // dataTableIMList
             // 
             this.dataTableIMList.Columns.AddRange(new System.Data.DataColumn[] {
@@ -484,7 +494,8 @@
             this.dataColInProjectName,
             this.dataColOutProjectName,
             this.dataColuInLocationId,
-            this.dataColuOutLocationId});
+            this.dataColuOutLocationId,
+            this.dataColuCodeId});
             this.dataTableIMList.TableName = "IMList";
             // 
             // dataColumnAutoId
@@ -685,7 +696,8 @@
             this.dataRepertoryId,
             this.dataShelfId,
             this.dataQty,
-            this.dataColumnLocationId});
+            this.dataColumnLocationId,
+            this.dataColCodeId});
             this.TableWNowInfo.TableName = "WNowInfo";
             // 
             // dataAutoId
@@ -748,7 +760,8 @@
             this.colRepertoryId,
             this.colSShelfId,
             this.colProjectNo1,
-            this.colLocationId});
+            this.colLocationId,
+            this.colCodeId});
             this.gridViewWNowInfo.GridControl = this.gridControlWNowInfo;
             this.gridViewWNowInfo.IndicatorWidth = 40;
             this.gridViewWNowInfo.Name = "gridViewWNowInfo";
@@ -937,7 +950,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
             this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 202;
@@ -946,7 +959,8 @@
             // 
             this.searchLookUpCodeFileNameView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
-            this.gridColumn3});
+            this.gridColumn3,
+            this.gridColumn26});
             this.searchLookUpCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
             this.searchLookUpCodeFileNameView.IndicatorWidth = 60;
             this.searchLookUpCodeFileNameView.Name = "searchLookUpCodeFileNameView";
@@ -1129,7 +1143,8 @@
             this.colOutProjectName,
             this.colInProjectName,
             this.colOutLocationId1,
-            this.colInLocationId1});
+            this.colInLocationId1,
+            this.colCodeId1});
             this.gridViewIMList.GridControl = this.gridControlIMList;
             this.gridViewIMList.IndicatorWidth = 40;
             this.gridViewIMList.Name = "gridViewIMList";
@@ -1850,6 +1865,33 @@
             this.colWarehouseState.Visible = true;
             this.colWarehouseState.VisibleIndex = 2;
             this.colWarehouseState.Width = 60;
+            // 
+            // colApprovalType
+            // 
+            this.colApprovalType.AppearanceHeader.Options.UseTextOptions = true;
+            this.colApprovalType.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colApprovalType.ColumnEdit = this.repLookUpApprovalType;
+            this.colApprovalType.FieldName = "ApprovalType";
+            this.colApprovalType.Name = "colApprovalType";
+            this.colApprovalType.OptionsColumn.AllowEdit = false;
+            this.colApprovalType.Visible = true;
+            this.colApprovalType.VisibleIndex = 8;
+            this.colApprovalType.Width = 100;
+            // 
+            // repLookUpApprovalType
+            // 
+            this.repLookUpApprovalType.AutoHeight = false;
+            this.repLookUpApprovalType.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpApprovalType.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("TypeNo", "审批类型"),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("TypeNoText", "审批名称"),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("ApprovalText", "审批方式")});
+            this.repLookUpApprovalType.DisplayMember = "TypeNoText";
+            this.repLookUpApprovalType.Name = "repLookUpApprovalType";
+            this.repLookUpApprovalType.NullText = "";
+            this.repLookUpApprovalType.ValueMember = "TypeNo";
             // 
             // pnlMiddleTop
             // 
@@ -2634,37 +2676,33 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // dataColApprovalType
+            // dataColCodeId
             // 
-            this.dataColApprovalType.Caption = "审核类型";
-            this.dataColApprovalType.ColumnName = "ApprovalType";
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
             // 
-            // colApprovalType
+            // dataColuCodeId
             // 
-            this.colApprovalType.AppearanceHeader.Options.UseTextOptions = true;
-            this.colApprovalType.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colApprovalType.ColumnEdit = this.repLookUpApprovalType;
-            this.colApprovalType.FieldName = "ApprovalType";
-            this.colApprovalType.Name = "colApprovalType";
-            this.colApprovalType.OptionsColumn.AllowEdit = false;
-            this.colApprovalType.Visible = true;
-            this.colApprovalType.VisibleIndex = 8;
-            this.colApprovalType.Width = 100;
+            this.dataColuCodeId.Caption = "零件Id";
+            this.dataColuCodeId.ColumnName = "CodeId";
+            this.dataColuCodeId.DataType = typeof(int);
             // 
-            // repLookUpApprovalType
+            // colCodeId
             // 
-            this.repLookUpApprovalType.AutoHeight = false;
-            this.repLookUpApprovalType.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repLookUpApprovalType.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("TypeNo", "审批类型"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("TypeNoText", "审批名称"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("ApprovalText", "审批方式")});
-            this.repLookUpApprovalType.DisplayMember = "TypeNoText";
-            this.repLookUpApprovalType.Name = "repLookUpApprovalType";
-            this.repLookUpApprovalType.NullText = "";
-            this.repLookUpApprovalType.ValueMember = "TypeNo";
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
+            // colCodeId1
+            // 
+            this.colCodeId1.FieldName = "CodeId";
+            this.colCodeId1.Name = "colCodeId1";
+            // 
+            // gridColumn26
+            // 
+            this.gridColumn26.Caption = "AutoId";
+            this.gridColumn26.FieldName = "AutoId";
+            this.gridColumn26.Name = "gridColumn26";
             // 
             // FrmInventoryMove_Drag
             // 
@@ -2730,6 +2768,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpCreator)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchInLocationId)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repSearchInLocationIdView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpApprovalType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlMiddleTop)).EndInit();
             this.pnlMiddleTop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).EndInit();
@@ -2752,7 +2791,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateIMDateBegin.Properties)).EndInit();
             this.cms1.ResumeLayout(false);
             this.cms.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.repLookUpApprovalType)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3000,5 +3038,10 @@
         private System.Data.DataColumn dataColApprovalType;
         private DevExpress.XtraGrid.Columns.GridColumn colApprovalType;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpApprovalType;
+        private System.Data.DataColumn dataColCodeId;
+        private System.Data.DataColumn dataColuCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId1;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn26;
     }
 }

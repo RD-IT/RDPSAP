@@ -93,6 +93,11 @@ namespace PSAP.VIEW.BSVIEW
         private void FrmStnSummary_Shown(object sender, EventArgs e)
         {
             //dockPnlRight.Width = SystemInfo.DragForm_LeftDock_Width;
+            int minWidth = this.Width / 3;
+
+            pnlStnList.Width = Math.Min(470, minWidth);
+
+            pnlModuleList.Width = Math.Min(550, minWidth);
         }
 
         #endregion

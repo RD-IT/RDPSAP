@@ -1173,6 +1173,35 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 鼠标操作明细行事件
+        /// </summary>
+        private void gridViewWRList_RowClick(object sender, RowClickEventArgs e)
+        {
+            try
+            {
+                if (btnNew.Enabled)
+                {
+                    if (e.Clicks == 2 && e.Button == MouseButtons.Left)
+                    {
+                        string formNameStr = "FrmProductionPlan";
+                        if (!commonDAO.QueryUserFormPower(formNameStr))
+                            return;
+
+                        string planNoStr = DataTypeConvert.GetString(gridViewWRList.GetFocusedDataRow()["PlanNo"]);
+                        if (planNoStr == "")
+                            return;
+                        FrmProductionPlan.queryPlanNo = planNoStr;
+                        ViewHandler.ShowRightWindow(formNameStr);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--鼠标操作明细行事件错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 检查是否有未填写字段
         /// </summary>
         private bool IsHaveBlankLine()
@@ -1674,7 +1703,17 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (dataSet_WR.Tables[1].Rows.Count > 0)
                 {
-                    if (DataTypeConvert.GetString(dataSet_WR.Tables[1].Rows[0]["ProjectName"]) != DataTypeConvert.GetString(headRow["ProjectName"]))
+                    string projectNameStr = "";
+                    if (dataSet_WR.Tables[1].Rows[0].RowState == DataRowState.Deleted)
+                    {
+                        projectNameStr = DataTypeConvert.GetString(dataSet_WR.Tables[1].Rows[0]["ProjectName", DataRowVersion.Original]);
+                    }
+                    else
+                    {
+                        projectNameStr = DataTypeConvert.GetString(dataSet_WR.Tables[1].Rows[0]["ProjectName"]);
+                    }
+
+                    if (projectNameStr != DataTypeConvert.GetString(headRow["ProjectName"]))
                     {
                         MessageHandler.ShowMessageBox("一张出库单只允许相同的项目号进行登记。");
                         return;
@@ -1733,6 +1772,6 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         #endregion
-
+        
     }
 }

@@ -104,7 +104,7 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select PUR_SettlementList.*, SW_PartsCode.CodeName from PUR_SettlementList left join SW_PartsCode on PUR_SettlementList.CodeFileName = SW_PartsCode.CodeFileName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select PUR_SettlementList.*, SW_PartsCode.CodeName from PUR_SettlementList left join SW_PartsCode on PUR_SettlementList.CodeId = SW_PartsCode.AutoId where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -158,18 +158,19 @@ namespace PSAP.DAO.PURDAO
                         SqlDataAdapter adapterHead = new SqlDataAdapter(cmd);
                         DataTable tmpHeadTable = new DataTable();
                         adapterHead.Fill(tmpHeadTable);
-                        BaseSQL.UpdateDataTable(adapterHead, SettlementHeadRow.Table);
+                        BaseSQL.UpdateDataTable(adapterHead, SettlementHeadRow.Table.GetChanges());
 
                         cmd.CommandText = "select * from PUR_SettlementList where 1=2";
                         SqlDataAdapter adapterList = new SqlDataAdapter(cmd);
                         DataTable tmpListTable = new DataTable();
                         adapterList.Fill(tmpListTable);
-                        BaseSQL.UpdateDataTable(adapterList, SettlementListTable);
+                        BaseSQL.UpdateDataTable(adapterList, SettlementListTable.GetChanges());
 
                         Set_WWHead_End(cmd, SettlementListTable);
 
                         trans.Commit();
-
+                        SettlementHeadRow.Table.AcceptChanges();
+                        SettlementListTable.AcceptChanges();
                         return 1;
                     }
                     catch (Exception ex)
@@ -286,21 +287,45 @@ namespace PSAP.DAO.PURDAO
         /// </summary>
         public void Set_WWHead_End(SqlCommand cmd, DataTable settlementListTable)
         {
-            string wwHeadNoStr = "";
-            IEnumerable<IGrouping<string, DataRow>> result = settlementListTable.Rows.Cast<DataRow>().GroupBy<DataRow, string>(dr => dr["WarehouseWarrant"].ToString());//按WarehouseWarrant分组
-            foreach (IGrouping<string, DataRow> ig in result)
+            //string wwHeadNoStr = "";
+            //IEnumerable<IGrouping<string, DataRow>> result = settlementListTable.Rows.Cast<DataRow>().GroupBy<DataRow, string>(dr => dr["WarehouseWarrant"].ToString());//按WarehouseWarrant分组
+            //foreach (IGrouping<string, DataRow> ig in result)
+            //{
+            //    if (ig.Key != "")
+            //    {
+            //        wwHeadNoStr = ig.Key;
+            //        cmd.CommandText = string.Format("select Count(*) from V_INV_WarehouseWarrentList_Settlement where WarehouseWarrant = '{0}' and Qty>SettlementCount", wwHeadNoStr);
+            //        int count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
+            //        int isEnd = 0;
+            //        if (count == 0)
+            //            isEnd = 1;
+            //        cmd.CommandText = string.Format("Update INV_WarehouseWarrantHead set IsEnd={1} where WarehouseWarrant='{0}'", wwHeadNoStr, isEnd);
+            //        cmd.ExecuteNonQuery();
+            //    }
+            //}
+
+            List<string> wwHeadNoList = new List<string>();
+            foreach (DataRow dr in settlementListTable.Rows)
             {
-                if (ig.Key != "")
+                if (dr.RowState == DataRowState.Deleted)
                 {
-                    wwHeadNoStr = ig.Key;
-                    cmd.CommandText = string.Format("select Count(*) from V_INV_WarehouseWarrentList_Settlement where WarehouseWarrant = '{0}' and Qty>SettlementCount", wwHeadNoStr);
-                    int count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
-                    int isEnd = 0;
-                    if (count == 0)
-                        isEnd = 1;
-                    cmd.CommandText = string.Format("Update INV_WarehouseWarrantHead set IsEnd={1} where WarehouseWarrant='{0}'", wwHeadNoStr, isEnd);
-                    cmd.ExecuteNonQuery();
+                    if (!wwHeadNoList.Contains(DataTypeConvert.GetString(dr["WarehouseWarrant", DataRowVersion.Original])))
+                        wwHeadNoList.Add(DataTypeConvert.GetString(dr["WarehouseWarrant", DataRowVersion.Original]));
                 }
+                else
+                {
+                    if (!wwHeadNoList.Contains(DataTypeConvert.GetString(dr["WarehouseWarrant"])))
+                        wwHeadNoList.Add(DataTypeConvert.GetString(dr["WarehouseWarrant"]));
+                }
+            }
+
+            foreach (string wwHeadNoStr in wwHeadNoList)
+            {
+                if (wwHeadNoStr == "")
+                    continue;
+
+                cmd.CommandText = string.Format("Update INV_WarehouseWarrantHead set IsEnd = case when (select Count(*) from V_INV_WarehouseWarrentList_Settlement where WarehouseWarrant = '{0}' and Qty > SettlementCount) = 0 then 1 else 0 end where WarehouseWarrant='{0}'", wwHeadNoStr);
+                cmd.ExecuteNonQuery();
             }
         }
 

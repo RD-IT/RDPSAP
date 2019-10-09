@@ -188,7 +188,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_WarehouseWarrantList.*, SW_PartsCode.CodeName, ProjectNo from INV_WarehouseWarrantList left join SW_PartsCode on INV_WarehouseWarrantList.CodeFileName = SW_PartsCode.CodeFileName left join BS_ProjectList on INV_WarehouseWarrantList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_WarehouseWarrantList.*, SW_PartsCode.CodeName, ProjectNo from INV_WarehouseWarrantList left join SW_PartsCode on INV_WarehouseWarrantList.CodeId = SW_PartsCode.AutoId left join BS_ProjectList on INV_WarehouseWarrantList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -246,7 +246,7 @@ namespace PSAP.DAO.INVDAO
                         DataTable dbListTable = new DataTable();
                         if (wwHeadRow.RowState != DataRowState.Added)
                         {
-                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_WarehouseWarrantList as list left join INV_WarehouseWarrantHead as head on list.WarehouseWarrant = head.WarehouseWarrant left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.WarehouseWarrant = '{0}' group by CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", wwNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_WarehouseWarrantList as list left join INV_WarehouseWarrantHead as head on list.WarehouseWarrant = head.WarehouseWarrant left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.WarehouseWarrant = '{0}' group by CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", wwNoStr);
                             SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
                             dbListAdapter.Fill(dbListTable);
                         }
@@ -284,7 +284,7 @@ namespace PSAP.DAO.INVDAO
                             wwHeadRow["WarehouseState"] = 2;
                         }
 
-                        Set_OrderHead_End(cmd, copyTable);
+                        Set_OrderHead_End(cmd, wwListTable);
 
                         trans.Commit();
                         wwHeadRow.Table.AcceptChanges();
@@ -479,21 +479,45 @@ namespace PSAP.DAO.INVDAO
         /// </summary>
         public void Set_OrderHead_End(SqlCommand cmd, DataTable orderListTable)
         {
-            string orderHeadNoStr = "";
-            IEnumerable<IGrouping<string, DataRow>> result = orderListTable.Rows.Cast<DataRow>().GroupBy<DataRow, string>(dr => dr["OrderHeadNo"].ToString());//按OrderHeadNo分组
-            foreach (IGrouping<string, DataRow> ig in result)
+            //string orderHeadNoStr = "";
+            //IEnumerable<IGrouping<string, DataRow>> result = orderListTable.Rows.Cast<DataRow>().GroupBy<DataRow, string>(dr => dr["OrderHeadNo"].ToString());//按OrderHeadNo分组
+            //foreach (IGrouping<string, DataRow> ig in result)
+            //{
+            //    if (ig.Key != "")
+            //    {
+            //        orderHeadNoStr = ig.Key;
+            //        cmd.CommandText = string.Format("select Count(*) from V_PUR_OrderList_WarehouseWarrent where OrderHeadNo = '{0}' and Qty>WarehouseWarrentCount", orderHeadNoStr);
+            //        int count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
+            //        int isEnd = 0;
+            //        if (count == 0)
+            //            isEnd = 1;
+            //        cmd.CommandText = string.Format("Update PUR_OrderHead set IsEnd={1} where OrderHeadNo='{0}'", orderHeadNoStr, isEnd);
+            //        cmd.ExecuteNonQuery();
+            //    }
+            //}
+
+            List<string> orderHeadNoList = new List<string>();
+            foreach (DataRow dr in orderListTable.Rows)
             {
-                if (ig.Key != "")
+                if (dr.RowState == DataRowState.Deleted)
                 {
-                    orderHeadNoStr = ig.Key;
-                    cmd.CommandText = string.Format("select Count(*) from V_PUR_OrderList_WarehouseWarrent where OrderHeadNo = '{0}' and Qty>WarehouseWarrentCount", orderHeadNoStr);
-                    int count = DataTypeConvert.GetInt(cmd.ExecuteScalar());
-                    int isEnd = 0;
-                    if (count == 0)
-                        isEnd = 1;
-                    cmd.CommandText = string.Format("Update PUR_OrderHead set IsEnd={1} where OrderHeadNo='{0}'", orderHeadNoStr, isEnd);
-                    cmd.ExecuteNonQuery();
+                    if (!orderHeadNoList.Contains(DataTypeConvert.GetString(dr["OrderHeadNo", DataRowVersion.Original])))
+                        orderHeadNoList.Add(DataTypeConvert.GetString(dr["OrderHeadNo", DataRowVersion.Original]));
                 }
+                else
+                {
+                    if (!orderHeadNoList.Contains(DataTypeConvert.GetString(dr["OrderHeadNo"])))
+                        orderHeadNoList.Add(DataTypeConvert.GetString(dr["OrderHeadNo"]));
+                }
+            }
+
+            foreach (string orderHeadNoStr in orderHeadNoList)
+            {
+                if (orderHeadNoStr == "")
+                    continue;
+
+                cmd.CommandText = string.Format("Update PUR_OrderHead set IsEnd = case when (select Count(*) from V_PUR_OrderList_WarehouseWarrent where OrderHeadNo = '{0}' and Qty > WarehouseWarrentCount) = 0 then 1 else 0 end where OrderHeadNo='{0}'", orderHeadNoStr);
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -704,13 +728,9 @@ namespace PSAP.DAO.INVDAO
                         for (int i = 0; i < orderHeadRows.Length; i++)
                         {
                             //检查是否有下级的主单
-                            if (CheckApplySettlement(cmd, DataTypeConvert.GetString(orderHeadRows[i]["WarehouseWarrant"])))
+                            if (CheckApply(cmd, DataTypeConvert.GetString(orderHeadRows[i]["WarehouseWarrant"])))
                             {
-                                trans.Rollback();
                                 wwHeadTable.RejectChanges();
-                                //MessageHandler.ShowMessageBox("入库单已经有适用的采购结账单记录，不可以操作。");
-                                MessageHandler.ShowMessageBox(f.tsmiRkdyjy.Text);
-
                                 return false;
                             }
 
@@ -949,12 +969,19 @@ namespace PSAP.DAO.INVDAO
         }
 
         /// <summary>
-        /// 检测数据库中采购结账单是否有采购适用的记录
+        /// 检测数据库中采购结账单是否有适用的记录
         /// </summary>
-        private bool CheckApplySettlement(SqlCommand cmd, string wwHeadNoStr)
+        private bool CheckApply(SqlCommand cmd, string wwHeadNoStr)
         {
             cmd.CommandText = string.Format("select Count(*) from PUR_SettlementList where WarehouseWarrant = '{0}'", wwHeadNoStr);
-            return DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0;
+            if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0)
+            {
+                cmd.Transaction.Rollback();
+                MessageHandler.ShowMessageBox(string.Format("入库单[{0}]已经有适用的采购结账单记录，不可以操作。", wwHeadNoStr));
+                return true;
+            }
+
+            return false;
         }
 
         ///// <summary>
@@ -969,7 +996,7 @@ namespace PSAP.DAO.INVDAO
         /// <summary>
         /// 查询入库未结账表明细的SQL
         /// </summary>
-        public string Query_WWList_NoSettlement_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int repertoryLocationIdInt, string wwTypeNoStr, int warehouseStateInt, string projectNameStr, string codeFileNameStr, bool containPartSettlementBool, string commonStr)
+        public string Query_WWList_NoSettlement_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int repertoryLocationIdInt, string wwTypeNoStr, int warehouseStateInt, string projectNameStr, int codeIdInt, bool containPartSettlementBool, string commonStr)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -1004,9 +1031,9 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and ProjectName='{0}'", projectNameStr);
             }
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and CodeFileName='{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and CodeId={0}", codeIdInt);
             }
             if (!containPartSettlementBool)
             {

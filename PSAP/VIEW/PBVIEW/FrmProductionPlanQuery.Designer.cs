@@ -304,7 +304,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 529);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1461, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1066, 58);
             this.pnlBottom.TabIndex = 7;
             // 
             // gridBottomOrderHead
@@ -314,7 +314,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_ProductionPlan;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1457, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1062, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // pnltop
@@ -340,7 +340,7 @@
             this.pnltop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1461, 78);
+            this.pnltop.Size = new System.Drawing.Size(1066, 78);
             this.pnltop.TabIndex = 8;
             // 
             // btnSaveExcel
@@ -628,7 +628,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1461, 451);
+            this.pnlMiddle.Size = new System.Drawing.Size(1066, 451);
             this.pnlMiddle.TabIndex = 9;
             // 
             // gridControlProductionPlan
@@ -644,7 +644,7 @@
             this.repLookUpManufactureNo,
             this.repLookUpCreator,
             this.repCheckPlanStatus});
-            this.gridControlProductionPlan.Size = new System.Drawing.Size(1457, 447);
+            this.gridControlProductionPlan.Size = new System.Drawing.Size(1062, 447);
             this.gridControlProductionPlan.TabIndex = 4;
             this.gridControlProductionPlan.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewProductionPlan});
@@ -721,11 +721,13 @@
             // 
             this.colCurrentdatetime.AppearanceHeader.Options.UseTextOptions = true;
             this.colCurrentdatetime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colCurrentdatetime.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.colCurrentdatetime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.colCurrentdatetime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colCurrentdatetime.FieldName = "Currentdatetime";
             this.colCurrentdatetime.Name = "colCurrentdatetime";
-            this.colCurrentdatetime.Width = 90;
+            this.colCurrentdatetime.Visible = true;
+            this.colCurrentdatetime.VisibleIndex = 13;
+            this.colCurrentdatetime.Width = 135;
             // 
             // colProjectNo
             // 
@@ -824,7 +826,7 @@
             this.colModifier.FieldName = "Modifier";
             this.colModifier.Name = "colModifier";
             this.colModifier.Visible = true;
-            this.colModifier.VisibleIndex = 13;
+            this.colModifier.VisibleIndex = 14;
             this.colModifier.Width = 70;
             // 
             // coluCodeFileName
@@ -924,8 +926,15 @@
             // 
             // colModifierTime
             // 
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colModifierTime.FieldName = "ModifierTime";
             this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 15;
+            this.colModifierTime.Width = 135;
             // 
             // colPlanStatus
             // 
@@ -970,7 +979,7 @@
             // FrmProductionPlanQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1461, 587);
+            this.ClientSize = new System.Drawing.Size(1066, 587);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);

@@ -428,5 +428,29 @@ namespace PSAP.DAO.BSDAO
             }
             displayGridView.GridControl.Visible = true;
         }
+
+        /// <summary>
+        /// 查询用户的窗体权限
+        /// </summary>
+        public bool QueryUserFormPower(string formNameStr)
+        {
+            if (SystemInfo.user.AutoId == 1)
+                return true;
+
+            string sqlStr = string.Format("select Count(*) from BS_RoleMenu where RoleNo = '{0}' and MenuName in (select MenuName from BS_Menu where FormName = '{1}')", SystemInfo.user.RoleNo, formNameStr);
+            int count = DataTypeConvert.GetInt(BaseSQL.GetSingle(sqlStr));
+            if (count > 0)
+                return true;
+            else
+            {
+                sqlStr = string.Format("select MenuText from BS_Menu where FormName = '{0}'", formNameStr);
+                string menuText = DataTypeConvert.GetString(BaseSQL.GetSingle(sqlStr));
+                if (menuText != "")
+                {
+                    MessageHandler.ShowMessageBox(string.Format("您没有查看[{0}]的权限，如果需要查看请联系系统管理员。", menuText));
+                }
+                return false;
+            }
+        }
     }
 }

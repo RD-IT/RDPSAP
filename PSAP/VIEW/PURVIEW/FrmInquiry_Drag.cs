@@ -318,7 +318,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (gridViewInquiryList.GetFocusedDataRow() != null && radioType.SelectedIndex == 1)
                 {
                     int autoIdInt = DataTypeConvert.GetInt(gridViewInquiryList.GetFocusedDataRow()["AutoId"]);
-                    bindingSource_PIPR.Filter = "PIListId = " + autoIdInt;
+                    bindingSource_PIPR.Filter = string.Format("PIListId = {0}", autoIdInt);
                 }
             }
             catch (Exception ex)
@@ -426,6 +426,10 @@ namespace PSAP.VIEW.BSVIEW
                 else
                 {
                     DataRow headRow = gridViewInquiryHead.GetFocusedDataRow();
+
+                    bindingSource_InquiryHead.EndEdit();
+                    bindingSource_InquiryList.EndEdit();
+                    bindingSource_PIPR.EndEdit();
                     if (DataTypeConvert.GetString(headRow["BussinessBaseNo"]) == "")
                     {
                         MessageHandler.ShowMessageBox("往来方不能为空，请填写后再进行保存。");
@@ -744,6 +748,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                DateTime nowDate = BaseSQL.GetServerDateTime();
+                gridViewInquiryHead.SetFocusedRowCellValue("OrderHeadDate", nowDate);
                 gridViewInquiryHead.SetFocusedRowCellValue("Tax", SystemInfo.OrderList_DefaultTax);
                 gridViewInquiryHead.SetFocusedRowCellValue("DepartmentNo", SystemInfo.user.DepartmentNo);
                 gridViewInquiryHead.SetFocusedRowCellValue("Tax", SystemInfo.OrderList_DefaultTax);
@@ -802,20 +808,25 @@ namespace PSAP.VIEW.BSVIEW
                         return;
                     }
                 }
+
+                bool isPartType = radioType.SelectedIndex == 1;
+                if (isPartType)
+                    radioType.SelectedIndex = 0;
+
                 int autoIdInt = 0;
                 if (gridViewInquiryList.GetFocusedDataRow() != null)
                     autoIdInt = DataTypeConvert.GetInt(gridViewInquiryList.GetFocusedDataRow()["AutoId"]);
                 gridViewInquiryList.DeleteRow(gridViewInquiryList.FocusedRowHandle);
-                if (autoIdInt > 0)
+                for (int i = gridViewPIPR.DataRowCount - 1; i >= 0; i--)
                 {
-                    for (int i = gridViewPIPR.DataRowCount - 1; i >= 0; i--)
+                    if (DataTypeConvert.GetInt(gridViewPIPR.GetDataRow(i)["PIListId"]) == autoIdInt)
                     {
-                        if (DataTypeConvert.GetInt(gridViewPIPR.GetDataRow(i)["PIListId"]) == autoIdInt)
-                        {
-                            gridViewPIPR.DeleteRow(i);
-                        }
+                        gridViewPIPR.DeleteRow(i);
                     }
                 }
+
+                if (isPartType)
+                    radioType.SelectedIndex = 1;
             }
             catch (Exception ex)
             {
@@ -1044,6 +1055,37 @@ namespace PSAP.VIEW.BSVIEW
             else
                 gridViewInquiryHead.GetFocusedDataRow()["Select"] = true;
             onlySelectColChangeRowState = true;
+        }
+
+        /// <summary>
+        /// 鼠标操作明细行事件
+        /// </summary>
+        private void gridViewPIPR_RowClick(object sender, RowClickEventArgs e)
+        {
+            try
+            {
+                if (btnNew.Enabled)
+                {
+                    if (e.Clicks == 2 && e.Button == MouseButtons.Left)
+                    {
+                        string formNameStr = "FrmPrReq";
+                        if (!commonDAO.QueryUserFormPower(formNameStr))
+                            return;
+
+                        string prReqNoStr = DataTypeConvert.GetString(gridViewPIPR.GetFocusedDataRow()["PrReqNo"]);
+                        int prListAutoId = DataTypeConvert.GetInt(gridViewPIPR.GetFocusedDataRow()["PRListId"]);
+                        if (prReqNoStr == "" || prListAutoId == 0)
+                            return;
+                        FrmPrReq.queryPrReqNo = prReqNoStr;
+                        FrmPrReq.queryListAutoId = prListAutoId;
+                        ViewHandler.ShowRightWindow(formNameStr);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--鼠标操作明细行事件错误。", ex);
+            }
         }
 
         /// <summary>
@@ -1496,6 +1538,6 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         #endregion
-
+        
     }
 }

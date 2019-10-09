@@ -1233,14 +1233,15 @@
             // 
             // btnEditAutoSalesOrderNo
             // 
+            this.btnEditAutoSalesOrderNo.EnterMoveNextControl = true;
             this.btnEditAutoSalesOrderNo.Location = new System.Drawing.Point(86, 14);
             this.btnEditAutoSalesOrderNo.Name = "btnEditAutoSalesOrderNo";
             this.btnEditAutoSalesOrderNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "选择", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true)});
-            this.btnEditAutoSalesOrderNo.Properties.ReadOnly = true;
             this.btnEditAutoSalesOrderNo.Size = new System.Drawing.Size(180, 21);
             this.btnEditAutoSalesOrderNo.TabIndex = 101;
             this.btnEditAutoSalesOrderNo.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.btnEditAutoSalesOrderNo_ButtonClick);
+            this.btnEditAutoSalesOrderNo.Leave += new System.EventHandler(this.btnEditAutoSalesOrderNo_Leave);
             // 
             // textProjectName
             // 
@@ -1958,7 +1959,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchCodeFileName.Properties.DisplayMember = "CodeFileName";
             this.searchCodeFileName.Properties.NullText = "";
-            this.searchCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchCodeFileName.Properties.ValueMember = "AutoId";
             this.searchCodeFileName.Properties.View = this.searchPartsCodeIdView;
             this.searchCodeFileName.Size = new System.Drawing.Size(160, 20);
             this.searchCodeFileName.TabIndex = 0;
@@ -2269,11 +2270,6 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn CUnit;
         private DevExpress.XtraTreeList.Columns.TreeListColumn CCatgName;
         private DevExpress.XtraEditors.LabelControl labPartsCodeId;
-        private DevExpress.XtraEditors.SearchLookUpEdit searchCodeFileName;
-        private DevExpress.XtraGrid.Views.Grid.GridView searchPartsCodeIdView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
         private DevExpress.XtraEditors.SimpleButton btnQuery;
         private DevExpress.XtraEditors.TextEdit textCodeName;
         private DevExpress.XtraEditors.LabelControl labCodeName;
@@ -2388,5 +2384,10 @@
         private System.Data.DataColumn ColuParentCodeId;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpMaterial;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCatgName;
+        private DevExpress.XtraEditors.SearchLookUpEdit searchCodeFileName;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchPartsCodeIdView;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
     }
 }

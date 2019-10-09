@@ -299,9 +299,9 @@
             // 
             this.pnlDeliveryDetail.Controls.Add(this.TabControlDeliveryDetail);
             this.pnlDeliveryDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDeliveryDetail.Location = new System.Drawing.Point(900, 68);
+            this.pnlDeliveryDetail.Location = new System.Drawing.Point(1030, 68);
             this.pnlDeliveryDetail.Name = "pnlDeliveryDetail";
-            this.pnlDeliveryDetail.Size = new System.Drawing.Size(364, 661);
+            this.pnlDeliveryDetail.Size = new System.Drawing.Size(234, 661);
             this.pnlDeliveryDetail.TabIndex = 21;
             // 
             // TabControlDeliveryDetail
@@ -310,7 +310,7 @@
             this.TabControlDeliveryDetail.Location = new System.Drawing.Point(2, 2);
             this.TabControlDeliveryDetail.Name = "TabControlDeliveryDetail";
             this.TabControlDeliveryDetail.SelectedTabPage = this.PageDeliveryDetail;
-            this.TabControlDeliveryDetail.Size = new System.Drawing.Size(360, 657);
+            this.TabControlDeliveryDetail.Size = new System.Drawing.Size(230, 657);
             this.TabControlDeliveryDetail.TabIndex = 23;
             this.TabControlDeliveryDetail.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageDeliveryDetail});
@@ -320,7 +320,7 @@
             this.PageDeliveryDetail.Controls.Add(this.pnlDeliveryDetailGrid);
             this.PageDeliveryDetail.Controls.Add(this.pnlDeliveryDetailToolBar);
             this.PageDeliveryDetail.Name = "PageDeliveryDetail";
-            this.PageDeliveryDetail.Size = new System.Drawing.Size(354, 628);
+            this.PageDeliveryDetail.Size = new System.Drawing.Size(224, 628);
             this.PageDeliveryDetail.Text = "供货明细列表";
             // 
             // pnlDeliveryDetailGrid
@@ -329,7 +329,7 @@
             this.pnlDeliveryDetailGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDeliveryDetailGrid.Location = new System.Drawing.Point(0, 40);
             this.pnlDeliveryDetailGrid.Name = "pnlDeliveryDetailGrid";
-            this.pnlDeliveryDetailGrid.Size = new System.Drawing.Size(354, 588);
+            this.pnlDeliveryDetailGrid.Size = new System.Drawing.Size(224, 588);
             this.pnlDeliveryDetailGrid.TabIndex = 24;
             // 
             // gridControlDeliveryDetail
@@ -341,7 +341,7 @@
             this.gridControlDeliveryDetail.Name = "gridControlDeliveryDetail";
             this.gridControlDeliveryDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repMemoDeliveryText});
-            this.gridControlDeliveryDetail.Size = new System.Drawing.Size(350, 584);
+            this.gridControlDeliveryDetail.Size = new System.Drawing.Size(220, 584);
             this.gridControlDeliveryDetail.TabIndex = 6;
             this.gridControlDeliveryDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewDeliveryDetail});
@@ -512,7 +512,7 @@
             this.pnlDeliveryDetailToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlDeliveryDetailToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlDeliveryDetailToolBar.Name = "pnlDeliveryDetailToolBar";
-            this.pnlDeliveryDetailToolBar.Size = new System.Drawing.Size(354, 40);
+            this.pnlDeliveryDetailToolBar.Size = new System.Drawing.Size(224, 40);
             this.pnlDeliveryDetailToolBar.TabIndex = 23;
             // 
             // btnSaveExcel
@@ -528,7 +528,7 @@
             // splitterRight
             // 
             this.splitterRight.Cursor = System.Windows.Forms.Cursors.NoMoveHoriz;
-            this.splitterRight.Location = new System.Drawing.Point(895, 68);
+            this.splitterRight.Location = new System.Drawing.Point(1025, 68);
             this.splitterRight.Name = "splitterRight";
             this.splitterRight.Size = new System.Drawing.Size(5, 661);
             this.splitterRight.TabIndex = 20;
@@ -540,7 +540,7 @@
             this.pnlModuleList.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlModuleList.Location = new System.Drawing.Point(475, 68);
             this.pnlModuleList.Name = "pnlModuleList";
-            this.pnlModuleList.Size = new System.Drawing.Size(420, 661);
+            this.pnlModuleList.Size = new System.Drawing.Size(550, 661);
             this.pnlModuleList.TabIndex = 4;
             // 
             // xtraTabModuleList
@@ -549,7 +549,7 @@
             this.xtraTabModuleList.Location = new System.Drawing.Point(2, 2);
             this.xtraTabModuleList.Name = "xtraTabModuleList";
             this.xtraTabModuleList.SelectedTabPage = this.PageModuleList;
-            this.xtraTabModuleList.Size = new System.Drawing.Size(416, 657);
+            this.xtraTabModuleList.Size = new System.Drawing.Size(546, 657);
             this.xtraTabModuleList.TabIndex = 3;
             this.xtraTabModuleList.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageModuleList});
@@ -559,7 +559,7 @@
             this.PageModuleList.Controls.Add(this.pnlModuleListGrid);
             this.PageModuleList.Controls.Add(this.pnlModuleListToolBar);
             this.PageModuleList.Name = "PageModuleList";
-            this.PageModuleList.Size = new System.Drawing.Size(410, 628);
+            this.PageModuleList.Size = new System.Drawing.Size(540, 628);
             this.PageModuleList.Text = "工位功能模块列表";
             // 
             // pnlModuleListGrid
@@ -568,7 +568,7 @@
             this.pnlModuleListGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlModuleListGrid.Location = new System.Drawing.Point(0, 40);
             this.pnlModuleListGrid.Name = "pnlModuleListGrid";
-            this.pnlModuleListGrid.Size = new System.Drawing.Size(410, 588);
+            this.pnlModuleListGrid.Size = new System.Drawing.Size(540, 588);
             this.pnlModuleListGrid.TabIndex = 1;
             // 
             // gridControlModuleList
@@ -578,7 +578,7 @@
             this.gridControlModuleList.Location = new System.Drawing.Point(2, 2);
             this.gridControlModuleList.MainView = this.gridViewModuleList;
             this.gridControlModuleList.Name = "gridControlModuleList";
-            this.gridControlModuleList.Size = new System.Drawing.Size(406, 584);
+            this.gridControlModuleList.Size = new System.Drawing.Size(536, 584);
             this.gridControlModuleList.TabIndex = 5;
             this.gridControlModuleList.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewModuleList});
@@ -803,13 +803,13 @@
             this.pnlModuleListToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlModuleListToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlModuleListToolBar.Name = "pnlModuleListToolBar";
-            this.pnlModuleListToolBar.Size = new System.Drawing.Size(410, 40);
+            this.pnlModuleListToolBar.Size = new System.Drawing.Size(540, 40);
             this.pnlModuleListToolBar.TabIndex = 0;
             // 
             // btnModuleCopyEdit
             // 
             this.btnModuleCopyEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnModuleCopyEdit.Location = new System.Drawing.Point(324, 9);
+            this.btnModuleCopyEdit.Location = new System.Drawing.Point(454, 9);
             this.btnModuleCopyEdit.Name = "btnModuleCopyEdit";
             this.btnModuleCopyEdit.Size = new System.Drawing.Size(75, 23);
             this.btnModuleCopyEdit.TabIndex = 106;
@@ -829,7 +829,7 @@
             // btnModuleEdit
             // 
             this.btnModuleEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnModuleEdit.Location = new System.Drawing.Point(243, 9);
+            this.btnModuleEdit.Location = new System.Drawing.Point(373, 9);
             this.btnModuleEdit.Name = "btnModuleEdit";
             this.btnModuleEdit.Size = new System.Drawing.Size(75, 23);
             this.btnModuleEdit.TabIndex = 105;

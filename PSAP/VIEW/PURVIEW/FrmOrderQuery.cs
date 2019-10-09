@@ -284,10 +284,14 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmOrder_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string orderHeadNoStr = DataTypeConvert.GetString(gridViewPrReqHead.GetFocusedDataRow()["OrderHeadNo"]);
                     FrmOrder_Drag.queryOrderHeadNo = orderHeadNoStr;
                     FrmOrder_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmOrder_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

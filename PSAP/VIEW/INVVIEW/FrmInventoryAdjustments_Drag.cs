@@ -123,7 +123,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = projectListTable_t;
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
 
                 repLookUpRepertoryId.DataSource = repertoryTable_f;
                 repLookUpLocationId.DataSource = locationTable_f;
@@ -971,13 +971,17 @@ namespace PSAP.VIEW.BSVIEW
                     case "CodeFileName":
                         tmpStr = DataTypeConvert.GetString(gridViewIAList.GetDataRow(e.RowHandle)["CodeFileName"]);
                         if (tmpStr == "")
+                        {
+                            gridViewIAList.SetRowCellValue(e.RowHandle, "CodeId", null);
                             gridViewIAList.SetRowCellValue(e.RowHandle, "CodeName", "");
+                        }
                         else
                         {
                             DataTable temp = (DataTable)repSearchCodeFileName.DataSource;
                             DataRow[] drs = temp.Select(string.Format("CodeFileName='{0}'", tmpStr));
                             if (drs.Length > 0)
                             {
+                                gridViewIAList.SetRowCellValue(e.RowHandle, "CodeId", DataTypeConvert.GetInt(drs[0]["AutoId"]));
                                 gridViewIAList.SetRowCellValue(e.RowHandle, "CodeName", DataTypeConvert.GetString(drs[0]["CodeName"]));
                             }
                         }
@@ -1276,10 +1280,10 @@ namespace PSAP.VIEW.BSVIEW
 
                 int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text.Trim() : "";
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
 
                 dataSet_WNowInfo.Tables[0].Clear();
-                nowInfoDAO.QueryWarehouseNowInfo(dataSet_WNowInfo.Tables[0], codeFileNameStr, repertoryIdInt, projectNameStr, !checkZero.Checked);
+                nowInfoDAO.QueryWarehouseNowInfo(dataSet_WNowInfo.Tables[0], codeIdInt, repertoryIdInt, projectNameStr, !checkZero.Checked);
             }
             catch (Exception ex)
             {
@@ -1451,6 +1455,7 @@ namespace PSAP.VIEW.BSVIEW
                 foreach (DataRow dr in drs)
                 {
                     gridViewIAList.AddNewRow();
+                    gridViewIAList.SetFocusedRowCellValue("CodeId", dr["CodeId"]);
                     gridViewIAList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewIAList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
                     gridViewIAList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(dr["Qty"]));
@@ -1489,6 +1494,7 @@ namespace PSAP.VIEW.BSVIEW
                 foreach (DataRow dr in drs)
                 {
                     gridViewIAList.AddNewRow();
+                    gridViewIAList.SetFocusedRowCellValue("CodeId", dr["CodeId"]);
                     gridViewIAList.SetFocusedRowCellValue("CodeFileName", dr["CodeFileName"]);
                     gridViewIAList.SetFocusedRowCellValue("CodeName", dr["CodeName"]);
                     gridViewIAList.SetFocusedRowCellValue("Qty", DataTypeConvert.GetDouble(dr["Qty"]));

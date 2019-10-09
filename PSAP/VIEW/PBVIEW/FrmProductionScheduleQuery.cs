@@ -183,9 +183,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmProductionSchedule_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string psNoStr = DataTypeConvert.GetString(gridViewProductionSchedule.GetFocusedDataRow()["PsNo"]);
                     FrmProductionSchedule_Drag.queryPsNoStr = psNoStr;
-                    ViewHandler.ShowRightWindow("FrmProductionSchedule_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

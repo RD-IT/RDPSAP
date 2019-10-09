@@ -44,7 +44,7 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and WarehouseWarrant='{0}'", wwHeadNoStr);
             }
-            sqlStr = string.Format("select WWList.*, Parts.CodeName, WWList.Qty-WWList.SettlementCount as Overplus, Olist.Unit, Olist.Tax from V_INV_WarehouseWarrentList_Settlement as WWList left join SW_PartsCode as Parts on WWList.CodeFileName = Parts.CodeFileName left join PUR_OrderList as Olist on Olist.AutoId = WWList.PoListAutoId where WWList.Qty>WWList.SettlementCount {0} order by WWList.AutoId", sqlStr);
+            sqlStr = string.Format("select WWList.*, Parts.CodeName, WWList.Qty-WWList.SettlementCount as Overplus, Olist.Unit, Olist.Tax from V_INV_WarehouseWarrentList_Settlement as WWList left join SW_PartsCode as Parts on WWList.CodeId = Parts.AutoId left join PUR_OrderList as Olist on Olist.AutoId = WWList.PoListAutoId where WWList.Qty>WWList.SettlementCount {0} order by WWList.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
     }

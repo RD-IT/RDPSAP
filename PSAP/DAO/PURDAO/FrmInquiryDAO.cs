@@ -208,7 +208,7 @@ namespace PSAP.DAO.PURDAO
                         SqlDataAdapter adapterHead = new SqlDataAdapter(cmd);
                         DataTable tmpHeadTable = new DataTable();
                         adapterHead.Fill(tmpHeadTable);
-                        BaseSQL.UpdateDataTable(adapterHead, inquiryHeadRow.Table);
+                        BaseSQL.UpdateDataTable(adapterHead, inquiryHeadRow.Table.GetChanges());
 
                         for (int i = 0; i < inquiryListTable.Rows.Count; i++)
                         {
@@ -238,7 +238,7 @@ namespace PSAP.DAO.PURDAO
                         SqlDataAdapter adapterList = new SqlDataAdapter(cmd);
                         DataTable tmpPIPRTable = new DataTable();
                         adapterList.Fill(tmpPIPRTable);
-                        BaseSQL.UpdateDataTable(adapterList, PIPRTable);
+                        BaseSQL.UpdateDataTable(adapterList, PIPRTable.GetChanges());
 
                         for (int i = 0; i < inquiryListTable.Rows.Count; i++)
                         {
@@ -255,6 +255,10 @@ namespace PSAP.DAO.PURDAO
                         //Set_PrReqHead_End(cmd, inquiryListTable);
 
                         trans.Commit();
+
+                        inquiryHeadRow.Table.AcceptChanges();
+                        inquiryListTable.AcceptChanges();
+                        PIPRTable.AcceptChanges();
                         return 1;
                     }
                     catch (Exception ex)
@@ -262,6 +266,7 @@ namespace PSAP.DAO.PURDAO
                         trans.Rollback();
                         inquiryHeadRow.Table.RejectChanges();
                         inquiryListTable.RejectChanges();
+                        PIPRTable.RejectChanges();
                         throw ex;
                     }
                     finally
@@ -330,7 +335,7 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and PrReq.PrReqNo='{0}'", prReqNoStr);
             }
-            sqlStr = string.Format("select PrReq.*, Parts.CodeName, PUR_PrReqHead.ProjectNo, PUR_PrReqHead.StnNo, case when (select COUNT(*) from PUR_PIPR where PRListId = PrReq.AutoId) > 0 then 1 else 0 end as IsInquiry from PUR_PrReqList as PrReq left join SW_PartsCode as Parts on PrReq.CodeFileName = Parts.CodeFileName left join PUR_PrReqHead on PrReq.PrReqNo = PUR_PrReqHead.PrReqNo where 1=1 {0} order by PrReq.AutoId", sqlStr);
+            sqlStr = string.Format("select PrReq.*, Parts.CodeName, PUR_PrReqHead.ProjectNo, PUR_PrReqHead.StnNo, case when (select COUNT(*) from PUR_PIPR where PRListId = PrReq.AutoId) > 0 then 1 else 0 end as IsInquiry from PUR_PrReqList as PrReq left join SW_PartsCode as Parts on PrReq.CodeId = Parts.AutoId left join PUR_PrReqHead on PrReq.PrReqNo = PUR_PrReqHead.PrReqNo where 1=1 {0} order by PrReq.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -352,7 +357,7 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and (PrReq.PrReqNo like '%{0}%' or ProjectNo like '%{0}%' or StnNo like '%{0}%' or PrReqRemark like '%{0}%' or PrReqListRemark like '%{0}%')", commonStr);
             }
-            sqlStr = string.Format("select PrReq.*, Parts.CodeName, PUR_PrReqHead.ProjectNo, PUR_PrReqHead.StnNo, PUR_PrReqHead.ReqDate, case when (select COUNT(*) from PUR_PIPR where PRListId = PrReq.AutoId) > 0 then 1 else 0 end as IsInquiry from PUR_PrReqList as PrReq left join SW_PartsCode as Parts on PrReq.CodeFileName = Parts.CodeFileName left join PUR_PrReqHead on PrReq.PrReqNo = PUR_PrReqHead.PrReqNo where {0} order by PrReq.AutoId", sqlStr);
+            sqlStr = string.Format("select PrReq.*, Parts.CodeName, PUR_PrReqHead.ProjectNo, PUR_PrReqHead.StnNo, PUR_PrReqHead.ReqDate, case when (select COUNT(*) from PUR_PIPR where PRListId = PrReq.AutoId) > 0 then 1 else 0 end as IsInquiry from PUR_PrReqList as PrReq left join SW_PartsCode as Parts on PrReq.CodeId = Parts.AutoId left join PUR_PrReqHead on PrReq.PrReqNo = PUR_PrReqHead.PrReqNo where {0} order by PrReq.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 

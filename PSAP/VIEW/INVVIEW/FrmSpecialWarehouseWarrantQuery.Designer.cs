@@ -91,6 +91,7 @@
             this.colRepertoryLocationId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repLookUpRepertoryLocationId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.repCheckSelect = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_SWW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTableSWWHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_SWWHead)).BeginInit();
@@ -578,7 +579,8 @@
             this.colRemark1,
             this.colPrepared,
             this.colModifier,
-            this.colRepertoryLocationId});
+            this.colRepertoryLocationId,
+            this.colModifierTime});
             this.gridViewSWWHead.GridControl = this.gridControlSWWHead;
             this.gridViewSWWHead.IndicatorWidth = 40;
             this.gridViewSWWHead.Name = "gridViewSWWHead";
@@ -649,13 +651,13 @@
             // 
             this.colWarehouseWarrantDate.AppearanceHeader.Options.UseTextOptions = true;
             this.colWarehouseWarrantDate.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colWarehouseWarrantDate.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.colWarehouseWarrantDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.colWarehouseWarrantDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colWarehouseWarrantDate.FieldName = "SpecialWarehouseWarrantDate";
             this.colWarehouseWarrantDate.Name = "colWarehouseWarrantDate";
             this.colWarehouseWarrantDate.Visible = true;
             this.colWarehouseWarrantDate.VisibleIndex = 2;
-            this.colWarehouseWarrantDate.Width = 90;
+            this.colWarehouseWarrantDate.Width = 135;
             // 
             // colRepertoryId
             // 
@@ -766,6 +768,18 @@
             this.repCheckSelect.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.repCheckSelect.ValueGrayed = false;
             // 
+            // colModifierTime
+            // 
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colModifierTime.FieldName = "ModifierTime";
+            this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 10;
+            this.colModifierTime.Width = 135;
+            // 
             // FrmSpecialWarehouseWarrantQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -873,5 +887,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColuRepertoryName;
         private DevExpress.XtraGrid.Columns.GridColumn colRepertoryLocationId;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpRepertoryLocationId;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifierTime;
     }
 }

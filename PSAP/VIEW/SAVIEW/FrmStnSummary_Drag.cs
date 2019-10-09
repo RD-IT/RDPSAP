@@ -908,9 +908,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmStnModule";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string smNoStr = DataTypeConvert.GetString(gridViewModuleList.GetFocusedDataRow()["SMNo"]);
                     FrmStnModule.querySMNoStr = smNoStr;
-                    ViewHandler.ShowRightWindow("FrmStnModule");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

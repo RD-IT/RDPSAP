@@ -99,8 +99,7 @@ namespace PSAP.DAO.PBDAO
         /// <param name="planNoStr">工单号</param>
         public void QueryProductionPlanList(DataTable queryDataTable, string planNoStr)
         {
-            string sqlStr = string.Format(" and PlanNo='{0}'", planNoStr);
-            sqlStr = string.Format("select PB_ProductionPlanList.*, Case When ISNULL(LevelCodeId, 0) = 0 then CodeId else LevelCodeId end as CodeName from PB_ProductionPlanList where 1=1 {0} order by AutoId", sqlStr);
+            string sqlStr = string.Format("select PB_ProductionPlanList.*, Case When ISNULL(LevelCodeId, 0) = 0 then CodeId else LevelCodeId end as CodeName from PB_ProductionPlanList where 1=1 and PlanNo='{0}' order by AutoId", planNoStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -726,6 +725,13 @@ namespace PSAP.DAO.PBDAO
                         DataRow[] productionPlanRows = productionPlanTable.Select("select=1");
                         for (int i = 0; i < productionPlanRows.Length; i++)
                         {
+                            //检查是否有下级的材料出库单
+                            if (CheckApply(cmd, DataTypeConvert.GetString(productionPlanRows[i]["PlanNo"])))
+                            {
+                                productionPlanTable.RejectChanges();
+                                return false;
+                            }
+
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanRows[i], "PlanNo", "取消审批", SystemInfo.user.EmpName, BaseSQL.GetServerDateTime().ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
@@ -750,6 +756,22 @@ namespace PSAP.DAO.PBDAO
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 检测数据库中入库单是否有采购适用的记录
+        /// </summary>
+        private bool CheckApply(SqlCommand cmd, string planNoStr)
+        {
+            cmd.CommandText = string.Format("select COUNT(*) from INV_WarehouseReceiptList where ProductionPlanListId in (select AutoId from PB_ProductionPlanList where PlanNo = '{0}')", planNoStr);
+            if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) > 0)
+            {
+                cmd.Transaction.Rollback();
+                MessageHandler.ShowMessageBox(string.Format("工单[{0}]已经有适用的材料出库单记录，不可以操作。", planNoStr));
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>

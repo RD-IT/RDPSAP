@@ -835,16 +835,16 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询设计Bom信息
         /// </summary>
-        public string Query_DesignBomList_SQL(string projectNoStr, string codeFileNameStr, bool containNoUse, string preparedStr, string commonStr, bool nullTable)
+        public string Query_DesignBomList_SQL(string projectNoStr, int codeIdInt, bool containNoUse, string preparedStr, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (projectNoStr != "")
             {
                 sqlStr += string.Format(" and ProjectNo = '{0}'", projectNoStr);
             }
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and CodeFileName = '{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and MainCodeId = {0}", codeIdInt);
             }
             if (!containNoUse)
             {

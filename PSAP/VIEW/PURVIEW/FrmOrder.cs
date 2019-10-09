@@ -487,7 +487,7 @@ namespace PSAP.VIEW.BSVIEW
                         }
                     }
 
-                    int ret = orderDAO.SaveOrder(gridViewOrderHead.GetFocusedDataRow(), dataSet_Order.Tables[1]);
+                    int ret = orderDAO.SaveOrder(gridViewOrderHead.GetFocusedDataRow(), dataSet_Order.Tables[1],dataSet_Order.Tables[2]);
                     switch (ret)
                     {
                         case -1:

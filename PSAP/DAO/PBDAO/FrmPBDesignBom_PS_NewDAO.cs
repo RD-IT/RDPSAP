@@ -22,12 +22,12 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询零件信息
         /// </summary>
-        public void QueryPartsCode(DataTable queryDataTable, string codeFileNameStr, string codeNameStr, string catgNameStr, string brandStr)
+        public void QueryPartsCode(DataTable queryDataTable, int codeIdInt, string codeNameStr, string catgNameStr, string brandStr)
         {
             string sqlStr = " 1=1";
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and CodeFileName = '{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and AutoId = '{0}'", codeIdInt);
             }
             if (codeNameStr != "")
             {
@@ -883,16 +883,16 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询设计Bom信息
         /// </summary>
-        public string Query_DesignBomList_SQL(string projectNoStr, string codeFileNameStr, bool containNoUse, string preparedStr, string commonStr, bool nullTable)
+        public string Query_DesignBomList_SQL(string projectNoStr, int codeIdInt, bool containNoUse, string preparedStr, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (projectNoStr != "")
             {
                 sqlStr += string.Format(" and ProjectNo = '{0}'", projectNoStr);
             }
-            if (codeFileNameStr != "")
+            if (codeIdInt != 0)
             {
-                sqlStr += string.Format(" and CodeFileName = '{0}'", codeFileNameStr);
+                sqlStr += string.Format(" and MainCodeId = {0}", codeIdInt);
             }
             if (!containNoUse)
             {

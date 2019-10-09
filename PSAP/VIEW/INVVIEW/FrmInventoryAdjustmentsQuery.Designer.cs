@@ -107,6 +107,7 @@
             this.repLookUpApprovalType = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiTzrqbnwkcx = new System.Windows.Forms.ToolStripMenuItem();
+            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxWarehouseState.Properties)).BeginInit();
@@ -167,7 +168,7 @@
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Margin = new System.Windows.Forms.Padding(4);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1157, 78);
+            this.pnltop.Size = new System.Drawing.Size(1166, 78);
             this.pnltop.TabIndex = 3;
             // 
             // comboBoxWarehouseState
@@ -503,7 +504,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 503);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1157, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1166, 58);
             this.pnlBottom.TabIndex = 5;
             // 
             // gridBottomIA
@@ -513,7 +514,7 @@
             this.gridBottomIA.MasterDataSet = this.dataSet_IA;
             this.gridBottomIA.Name = "gridBottomIA";
             this.gridBottomIA.pageRowCount = 5;
-            this.gridBottomIA.Size = new System.Drawing.Size(1153, 54);
+            this.gridBottomIA.Size = new System.Drawing.Size(1162, 54);
             this.gridBottomIA.TabIndex = 0;
             // 
             // dataSet_IA
@@ -636,7 +637,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1157, 425);
+            this.pnlMiddle.Size = new System.Drawing.Size(1166, 425);
             this.pnlMiddle.TabIndex = 6;
             // 
             // gridControlIAHead
@@ -653,7 +654,7 @@
             this.repLookUpCreator,
             this.repLookUpLocationId,
             this.repLookUpApprovalType});
-            this.gridControlIAHead.Size = new System.Drawing.Size(1153, 421);
+            this.gridControlIAHead.Size = new System.Drawing.Size(1162, 421);
             this.gridControlIAHead.TabIndex = 4;
             this.gridControlIAHead.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewIAHead});
@@ -672,7 +673,8 @@
             this.colCreator,
             this.colModifier,
             this.colWarehouseState,
-            this.colApprovalType});
+            this.colApprovalType,
+            this.colModifierTime});
             this.gridViewIAHead.GridControl = this.gridControlIAHead;
             this.gridViewIAHead.IndicatorWidth = 40;
             this.gridViewIAHead.Name = "gridViewIAHead";
@@ -708,13 +710,13 @@
             // 
             this.colOrderHeadDate.AppearanceHeader.Options.UseTextOptions = true;
             this.colOrderHeadDate.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colOrderHeadDate.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.colOrderHeadDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.colOrderHeadDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colOrderHeadDate.FieldName = "InventoryAdjustmentsDate";
             this.colOrderHeadDate.Name = "colOrderHeadDate";
             this.colOrderHeadDate.Visible = true;
             this.colOrderHeadDate.VisibleIndex = 2;
-            this.colOrderHeadDate.Width = 90;
+            this.colOrderHeadDate.Width = 135;
             // 
             // colRepertoryId
             // 
@@ -938,10 +940,22 @@
             this.tsmiTzrqbnwkcx.Size = new System.Drawing.Size(316, 22);
             this.tsmiTzrqbnwkcx.Text = "调整日期不能为空，请设置后重新进行查询。";
             // 
+            // colModifierTime
+            // 
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colModifierTime.FieldName = "ModifierTime";
+            this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 11;
+            this.colModifierTime.Width = 135;
+            // 
             // FrmInventoryAdjustmentsQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1157, 561);
+            this.ClientSize = new System.Drawing.Size(1166, 561);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnltop);
@@ -1066,5 +1080,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colWarehouseState;
         private DevExpress.XtraGrid.Columns.GridColumn colApprovalType;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpApprovalType;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifierTime;
     }
 }

@@ -180,9 +180,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmProductionPlan";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string planNoStr = DataTypeConvert.GetString(gridViewProductionPlan.GetFocusedDataRow()["PlanNo"]);
                     FrmProductionPlan.queryPlanNo = planNoStr;
-                    ViewHandler.ShowRightWindow("FrmProductionPlan");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

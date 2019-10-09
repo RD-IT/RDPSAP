@@ -573,7 +573,7 @@
             this.colRecordDate.Name = "colRecordDate";
             this.colRecordDate.Visible = true;
             this.colRecordDate.VisibleIndex = 6;
-            this.colRecordDate.Width = 130;
+            this.colRecordDate.Width = 135;
             // 
             // colBussinessBaseNo
             // 
@@ -710,7 +710,7 @@
             this.colModifierTime.Name = "colModifierTime";
             this.colModifierTime.Visible = true;
             this.colModifierTime.VisibleIndex = 10;
-            this.colModifierTime.Width = 130;
+            this.colModifierTime.Width = 135;
             // 
             // colParentAutoQuotationNo
             // 

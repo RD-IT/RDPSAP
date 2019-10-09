@@ -98,6 +98,7 @@
             this.dataColCodeName = new System.Data.DataColumn();
             this.dataColumnOrderHeadNo = new System.Data.DataColumn();
             this.dataColShelfId = new System.Data.DataColumn();
+            this.dataColumn8 = new System.Data.DataColumn();
             this.gridViewWWList = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colAutoId1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWarehouseWarrant1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -125,6 +126,7 @@
             this.colDelete = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repbtnDelete = new DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit();
             this.colPoListAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlMiddle = new DevExpress.XtraEditors.PanelControl();
             this.checkAll = new DevExpress.XtraEditors.CheckEdit();
             this.gridControlWWHead = new DevExpress.XtraGrid.GridControl();
@@ -303,8 +305,10 @@
             this.tsmiSxtzcgddsjcw = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYzrkdzrxxtdxmhjxdj = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYzrkdzrxxtdgysjxdj = new System.Windows.Forms.ToolStripMenuItem();
-            this.dataColumn8 = new System.Data.DataColumn();
-            this.colProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dataColuCodeId = new System.Data.DataColumn();
+            this.dataColCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCodeId1 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SearchLocationId.Properties)).BeginInit();
@@ -975,7 +979,8 @@
             this.dataColCodeName,
             this.dataColumnOrderHeadNo,
             this.dataColShelfId,
-            this.dataColumn8});
+            this.dataColumn8,
+            this.dataColCodeId});
             this.dataTableWWList.TableName = "WWList";
             // 
             // dataColumnAutoId
@@ -1035,6 +1040,11 @@
             this.dataColShelfId.ColumnName = "ShelfId";
             this.dataColShelfId.DataType = typeof(int);
             // 
+            // dataColumn8
+            // 
+            this.dataColumn8.Caption = "项目号";
+            this.dataColumn8.ColumnName = "ProjectNo";
+            // 
             // gridViewWWList
             // 
             this.gridViewWWList.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
@@ -1050,7 +1060,8 @@
             this.colOrderHeadNo,
             this.colDelete,
             this.colPoListAutoId,
-            this.colProjectNo});
+            this.colProjectNo,
+            this.colCodeId});
             this.gridViewWWList.GridControl = this.gridControlWWList;
             this.gridViewWWList.IndicatorWidth = 40;
             this.gridViewWWList.Name = "gridViewWWList";
@@ -1341,6 +1352,11 @@
             // 
             this.colPoListAutoId.FieldName = "PoListAutoId";
             this.colPoListAutoId.Name = "colPoListAutoId";
+            // 
+            // colProjectNo
+            // 
+            this.colProjectNo.FieldName = "ProjectNo";
+            this.colProjectNo.Name = "colProjectNo";
             // 
             // pnlMiddle
             // 
@@ -2081,7 +2097,8 @@
             this.dataColRemark,
             this.dataColumn18,
             this.dataColWarehouseWarrentCount,
-            this.dataColOverplus});
+            this.dataColOverplus,
+            this.dataColuCodeId});
             this.dataTableOrderList.TableName = "OrderList";
             // 
             // dataColumn14
@@ -2180,7 +2197,8 @@
             this.colPlanDate1,
             this.colRemark,
             this.colPrReqNo,
-            this.colPrListAutoId});
+            this.colPrListAutoId,
+            this.colCodeId1});
             this.gridViewOrderList.GridControl = this.gridControlOrderList;
             this.gridViewOrderList.IndicatorWidth = 40;
             this.gridViewOrderList.Name = "gridViewOrderList";
@@ -3105,15 +3123,27 @@
             this.tsmiYzrkdzrxxtdgysjxdj.Size = new System.Drawing.Size(364, 22);
             this.tsmiYzrkdzrxxtdgysjxdj.Text = "一张入库单只允许相同的供应商进行登记。";
             // 
-            // dataColumn8
+            // dataColuCodeId
             // 
-            this.dataColumn8.Caption = "项目号";
-            this.dataColumn8.ColumnName = "ProjectNo";
+            this.dataColuCodeId.Caption = "零件Id";
+            this.dataColuCodeId.ColumnName = "CodeId";
+            this.dataColuCodeId.DataType = typeof(int);
             // 
-            // colProjectNo
+            // dataColCodeId
             // 
-            this.colProjectNo.FieldName = "ProjectNo";
-            this.colProjectNo.Name = "colProjectNo";
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
+            // colCodeId1
+            // 
+            this.colCodeId1.FieldName = "CodeId";
+            this.colCodeId1.Name = "colCodeId1";
             // 
             // FrmWarehouseWarrant_Drag
             // 
@@ -3500,5 +3530,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColRepertoryLocationId;
         private System.Data.DataColumn dataColumn8;
         private DevExpress.XtraGrid.Columns.GridColumn colProjectNo;
+        private System.Data.DataColumn dataColCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
+        private System.Data.DataColumn dataColuCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId1;
     }
 }

@@ -98,11 +98,15 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                string formNameStr = "FrmBomManagement";
+                if (!commonDAO.QueryUserFormPower(formNameStr))
+                    return;
+
                 string codeFileNameStr = DataTypeConvert.GetString(treeListBom.FocusedNode["CodeFileName"]);
                 string parentCodeFileNameStr = DataTypeConvert.GetString(treeListBom.FocusedNode["ParentCodeFileName"]);
                 FrmBomManagement.queryCodeFileNameStr = codeFileNameStr;
                 FrmBomManagement.queryParentCodeFileNameStr = parentCodeFileNameStr;
-                ViewHandler.ShowRightWindow("FrmBomManagement");
+                ViewHandler.ShowRightWindow(formNameStr);
             }
             catch (Exception ex)
             {

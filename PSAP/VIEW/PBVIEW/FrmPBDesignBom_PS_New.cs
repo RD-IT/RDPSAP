@@ -72,7 +72,8 @@ namespace PSAP.VIEW.BSVIEW
             {
                 DataTable catgNameTable_t = commonDAO.QueryPartNoCatg(true);
 
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                searchCodeFileName.EditValue = 0;
                 lookUpCatgName.Properties.DataSource = catgNameTable_t;
                 lookUpCatgName.ItemIndex = 0;
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(true);
@@ -258,12 +259,13 @@ namespace PSAP.VIEW.BSVIEW
         private void QueryPartsCodeInfo()
         {
             dSPartsCode.Tables[0].Rows.Clear();
-            string codeFileNameStr = DataTypeConvert.GetString(searchCodeFileName.EditValue) != "" ? DataTypeConvert.GetString(searchCodeFileName.EditValue) : "";
+            //string codeFileNameStr = DataTypeConvert.GetString(searchCodeFileName.EditValue) != "" ? DataTypeConvert.GetString(searchCodeFileName.EditValue) : "";
+            int codeIdInt = DataTypeConvert.GetInt(searchCodeFileName.EditValue);
             string codeNameStr = textCodeName.Text.Trim();
             string catgNameStr = lookUpCatgName.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpCatgName.EditValue) : "";
             string brandStr = lookUpBrand.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpBrand.EditValue) : "";
 
-            bomDAO.QueryPartsCode(dSPartsCode.Tables[0], codeFileNameStr, codeNameStr, catgNameStr, brandStr);
+            bomDAO.QueryPartsCode(dSPartsCode.Tables[0], codeIdInt, codeNameStr, catgNameStr, brandStr);
         }
 
         /// <summary>
@@ -271,16 +273,17 @@ namespace PSAP.VIEW.BSVIEW
         /// </summary>
         private void QueryBOMInfo()
         {
-            string codeFileNameStr = DataTypeConvert.GetString(searchCodeFileName.EditValue);
+            string codeFileNameStr = DataTypeConvert.GetString(searchCodeFileName.Text);
             string codeNameStr = textCodeName.Text.Trim();
             string catgNameStr = lookUpCatgName.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpCatgName.EditValue) : "";
             string brandStr = lookUpBrand.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpBrand.EditValue) : "";
-            if (codeFileNameStr != "")
+            if (codeFileNameStr != "全部" && codeFileNameStr != "")
             {
                 treeListBom.DataSource = bomDAO.QueryBomInfo_Single(codeFileNameStr);
             }
             else
             {
+                codeFileNameStr = "";
                 DataTable bomInfoTable = bomDAO.QueryBomInfo_OnlyRoot(codeFileNameStr, codeNameStr, catgNameStr, brandStr);
                 if (bomInfoTable.Rows.Count == 1)
                 {
@@ -320,6 +323,23 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
+        /// 销售订单号手动输入后检测
+        /// </summary>
+        private void btnEditAutoSalesOrderNo_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                salesOrderNoStr = btnEditAutoSalesOrderNo.Text.Trim();
+                RefreshSalesOrderInfo();
+                RefreshDesignBomInfo(null, false);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--销售订单号手动输入后检测错误。", ex);
+            }
+        }
+
+        /// <summary>
         /// 刷新销售订单信息和设计Bom信息
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -353,6 +373,12 @@ namespace PSAP.VIEW.BSVIEW
                 textProjectNo.Text = DataTypeConvert.GetString(salesOrderTable.Rows[0]["ProjectNo"]);
                 textProjectName.Text = DataTypeConvert.GetString(salesOrderTable.Rows[0]["ProjectName"]);
             }
+            else
+            {
+                btnEditAutoSalesOrderNo.Text = "";
+                textProjectNo.Text = "";
+                textProjectName.Text = "";
+            }
         }
 
         /// <summary>
@@ -361,6 +387,8 @@ namespace PSAP.VIEW.BSVIEW
         private void RefreshDesignBomInfo(TreeListNode focusedNode, bool checkAllNode)
         {
             dataSet_DesignBom.Tables[0].Rows.Clear();
+            dataSet_PSBom.Tables[0].Rows.Clear();
+            spinRemainQty.Value = 0;
             //DataTable designBomTable = bomDAO.QueryDesignBomManagement(salesOrderNoStr);
             //if(designBomTable.Rows.Count>0)
             //{
@@ -1116,10 +1144,14 @@ namespace PSAP.VIEW.BSVIEW
                 if (focusedRow == null || DataTypeConvert.GetString(focusedRow["PrReqNo"]) == "")
                     return;
 
+                string formNameStr = "FrmPrReq";
+                if (!commonDAO.QueryUserFormPower(formNameStr))
+                    return;
+
                 string prReqNoStr = DataTypeConvert.GetString(focusedRow["PrReqNo"]);
                 FrmPrReq.queryPrReqNo = prReqNoStr;
                 FrmPrReq.queryListAutoId = 0;
-                ViewHandler.ShowRightWindow("FrmPrReq");
+                ViewHandler.ShowRightWindow(formNameStr);
             }
             catch (Exception ex)
             {

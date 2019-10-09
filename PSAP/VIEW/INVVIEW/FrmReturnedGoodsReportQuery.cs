@@ -184,10 +184,14 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmReturnedGoodsReport";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string rgrHeadNoStr = DataTypeConvert.GetString(gridViewRGRHead.GetFocusedDataRow()["ReturnedGoodsReportNo"]);
                     FrmReturnedGoodsReport.queryRGRHeadNo = rgrHeadNoStr;
                     //FrmWarehouseWarrant_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmReturnedGoodsReport");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

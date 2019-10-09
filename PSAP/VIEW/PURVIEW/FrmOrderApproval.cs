@@ -181,52 +181,52 @@ namespace PSAP.VIEW.BSVIEW
                 switch (orderHeadNoStr.Substring(0, 2))
                 {
                     case "PR":
-                        #region 请购单
-                        {
-                            FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
-                            wfDataHandle.orderNameStr = "请购单";
-                            wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
-                            wfDataHandle.workFlowTypeText = "采购流程";
-                            wfDataHandle.tableNameStr = "PUR_PrReqHead";
-                            wfDataHandle.moduleTypeInt = 2;
-                            if (wfDataHandle.ShowDialog() == DialogResult.OK)
-                            {
-                                int nodeIdInt = wfDataHandle.nodeIdInt;
-                                string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
-                                string approverOptionStr = wfDataHandle.memoApproverOption.Text;
-                                approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+                        //#region 请购单
+                        //{
+                        //    FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                        //    wfDataHandle.orderNameStr = "请购单";
+                        //    wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
+                        //    wfDataHandle.workFlowTypeText = "采购流程";
+                        //    wfDataHandle.tableNameStr = "PUR_PrReqHead";
+                        //    wfDataHandle.moduleTypeInt = 2;
+                        //    if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                        //    {
+                        //        int nodeIdInt = wfDataHandle.nodeIdInt;
+                        //        string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                        //        string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                        //        approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
 
-                                if (!new FrmPrReqDAO().PrReqApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
-                                {
+                        //        if (!new FrmPrReqDAO().PrReqApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                        //        {
 
-                                }
-                            }
-                        }
-                        #endregion
+                        //        }
+                        //    }
+                        //}
+                        //#endregion
                         break;
                     case "PO":
-                        #region 采购订单
-                        {
-                            FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
-                            wfDataHandle.orderNameStr = "采购订单";
-                            wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
-                            wfDataHandle.workFlowTypeText = "采购流程";
-                            wfDataHandle.tableNameStr = "PUR_OrderHead";
-                            wfDataHandle.moduleTypeInt = 2;
-                            if (wfDataHandle.ShowDialog() == DialogResult.OK)
-                            {
-                                int nodeIdInt = wfDataHandle.nodeIdInt;
-                                string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
-                                string approverOptionStr = wfDataHandle.memoApproverOption.Text;
-                                approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+                        //#region 采购订单
+                        //{
+                        //    FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                        //    wfDataHandle.orderNameStr = "采购订单";
+                        //    wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
+                        //    wfDataHandle.workFlowTypeText = "采购流程";
+                        //    wfDataHandle.tableNameStr = "PUR_OrderHead";
+                        //    wfDataHandle.moduleTypeInt = 2;
+                        //    if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                        //    {
+                        //        int nodeIdInt = wfDataHandle.nodeIdInt;
+                        //        string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                        //        string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                        //        approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
 
-                                if (!new FrmOrderDAO().OrderApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
-                                {
+                        //        if (!new FrmOrderDAO().OrderApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                        //        {
 
-                                }
-                            }
-                        }
-                        #endregion
+                        //        }
+                        //    }
+                        //}
+                        //#endregion
                         break;
                     case "PS"://采购结账单
                         new FrmSettlementDAO().SettlementApprovalInfo_Multi(dataSet_Order.Tables[0], ref successCountInt);
@@ -255,28 +255,28 @@ namespace PSAP.VIEW.BSVIEW
                         break;
 
                     case "PP":
-                        #region 工单
-                        {
-                            FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
-                            wfDataHandle.orderNameStr = "工单";
-                            wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
-                            wfDataHandle.workFlowTypeText = "生产流程";
-                            wfDataHandle.tableNameStr = "PB_ProductionPlan";
-                            wfDataHandle.moduleTypeInt = 2;
-                            if (wfDataHandle.ShowDialog() == DialogResult.OK)
-                            {
-                                int nodeIdInt = wfDataHandle.nodeIdInt;
-                                string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
-                                string approverOptionStr = wfDataHandle.memoApproverOption.Text;
-                                approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
+                        //#region 工单
+                        //{
+                        //    FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                        //    wfDataHandle.orderNameStr = "工单";
+                        //    wfDataHandle.dataNoList = new List<string>() { orderHeadNoStr };
+                        //    wfDataHandle.workFlowTypeText = "生产流程";
+                        //    wfDataHandle.tableNameStr = "PB_ProductionPlan";
+                        //    wfDataHandle.moduleTypeInt = 2;
+                        //    if (wfDataHandle.ShowDialog() == DialogResult.OK)
+                        //    {
+                        //        int nodeIdInt = wfDataHandle.nodeIdInt;
+                        //        string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
+                        //        string approverOptionStr = wfDataHandle.memoApproverOption.Text;
+                        //        approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
 
-                                if (!new FrmProductionPlanDAO().PPlanApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
-                                {
+                        //        if (!new FrmProductionPlanDAO().PPlanApprovalInfo_Multi(dataSet_Order.Tables[0], nodeIdInt, flowModuleIdStr, approverOptionStr, approverResultInt, ref successCountInt))
+                        //        {
 
-                                }
-                            }
-                        }
-                        #endregion
+                        //        }
+                        //    }
+                        //}
+                        //#endregion
                         break;
                 }
 

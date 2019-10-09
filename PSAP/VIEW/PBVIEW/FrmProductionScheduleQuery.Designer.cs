@@ -89,6 +89,7 @@
             this.repSpinTax = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
             this.repLookUpApprovalType = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.repCheckIsVoucher = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
+            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_PSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_PSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableProductionSchedule)).BeginInit();
@@ -239,7 +240,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 523);
             this.pnlBottom.Name = "pnlBottom";
-            this.pnlBottom.Size = new System.Drawing.Size(1036, 58);
+            this.pnlBottom.Size = new System.Drawing.Size(1081, 58);
             this.pnlBottom.TabIndex = 7;
             // 
             // gridBottomOrderHead
@@ -249,7 +250,7 @@
             this.gridBottomOrderHead.MasterDataSet = this.dataSet_PSchedule;
             this.gridBottomOrderHead.Name = "gridBottomOrderHead";
             this.gridBottomOrderHead.pageRowCount = 5;
-            this.gridBottomOrderHead.Size = new System.Drawing.Size(1032, 54);
+            this.gridBottomOrderHead.Size = new System.Drawing.Size(1077, 54);
             this.gridBottomOrderHead.TabIndex = 0;
             // 
             // pnltop
@@ -272,7 +273,7 @@
             this.pnltop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnltop.Location = new System.Drawing.Point(0, 0);
             this.pnltop.Name = "pnltop";
-            this.pnltop.Size = new System.Drawing.Size(1036, 78);
+            this.pnltop.Size = new System.Drawing.Size(1081, 78);
             this.pnltop.TabIndex = 8;
             // 
             // checkReqDate
@@ -460,7 +461,7 @@
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMiddle.Location = new System.Drawing.Point(0, 78);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(1036, 445);
+            this.pnlMiddle.Size = new System.Drawing.Size(1081, 445);
             this.pnlMiddle.TabIndex = 9;
             // 
             // gridControlProductionSchedule
@@ -477,7 +478,7 @@
             this.repSpinTax,
             this.repLookUpApprovalType,
             this.repCheckIsVoucher});
-            this.gridControlProductionSchedule.Size = new System.Drawing.Size(1032, 441);
+            this.gridControlProductionSchedule.Size = new System.Drawing.Size(1077, 441);
             this.gridControlProductionSchedule.TabIndex = 7;
             this.gridControlProductionSchedule.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewProductionSchedule});
@@ -494,7 +495,8 @@
             this.colSalesOrderNo,
             this.colRemark,
             this.colPrepared,
-            this.colModifier});
+            this.colModifier,
+            this.colModifierTime});
             this.gridViewProductionSchedule.GridControl = this.gridControlProductionSchedule;
             this.gridViewProductionSchedule.IndicatorWidth = 40;
             this.gridViewProductionSchedule.Name = "gridViewProductionSchedule";
@@ -537,13 +539,13 @@
             // 
             this.colCurrentDate.AppearanceHeader.Options.UseTextOptions = true;
             this.colCurrentDate.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colCurrentDate.DisplayFormat.FormatString = "yyyy-MM-dd";
+            this.colCurrentDate.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
             this.colCurrentDate.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.colCurrentDate.FieldName = "CurrentDate";
             this.colCurrentDate.Name = "colCurrentDate";
             this.colCurrentDate.Visible = true;
             this.colCurrentDate.VisibleIndex = 1;
-            this.colCurrentDate.Width = 90;
+            this.colCurrentDate.Width = 135;
             // 
             // colReqDate
             // 
@@ -719,10 +721,22 @@
             this.repCheckIsVoucher.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.repCheckIsVoucher.ValueGrayed = false;
             // 
+            // colModifierTime
+            // 
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colModifierTime.FieldName = "ModifierTime";
+            this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 8;
+            this.colModifierTime.Width = 135;
+            // 
             // FrmProductionScheduleQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1036, 581);
+            this.ClientSize = new System.Drawing.Size(1081, 581);
             this.Controls.Add(this.pnlMiddle);
             this.Controls.Add(this.pnltop);
             this.Controls.Add(this.pnlBottom);
@@ -826,5 +840,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colPrepared;
         private DevExpress.XtraGrid.Columns.GridColumn colModifier;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckSelect;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifierTime;
     }
 }

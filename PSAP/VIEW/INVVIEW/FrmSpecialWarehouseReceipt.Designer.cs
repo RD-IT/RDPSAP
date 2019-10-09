@@ -155,6 +155,8 @@
             this.labPrepared = new DevExpress.XtraEditors.LabelControl();
             this.labWarehouseState = new DevExpress.XtraEditors.LabelControl();
             this.labSWRDate = new DevExpress.XtraEditors.LabelControl();
+            this.dataColCodeId = new System.Data.DataColumn();
+            this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_SWR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTableSWRHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTableSWRList)).BeginInit();
@@ -324,7 +326,8 @@
             this.dataColumnRemark,
             this.dataColCodeName,
             this.dataColShelfId,
-            this.dataColumnProjectNo});
+            this.dataColumnProjectNo,
+            this.dataColCodeId});
             this.dataTableSWRList.TableName = "SWRList";
             // 
             // dataColumnAutoId
@@ -455,7 +458,8 @@
             this.colProjectName,
             this.colStnNo,
             this.colDelete,
-            this.colProjectNo});
+            this.colProjectNo,
+            this.colCodeId});
             this.gridViewSWRList.GridControl = this.gridControlSWRList;
             this.gridViewSWRList.IndicatorWidth = 40;
             this.gridViewSWRList.Name = "gridViewSWRList";
@@ -1532,6 +1536,17 @@
             this.labSWRDate.TabIndex = 5;
             this.labSWRDate.Text = "预算外出库日期：";
             // 
+            // dataColCodeId
+            // 
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
+            // colCodeId
+            // 
+            this.colCodeId.FieldName = "CodeId";
+            this.colCodeId.Name = "colCodeId";
+            // 
             // FrmSpecialWarehouseReceipt
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1723,5 +1738,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
+        private System.Data.DataColumn dataColCodeId;
+        private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
     }
 }

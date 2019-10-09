@@ -147,6 +147,7 @@
             this.colWarehouseWarrantDate = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWarehouseWarrant = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colWWQty = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckDelayWarehousing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottom)).BeginInit();
             this.pnlBottom.SuspendLayout();
@@ -490,7 +491,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
             this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
+            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 10;
@@ -499,7 +500,8 @@
             // 
             this.searchLookUpCodeFileNameView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.gridColumn1,
-            this.gridColumn3});
+            this.gridColumn3,
+            this.gridColumn2});
             this.searchLookUpCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
             this.searchLookUpCodeFileNameView.IndicatorWidth = 60;
             this.searchLookUpCodeFileNameView.Name = "searchLookUpCodeFileNameView";
@@ -1362,6 +1364,12 @@
             this.colWWQty.VisibleIndex = 12;
             this.colWWQty.Width = 85;
             // 
+            // gridColumn2
+            // 
+            this.gridColumn2.Caption = "AutoId";
+            this.gridColumn2.FieldName = "AutoId";
+            this.gridColumn2.Name = "gridColumn2";
+            // 
             // FrmOrderArrivalQuery
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1535,5 +1543,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colDelayWarehousing;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckDelayWarehousing;
         private DevExpress.XtraEditors.CheckEdit checkDelayWarehousing;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
     }
 }

@@ -178,10 +178,14 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmSpecialWarehouseReceipt";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string swrHeadNoStr = DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]);
                     FrmSpecialWarehouseReceipt.querySWRHeadNo = swrHeadNoStr;
                     //FrmWarehouseReceipt_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmSpecialWarehouseReceipt");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

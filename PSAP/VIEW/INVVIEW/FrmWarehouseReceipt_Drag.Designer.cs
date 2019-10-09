@@ -1697,6 +1697,7 @@
             this.gridViewWRList.OptionsView.EnableAppearanceOddRow = true;
             this.gridViewWRList.OptionsView.ShowFooter = true;
             this.gridViewWRList.OptionsView.ShowGroupPanel = false;
+            this.gridViewWRList.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridViewWRList_RowClick);
             this.gridViewWRList.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewWRHead_CustomDrawRowIndicator);
             this.gridViewWRList.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gridViewWRList_InitNewRow);
             this.gridViewWRList.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridViewWRList_FocusedRowChanged);

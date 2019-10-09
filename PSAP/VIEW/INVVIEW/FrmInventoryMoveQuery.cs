@@ -192,10 +192,14 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmInventoryMove_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string inventoryMoveNoStr = DataTypeConvert.GetString(gridViewIMHead.GetFocusedDataRow()["InventoryMoveNo"]);
                     FrmInventoryMove_Drag.queryIMHeadNo = inventoryMoveNoStr;
                     FrmInventoryMove_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmInventoryMove_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

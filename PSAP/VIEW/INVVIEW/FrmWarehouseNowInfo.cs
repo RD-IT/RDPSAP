@@ -52,7 +52,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
 
 
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
@@ -121,12 +121,13 @@ namespace PSAP.VIEW.BSVIEW
 
                 int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                //string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text : "";                
                 int ShelfIdInt =  searchLookUpShelfId.Text != "全部" ? DataTypeConvert.GetInt(searchLookUpShelfId.EditValue) : 0;
                 string commonStr = textCommon.Text.Trim();
 
-                string querySqlStr = wNowInfoDAO.QueryWarehouseNowInfo_SQL(codeFileNameStr, repertoryIdInt, locationIdInt, projectNameStr, ShelfIdInt, commonStr, !checkZero.Checked);
+                string querySqlStr = wNowInfoDAO.QueryWarehouseNowInfo_SQL(codeIdInt, repertoryIdInt, locationIdInt, projectNameStr, ShelfIdInt, commonStr, !checkZero.Checked);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomWNowInfo.QueryGridData(ref dataSet_WNowInfo, "WNowInfo", querySqlStr, countSqlStr, true);

@@ -557,7 +557,7 @@
             this.colRecordDate.Name = "colRecordDate";
             this.colRecordDate.Visible = true;
             this.colRecordDate.VisibleIndex = 1;
-            this.colRecordDate.Width = 130;
+            this.colRecordDate.Width = 135;
             // 
             // colBussinessBaseNo
             // 
@@ -705,7 +705,7 @@
             this.colModifierTime.Name = "colModifierTime";
             this.colModifierTime.Visible = true;
             this.colModifierTime.VisibleIndex = 8;
-            this.colModifierTime.Width = 130;
+            this.colModifierTime.Width = 135;
             // 
             // repCheckSelect
             // 

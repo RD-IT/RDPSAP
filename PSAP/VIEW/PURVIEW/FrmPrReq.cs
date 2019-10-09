@@ -1134,9 +1134,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (gridViewPrReqList.GetFocusedDataRow() != null)
                 {
+                    string formNameStr = "FrmOrderQuery";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     int autoIdInt = DataTypeConvert.GetInt(gridViewPrReqList.GetFocusedDataRow()["AutoId"]);
                     FrmOrderQuery.prReqListAutoId = autoIdInt;
-                    ViewHandler.ShowRightWindow("FrmOrderQuery");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

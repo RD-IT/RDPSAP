@@ -95,7 +95,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_InventoryAdjustmentsList.*, SW_PartsCode.CodeName from INV_InventoryAdjustmentsList left join SW_PartsCode on INV_InventoryAdjustmentsList.CodeFileName = SW_PartsCode.CodeFileName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_InventoryAdjustmentsList.*, SW_PartsCode.CodeName from INV_InventoryAdjustmentsList left join SW_PartsCode on INV_InventoryAdjustmentsList.CodeId = SW_PartsCode.AutoId where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -247,7 +247,7 @@ namespace PSAP.DAO.INVDAO
                         DataTable dbListTable = new DataTable();
                         if (IAHeadRow.RowState != DataRowState.Added)
                         {
-                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.LocationId, head.ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_InventoryAdjustmentsList as list left join INV_InventoryAdjustmentsHead as head on list.InventoryAdjustmentsNo = head.InventoryAdjustmentsNo where list.InventoryAdjustmentsNo = '{0}' group by CodeFileName, head.RepertoryId, head.LocationId, head.ProjectNo, list.ShelfId", iaNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.RepertoryId, head.LocationId, head.ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_InventoryAdjustmentsList as list left join INV_InventoryAdjustmentsHead as head on list.InventoryAdjustmentsNo = head.InventoryAdjustmentsNo where list.InventoryAdjustmentsNo = '{0}' group by CodeId, CodeFileName, head.RepertoryId, head.LocationId, head.ProjectNo, list.ShelfId", iaNoStr);
                             SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
                             dbListAdapter.Fill(dbListTable);
                         }
@@ -421,7 +421,7 @@ namespace PSAP.DAO.INVDAO
                             }
                         }
 
-                        //cmd.CommandText = string.Format("Delete from INV_WarehouseNowInfo where Qty = 0 and exists (select * from INV_InventoryAdjustmentsList as list where list.CodeFileName = INV_WarehouseNowInfo.CodeFileName and list.RepertoryId = INV_WarehouseNowInfo.RepertoryId and list.LocationId = INV_WarehouseNowInfo.LocationId and list.ProjectNo = INV_WarehouseNowInfo.ProjectNo and list.ShelfId = INV_WarehouseNowInfo.ShelfId and InventoryAdjustmentsNo in ({0}))", iaHeadNoListStr);
+                        //cmd.CommandText = string.Format("Delete from INV_WarehouseNowInfo where Qty = 0 and exists (select * from INV_InventoryAdjustmentsList as list where list.CodeId = INV_WarehouseNowInfo.CodeId and list.CodeFileName = INV_WarehouseNowInfo.CodeFileName and list.RepertoryId = INV_WarehouseNowInfo.RepertoryId and list.LocationId = INV_WarehouseNowInfo.LocationId and list.ProjectNo = INV_WarehouseNowInfo.ProjectNo and list.ShelfId = INV_WarehouseNowInfo.ShelfId and InventoryAdjustmentsNo in ({0}))", iaHeadNoListStr);
                         //cmd.ExecuteNonQuery();
 
                         cmd.CommandText = string.Format("Delete from INV_InventoryAdjustmentsList where InventoryAdjustmentsNo in ({0})", iaHeadNoListStr);

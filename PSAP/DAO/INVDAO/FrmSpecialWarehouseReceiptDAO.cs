@@ -89,7 +89,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_SpecialWarehouseReceiptList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo from INV_SpecialWarehouseReceiptList left join SW_PartsCode on INV_SpecialWarehouseReceiptList.CodeFileName = SW_PartsCode.CodeFileName left join BS_ProjectList on INV_SpecialWarehouseReceiptList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_SpecialWarehouseReceiptList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo from INV_SpecialWarehouseReceiptList left join SW_PartsCode on INV_SpecialWarehouseReceiptList.CodeId = SW_PartsCode.AutoId left join BS_ProjectList on INV_SpecialWarehouseReceiptList.ProjectName = BS_ProjectList.ProjectName where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -143,7 +143,7 @@ namespace PSAP.DAO.INVDAO
                         DataTable dbListTable = new DataTable();
                         if (swrHeadRow.RowState != DataRowState.Added)
                         {
-                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_SpecialWarehouseReceiptList as list left join INV_SpecialWarehouseReceiptHead as head on list.SpecialWarehouseReceipt = head.SpecialWarehouseReceipt left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.SpecialWarehouseReceipt = '{0}' group by CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", swrNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_SpecialWarehouseReceiptList as list left join INV_SpecialWarehouseReceiptHead as head on list.SpecialWarehouseReceipt = head.SpecialWarehouseReceipt left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.SpecialWarehouseReceipt = '{0}' group by CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", swrNoStr);
                             SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
                             dbListAdapter.Fill(dbListTable);
                         }

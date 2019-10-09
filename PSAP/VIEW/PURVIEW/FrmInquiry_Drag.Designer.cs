@@ -703,6 +703,15 @@
             this.dockPnlLeft.ID = new System.Guid("ca433cde-b976-45e2-b60d-64c3c97d68de");
             this.dockPnlLeft.Location = new System.Drawing.Point(0, 0);
             this.dockPnlLeft.Name = "dockPnlLeft";
+            this.dockPnlLeft.Options.AllowDockAsTabbedDocument = false;
+            this.dockPnlLeft.Options.AllowDockBottom = false;
+            this.dockPnlLeft.Options.AllowDockFill = false;
+            this.dockPnlLeft.Options.AllowDockRight = false;
+            this.dockPnlLeft.Options.AllowDockTop = false;
+            this.dockPnlLeft.Options.AllowFloating = false;
+            this.dockPnlLeft.Options.FloatOnDblClick = false;
+            this.dockPnlLeft.Options.ShowCloseButton = false;
+            this.dockPnlLeft.Options.ShowMaximizeButton = false;
             this.dockPnlLeft.OriginalSize = new System.Drawing.Size(350, 200);
             this.dockPnlLeft.Size = new System.Drawing.Size(350, 633);
             this.dockPnlLeft.Text = "请购单";
@@ -735,7 +744,7 @@
             this.PagePrReqHead.Controls.Add(this.pnlLeftTop);
             this.PagePrReqHead.Name = "PagePrReqHead";
             this.PagePrReqHead.Size = new System.Drawing.Size(336, 577);
-            this.PagePrReqHead.Text = "请购订单查询";
+            this.PagePrReqHead.Text = "请购订单";
             // 
             // pnlLeftBottom
             // 
@@ -1560,7 +1569,7 @@
             this.PagePrReqList.Controls.Add(this.pnlLeftListTop);
             this.PagePrReqList.Name = "PagePrReqList";
             this.PagePrReqList.Size = new System.Drawing.Size(336, 577);
-            this.PagePrReqList.Text = "请购明细查询";
+            this.PagePrReqList.Text = "请购明细";
             // 
             // pnlLeftListBottom
             // 
@@ -2036,7 +2045,7 @@
             this.colUnitPrice.OptionsColumn.AllowEdit = false;
             this.colUnitPrice.Visible = true;
             this.colUnitPrice.VisibleIndex = 2;
-            this.colUnitPrice.Width = 100;
+            this.colUnitPrice.Width = 80;
             // 
             // repSpinUnit
             // 
@@ -2111,7 +2120,7 @@
             this.colTax1.OptionsColumn.AllowEdit = false;
             this.colTax1.Visible = true;
             this.colTax1.VisibleIndex = 5;
-            this.colTax1.Width = 60;
+            this.colTax1.Width = 50;
             // 
             // repSpinTax1
             // 
@@ -2658,8 +2667,10 @@
             this.gridViewPIPR.OptionsView.EnableAppearanceOddRow = true;
             this.gridViewPIPR.OptionsView.ShowFooter = true;
             this.gridViewPIPR.OptionsView.ShowGroupPanel = false;
+            this.gridViewPIPR.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridViewPIPR_RowClick);
             this.gridViewPIPR.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewInquiryHead_CustomDrawRowIndicator);
             this.gridViewPIPR.CellValueChanged += new DevExpress.XtraGrid.Views.Base.CellValueChangedEventHandler(this.gridViewPIPR_CellValueChanged);
+            this.gridViewPIPR.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridViewInquiryHead_KeyDown);
             // 
             // gridColumn1
             // 
@@ -3080,7 +3091,7 @@
             this.labCreator.Name = "labCreator";
             this.labCreator.Size = new System.Drawing.Size(48, 14);
             this.labCreator.TabIndex = 11;
-            this.labCreator.Text = "制单人：";
+            this.labCreator.Text = "询价人：";
             // 
             // labDepartmentNo
             // 

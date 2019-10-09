@@ -51,7 +51,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpShelfId.Properties.DataSource = shelfTable_t;
                 searchLookUpShelfId.EditValue = 0;
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
 
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
                 //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
@@ -140,11 +140,12 @@ namespace PSAP.VIEW.BSVIEW
 
                 int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                //string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 int shelfIdInt = searchLookUpShelfId.Text !="全部"? DataTypeConvert.GetInt(searchLookUpShelfId.EditValue) : 0;
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
 
-                string querySqlStr = wNowInfoDAO.QueryProductOpenAccount_SQL(opBeginStr, opEndStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, codeFileNameStr);
+                string querySqlStr = wNowInfoDAO.QueryProductOpenAccount_SQL(opBeginStr, opEndStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, codeIdInt);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomWNowInfo.QueryGridData(ref dataSet_OpenAccount, "OpenAccount", querySqlStr, countSqlStr, true);

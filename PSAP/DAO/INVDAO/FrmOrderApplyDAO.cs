@@ -60,7 +60,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and OrderHeadNo='{0}'", orderHeadNoStr);
             }
-            sqlStr = string.Format("select OList.*, Parts.CodeName, OList.Qty-OList.WarehouseWarrentCount as Overplus from V_PUR_OrderList_WarehouseWarrent as OList left join SW_PartsCode as Parts on OList.CodeFileName = Parts.CodeFileName where OList.Qty>OList.WarehouseWarrentCount {0} order by OList.AutoId", sqlStr);
+            sqlStr = string.Format("select OList.*, Parts.CodeName, OList.Qty-OList.WarehouseWarrentCount as Overplus from V_PUR_OrderList_WarehouseWarrent as OList left join SW_PartsCode as Parts on OList.CodeId = Parts.AutoId where OList.Qty>OList.WarehouseWarrentCount {0} order by OList.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
     }

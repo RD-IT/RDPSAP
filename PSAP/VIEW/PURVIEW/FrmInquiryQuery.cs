@@ -160,9 +160,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmInquiry_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string piHeadNoStr = DataTypeConvert.GetString(gridViewInquiryHead.GetFocusedDataRow()["PIHeadNo"]);
                     FrmInquiry_Drag.queryPIHeadNo = piHeadNoStr;
-                    ViewHandler.ShowRightWindow("FrmInquiry_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

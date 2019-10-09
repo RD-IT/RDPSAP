@@ -510,7 +510,7 @@
             this.labCreator.Name = "labCreator";
             this.labCreator.Size = new System.Drawing.Size(48, 14);
             this.labCreator.TabIndex = 11;
-            this.labCreator.Text = "制单人：";
+            this.labCreator.Text = "询价人：";
             // 
             // labDepartmentNo
             // 

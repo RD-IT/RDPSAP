@@ -139,9 +139,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmPartsCode";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string codeFileNameStr = DataTypeConvert.GetString(gridViewPartsCode.GetFocusedDataRow()["CodeFileName"]);
                     FrmPartsCode.codeFileNameStr = codeFileNameStr;
-                    ViewHandler.ShowRightWindow("FrmPartsCode");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

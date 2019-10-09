@@ -670,7 +670,7 @@
             this.colSalesOrderDate.Name = "colSalesOrderDate";
             this.colSalesOrderDate.Visible = true;
             this.colSalesOrderDate.VisibleIndex = 1;
-            this.colSalesOrderDate.Width = 130;
+            this.colSalesOrderDate.Width = 135;
             // 
             // colAutoQuotationNo
             // 
@@ -920,7 +920,7 @@
             this.colModifierTime.Name = "colModifierTime";
             this.colModifierTime.Visible = true;
             this.colModifierTime.VisibleIndex = 17;
-            this.colModifierTime.Width = 130;
+            this.colModifierTime.Width = 135;
             // 
             // colParentAutoSalesOrderNo
             // 

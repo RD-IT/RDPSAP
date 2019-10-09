@@ -975,13 +975,17 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (gridViewWWList.GetFocusedDataRow() != null)
                 {
+                    string formNameStr = "FrmOrder_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string orderHeadNoStr = DataTypeConvert.GetString(gridViewWWList.GetFocusedDataRow()["OrderHeadNo"]);
                     int poListAutoId = DataTypeConvert.GetInt(gridViewWWList.GetFocusedDataRow()["PoListAutoId"]);
                     if (orderHeadNoStr == "" || poListAutoId == 0)
                         return;
-                    FrmOrder.queryOrderHeadNo = orderHeadNoStr;
-                    FrmOrder.queryListAutoId = poListAutoId;
-                    ViewHandler.ShowRightWindow("FrmOrder");
+                    FrmOrder_Drag.queryOrderHeadNo = orderHeadNoStr;
+                    FrmOrder_Drag.queryListAutoId = poListAutoId;
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)
@@ -1000,9 +1004,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (gridViewWWList.GetFocusedDataRow() != null)
                 {
+                    string formNameStr = "FrmSettlementQuery";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     int autoIdInt = DataTypeConvert.GetInt(gridViewWWList.GetFocusedDataRow()["AutoId"]);
                     FrmSettlementQuery.wwListAutoId = autoIdInt;
-                    ViewHandler.ShowRightWindow("FrmSettlementQuery");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

@@ -178,10 +178,14 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmSpecialWarehouseWarrant";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string swwHeadNoStr = DataTypeConvert.GetString(gridViewSWWHead.GetFocusedDataRow()["SpecialWarehouseWarrant"]);
                     FrmSpecialWarehouseWarrant.querySWWHeadNo = swwHeadNoStr;
                     //FrmWarehouseWarrant_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmSpecialWarehouseWarrant");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

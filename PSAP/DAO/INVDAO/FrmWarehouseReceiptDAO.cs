@@ -123,7 +123,7 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += " and 1=2";
             }
-            sqlStr = string.Format("select INV_WarehouseReceiptList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo, PB_ProductionPlanList.PlanNo from INV_WarehouseReceiptList left join SW_PartsCode on INV_WarehouseReceiptList.CodeFileName = SW_PartsCode.CodeFileName left join BS_ProjectList on INV_WarehouseReceiptList.ProjectName = BS_ProjectList.ProjectName left join PB_ProductionPlanList on PB_ProductionPlanList.AutoId = INV_WarehouseReceiptList.ProductionPlanListId where 1=1 {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select INV_WarehouseReceiptList.*, SW_PartsCode.CodeName, BS_ProjectList.ProjectNo, PB_ProductionPlanList.PlanNo from INV_WarehouseReceiptList left join SW_PartsCode on INV_WarehouseReceiptList.CodeId = SW_PartsCode.AutoId left join BS_ProjectList on INV_WarehouseReceiptList.ProjectName = BS_ProjectList.ProjectName left join PB_ProductionPlanList on PB_ProductionPlanList.AutoId = INV_WarehouseReceiptList.ProductionPlanListId where 1=1 {0} order by AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -181,7 +181,7 @@ namespace PSAP.DAO.INVDAO
                         DataTable dbListTable = new DataTable();
                         if (wrHeadRow.RowState != DataRowState.Added)
                         {
-                            cmd.CommandText = string.Format("select CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_WarehouseReceiptList as list left join INV_WarehouseReceiptHead as head on list.WarehouseReceipt = head.WarehouseReceipt left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.WarehouseReceipt = '{0}' group by CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", wrNoStr);
+                            cmd.CommandText = string.Format("select CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId, Sum(Qty) as Qty from INV_WarehouseReceiptList as list left join INV_WarehouseReceiptHead as head on list.WarehouseReceipt = head.WarehouseReceipt left join BS_ProjectList on list.ProjectName = BS_ProjectList.ProjectName where list.WarehouseReceipt = '{0}' group by CodeId, CodeFileName, head.RepertoryId, head.RepertoryLocationId, ProjectNo, list.ShelfId", wrNoStr);
                             SqlDataAdapter dbListAdapter = new SqlDataAdapter(cmd);
                             dbListAdapter.Fill(dbListTable);
                         }
@@ -218,7 +218,7 @@ namespace PSAP.DAO.INVDAO
                             wrHeadRow["WarehouseState"] = 2;
                         }
 
-                        Set_ProductionPlan_End(cmd, QueryProductionPlanList_PlanNo(cmd, wrNoStr));
+                        Set_ProductionPlan_End(cmd, wrListTable.GetChanges());
 
                         trans.Commit();
                         wrHeadRow.Table.AcceptChanges();
@@ -900,11 +900,26 @@ namespace PSAP.DAO.INVDAO
         /// </summary>
         private void Set_ProductionPlan_End(SqlCommand cmd, DataTable planNoTable)
         {
-            foreach (DataRow planNoRow in planNoTable.Rows)
+            List<string> planNoList = new List<string>();
+            foreach (DataRow dr in planNoTable.Rows)
             {
-                string planNoStr = DataTypeConvert.GetString(planNoRow["PlanNo"]);
+                if (dr.RowState == DataRowState.Deleted)
+                {
+                    if (!planNoList.Contains(DataTypeConvert.GetString(dr["PlanNo", DataRowVersion.Original])))
+                        planNoList.Add(DataTypeConvert.GetString(dr["PlanNo", DataRowVersion.Original]));
+                }
+                else
+                {
+                    if (!planNoList.Contains(DataTypeConvert.GetString(dr["PlanNo"])))
+                        planNoList.Add(DataTypeConvert.GetString(dr["PlanNo"]));
+                }
+            }
 
-                cmd.CommandText = string.Format("Update PB_ProductionPlan set IsEnd = case when (select Count(*) from V_PB_ProductionPlanList_WarehouseReceipt where PlanNo = '{0}' and Qty>WarehouseReceiptCount) = 0 then 1 else 0 end where PlanNo='{0}'", planNoStr);
+            foreach (string planNoStr in planNoList)
+            {
+                if (planNoStr == "")
+                    continue;
+                cmd.CommandText = string.Format("Update PB_ProductionPlan set IsEnd = case when (select Count(*) from V_PB_ProductionPlanList_WarehouseReceipt where PlanNo = '{0}' and Qty > WarehouseReceiptCount) = 0 then 1 else 0 end where PlanNo='{0}'", planNoStr);
                 cmd.ExecuteNonQuery();
 
                 //cmd.CommandText = string.Format("select Count(*) from V_PB_ProductionPlanList_WarehouseReceipt where PlanNo = '{0}' and Qty>WarehouseReceiptCount", planNoStr);

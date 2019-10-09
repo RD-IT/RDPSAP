@@ -199,10 +199,14 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmInventoryAdjustments_Drag";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string inventoryAdjustmentsNoStr = DataTypeConvert.GetString(gridViewIAHead.GetFocusedDataRow()["InventoryAdjustmentsNo"]);
                     FrmInventoryAdjustments_Drag.queryIAHeadNo = inventoryAdjustmentsNoStr;
                     FrmInventoryAdjustments_Drag.queryListAutoId = 0;
-                    ViewHandler.ShowRightWindow("FrmInventoryAdjustments_Drag");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

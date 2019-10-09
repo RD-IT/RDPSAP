@@ -187,11 +187,15 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (e.Clicks == 2 && e.Button == MouseButtons.Left)
                 {
+                    string formNameStr = "FrmPrReq";
+                    if (!commonDAO.QueryUserFormPower(formNameStr))
+                        return;
+
                     string prReqNoStr = DataTypeConvert.GetString(gridViewPrReqList.GetFocusedDataRow()["PrReqNo"]);
                     int autoIdInt = DataTypeConvert.GetInt(gridViewPrReqList.GetFocusedDataRow()["AutoId"]);
                     FrmPrReq.queryPrReqNo = prReqNoStr;
                     FrmPrReq.queryListAutoId = autoIdInt;
-                    ViewHandler.ShowRightWindow("FrmPrReq");
+                    ViewHandler.ShowRightWindow(formNameStr);
                 }
             }
             catch (Exception ex)

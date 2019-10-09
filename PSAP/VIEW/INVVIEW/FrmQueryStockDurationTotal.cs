@@ -49,7 +49,7 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
                 searchLookUpProjectNo.Text = "全部";
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
+                searchLookUpCodeFileName.EditValue = 0;
 
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
                 //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
@@ -120,11 +120,12 @@ namespace PSAP.VIEW.BSVIEW
 
                 int repertoryIdInt = lookUpRepertoryId.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpRepertoryId.EditValue) : 0;
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
-                string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                //string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string projectNameStr = searchLookUpProjectNo.Text != "全部" ? searchLookUpProjectNo.Text : "";
                 string commonStr = textCommon.Text.Trim();
 
-                string querySqlStr = wNowInfoDAO.QueryStockDurationTotal_SQL(dateDurBegin.DateTime.Date, durDateBeginStr, durDateEndStr, repertoryIdInt, locationIdInt, projectNameStr, codeFileNameStr, commonStr);
+                string querySqlStr = wNowInfoDAO.QueryStockDurationTotal_SQL(dateDurBegin.DateTime.Date, durDateBeginStr, durDateEndStr, repertoryIdInt, locationIdInt, projectNameStr, codeIdInt, commonStr);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomWNowInfo.QueryGridData(ref dataSet_DurationStock, "DurationStock", querySqlStr, countSqlStr, true);

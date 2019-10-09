@@ -577,10 +577,14 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     if (btnDelete.Enabled)
                     {
+                        string formNameStr = "FrmSalesOrder_History";
+                        if (!commonDAO.QueryUserFormPower(formNameStr))
+                            return;
+
                         string autoSalesOrderNoStr = DataTypeConvert.GetString(gridViewSettleAccountsList.GetFocusedDataRow()["AutoSalesOrderNo"]);
                         FrmSalesOrder_History.queryAutoSalesOrderNoStr = autoSalesOrderNoStr;
                         //FrmWarehouseWarrant_Drag.queryListAutoId = 0;
-                        ViewHandler.ShowRightWindow("FrmSalesOrder_History");
+                        ViewHandler.ShowRightWindow(formNameStr);
                     }
                 }
             }

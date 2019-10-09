@@ -50,7 +50,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
-                int codeIdInt = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue) : 0;
+                int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_DesignBom.Tables[0].Rows.Clear();
