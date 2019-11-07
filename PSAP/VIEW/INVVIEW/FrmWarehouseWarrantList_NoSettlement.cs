@@ -39,6 +39,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWWDateEnd.DateTime = nowDate.Date;
@@ -46,7 +48,6 @@ namespace PSAP.VIEW.BSVIEW
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
-                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
                 DataTable wwTypeTable_t = wwDAO.QueryWarehouseWarrantType(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
@@ -55,14 +56,21 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
                 SearchLocationId.EditValue = 0;
                 lookUpWarehouseWarrantTypeNo.Properties.DataSource = wwTypeTable_t;
                 lookUpWarehouseWarrantTypeNo.ItemIndex = 0;
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState, true);
                 comboBoxWarehouseState.SelectedIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
                 searchLookUpProjectNo.Text = "全部";
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;                
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -73,7 +81,7 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
-                repLookUpRepertoryLocationId.DataSource = locationTable_t;
+                repLookUpRepertoryLocationId.DataSource = SearchLocationId.Properties.DataSource;
                 repLookUpWWTypeNo.DataSource = wwTypeTable_t;
                 repLookUpShelfId.DataSource = commonDAO.QueryShelfInfo(false);
 

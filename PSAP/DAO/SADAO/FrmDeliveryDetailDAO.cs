@@ -81,7 +81,7 @@ namespace PSAP.DAO.SADAO
                         DateTime nowTime = BaseSQL.GetServerDateTime();
                         if (headRow.RowState == DataRowState.Added)//新增
                         {
-                            cmd.CommandText = string.Format("Insert into SA_DeliveryDetail (SMNo, DeliveryText, FunctionDesc, DeliveryQty, Unit, Amount, Prepared, PreparedIp, GetTime) values ('{0}', '{1}', '{2}', {6}, {7}, {8}, '{3}', '{4}', '{5}')", DataTypeConvert.GetString(headRow["SMNo"]), DataTypeConvert.GetString(headRow["DeliveryText"]), DataTypeConvert.GetString(headRow["FunctionDesc"]), SystemInfo.user.EmpName, SystemInfo.HostIpAddress, nowTime.ToString("yyyy-MM-dd HH:mm:ss"),DataTypeConvert.GetDouble(headRow["DeliveryQty"]), DataTypeConvert.GetDouble(headRow["Unit"]), DataTypeConvert.GetDouble(headRow["Amount"]));
+                            cmd.CommandText = string.Format("Insert into SA_DeliveryDetail (SMNo, DeliveryText, FunctionDesc, DeliveryQty, Unit, Amount, Creator, PreparedIp, GetTime) values ('{0}', '{1}', '{2}', {6}, {7}, {8}, {3}, '{4}', '{5}')", DataTypeConvert.GetString(headRow["SMNo"]), DataTypeConvert.GetString(headRow["DeliveryText"]), DataTypeConvert.GetString(headRow["FunctionDesc"]), SystemInfo.user.AutoId, SystemInfo.HostIpAddress, nowTime.ToString("yyyy-MM-dd HH:mm:ss"),DataTypeConvert.GetDouble(headRow["DeliveryQty"]), DataTypeConvert.GetDouble(headRow["Unit"]), DataTypeConvert.GetDouble(headRow["Amount"]));
                             int ret = cmd.ExecuteNonQuery();
                             if (ret != 1)
                             {

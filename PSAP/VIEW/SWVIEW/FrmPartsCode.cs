@@ -14,9 +14,19 @@ namespace PSAP.VIEW.BSVIEW
     public partial class FrmPartsCode : DockContent
     {
         FrmBaseEdit editForm = null;
+        FrmPriceInfo priceInfo = null;
         FrmCommonDAO commonDAO = new FrmCommonDAO();
+        FrmPartsCodeDAO pcDAO = new FrmPartsCodeDAO();
 
+        /// <summary>
+        /// 要查询的零件编号
+        /// </summary>
         public static string codeFileNameStr = "";
+
+        /// <summary>
+        /// 最后一次过滤查询的条件SQL
+        /// </summary>
+        private string lastQueryWhereSqlStr = "";
 
         /// <summary>
         /// 窗体构造函数
@@ -38,15 +48,18 @@ namespace PSAP.VIEW.BSVIEW
                     //editForm.Sql = "select * from SW_PartsCode order by AutoId";
 
                     if (codeFileNameStr == "")
-                        editForm.Sql = "select * from SW_PartsCode order by AutoId";
+                        editForm.Sql = pcDAO.GetQueryPartsCodeSQL_Standard();
                     else
-                        editForm.Sql = string.Format("select * from SW_PartsCode where CodeFileName = '{0}' order by AutoId", codeFileNameStr);
+                        editForm.Sql = pcDAO.GetQueryPartsCodeSQL_CodeFileName(codeFileNameStr);
                     editForm.PrimaryKeyColumn = "AutoId";
                     editForm.MasterDataSet = dSPartsCode;
                     editForm.MasterBindingSource = bSPartsCode;
                     editForm.MasterEditPanel = pnlEdit;
                     editForm.PrimaryKeyControl = textCodeFileName;
                     editForm.BrowseXtraGridView = gridViewPartsCode;
+                    editForm.VisibleSearchControl = false;
+                    editForm.ButtonList.Add(btnFind);
+                    editForm.ButtonList.Add(btnMultiUpdate);
                     editForm.CheckControl += CheckControl;
                     this.pnlToolBar.Controls.Add(editForm);
                     editForm.Dock = DockStyle.Fill;
@@ -82,6 +95,21 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpCatgName.DataSource = catgNameTable_f;
                 repLookUpFinish.DataSource = finishTable_f;
                 repLookUpMachiningLevel.DataSource = machTable_f;
+
+                priceInfo = new FrmPriceInfo(0, "", "");
+                priceInfo.Show(this.PagePriceInfo);
+                priceInfo.Dock = DockStyle.Fill;
+                priceInfo.TopLevel = false;
+                priceInfo.FormBorderStyle = FormBorderStyle.None;
+
+                this.dockPanelInfo.Text = "物料其他信息";
+                this.dockPanelInfo.TabText = this.dockPanelInfo.Text;
+                this.PagePriceInfo.Controls.Add(priceInfo);
+
+                //if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, btnStnList, false))
+                //{
+                //    PageStnInfo.Enabled = false;
+                //}
             }
             catch (Exception ex)
             {
@@ -99,11 +127,11 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (codeFileNameStr != "")
                 {
-                    editForm.Sql = string.Format("select * from SW_PartsCode where CodeFileName = '{0}' order by AutoId", codeFileNameStr);
+                    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_CodeFileName(codeFileNameStr);
                     editForm.btnRefresh_Click(null, null);
 
                     codeFileNameStr = "";
-                    editForm.Sql = "select * from SW_PartsCode order by AutoId";
+                    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_Standard();
                 }
             }
             catch (Exception ex)
@@ -236,5 +264,97 @@ namespace PSAP.VIEW.BSVIEW
             }
         }
 
+        /// <summary>
+        /// 过滤查找零件信息
+        /// </summary>
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                //FrmPartsCode_InputCondition inputConditionForm = new FrmPartsCode_InputCondition();
+                //if (inputConditionForm.ShowDialog() == DialogResult.OK)
+                //{
+                //    lastQueryWhereSqlStr = inputConditionForm.queryWhereSqlStr;
+                //    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_WhereSQL(lastQueryWhereSqlStr);
+                //    editForm.btnRefresh_Click(null, null);
+                //    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_Standard();
+                //}
+
+                FrmPartsCode_MultiUpdate multiUpdateForm = new FrmPartsCode_MultiUpdate();
+                multiUpdateForm.partsCodeTable = TablePartsCode;
+                multiUpdateForm.typeInt = 1;
+                if (multiUpdateForm.ShowDialog() == DialogResult.OK)
+                {
+                    lastQueryWhereSqlStr = multiUpdateForm.queryWhereSqlStr;
+                    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_WhereSQL(lastQueryWhereSqlStr);
+                    editForm.btnRefresh_Click(null, null);
+                    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_Standard();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--过滤查找零件信息错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 批量修改零件信息
+        /// </summary>
+        private void btnMultiUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FrmMainDAO.QueryUserButtonPower(this.Name, this.Text, sender, true))
+                    return;
+
+                FrmPartsCode_MultiUpdate multiUpdateForm = new FrmPartsCode_MultiUpdate();
+                multiUpdateForm.partsCodeTable = TablePartsCode;
+                multiUpdateForm.typeInt = 2;
+                if (multiUpdateForm.ShowDialog() == DialogResult.OK)
+                {
+                    lastQueryWhereSqlStr = multiUpdateForm.queryWhereSqlStr;
+                    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_WhereSQL(lastQueryWhereSqlStr);
+                    editForm.btnRefresh_Click(null, null);
+                    editForm.Sql = pcDAO.GetQueryPartsCodeSQL_Standard();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--批量修改零件信息错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 当前零件信息聚焦的事件
+        /// </summary>
+        private void gridViewPartsCode_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+            try
+            {
+                if (!editForm.EditState)
+                {
+                    DataRow dr = gridViewPartsCode.GetFocusedDataRow();
+                    if (dr != null)
+                    {
+                        priceInfo.RefreshCurrentInfo(DataTypeConvert.GetInt(dr["AutoId"]), DataTypeConvert.GetString(dr["CodeFileName"]), DataTypeConvert.GetString(dr["CodeName"]));
+                        //this.PageStnInfo.Text = stnList.Text;
+                        this.dockPanelInfo.Text = string.Format("物料【{0}-{1}】的其他信息", DataTypeConvert.GetString(dr["CodeFileName"]), DataTypeConvert.GetString(dr["CodeName"]));
+                        this.dockPanelInfo.TabText = this.dockPanelInfo.Text;
+                        this.PagePriceInfo.Controls.Add(priceInfo);
+                    }
+                }
+                else
+                {
+                    MessageHandler.ShowMessageBox("请先保存后再进行其他操作。");
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--当前零件信息聚焦的事件错误。", ex);
+            }
+        }
     }
 }

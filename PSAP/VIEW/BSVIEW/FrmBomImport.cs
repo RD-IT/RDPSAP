@@ -29,7 +29,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
+                //repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.RepositoryItemSearchLookUpEdit_PartsCode(repSearchCodeFileName, "CodeFileName", "CodeFileName");
             }
             catch (Exception ex)
             {

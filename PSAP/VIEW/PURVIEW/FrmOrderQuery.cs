@@ -53,9 +53,12 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.ComboBoxEdit_OrderState_Submit(comboBoxReqState);
                 comboBoxReqState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
@@ -66,6 +69,7 @@ namespace PSAP.VIEW.BSVIEW
                 repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);                
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
                 repLookUpPayTypeNo.DataSource = commonDAO.QueryPayType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
@@ -113,7 +117,7 @@ namespace PSAP.VIEW.BSVIEW
                     lookUpPurCategory.ItemIndex = 0;
                     searchLookUpBussinessBaseNo.Text = "全部";
                     comboBoxReqState.SelectedIndex = 0;
-                    lookUpPrepared.ItemIndex = 0;
+                    searchLookUpCreator.EditValue = 0;
                     checkPlanDate.Checked = false;
                     textCommon.Text = "";
 
@@ -234,13 +238,13 @@ namespace PSAP.VIEW.BSVIEW
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string purCategoryStr = lookUpPurCategory.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPurCategory.EditValue) : "";
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text); 
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text);
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
                 int prReqListAutoIdInt = (checkprReqListAutoId.Checked && spinprReqListAutoId.Value > 0) ? DataTypeConvert.GetInt(spinprReqListAutoId.Value) : 0;
                 dataSet_Order.Tables[0].Clear();
 
-                string querySqlStr = orderDAO.QueryOrderHead_SQL(orderDateBeginStr, orderDateEndStr, planDateBeginStr, planDateEndStr, reqDepStr, purCategoryStr, bussinessBaseNoStr, reqStateInt, empNameStr, -1, commonStr, prReqListAutoIdInt, false);
+                string querySqlStr = orderDAO.QueryOrderHead_SQL(orderDateBeginStr, orderDateEndStr, planDateBeginStr, planDateEndStr, reqDepStr, purCategoryStr, bussinessBaseNoStr, reqStateInt, creatorInt, -1, commonStr, prReqListAutoIdInt, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomOrderHead.QueryGridData(ref dataSet_Order, "OrderHead", querySqlStr, countSqlStr, true);

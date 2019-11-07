@@ -43,6 +43,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWWDateEnd.DateTime = nowDate.Date;
@@ -50,7 +52,6 @@ namespace PSAP.VIEW.BSVIEW
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
-                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
                 DataTable wwTypeTable_t = wwDAO.QueryWarehouseWarrantType(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
@@ -59,13 +60,16 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
                 SearchLocationId.EditValue = 0;
                 lookUpWarehouseWarrantTypeNo.Properties.DataSource = wwTypeTable_t;
                 lookUpWarehouseWarrantTypeNo.ItemIndex = 0;
-                comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState,true);
+                comboBoxWarehouseState.SelectedIndex = 0;                
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
@@ -75,9 +79,10 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
-                repLookUpRepertoryLocationId.DataSource = locationTable_t;
+                repLookUpRepertoryLocationId.DataSource = SearchLocationId.Properties.DataSource;
                 repLookUpWWTypeNo.DataSource = wwTypeTable_t;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -112,7 +117,7 @@ namespace PSAP.VIEW.BSVIEW
                     lookUpReqDep.ItemIndex = 0;
                     lookUpWarehouseWarrantTypeNo.ItemIndex = 0;
                     comboBoxWarehouseState.SelectedIndex = 0;
-                    lookUpPrepared.ItemIndex = 0;
+                    searchLookUpCreator.EditValue = 0;
                     textCommon.Text = "";
 
                     btnQuery_Click(null, null);
@@ -202,13 +207,13 @@ namespace PSAP.VIEW.BSVIEW
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
                 string wwTypeNoStr = lookUpWarehouseWarrantTypeNo.ItemIndex > 0 ? lookUpWarehouseWarrantTypeNo.EditValue.ToString() : "";
 
-                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text); 
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? lookUpPrepared.EditValue.ToString() : "";
+                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
                 int orderListAutoIdInt = (checkorderListAutoId.Checked && spinorderListAutoId.Value > 0) ? DataTypeConvert.GetInt(spinorderListAutoId.Value) : 0;
 
                 dataSet_WW.Tables[0].Rows.Clear();
-                string querySqlStr = wwDAO.QueryWarehouseWarrantHead_SQL(orderDateBeginStr, orderDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, wwTypeNoStr, warehouseStateInt, empNameStr, -1, commonStr, orderListAutoIdInt, false);
+                string querySqlStr = wwDAO.QueryWarehouseWarrantHead_SQL(orderDateBeginStr, orderDateEndStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, wwTypeNoStr, warehouseStateInt, creatorInt, -1, commonStr, orderListAutoIdInt, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

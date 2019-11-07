@@ -54,7 +54,7 @@ namespace PSAP.DAO.BSDAO
                         if (sumInt != 100)
                         {
                             trans.Rollback();
-                            //MessageHandler.ShowMessageBox("收款百分比的合计必须是100，请刷新后再重新操作。");
+                            //MessageHandler.ShowMessageBox("收款百分比的合计必须是100，请查询后再重新操作。");
                             MessageHandler.ShowMessageBox(f.tsmiSkbfbd.Text);
                             return false;
                         }

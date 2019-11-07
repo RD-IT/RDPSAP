@@ -52,17 +52,21 @@ namespace PSAP.VIEW.BSVIEW
 
                 searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
                 searchLookUpBussinessBaseNo.Text = "全部";
-                searchProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchProjectNo.Text = "全部";
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_ProjectList(searchProjectNo, true);
                 searchProjectNo.Text = "全部";
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
                 //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpCollectionTypeNo.DataSource = commonDAO.QueryCollectionType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
-                gridBottomOrderHead.pageRowCount = 5;
 
                 btnQuery_Click(null, null);
             }
@@ -120,12 +124,12 @@ namespace PSAP.VIEW.BSVIEW
 
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
                 string projectNoStr = searchProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchProjectNo.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_SalesOrder.Tables[0].Rows.Clear();
 
-                string querySqlStr = soDAO.QuerySalesOrderAndCor_SQL(recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, projectNoStr, empNameStr, commonStr);
+                string querySqlStr = soDAO.QuerySalesOrderAndCor_SQL(recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, projectNoStr, creatorInt, commonStr);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

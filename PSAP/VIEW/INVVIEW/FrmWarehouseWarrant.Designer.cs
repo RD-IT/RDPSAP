@@ -756,7 +756,7 @@
             // 
             // dataColApprovalType
             // 
-            this.dataColApprovalType.Caption = "审核类型";
+            this.dataColApprovalType.Caption = "审批类型";
             this.dataColApprovalType.ColumnName = "ApprovalType";
             // 
             // dataColModifier

@@ -61,12 +61,14 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                DataTable locationInfoTable = commonDAO.QueryRepertoryLocationInfo(false);
-                SearchRepertoryLocationId.Properties.DataSource = locationInfoTable;
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchRepertoryLocationId, false);
+                //DataTable locationInfoTable = commonDAO.QueryRepertoryLocationInfo(false);
+                //SearchRepertoryLocationId.Properties.DataSource = locationInfoTable;
 
-                repLookUpRepertoryLocationId.DataSource = locationInfoTable;
+                repLookUpRepertoryLocationId.DataSource = SearchRepertoryLocationId.Properties.DataSource;
                 repLookUpRepertoryInfoId.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
             }
             catch (Exception ex)
             {
@@ -103,14 +105,6 @@ namespace PSAP.VIEW.BSVIEW
             dr["RepertoryInfoId"] = DataTypeConvert.GetInt(((DataRowView)SearchRepertoryLocationId.GetSelectedDataRow())["RepertoryId"]);            
 
             return true;
-        }
-
-        /// <summary>
-        /// 确定行号
-        /// </summary>
-        private void SearchRepertoryLocationIdView_CustomDrawRowIndicator(object sender, DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventArgs e)
-        {
-            ControlHandler.GridView_CustomDrawRowIndicator(e);
         }
 
         /// <summary>

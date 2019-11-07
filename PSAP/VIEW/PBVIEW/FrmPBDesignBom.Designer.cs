@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject12 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject15 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject14 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
             this.pnlLeft = new DevExpress.XtraEditors.PanelControl();
             this.pnlDesignBom = new DevExpress.XtraEditors.PanelControl();
             this.treeListDesignBom = new DevExpress.XtraTreeList.TreeList();
@@ -157,10 +157,7 @@
             this.btnQuery = new DevExpress.XtraEditors.SimpleButton();
             this.labPartsCodeId = new DevExpress.XtraEditors.LabelControl();
             this.searchCodeFileName = new DevExpress.XtraEditors.SearchLookUpEdit();
-            this.searchPartsCodeIdView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.searchCodeFileNameView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.splitterMiddle = new DevExpress.XtraEditors.SplitterControl();
             ((System.ComponentModel.ISupportInitialize)(this.pnlLeft)).BeginInit();
             this.pnlLeft.SuspendLayout();
@@ -200,7 +197,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lookUpCatgName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCodeName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchPartsCodeIdView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileNameView)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlLeft
@@ -390,8 +387,8 @@
             // 
             this.repButtonOpBtn.AutoHeight = false;
             this.repButtonOpBtn.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "增加", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject12, "", null, null, true),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "删除", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject15, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "增加", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "删除", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true)});
             this.repButtonOpBtn.Name = "repButtonOpBtn";
             this.repButtonOpBtn.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             this.repButtonOpBtn.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.repButtonOpBtn_ButtonClick);
@@ -529,7 +526,7 @@
             this.btnAdd.Size = new System.Drawing.Size(60, 23);
             this.btnAdd.TabIndex = 101;
             this.btnAdd.TabStop = false;
-            this.btnAdd.Text = "增加";
+            this.btnAdd.Text = "新增";
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // pnlSalesOrder
@@ -554,7 +551,7 @@
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 104;
             this.btnRefresh.TabStop = false;
-            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.Text = "查询";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnEditAutoSalesOrderNo
@@ -562,7 +559,7 @@
             this.btnEditAutoSalesOrderNo.Location = new System.Drawing.Point(86, 14);
             this.btnEditAutoSalesOrderNo.Name = "btnEditAutoSalesOrderNo";
             this.btnEditAutoSalesOrderNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "选择", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject14, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "选择", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
             this.btnEditAutoSalesOrderNo.Properties.ReadOnly = true;
             this.btnEditAutoSalesOrderNo.Size = new System.Drawing.Size(180, 21);
             this.btnEditAutoSalesOrderNo.TabIndex = 101;
@@ -1350,7 +1347,7 @@
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
             this.btnQuery.TabIndex = 4;
-            this.btnQuery.Text = "查询";
+            this.btnQuery.Text = "信息查询";
             this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // labPartsCodeId
@@ -1368,47 +1365,16 @@
             this.searchCodeFileName.Name = "searchCodeFileName";
             this.searchCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchCodeFileName.Properties.DisplayMember = "CodeFileName";
-            this.searchCodeFileName.Properties.NullText = "";
-            this.searchCodeFileName.Properties.ValueMember = "CodeFileName";
-            this.searchCodeFileName.Properties.View = this.searchPartsCodeIdView;
+            this.searchCodeFileName.Properties.View = this.searchCodeFileNameView;
             this.searchCodeFileName.Size = new System.Drawing.Size(160, 20);
             this.searchCodeFileName.TabIndex = 0;
             // 
-            // searchPartsCodeIdView
+            // searchCodeFileNameView
             // 
-            this.searchPartsCodeIdView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.gridColumn3,
-            this.gridColumn2});
-            this.searchPartsCodeIdView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchPartsCodeIdView.IndicatorWidth = 60;
-            this.searchPartsCodeIdView.Name = "searchPartsCodeIdView";
-            this.searchPartsCodeIdView.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.searchPartsCodeIdView.OptionsView.ShowGroupPanel = false;
-            this.searchPartsCodeIdView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewBomMateriel_CustomDrawRowIndicator);
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "零件编号";
-            this.gridColumn1.FieldName = "CodeFileName";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 0;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "零件名称";
-            this.gridColumn3.FieldName = "CodeName";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 1;
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.Caption = "AutoId";
-            this.gridColumn2.FieldName = "AutoId";
-            this.gridColumn2.Name = "gridColumn2";
+            this.searchCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchCodeFileNameView.Name = "searchCodeFileNameView";
+            this.searchCodeFileNameView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchCodeFileNameView.OptionsView.ShowGroupPanel = false;
             // 
             // splitterMiddle
             // 
@@ -1471,7 +1437,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lookUpCatgName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCodeName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchPartsCodeIdView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileNameView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1565,10 +1531,7 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn CFilePath;
         private DevExpress.XtraEditors.LabelControl labPartsCodeId;
         private DevExpress.XtraEditors.SearchLookUpEdit searchCodeFileName;
-        private DevExpress.XtraGrid.Views.Grid.GridView searchPartsCodeIdView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchCodeFileNameView;
         private DevExpress.XtraEditors.SimpleButton btnQuery;
         private DevExpress.XtraEditors.TextEdit textCodeName;
         private DevExpress.XtraEditors.LabelControl labCodeName;

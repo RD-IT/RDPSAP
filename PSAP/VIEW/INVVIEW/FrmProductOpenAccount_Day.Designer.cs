@@ -54,39 +54,25 @@
             this.dataColShelfId = new System.Data.DataColumn();
             this.dataColCurQty = new System.Data.DataColumn();
             this.dataColQty = new System.Data.DataColumn();
+            this.dataColCodeId = new System.Data.DataColumn();
             this.bindingSource_OpenAccount = new System.Windows.Forms.BindingSource(this.components);
             this.pnlBottom = new DevExpress.XtraEditors.PanelControl();
             this.gridBottomWNowInfo = new PSAP.VIEW.BSVIEW.GridBottom();
             this.pnltop = new DevExpress.XtraEditors.PanelControl();
             this.searchLookUpShelfId = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpShelfView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn9 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labShelfId = new DevExpress.XtraEditors.LabelControl();
             this.labLocationId = new DevExpress.XtraEditors.LabelControl();
             this.SearchLocationId = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.SearchLocationIdView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuLocationNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuLocationName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuRepertoryName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.dateOpDate = new DevExpress.XtraEditors.DateEdit();
             this.labOpDate = new DevExpress.XtraEditors.LabelControl();
             this.lookUpRepertoryId = new DevExpress.XtraEditors.LookUpEdit();
             this.labRepertoryId = new DevExpress.XtraEditors.LabelControl();
             this.searchLookUpCodeFileName = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpCodeFileNameView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn10 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labCodeFileName = new DevExpress.XtraEditors.LabelControl();
             this.labProjectNo = new DevExpress.XtraEditors.LabelControl();
             this.btnSaveExcel = new DevExpress.XtraEditors.SimpleButton();
@@ -120,7 +106,6 @@
             this.repLookUpShelfId = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colStockId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colTypeNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.dataColCodeId = new System.Data.DataColumn();
             this.colCodeId = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_OpenAccount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableOpenAccount)).BeginInit();
@@ -311,6 +296,12 @@
             this.dataColQty.ColumnName = "Qty";
             this.dataColQty.DataType = typeof(double);
             // 
+            // dataColCodeId
+            // 
+            this.dataColCodeId.Caption = "零件Id";
+            this.dataColCodeId.ColumnName = "CodeId";
+            this.dataColCodeId.DataType = typeof(int);
+            // 
             // bindingSource_OpenAccount
             // 
             this.bindingSource_OpenAccount.DataMember = "OpenAccount";
@@ -364,63 +355,16 @@
             this.searchLookUpShelfId.Name = "searchLookUpShelfId";
             this.searchLookUpShelfId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpShelfId.Properties.DisplayMember = "ShelfNo";
-            this.searchLookUpShelfId.Properties.NullText = "";
-            this.searchLookUpShelfId.Properties.ValueMember = "AutoId";
             this.searchLookUpShelfId.Properties.View = this.searchLookUpShelfView;
             this.searchLookUpShelfId.Size = new System.Drawing.Size(120, 20);
             this.searchLookUpShelfId.TabIndex = 4;
             // 
             // searchLookUpShelfView
             // 
-            this.searchLookUpShelfView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn6,
-            this.gridColumn2,
-            this.gridColumn4,
-            this.gridColumn5,
-            this.gridColumn9});
             this.searchLookUpShelfView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpShelfView.IndicatorWidth = 60;
             this.searchLookUpShelfView.Name = "searchLookUpShelfView";
             this.searchLookUpShelfView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpShelfView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpShelfView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewOpenAccount_CustomDrawRowIndicator);
-            // 
-            // gridColumn6
-            // 
-            this.gridColumn6.Caption = "AutoId";
-            this.gridColumn6.FieldName = "AutoId";
-            this.gridColumn6.Name = "gridColumn6";
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.Caption = "货架号";
-            this.gridColumn2.FieldName = "ShelfNo";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 0;
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.Caption = "货架位置";
-            this.gridColumn4.FieldName = "ShelfLocation";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 1;
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "货架说明";
-            this.gridColumn5.FieldName = "ShelfDescription";
-            this.gridColumn5.Name = "gridColumn5";
-            // 
-            // gridColumn9
-            // 
-            this.gridColumn9.Caption = "仓位名称";
-            this.gridColumn9.FieldName = "LocationName";
-            this.gridColumn9.Name = "gridColumn9";
-            this.gridColumn9.Visible = true;
-            this.gridColumn9.VisibleIndex = 2;
             // 
             // labShelfId
             // 
@@ -445,56 +389,16 @@
             this.SearchLocationId.Name = "SearchLocationId";
             this.SearchLocationId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.SearchLocationId.Properties.DisplayMember = "LocationName";
-            this.SearchLocationId.Properties.NullText = "";
-            this.SearchLocationId.Properties.ValueMember = "AutoId";
             this.SearchLocationId.Properties.View = this.SearchLocationIdView;
             this.SearchLocationId.Size = new System.Drawing.Size(120, 20);
             this.SearchLocationId.TabIndex = 2;
             // 
             // SearchLocationIdView
             // 
-            this.SearchLocationIdView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn8,
-            this.gridColuLocationNo,
-            this.gridColuLocationName,
-            this.gridColuRepertoryName});
             this.SearchLocationIdView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.SearchLocationIdView.IndicatorWidth = 60;
             this.SearchLocationIdView.Name = "SearchLocationIdView";
             this.SearchLocationIdView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.SearchLocationIdView.OptionsView.ShowGroupPanel = false;
-            this.SearchLocationIdView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewOpenAccount_CustomDrawRowIndicator);
-            // 
-            // gridColumn8
-            // 
-            this.gridColumn8.Caption = "AutoId";
-            this.gridColumn8.FieldName = "AutoId";
-            this.gridColumn8.Name = "gridColumn8";
-            // 
-            // gridColuLocationNo
-            // 
-            this.gridColuLocationNo.Caption = "仓位编号";
-            this.gridColuLocationNo.FieldName = "LocationNo";
-            this.gridColuLocationNo.Name = "gridColuLocationNo";
-            this.gridColuLocationNo.Visible = true;
-            this.gridColuLocationNo.VisibleIndex = 0;
-            // 
-            // gridColuLocationName
-            // 
-            this.gridColuLocationName.Caption = "仓位名称";
-            this.gridColuLocationName.FieldName = "LocationName";
-            this.gridColuLocationName.Name = "gridColuLocationName";
-            this.gridColuLocationName.Visible = true;
-            this.gridColuLocationName.VisibleIndex = 1;
-            // 
-            // gridColuRepertoryName
-            // 
-            this.gridColuRepertoryName.Caption = "仓库名称";
-            this.gridColuRepertoryName.FieldName = "RepertoryName";
-            this.gridColuRepertoryName.Name = "gridColuRepertoryName";
-            this.gridColuRepertoryName.Visible = true;
-            this.gridColuRepertoryName.VisibleIndex = 2;
             // 
             // dateOpDate
             // 
@@ -557,47 +461,16 @@
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
-            this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 5;
             // 
             // searchLookUpCodeFileNameView
             // 
-            this.searchLookUpCodeFileNameView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.gridColumn3,
-            this.gridColumn10});
             this.searchLookUpCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpCodeFileNameView.IndicatorWidth = 60;
             this.searchLookUpCodeFileNameView.Name = "searchLookUpCodeFileNameView";
             this.searchLookUpCodeFileNameView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpCodeFileNameView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpCodeFileNameView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewOpenAccount_CustomDrawRowIndicator);
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "零件编号";
-            this.gridColumn1.FieldName = "CodeFileName";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 0;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "零件名称";
-            this.gridColumn3.FieldName = "CodeName";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 1;
-            // 
-            // gridColumn10
-            // 
-            this.gridColumn10.Caption = "AutoId";
-            this.gridColumn10.FieldName = "AutoId";
-            this.gridColumn10.Name = "gridColumn10";
             // 
             // searchLookUpProjectNo
             // 
@@ -606,49 +479,16 @@
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpProjectNo.Properties.DisplayMember = "ProjectName";
-            this.searchLookUpProjectNo.Properties.NullText = "";
-            this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 3;
             // 
             // searchLookUpProjectNoView
             // 
-            this.searchLookUpProjectNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColProjectNo,
-            this.gridColProjectName,
-            this.gridColRemark});
             this.searchLookUpProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpProjectNoView.IndicatorWidth = 60;
             this.searchLookUpProjectNoView.Name = "searchLookUpProjectNoView";
             this.searchLookUpProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpProjectNoView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpProjectNoView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewOpenAccount_CustomDrawRowIndicator);
-            // 
-            // gridColProjectNo
-            // 
-            this.gridColProjectNo.Caption = "项目号";
-            this.gridColProjectNo.FieldName = "ProjectNo";
-            this.gridColProjectNo.Name = "gridColProjectNo";
-            this.gridColProjectNo.Visible = true;
-            this.gridColProjectNo.VisibleIndex = 0;
-            // 
-            // gridColProjectName
-            // 
-            this.gridColProjectName.Caption = "项目名称";
-            this.gridColProjectName.FieldName = "ProjectName";
-            this.gridColProjectName.Name = "gridColProjectName";
-            this.gridColProjectName.Visible = true;
-            this.gridColProjectName.VisibleIndex = 1;
-            // 
-            // gridColRemark
-            // 
-            this.gridColRemark.Caption = "备注";
-            this.gridColRemark.FieldName = "Remark";
-            this.gridColRemark.Name = "gridColRemark";
-            this.gridColRemark.Visible = true;
-            this.gridColRemark.VisibleIndex = 2;
             // 
             // labCodeFileName
             // 
@@ -1015,12 +855,6 @@
             this.colTypeNo.VisibleIndex = 7;
             this.colTypeNo.Width = 120;
             // 
-            // dataColCodeId
-            // 
-            this.dataColCodeId.Caption = "零件Id";
-            this.dataColCodeId.ColumnName = "CodeId";
-            this.dataColCodeId.DataType = typeof(int);
-            // 
             // colCodeId
             // 
             this.colCodeId.FieldName = "CodeId";
@@ -1100,32 +934,18 @@
         private DevExpress.XtraEditors.PanelControl pnltop;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpShelfId;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpShelfView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn9;
         private DevExpress.XtraEditors.LabelControl labShelfId;
         private DevExpress.XtraEditors.LabelControl labLocationId;
         private DevExpress.XtraEditors.SearchLookUpEdit SearchLocationId;
         private DevExpress.XtraGrid.Views.Grid.GridView SearchLocationIdView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuLocationNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuLocationName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuRepertoryName;
         private DevExpress.XtraEditors.DateEdit dateOpDate;
         private DevExpress.XtraEditors.LabelControl labOpDate;
         private DevExpress.XtraEditors.LookUpEdit lookUpRepertoryId;
         private DevExpress.XtraEditors.LabelControl labRepertoryId;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpCodeFileName;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpCodeFileNameView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpProjectNo;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpProjectNoView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColRemark;
         private DevExpress.XtraEditors.LabelControl labCodeFileName;
         private DevExpress.XtraEditors.LabelControl labProjectNo;
         private DevExpress.XtraEditors.SimpleButton btnSaveExcel;
@@ -1159,7 +979,6 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpShelfId;
         private DevExpress.XtraGrid.Columns.GridColumn colStockId;
         private DevExpress.XtraGrid.Columns.GridColumn colTypeNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn10;
         private System.Data.DataColumn dataColCodeId;
         private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
     }

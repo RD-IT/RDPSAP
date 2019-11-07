@@ -38,38 +38,42 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateIADateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
-                dateIADateEnd.DateTime = nowDate.Date;
+                dateIADateEnd.DateTime = nowDate.Date;                
 
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
-                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
-                DataTable projectTable_t = commonDAO.QueryProjectList(true);
-                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
                 SearchLocationId.EditValue = 0;
-                searchProjectNo.Properties.DataSource = projectTable_t;
+                //searchProjectNo.Properties.DataSource = projectTable_t;
+                //searchProjectNo.Text = "全部";
+                ctlInit.SearchLookUpEdit_ProjectList(searchProjectNo, true);
                 searchProjectNo.Text = "全部";
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState);
                 comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpCreator.Properties.DataSource = userInfoTable_t;
-                lookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
                 //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 //repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
-                //repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
+
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
-                repLookUpLocationId.DataSource = locationTable_t;
-                repSearchProjectNo.DataSource = projectTable_t;
-                repLookUpCreator.DataSource = userInfoTable_t;
+                repLookUpLocationId.DataSource = SearchLocationId.Properties.DataSource;
+                repSearchProjectNo.DataSource = searchProjectNo.Properties.DataSource;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
 
                 if (SystemInfo.DisableProjectNo)
@@ -151,7 +155,7 @@ namespace PSAP.VIEW.BSVIEW
                 string projectNoStr = searchProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchProjectNo.EditValue) : "";
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
-                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_IA.Tables[0].Clear();

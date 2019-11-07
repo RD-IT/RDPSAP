@@ -42,12 +42,12 @@
             this.dataColParentAutoQuotationNo = new System.Data.DataColumn();
             this.dataColParentAutoSalesOrderNo = new System.Data.DataColumn();
             this.dataColParentProjectNo = new System.Data.DataColumn();
-            this.dataColPrepared = new System.Data.DataColumn();
             this.dataColPreparedIp = new System.Data.DataColumn();
-            this.dataColModifier = new System.Data.DataColumn();
             this.dataColModifierIp = new System.Data.DataColumn();
             this.dataColModifierTime = new System.Data.DataColumn();
             this.dataColQuotationState = new System.Data.DataColumn();
+            this.dataColCreator = new System.Data.DataColumn();
+            this.dataColModifierId = new System.Data.DataColumn();
             this.TableQuotationPriceInfo = new System.Data.DataTable();
             this.dataColuAutoId = new System.Data.DataColumn();
             this.dataColuAutoQuotationNo = new System.Data.DataColumn();
@@ -143,12 +143,10 @@
             this.textParentAutoQuotationNo = new DevExpress.XtraEditors.TextEdit();
             this.labParentAutoQuotationNo = new DevExpress.XtraEditors.LabelControl();
             this.textProjectName = new DevExpress.XtraEditors.TextEdit();
-            this.textModifier = new DevExpress.XtraEditors.TextEdit();
-            this.textPrepared = new DevExpress.XtraEditors.TextEdit();
             this.dateModifierTime = new DevExpress.XtraEditors.DateEdit();
             this.labModifierTime = new DevExpress.XtraEditors.LabelControl();
-            this.labModifier = new DevExpress.XtraEditors.LabelControl();
-            this.labPrepared = new DevExpress.XtraEditors.LabelControl();
+            this.labModifierId = new DevExpress.XtraEditors.LabelControl();
+            this.labCreator = new DevExpress.XtraEditors.LabelControl();
             this.labRecordDate = new DevExpress.XtraEditors.LabelControl();
             this.dateRecordDate = new DevExpress.XtraEditors.DateEdit();
             this.textRemark = new DevExpress.XtraEditors.TextEdit();
@@ -197,9 +195,9 @@
             this.colRFQNO = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRequester = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colParentAutoQuotationNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPrepared1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCreator1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPreparedIp = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colModifier1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifierId1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colModifierIp = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colModifierTime1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRemark1 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -220,6 +218,8 @@
             this.dateRecordDateBegin = new DevExpress.XtraEditors.DateEdit();
             this.lab1 = new DevExpress.XtraEditors.LabelControl();
             this.labelRecordDate = new DevExpress.XtraEditors.LabelControl();
+            this.LookUpCreator = new DevExpress.XtraEditors.LookUpEdit();
+            this.LookUpModifierId = new DevExpress.XtraEditors.LookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_Quotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableQuotationBaseInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableQuotationPriceInfo)).BeginInit();
@@ -258,8 +258,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.textParentAutoSalesOrderNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textParentAutoQuotationNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textProjectName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textModifier.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPrepared.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateModifierTime.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateModifierTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDate.Properties.CalendarTimeProperties)).BeginInit();
@@ -291,6 +289,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDateEnd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDateBegin.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDateBegin.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LookUpCreator.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LookUpModifierId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // dataSet_Quotation
@@ -315,12 +315,12 @@
             this.dataColParentAutoQuotationNo,
             this.dataColParentAutoSalesOrderNo,
             this.dataColParentProjectNo,
-            this.dataColPrepared,
             this.dataColPreparedIp,
-            this.dataColModifier,
             this.dataColModifierIp,
             this.dataColModifierTime,
-            this.dataColQuotationState});
+            this.dataColQuotationState,
+            this.dataColCreator,
+            this.dataColModifierId});
             this.TableQuotationBaseInfo.TableName = "QuotationBaseInfo";
             this.TableQuotationBaseInfo.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TableQuotationBaseInfo_TableNewRow);
             // 
@@ -380,20 +380,10 @@
             this.dataColParentProjectNo.Caption = "父级项目号";
             this.dataColParentProjectNo.ColumnName = "ParentProjectNo";
             // 
-            // dataColPrepared
-            // 
-            this.dataColPrepared.Caption = "制单人";
-            this.dataColPrepared.ColumnName = "Prepared";
-            // 
             // dataColPreparedIp
             // 
             this.dataColPreparedIp.Caption = "制单人IP";
             this.dataColPreparedIp.ColumnName = "PreparedIp";
-            // 
-            // dataColModifier
-            // 
-            this.dataColModifier.Caption = "修改人";
-            this.dataColModifier.ColumnName = "Modifier";
             // 
             // dataColModifierIp
             // 
@@ -411,6 +401,18 @@
             this.dataColQuotationState.Caption = "状态";
             this.dataColQuotationState.ColumnName = "QuotationState";
             this.dataColQuotationState.DataType = typeof(short);
+            // 
+            // dataColCreator
+            // 
+            this.dataColCreator.Caption = "制单人";
+            this.dataColCreator.ColumnName = "Creator";
+            this.dataColCreator.DataType = typeof(int);
+            // 
+            // dataColModifierId
+            // 
+            this.dataColModifierId.Caption = "修改人";
+            this.dataColModifierId.ColumnName = "ModifierId";
+            this.dataColModifierId.DataType = typeof(int);
             // 
             // TableQuotationPriceInfo
             // 
@@ -968,7 +970,7 @@
             this.PageCORInfo.Controls.Add(this.pnlCOR);
             this.PageCORInfo.Name = "PageCORInfo";
             this.PageCORInfo.PageVisible = false;
-            this.PageCORInfo.Size = new System.Drawing.Size(1055, 308);
+            this.PageCORInfo.Size = new System.Drawing.Size(1055, 368);
             this.PageCORInfo.Text = "COR信息";
             // 
             // pnlCOR
@@ -977,7 +979,7 @@
             this.pnlCOR.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlCOR.Location = new System.Drawing.Point(0, 0);
             this.pnlCOR.Name = "pnlCOR";
-            this.pnlCOR.Size = new System.Drawing.Size(1055, 308);
+            this.pnlCOR.Size = new System.Drawing.Size(1055, 368);
             this.pnlCOR.TabIndex = 7;
             // 
             // gridControlCOR
@@ -992,7 +994,7 @@
             this.repItemCORBussinessBaseNo,
             this.repItemCORCurrencyCate,
             this.repItemCheckIsPoUse});
-            this.gridControlCOR.Size = new System.Drawing.Size(1051, 304);
+            this.gridControlCOR.Size = new System.Drawing.Size(1051, 364);
             this.gridControlCOR.TabIndex = 6;
             this.gridControlCOR.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewCOR});
@@ -1281,12 +1283,10 @@
             this.pnlEdit.Controls.Add(this.textParentAutoQuotationNo);
             this.pnlEdit.Controls.Add(this.labParentAutoQuotationNo);
             this.pnlEdit.Controls.Add(this.textProjectName);
-            this.pnlEdit.Controls.Add(this.textModifier);
-            this.pnlEdit.Controls.Add(this.textPrepared);
             this.pnlEdit.Controls.Add(this.dateModifierTime);
             this.pnlEdit.Controls.Add(this.labModifierTime);
-            this.pnlEdit.Controls.Add(this.labModifier);
-            this.pnlEdit.Controls.Add(this.labPrepared);
+            this.pnlEdit.Controls.Add(this.labModifierId);
+            this.pnlEdit.Controls.Add(this.labCreator);
             this.pnlEdit.Controls.Add(this.labRecordDate);
             this.pnlEdit.Controls.Add(this.dateRecordDate);
             this.pnlEdit.Controls.Add(this.textRemark);
@@ -1300,6 +1300,8 @@
             this.pnlEdit.Controls.Add(this.labRFQNO);
             this.pnlEdit.Controls.Add(this.textAutoQuotationNo);
             this.pnlEdit.Controls.Add(this.labAutoQuotationNo);
+            this.pnlEdit.Controls.Add(this.LookUpCreator);
+            this.pnlEdit.Controls.Add(this.LookUpModifierId);
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
@@ -1383,28 +1385,6 @@
             this.textProjectName.Size = new System.Drawing.Size(150, 20);
             this.textProjectName.TabIndex = 2;
             // 
-            // textModifier
-            // 
-            this.textModifier.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_BaseInfo, "Modifier", true));
-            this.textModifier.EnterMoveNextControl = true;
-            this.textModifier.Location = new System.Drawing.Point(354, 123);
-            this.textModifier.Name = "textModifier";
-            this.textModifier.Properties.ReadOnly = true;
-            this.textModifier.Size = new System.Drawing.Size(150, 20);
-            this.textModifier.TabIndex = 8;
-            this.textModifier.TabStop = false;
-            // 
-            // textPrepared
-            // 
-            this.textPrepared.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_BaseInfo, "Prepared", true));
-            this.textPrepared.EnterMoveNextControl = true;
-            this.textPrepared.Location = new System.Drawing.Point(112, 123);
-            this.textPrepared.Name = "textPrepared";
-            this.textPrepared.Properties.ReadOnly = true;
-            this.textPrepared.Size = new System.Drawing.Size(150, 20);
-            this.textPrepared.TabIndex = 7;
-            this.textPrepared.TabStop = false;
-            // 
             // dateModifierTime
             // 
             this.dateModifierTime.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_BaseInfo, "ModifierTime", true));
@@ -1434,21 +1414,21 @@
             this.labModifierTime.TabIndex = 17;
             this.labModifierTime.Text = "修改时间";
             // 
-            // labModifier
+            // labModifierId
             // 
-            this.labModifier.Location = new System.Drawing.Point(281, 126);
-            this.labModifier.Name = "labModifier";
-            this.labModifier.Size = new System.Drawing.Size(36, 14);
-            this.labModifier.TabIndex = 16;
-            this.labModifier.Text = "修改人";
+            this.labModifierId.Location = new System.Drawing.Point(281, 126);
+            this.labModifierId.Name = "labModifierId";
+            this.labModifierId.Size = new System.Drawing.Size(36, 14);
+            this.labModifierId.TabIndex = 16;
+            this.labModifierId.Text = "修改人";
             // 
-            // labPrepared
+            // labCreator
             // 
-            this.labPrepared.Location = new System.Drawing.Point(36, 126);
-            this.labPrepared.Name = "labPrepared";
-            this.labPrepared.Size = new System.Drawing.Size(36, 14);
-            this.labPrepared.TabIndex = 14;
-            this.labPrepared.Text = "制单人";
+            this.labCreator.Location = new System.Drawing.Point(36, 126);
+            this.labCreator.Name = "labCreator";
+            this.labCreator.Size = new System.Drawing.Size(36, 14);
+            this.labCreator.TabIndex = 14;
+            this.labCreator.Text = "制单人";
             // 
             // labRecordDate
             // 
@@ -1794,9 +1774,9 @@
             this.colRFQNO,
             this.colRequester,
             this.colParentAutoQuotationNo,
-            this.colPrepared1,
+            this.colCreator1,
             this.colPreparedIp,
-            this.colModifier1,
+            this.colModifierId1,
             this.colModifierIp,
             this.colModifierTime1,
             this.colRemark1,
@@ -1976,20 +1956,20 @@
             this.colParentAutoQuotationNo.VisibleIndex = 7;
             this.colParentAutoQuotationNo.Width = 110;
             // 
-            // colPrepared1
+            // colCreator1
             // 
-            this.colPrepared1.FieldName = "Prepared";
-            this.colPrepared1.Name = "colPrepared1";
+            this.colCreator1.FieldName = "Creator";
+            this.colCreator1.Name = "colCreator1";
             // 
             // colPreparedIp
             // 
             this.colPreparedIp.FieldName = "PreparedIp";
             this.colPreparedIp.Name = "colPreparedIp";
             // 
-            // colModifier1
+            // colModifierId1
             // 
-            this.colModifier1.FieldName = "Modifier";
-            this.colModifier1.Name = "colModifier1";
+            this.colModifierId1.FieldName = "ModifierId";
+            this.colModifierId1.Name = "colModifierId1";
             // 
             // colModifierIp
             // 
@@ -2175,6 +2155,32 @@
             this.labelRecordDate.TabIndex = 9;
             this.labelRecordDate.Text = "登记日期：";
             // 
+            // LookUpCreator
+            // 
+            this.LookUpCreator.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_BaseInfo, "Creator", true));
+            this.LookUpCreator.Location = new System.Drawing.Point(112, 123);
+            this.LookUpCreator.Name = "LookUpCreator";
+            this.LookUpCreator.Properties.DisplayMember = "EmpName";
+            this.LookUpCreator.Properties.NullText = "";
+            this.LookUpCreator.Properties.ReadOnly = true;
+            this.LookUpCreator.Properties.ValueMember = "AutoId";
+            this.LookUpCreator.Size = new System.Drawing.Size(150, 20);
+            this.LookUpCreator.TabIndex = 7;
+            this.LookUpCreator.TabStop = false;
+            // 
+            // LookUpModifierId
+            // 
+            this.LookUpModifierId.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_BaseInfo, "ModifierId", true));
+            this.LookUpModifierId.Location = new System.Drawing.Point(354, 123);
+            this.LookUpModifierId.Name = "LookUpModifierId";
+            this.LookUpModifierId.Properties.DisplayMember = "EmpName";
+            this.LookUpModifierId.Properties.NullText = "";
+            this.LookUpModifierId.Properties.ReadOnly = true;
+            this.LookUpModifierId.Properties.ValueMember = "AutoId";
+            this.LookUpModifierId.Size = new System.Drawing.Size(150, 20);
+            this.LookUpModifierId.TabIndex = 8;
+            this.LookUpModifierId.TabStop = false;
+            // 
             // FrmQuotationInfo_History
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -2226,8 +2232,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.textParentAutoSalesOrderNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textParentAutoQuotationNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textProjectName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textModifier.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.textPrepared.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateModifierTime.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateModifierTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDate.Properties.CalendarTimeProperties)).EndInit();
@@ -2260,6 +2264,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDateEnd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDateBegin.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateRecordDateBegin.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LookUpCreator.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LookUpModifierId.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2342,16 +2348,12 @@
         private System.Data.DataColumn dataColParentAutoQuotationNo;
         private System.Data.DataColumn dataColParentAutoSalesOrderNo;
         private System.Data.DataColumn dataColParentProjectNo;
-        private System.Data.DataColumn dataColPrepared;
         private System.Data.DataColumn dataColPreparedIp;
-        private System.Data.DataColumn dataColModifier;
         private System.Data.DataColumn dataColModifierIp;
         private System.Data.DataColumn dataColModifierTime;
         private DevExpress.XtraEditors.LabelControl labModifierTime;
-        private DevExpress.XtraEditors.LabelControl labModifier;
-        private DevExpress.XtraEditors.LabelControl labPrepared;
-        private DevExpress.XtraEditors.TextEdit textModifier;
-        private DevExpress.XtraEditors.TextEdit textPrepared;
+        private DevExpress.XtraEditors.LabelControl labModifierId;
+        private DevExpress.XtraEditors.LabelControl labCreator;
         private DevExpress.XtraEditors.DateEdit dateModifierTime;
         private DevExpress.XtraEditors.TextEdit textProjectName;
         private DevExpress.XtraEditors.TextEdit textParentProjectNo;
@@ -2395,9 +2397,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn colRFQNO;
         private DevExpress.XtraGrid.Columns.GridColumn colRequester;
         private DevExpress.XtraGrid.Columns.GridColumn colParentAutoQuotationNo;
-        private DevExpress.XtraGrid.Columns.GridColumn colPrepared1;
+        private DevExpress.XtraGrid.Columns.GridColumn colCreator1;
         private DevExpress.XtraGrid.Columns.GridColumn colPreparedIp;
-        private DevExpress.XtraGrid.Columns.GridColumn colModifier1;
+        private DevExpress.XtraGrid.Columns.GridColumn colModifierId1;
         private DevExpress.XtraGrid.Columns.GridColumn colModifierIp;
         private DevExpress.XtraGrid.Columns.GridColumn colModifierTime1;
         private DevExpress.XtraGrid.Columns.GridColumn colRemark1;
@@ -2457,5 +2459,9 @@
         private System.Data.DataColumn dcIsPoUse;
         private DevExpress.XtraGrid.Columns.GridColumn colIsPoUse1;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repItemCheckIsPoUse;
+        private System.Data.DataColumn dataColCreator;
+        private System.Data.DataColumn dataColModifierId;
+        private DevExpress.XtraEditors.LookUpEdit LookUpCreator;
+        private DevExpress.XtraEditors.LookUpEdit LookUpModifierId;
     }
 }

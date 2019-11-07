@@ -62,13 +62,15 @@ namespace PSAP.VIEW.BSVIEW
         private void FrmQuotationInfo_History_Load(object sender, EventArgs e)
         {
             try
-            {                
+            {
                 ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
                 DataTable bussBaseTable = commonDAO.QueryBussinessBaseInfo(false);
                 DataTable currencyCateTable = commonDAO.QueryCurrencyCate(false);
 
                 searchBussinessBaseNo.Properties.DataSource = bussBaseTable;
+                LookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(false);
+                LookUpModifierId.Properties.DataSource = LookUpCreator.Properties.DataSource;
 
                 repLookUpCurrencyCate.DataSource = currencyCateTable;
 
@@ -85,7 +87,12 @@ namespace PSAP.VIEW.BSVIEW
                 repSearchLookUpBussinessBaseNo.DataSource = bussBaseTable;
                 repLookUpQState.DataSource = CommonHandler.GetQuotationInfoStateTable(false);
 
-                Set_ButtonEditGrid_State(true);
+                if (queryAutoQuotationNoStr == "")
+                {
+                    dataSet_Quotation.Tables[0].Clear();
+                    quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", 0, "", true);
+                    Set_ButtonEditGrid_State(true);
+                }
             }
             catch (Exception ex)
             {
@@ -108,7 +115,7 @@ namespace PSAP.VIEW.BSVIEW
                     searchLookUpBussinessBaseNo.Text = "全部";
 
                     dataSet_Quotation.Tables[0].Clear();
-                    quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", "", textCommon.Text);
+                    quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", 0, textCommon.Text, false);
                     Set_ButtonEditGrid_State(true);
 
                     if (dataSet_Quotation.Tables[0].Rows.Count > 0)
@@ -212,7 +219,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (TableQuotationBaseInfo.Rows.Count == 0 || bindingSource_BaseInfo.Current == null)
                     return;
 
-                if (!CheckState(false,true))
+                if (!CheckState(false, true))
                     return;
 
                 if (btnSave.Text != "保存")
@@ -385,8 +392,8 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 if (quoDAO.DeleteQuotationInfo(autoQuotationNoStr))
                 {
-                    gridViewQuotation_FocusedRowChanged(null, null);
-                    return;
+                    //gridViewQuotation_FocusedRowChanged(null, null);
+                    //return;
                 }
 
                 btnQuery_Click(null, null);
@@ -542,12 +549,13 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 e.Row["RecordDate"] = BaseSQL.GetServerDateTime();
-                e.Row["Prepared"] = SystemInfo.user.EmpName;
+                e.Row["Creator"] = SystemInfo.user.AutoId;
+
                 e.Row["QuotationState"] = 0;
                 if (newParentAutoQuotationNoStr != "")
                 {
                     e.Row["ParentAutoQuotationNo"] = newParentAutoQuotationNoStr;
-                    e.Row["ParentAutoSalesOrderNo"] = newParentAutoSalesOrderNoStr; 
+                    e.Row["ParentAutoSalesOrderNo"] = newParentAutoSalesOrderNoStr;
                     e.Row["ParentProjectNo"] = newParentProjectNoStr;
                     newParentAutoQuotationNoStr = "";
                     newParentAutoSalesOrderNoStr = "";
@@ -555,7 +563,7 @@ namespace PSAP.VIEW.BSVIEW
 
                     DataTable tempTable = new DataTable();
                     quoDAO.QueryQuotationBaseInfo(tempTable, DataTypeConvert.GetString(e.Row["ParentAutoQuotationNo"]));
-                    if(tempTable.Rows.Count>0)
+                    if (tempTable.Rows.Count > 0)
                     {
                         e.Row["BussinessBaseNo"] = DataTypeConvert.GetString(tempTable.Rows[0]["BussinessBaseNo"]);
                         e.Row["Requester"] = DataTypeConvert.GetString(tempTable.Rows[0]["Requester"]);
@@ -636,7 +644,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -696,7 +704,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
@@ -822,7 +830,7 @@ namespace PSAP.VIEW.BSVIEW
                 switch (e.Column.FieldName)
                 {
                     case "Amount":
-                    case "Tax":                        
+                    case "Tax":
                         amountDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Amount"]);
                         taxDouble = DataTypeConvert.GetDouble(gridViewQuotationPriceInfo.GetDataRow(e.RowHandle)["Tax"]);
                         taxAmountDouble = Math.Round(amountDouble * taxDouble, 2, MidpointRounding.AwayFromZero);
@@ -880,7 +888,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 dataSet_Quotation.Tables[0].Rows.Clear();
 
-                quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, "", commonStr);
+                quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, 0, commonStr, false);
 
                 Set_ButtonEditGrid_State(true);
             }
@@ -902,7 +910,7 @@ namespace PSAP.VIEW.BSVIEW
                     DataRow dr = gridViewQuotation.GetFocusedDataRow();
                     if (dr.RowState != DataRowState.Unchanged)
                     {
-                        MessageHandler.ShowMessageBox("当前报价单正在编辑，请保存后再进行换行。");
+                        MessageHandler.ShowMessageBox("当前报价单正在修改，请保存后再进行换行。");
                         e.Allow = false;
                     }
                     else

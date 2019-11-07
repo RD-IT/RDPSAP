@@ -44,7 +44,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取项目子文件夹列表错误。", ex);
                 return null;
             }
         }
@@ -66,7 +66,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取指定项目对应本地路径错误。", ex);
                 return null;
             }
         }
@@ -97,7 +97,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取文件列表错误。", ex);                
                 return null;
             }
         }
@@ -122,7 +122,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取文件信息错误。", ex);
                 return null;
             }
         }
@@ -144,7 +144,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取项目信息错误。", ex);
                 return null;
             }
         }
@@ -169,7 +169,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取指定项目所有层次的文件列表错误。", ex);
                 return null;
             }
         }
@@ -193,7 +193,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取指定项目所有层次的项目列表错误。", ex);
                 return null;
             }
         }
@@ -223,10 +223,9 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("在服务器创建文件夹错误。", ex);
                 return -1;
             }
-
         }
 
         /// <summary>
@@ -287,7 +286,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("在本地创建文档错误。", ex);
             }
 
         }
@@ -309,7 +308,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("判断指定文件类型是否存在错误。", ex);
                 return false;
             }
 
@@ -340,7 +339,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("将更改后的文件名（文件夹名）的更改同步到数据库错误。", ex);
             }
         }
 
@@ -367,7 +366,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("更新【添加入库】状态标记及相应字段,并增加版本信息错误。", ex);
             }
         }
 
@@ -385,7 +384,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("更新【检入】状态标记及相应字段错误。", ex);
             }
         }
 
@@ -410,7 +409,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("更新【检入】文件版本字段错误。", ex);
             }
         }
 
@@ -435,7 +434,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("更新【检出】状态标记错误。", ex);
             }
         }
 
@@ -454,7 +453,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("更新文件打开标记错误。", ex);
             }
         }
 
@@ -561,7 +560,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得添加到库的文件列表错误。", ex);
                 return null;
             }
         }
@@ -588,7 +587,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得检入的文件错误。", ex);
                 return null;
             }
         }
@@ -613,7 +612,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得检出的文件列表错误。", ex);
                 return null;
             }
         }
@@ -638,7 +637,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得隐藏的文件列表错误。", ex);
                 return null;
             }
         }
@@ -664,7 +663,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得取消隐藏的文件列表错误。", ex);
                 return null;
             }
         }
@@ -694,7 +693,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("生成报价单错误。", ex);
             }
         }
 
@@ -719,7 +718,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("取消报价单错误。", ex);
             }
 
         }
@@ -744,7 +743,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取项目子文件夹列表错误。", ex);
                 return null;
             }
         }
@@ -770,7 +769,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取文件列表错误。", ex);
                 return null;
             }
         }
@@ -801,7 +800,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取当前项目子文件夹列表错误。", ex);
                 return null;
             }
         }
@@ -832,7 +831,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获取当前项目文件列表错误。", ex);
                 return null;
             }
         }
@@ -892,7 +891,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("删除选定行数据错误。", ex);
                 return false;
             }
         }
@@ -915,7 +914,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得完整的项目树错误。", ex);
                 return null;
             }
         }
@@ -945,11 +944,9 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("根据文件夹的path,获得已存在文件夹的projectID错误。", ex);
                 return -1;
             }
         }
-
-
     }
 }

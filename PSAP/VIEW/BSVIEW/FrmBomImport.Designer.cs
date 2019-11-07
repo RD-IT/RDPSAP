@@ -52,9 +52,6 @@
             this.colMotherCodeFileName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repSearchCodeFileName = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
             this.repSearchCodeFileNameView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColuAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuCodeFileName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuCodeName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMotherCodeName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSubCodeFileName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colSubCodeName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -273,46 +270,15 @@
             this.repSearchCodeFileName.AutoHeight = false;
             this.repSearchCodeFileName.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.repSearchCodeFileName.DisplayMember = "CodeFileName";
             this.repSearchCodeFileName.Name = "repSearchCodeFileName";
-            this.repSearchCodeFileName.NullText = "";
-            this.repSearchCodeFileName.ValueMember = "CodeFileName";
             this.repSearchCodeFileName.View = this.repSearchCodeFileNameView;
             // 
             // repSearchCodeFileNameView
             // 
-            this.repSearchCodeFileNameView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColuAutoId,
-            this.gridColuCodeFileName,
-            this.gridColuCodeName});
             this.repSearchCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.repSearchCodeFileNameView.IndicatorWidth = 40;
             this.repSearchCodeFileNameView.Name = "repSearchCodeFileNameView";
             this.repSearchCodeFileNameView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.repSearchCodeFileNameView.OptionsView.ShowGroupPanel = false;
-            this.repSearchCodeFileNameView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewBom_CustomDrawRowIndicator);
-            // 
-            // gridColuAutoId
-            // 
-            this.gridColuAutoId.Caption = "AutoId";
-            this.gridColuAutoId.FieldName = "AutoId";
-            this.gridColuAutoId.Name = "gridColuAutoId";
-            // 
-            // gridColuCodeFileName
-            // 
-            this.gridColuCodeFileName.Caption = "零件编号";
-            this.gridColuCodeFileName.FieldName = "CodeFileName";
-            this.gridColuCodeFileName.Name = "gridColuCodeFileName";
-            this.gridColuCodeFileName.Visible = true;
-            this.gridColuCodeFileName.VisibleIndex = 0;
-            // 
-            // gridColuCodeName
-            // 
-            this.gridColuCodeName.Caption = "零件名称";
-            this.gridColuCodeName.FieldName = "CodeName";
-            this.gridColuCodeName.Name = "gridColuCodeName";
-            this.gridColuCodeName.Visible = true;
-            this.gridColuCodeName.VisibleIndex = 1;
             // 
             // colMotherCodeName
             // 
@@ -409,9 +375,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colMotherCodeFileName;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchCodeFileName;
         private DevExpress.XtraGrid.Views.Grid.GridView repSearchCodeFileNameView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuAutoId;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuCodeFileName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuCodeName;
         private DevExpress.XtraGrid.Columns.GridColumn colMotherCodeName;
         private DevExpress.XtraGrid.Columns.GridColumn colSubCodeFileName;
         private DevExpress.XtraGrid.Columns.GridColumn colSubCodeName;

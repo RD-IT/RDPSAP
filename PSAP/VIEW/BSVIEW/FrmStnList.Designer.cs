@@ -42,11 +42,6 @@
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
             this.textStnText = new DevExpress.XtraEditors.TextEdit();
             this.labStnText = new DevExpress.XtraEditors.LabelControl();
-            this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
-            this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.textRemark = new DevExpress.XtraEditors.TextEdit();
             this.textStnNo = new DevExpress.XtraEditors.TextEdit();
             this.labRemark = new DevExpress.XtraEditors.LabelControl();
@@ -66,6 +61,8 @@
             this.tsmiDzhxx = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiZhbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiXmhbnwk = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dSStnList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableStnList)).BeginInit();
@@ -73,8 +70,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textStnText.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textStnNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlGrid)).BeginInit();
@@ -82,6 +77,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlStnList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewStnList)).BeginInit();
             this.cms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlToolBar
@@ -178,58 +175,6 @@
             this.labStnText.Size = new System.Drawing.Size(48, 14);
             this.labStnText.TabIndex = 17;
             this.labStnText.Text = "站号名称";
-            // 
-            // searchLookUpProjectNo
-            // 
-            this.searchLookUpProjectNo.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSStnList, "ProjectNo", true));
-            this.searchLookUpProjectNo.EnterMoveNextControl = true;
-            this.searchLookUpProjectNo.Location = new System.Drawing.Point(548, 21);
-            this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
-            this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpProjectNo.Properties.DisplayMember = "ProjectName";
-            this.searchLookUpProjectNo.Properties.NullText = "";
-            this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
-            this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(160, 20);
-            this.searchLookUpProjectNo.TabIndex = 2;
-            // 
-            // searchLookUpProjectNoView
-            // 
-            this.searchLookUpProjectNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColProjectNo,
-            this.gridColProjectName,
-            this.gridColRemark});
-            this.searchLookUpProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpProjectNoView.IndicatorWidth = 60;
-            this.searchLookUpProjectNoView.Name = "searchLookUpProjectNoView";
-            this.searchLookUpProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.searchLookUpProjectNoView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpProjectNoView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.searchLookUpProjectNoView_CustomDrawRowIndicator);
-            // 
-            // gridColProjectNo
-            // 
-            this.gridColProjectNo.Caption = "项目号";
-            this.gridColProjectNo.FieldName = "ProjectNo";
-            this.gridColProjectNo.Name = "gridColProjectNo";
-            this.gridColProjectNo.Visible = true;
-            this.gridColProjectNo.VisibleIndex = 0;
-            // 
-            // gridColProjectName
-            // 
-            this.gridColProjectName.Caption = "项目名称";
-            this.gridColProjectName.FieldName = "ProjectName";
-            this.gridColProjectName.Name = "gridColProjectName";
-            this.gridColProjectName.Visible = true;
-            this.gridColProjectName.VisibleIndex = 1;
-            // 
-            // gridColRemark
-            // 
-            this.gridColRemark.Caption = "备注";
-            this.gridColRemark.FieldName = "Remark";
-            this.gridColRemark.Name = "gridColRemark";
-            this.gridColRemark.Visible = true;
-            this.gridColRemark.VisibleIndex = 2;
             // 
             // textRemark
             // 
@@ -405,6 +350,25 @@
             this.tsmiXmhbnwk.Size = new System.Drawing.Size(244, 22);
             this.tsmiXmhbnwk.Text = "项目号不能为空，请重新操作。";
             // 
+            // searchLookUpProjectNoView
+            // 
+            this.searchLookUpProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchLookUpProjectNoView.Name = "searchLookUpProjectNoView";
+            this.searchLookUpProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchLookUpProjectNoView.OptionsView.ShowGroupPanel = false;
+            // 
+            // searchLookUpProjectNo
+            // 
+            this.searchLookUpProjectNo.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSStnList, "ProjectNo", true));
+            this.searchLookUpProjectNo.EnterMoveNextControl = true;
+            this.searchLookUpProjectNo.Location = new System.Drawing.Point(548, 21);
+            this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
+            this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(160, 20);
+            this.searchLookUpProjectNo.TabIndex = 2;
+            // 
             // FrmStnList
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -430,8 +394,6 @@
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textStnText.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textRemark.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textStnNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlGrid)).EndInit();
@@ -439,6 +401,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridCrlStnList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewStnList)).EndInit();
             this.cms.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -468,11 +432,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colProjectName;
         private DevExpress.XtraGrid.Columns.GridColumn colStnNo;
         private DevExpress.XtraGrid.Columns.GridColumn colRemark;
-        private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpProjectNo;
-        private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpProjectNoView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColRemark;
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiXm;
         private System.Windows.Forms.ToolStripMenuItem tsmiDzhxx;
@@ -482,5 +441,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colStnText;
         private DevExpress.XtraEditors.TextEdit textStnText;
         private DevExpress.XtraEditors.LabelControl labStnText;
+        private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpProjectNo;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpProjectNoView;
     }
 }

@@ -199,10 +199,10 @@
             this.pnlHandleTop.Controls.Add(this.btnTest);
             this.pnlHandleTop.Controls.Add(this.btnHandleQuery);
             this.pnlHandleTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHandleTop.Location = new System.Drawing.Point(2, 2);
+            this.pnlHandleTop.Location = new System.Drawing.Point(0, 0);
             this.pnlHandleTop.Margin = new System.Windows.Forms.Padding(4);
             this.pnlHandleTop.Name = "pnlHandleTop";
-            this.pnlHandleTop.Size = new System.Drawing.Size(1197, 40);
+            this.pnlHandleTop.Size = new System.Drawing.Size(1201, 40);
             this.pnlHandleTop.TabIndex = 3;
             // 
             // btnTest
@@ -223,7 +223,7 @@
             this.btnHandleQuery.Name = "btnHandleQuery";
             this.btnHandleQuery.Size = new System.Drawing.Size(75, 23);
             this.btnHandleQuery.TabIndex = 0;
-            this.btnHandleQuery.Text = "刷新";
+            this.btnHandleQuery.Text = "查询";
             this.btnHandleQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // pnlHandleMiddle
@@ -232,7 +232,7 @@
             this.pnlHandleMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlHandleMiddle.Location = new System.Drawing.Point(0, 0);
             this.pnlHandleMiddle.Name = "pnlHandleMiddle";
-            this.pnlHandleMiddle.Size = new System.Drawing.Size(1191, 656);
+            this.pnlHandleMiddle.Size = new System.Drawing.Size(1195, 660);
             this.pnlHandleMiddle.TabIndex = 6;
             // 
             // gridControlUserWF
@@ -245,7 +245,7 @@
             this.gridControlUserWF.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repLookUpModuleType,
             this.repLookUpLFMText});
-            this.gridControlUserWF.Size = new System.Drawing.Size(1187, 652);
+            this.gridControlUserWF.Size = new System.Drawing.Size(1191, 656);
             this.gridControlUserWF.TabIndex = 4;
             this.gridControlUserWF.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewUserWF});
@@ -404,10 +404,10 @@
             // xtraTabCtl
             // 
             this.xtraTabCtl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabCtl.Location = new System.Drawing.Point(2, 42);
+            this.xtraTabCtl.Location = new System.Drawing.Point(0, 40);
             this.xtraTabCtl.Name = "xtraTabCtl";
             this.xtraTabCtl.SelectedTabPage = this.PageHandle;
-            this.xtraTabCtl.Size = new System.Drawing.Size(1197, 685);
+            this.xtraTabCtl.Size = new System.Drawing.Size(1201, 689);
             this.xtraTabCtl.TabIndex = 7;
             this.xtraTabCtl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.PageHandle,
@@ -417,7 +417,7 @@
             // 
             this.PageHandle.Controls.Add(this.pnlHandleMiddle);
             this.PageHandle.Name = "PageHandle";
-            this.PageHandle.Size = new System.Drawing.Size(1191, 656);
+            this.PageHandle.Size = new System.Drawing.Size(1195, 660);
             this.PageHandle.Text = "待处理信息";
             // 
             // PageReject

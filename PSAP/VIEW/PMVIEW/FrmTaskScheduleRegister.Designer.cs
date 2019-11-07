@@ -33,9 +33,6 @@
             this.checkNoComplete = new DevExpress.XtraEditors.CheckEdit();
             this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labProjectNo = new DevExpress.XtraEditors.LabelControl();
             this.btnQueryTask = new DevExpress.XtraEditors.SimpleButton();
             this.textCommon = new DevExpress.XtraEditors.TextEdit();
@@ -43,10 +40,6 @@
             this.labRSProjectUser = new DevExpress.XtraEditors.LabelControl();
             this.searchLookUpRSProjectUser = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpRSProjectUserView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn6 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn7 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.searchLookUpRSTaskNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpRSTaskNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -148,7 +141,7 @@
             // checkNoComplete
             // 
             this.checkNoComplete.EnterMoveNextControl = true;
-            this.checkNoComplete.Location = new System.Drawing.Point(276, 44);
+            this.checkNoComplete.Location = new System.Drawing.Point(256, 44);
             this.checkNoComplete.Name = "checkNoComplete";
             this.checkNoComplete.Properties.Caption = "不包含已完成任务";
             this.checkNoComplete.Size = new System.Drawing.Size(121, 19);
@@ -161,50 +154,17 @@
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpProjectNo.Properties.DisplayMember = "ProjectName";
-            this.searchLookUpProjectNo.Properties.NullText = "";
-            this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
-            this.searchLookUpProjectNo.Size = new System.Drawing.Size(180, 20);
+            this.searchLookUpProjectNo.Size = new System.Drawing.Size(160, 20);
             this.searchLookUpProjectNo.TabIndex = 0;
             this.searchLookUpProjectNo.EditValueChanged += new System.EventHandler(this.searchLookUpProjectNo_EditValueChanged);
             // 
             // searchLookUpProjectNoView
             // 
-            this.searchLookUpProjectNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColProjectNo,
-            this.gridColProjectName,
-            this.gridColRemark});
             this.searchLookUpProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpProjectNoView.IndicatorWidth = 60;
             this.searchLookUpProjectNoView.Name = "searchLookUpProjectNoView";
             this.searchLookUpProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpProjectNoView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpProjectNoView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewRegisterSchedule_CustomDrawRowIndicator);
-            // 
-            // gridColProjectNo
-            // 
-            this.gridColProjectNo.Caption = "项目号";
-            this.gridColProjectNo.FieldName = "ProjectNo";
-            this.gridColProjectNo.Name = "gridColProjectNo";
-            this.gridColProjectNo.Visible = true;
-            this.gridColProjectNo.VisibleIndex = 0;
-            // 
-            // gridColProjectName
-            // 
-            this.gridColProjectName.Caption = "项目名称";
-            this.gridColProjectName.FieldName = "ProjectName";
-            this.gridColProjectName.Name = "gridColProjectName";
-            this.gridColProjectName.Visible = true;
-            this.gridColProjectName.VisibleIndex = 1;
-            // 
-            // gridColRemark
-            // 
-            this.gridColRemark.Caption = "备注";
-            this.gridColRemark.FieldName = "Remark";
-            this.gridColRemark.Name = "gridColRemark";
-            this.gridColRemark.Visible = true;
-            this.gridColRemark.VisibleIndex = 2;
             // 
             // labProjectNo
             // 
@@ -216,7 +176,7 @@
             // 
             // btnQueryTask
             // 
-            this.btnQueryTask.Location = new System.Drawing.Point(424, 43);
+            this.btnQueryTask.Location = new System.Drawing.Point(404, 43);
             this.btnQueryTask.Name = "btnQueryTask";
             this.btnQueryTask.Size = new System.Drawing.Size(75, 23);
             this.btnQueryTask.TabIndex = 5;
@@ -228,7 +188,7 @@
             this.textCommon.EnterMoveNextControl = true;
             this.textCommon.Location = new System.Drawing.Point(76, 44);
             this.textCommon.Name = "textCommon";
-            this.textCommon.Size = new System.Drawing.Size(180, 20);
+            this.textCommon.Size = new System.Drawing.Size(160, 20);
             this.textCommon.TabIndex = 3;
             // 
             // labCommon
@@ -241,7 +201,7 @@
             // 
             // labRSProjectUser
             // 
-            this.labRSProjectUser.Location = new System.Drawing.Point(517, 17);
+            this.labRSProjectUser.Location = new System.Drawing.Point(497, 17);
             this.labRSProjectUser.Name = "labRSProjectUser";
             this.labRSProjectUser.Size = new System.Drawing.Size(36, 14);
             this.labRSProjectUser.TabIndex = 29;
@@ -250,71 +210,25 @@
             // searchLookUpRSProjectUser
             // 
             this.searchLookUpRSProjectUser.EnterMoveNextControl = true;
-            this.searchLookUpRSProjectUser.Location = new System.Drawing.Point(568, 14);
+            this.searchLookUpRSProjectUser.Location = new System.Drawing.Point(548, 14);
             this.searchLookUpRSProjectUser.Name = "searchLookUpRSProjectUser";
             this.searchLookUpRSProjectUser.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpRSProjectUser.Properties.DisplayMember = "EmpName";
-            this.searchLookUpRSProjectUser.Properties.NullText = "";
-            this.searchLookUpRSProjectUser.Properties.ValueMember = "AutoId";
             this.searchLookUpRSProjectUser.Properties.View = this.searchLookUpRSProjectUserView;
             this.searchLookUpRSProjectUser.Size = new System.Drawing.Size(120, 20);
             this.searchLookUpRSProjectUser.TabIndex = 2;
             // 
             // searchLookUpRSProjectUserView
             // 
-            this.searchLookUpRSProjectUserView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn4,
-            this.gridColumn5,
-            this.gridColumn6,
-            this.gridColumn7});
             this.searchLookUpRSProjectUserView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpRSProjectUserView.IndicatorWidth = 60;
             this.searchLookUpRSProjectUserView.Name = "searchLookUpRSProjectUserView";
             this.searchLookUpRSProjectUserView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpRSProjectUserView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpRSProjectUserView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewRegisterSchedule_CustomDrawRowIndicator);
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.Caption = "AutoId";
-            this.gridColumn4.FieldName = "AutoId";
-            this.gridColumn4.Name = "gridColumn4";
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn5.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn5.Caption = "姓名";
-            this.gridColumn5.FieldName = "EmpName";
-            this.gridColumn5.Name = "gridColumn5";
-            this.gridColumn5.Visible = true;
-            this.gridColumn5.VisibleIndex = 0;
-            // 
-            // gridColumn6
-            // 
-            this.gridColumn6.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn6.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn6.Caption = "部门编号";
-            this.gridColumn6.FieldName = "DepartmentNo";
-            this.gridColumn6.Name = "gridColumn6";
-            this.gridColumn6.Visible = true;
-            this.gridColumn6.VisibleIndex = 1;
-            // 
-            // gridColumn7
-            // 
-            this.gridColumn7.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn7.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn7.Caption = "部门名称";
-            this.gridColumn7.FieldName = "DepartmentName";
-            this.gridColumn7.Name = "gridColumn7";
-            this.gridColumn7.Visible = true;
-            this.gridColumn7.VisibleIndex = 2;
             // 
             // searchLookUpRSTaskNo
             // 
             this.searchLookUpRSTaskNo.EnterMoveNextControl = true;
-            this.searchLookUpRSTaskNo.Location = new System.Drawing.Point(339, 14);
+            this.searchLookUpRSTaskNo.Location = new System.Drawing.Point(319, 14);
             this.searchLookUpRSTaskNo.Name = "searchLookUpRSTaskNo";
             this.searchLookUpRSTaskNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -362,7 +276,7 @@
             // 
             // labRSTaskNo
             // 
-            this.labRSTaskNo.Location = new System.Drawing.Point(276, 17);
+            this.labRSTaskNo.Location = new System.Drawing.Point(256, 17);
             this.labRSTaskNo.Name = "labRSTaskNo";
             this.labRSTaskNo.Size = new System.Drawing.Size(48, 14);
             this.labRSTaskNo.TabIndex = 28;
@@ -902,10 +816,6 @@
         private DevExpress.XtraEditors.LabelControl labRSProjectUser;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpRSProjectUser;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpRSProjectUserView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn6;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn7;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpRSTaskNo;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpRSTaskNoView;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
@@ -916,9 +826,6 @@
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpProjectNo;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpProjectNoView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColRemark;
         private DevExpress.XtraEditors.LabelControl labProjectNo;
         private System.Data.DataSet dSRegisterSchedule;
         private System.Data.DataTable TableRegisterSchedule;

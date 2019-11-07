@@ -262,7 +262,7 @@
             // 
             this.tsmiDxysh.Name = "tsmiDxysh";
             this.tsmiDxysh.Size = new System.Drawing.Size(136, 22);
-            this.tsmiDxysh.Text = "多选一审核";
+            this.tsmiDxysh.Text = "多选一审批";
             // 
             // tsmiZc
             // 
@@ -850,7 +850,7 @@
             // 
             this.tsmiBj.Name = "tsmiBj";
             this.tsmiBj.Size = new System.Drawing.Size(268, 22);
-            this.tsmiBj.Text = "编辑";
+            this.tsmiBj.Text = "修改";
             // 
             // tsmiCtjzsjcw
             // 

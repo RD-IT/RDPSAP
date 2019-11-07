@@ -2,6 +2,7 @@
 using Microsoft.Reporting.WinForms;
 using PSAP.BLL.BSBLL;
 using PSAP.DAO.BSDAO;
+using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -139,14 +140,14 @@ namespace PSAP.VIEW.BSVIEW
                     buttonBackColor = str[i, 1];
                     //button6.BackColor = Color.FromName(this.GetType().GetField(str[i, 0]).GetValue(this).ToString());
                     button6.BackColor = Color.FromName(str[i, 1]);
-                    MessageBox.Show(this.GetType().GetField(str[i, 0]).GetValue(this).ToString());
+                    MessageHandler.ShowMessageBox(this.GetType().GetField(str[i, 0]).GetValue(this).ToString());
                 }
 
                 if (str[i, 0] == "formBackColor")
                 {
                     formBackColor = str[i, 1];
                     this.BackColor = Color.FromName(str[i, 1]);
-                    MessageBox.Show(this.GetType().GetField(str[i, 0]).GetValue(this).ToString());
+                    MessageHandler.ShowMessageBox(this.GetType().GetField(str[i, 0]).GetValue(this).ToString());
                 }
                 }
         }
@@ -256,7 +257,7 @@ namespace PSAP.VIEW.BSVIEW
                 //gridView
                 if (ctl is GridControl)
                 {
-                    MessageBox.Show("dfdf");
+                    MessageHandler.ShowMessageBox("dfdf");
                     /*
                     DataGridView dg = (DataGridView)ctl;
                     foreach (object ch in dg.Columns)
@@ -386,7 +387,7 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             var TextValue = BSCommon.LocationControlsText(dt, ((DevExpress.XtraGrid.Columns.GridColumn)column).Name, "Caption");
                             DevExpress.XtraGrid.Columns.GridColumn column_o = (DevExpress.XtraGrid.Columns.GridColumn)column;
-                            MessageBox.Show( column_o.GetTextCaption());
+                            MessageHandler.ShowMessageBox( column_o.GetTextCaption());
                             ((DevExpress.XtraGrid.Columns.GridColumn)column).Caption = TextValue.ToList().First().Field<string>("LanguageText"); 
                         }
                     }

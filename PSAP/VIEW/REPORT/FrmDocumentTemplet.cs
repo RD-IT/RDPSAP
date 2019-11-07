@@ -21,12 +21,12 @@ namespace PSAP.VIEW.BSVIEW
         FrmDocumentTempletDAO docDAO = new FrmDocumentTempletDAO();
 
         /// <summary>
-        /// 编辑版本号的源版本号数据值
+        /// 修改版本号的源版本号数据值
         /// </summary>
         string oldDocVersionValue = "";
 
         /// <summary>
-        /// 锁定编辑状态
+        /// 锁定修改状态
         /// </summary>
         bool lockChange = false;
 
@@ -67,7 +67,7 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 switch (e.Button.Caption)
                 {
-                    case "编辑":
+                    case "修改":
                         switch (tableNameStr)
                         {
                             //销售管理
@@ -211,7 +211,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定树的显示编辑事件
+        /// 设定树的显示修改事件
         /// </summary>
         private void treeListDocTemp_ShowingEditor(object sender, CancelEventArgs e)
         {
@@ -228,7 +228,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--设定树的显示编辑事件错误。", ex);
+                //ExceptionHandler.HandleException(this.Text + "--设定树的显示修改事件错误。", ex);
                 ExceptionHandler.HandleException(this.Text + "--" + tsmiSdsdxsbj.Text, ex);
             }
         }
@@ -332,7 +332,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定编辑状态
+        /// 设定修改状态
         /// </summary>
         private void SetEditState(bool editState)
         {

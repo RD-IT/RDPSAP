@@ -70,7 +70,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                //searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchCodeFileName, false, "CodeFileName", "CodeFileName");
+
                 lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(true);
                 lookUpCatgName.ItemIndex = 0;
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(true);
@@ -652,7 +655,7 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             //treeList1.Nodes.Add(node);
                             //codeFileNameList.Add(DataTypeConvert.GetString(node["CodeFileName"]));
-                            //MessageBox.Show(node["CodeFileName"].ToString());
+                            //MessageHandler.ShowMessageBox(node["CodeFileName"].ToString());
                             codeIdList.Add(DataTypeConvert.GetInt(node["PCAutoId"]), DataTypeConvert.GetString(node["CodeFileName"]));
                         }
                     }
@@ -664,7 +667,7 @@ namespace PSAP.VIEW.BSVIEW
                     {
                         foreach (DataRow dr in drs)
                         {
-                            //MessageBox.Show(drs[0]["CodeFileName"].ToString().ToString());
+                            //MessageHandler.ShowMessageBox(drs[0]["CodeFileName"].ToString().ToString());
                             //codeFileNameList.Add(DataTypeConvert.GetString(dr["CodeFileName"]));
                             codeIdList.Add(DataTypeConvert.GetInt(dr["AutoId"]), DataTypeConvert.GetString(dr["CodeFileName"]));
                         }

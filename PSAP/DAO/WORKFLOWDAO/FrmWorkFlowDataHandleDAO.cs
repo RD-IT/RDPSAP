@@ -25,7 +25,7 @@ namespace PSAP.DAO.WORKFLOWDAO
         /// <param name="orderNoList">单据号列表</param>
         /// <param name="WorkFlowTypeText">流程类型名称  销售流程，采购流程，库存流程，人事流程</param>
         /// <param name="tableNameStr">数据表名称</param>
-        /// <param name="moduleTypeInt">模块类型编号  1 登记 2 审核</param>
+        /// <param name="moduleTypeInt">模块类型编号  1 登记 2 审批</param>
         /// <param name="stateInt">单据状态</param>
         /// <param name="approverStr">审批人</param>
         /// <param name="approverOptionStr">审批意见</param>
@@ -167,8 +167,8 @@ namespace PSAP.DAO.WORKFLOWDAO
         /// 查询流程图定义的条件字符串
         /// </summary>
         /// <param name="tableNameStr">数据库表名</param>
-        /// <param name="moduleTypeInt">模块类型编号  1 登记 2 审核</param>
-        /// <param name="approverInt">审核人</param>
+        /// <param name="moduleTypeInt">模块类型编号  1 登记 2 审批</param>
+        /// <param name="approverInt">审批人</param>
         public string GetWorkFlowLine_ConditionString(string tableNameStr, int moduleTypeInt, int approverInt)
         {
             string loginIdStr = "";
@@ -204,7 +204,7 @@ namespace PSAP.DAO.WORKFLOWDAO
         /// <param name="workFlowTypeText">流程类型名称  销售流程，采购流程，库存流程，人事流程，生产流程</param>
         /// <param name="tableNameStr">数据表名称</param>
         /// <param name="primaryKeyStr">主键列名</param>
-        /// <param name="moduleTypeInt">模块类型编号  1 登记 2 审核</param>
+        /// <param name="moduleTypeInt">模块类型编号  1 登记 2 审批</param>
         /// <param name="stateInt">单据状态，可返回修改的状态</param>
         /// <param name="approverInt">审批人</param>
         /// <param name="approverOptionStr">审批意见</param>
@@ -282,7 +282,7 @@ namespace PSAP.DAO.WORKFLOWDAO
 
                     if (DataTypeConvert.GetInt(cmd.ExecuteScalar()) == 0)
                     {
-                        memoStr = string.Format("登记单[{0}]流程图设定的审核人员列表不包含当前的审核人，无法通过审核。", orderNoStr);
+                        memoStr = string.Format("登记单[{0}]流程图设定的审批人员列表不包含当前的审批人，无法通过审批。", orderNoStr);
                         continue;
                     }
                 }
@@ -313,7 +313,7 @@ namespace PSAP.DAO.WORKFLOWDAO
                 }
                 else
                 {
-                    //判断下个节点还是不是审核
+                    //判断下个节点还是不是审批
                     cmd.CommandText = string.Format("select wfNode.AutoId, wfNode.WorkFlowId, NodeCate, wfNode.FlowModuleId, FlowModuleTableName, ModuleType, WorkFlowTypeText, wfLine.Condition from BS_WorkFlowNode as wfNode left join BS_WorkFlowNodeToNode as wfLine on wfNode.AutoId = wfLine.LevelNodeId left join BS_WorkFlowModule on wfNode.FlowModuleId = BS_WorkFlowModule.FlowModuleId left join BS_WorkFlow on wfNode.WorkFlowId = BS_WorkFlow.AutoId left join BS_WorkFlowType on BS_WorkFlow.WorkFlowTypeAutoId = BS_WorkFlowType.AutoId where wfLine.NodeId = {0}", currentNodeIdInt);
                     DataTable nextNodeTable = BaseSQL.GetTableBySql(cmd);
                     if (nextNodeTable.Rows.Count > 0)
@@ -353,10 +353,10 @@ namespace PSAP.DAO.WORKFLOWDAO
             //        查询主单符合下面连接线的那个条件，
             //        判断下个节点是否就是当前的操作所属的节点类型，如果是继续，如果不符合弹出Message退出
 
-            //        判断下个节点的审核人是否是当前操作人员
-            //        是否符合可以审核
+            //        判断下个节点的审批人是否是当前操作人员
+            //        是否符合可以审批
 
-            //        判断再下个节点还是不是当前操作类型，如果是返回审核中的状态，否则返回审核的状态
+            //        判断再下个节点还是不是当前操作类型，如果是返回审批中的状态，否则返回审批的状态
 
             //2 查询流程图节点是否结束，设定结束标志
             //3 保存流程记录 提交保存一条，审批保存多条            
@@ -383,9 +383,9 @@ namespace PSAP.DAO.WORKFLOWDAO
         /// <param name="orderNoStr">单据号</param>
         /// <param name="flowModuleIdStr">节点所属的模块编号</param>
         /// <param name="nodeIdInt">截图Id</param>
-        /// <param name="approverStr">审核人</param>
-        /// <param name="approverResultInt">审核结果</param>
-        /// <param name="approverOptionStr">审核信息</param>
+        /// <param name="approverStr">审批人</param>
+        /// <param name="approverResultInt">审批结果</param>
+        /// <param name="approverOptionStr">审批信息</param>
         private void InsertWorkFlowDataHandle(SqlCommand cmd, bool allNewDataHandle, string orderNoStr, string flowModuleIdStr, int nodeIdInt, string approverStr, int approverResultInt, string approverOptionStr)
         {
             int autoIdInt = 0;
@@ -412,7 +412,7 @@ namespace PSAP.DAO.WORKFLOWDAO
         }
 
         /// <summary>
-        /// 查询审核人的登陆号和角色名
+        /// 查询审批人的登陆号和角色名
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="approverInt"></param>
@@ -434,7 +434,7 @@ namespace PSAP.DAO.WORKFLOWDAO
 
             if (userTable.Rows.Count == 0)
             {
-                throw new Exception("未查询到审核人的信息，请重新操作。");
+                throw new Exception("未查询到审批人的信息，请重新操作。");
             }
             loginIdStr = DataTypeConvert.GetString(userTable.Rows[0]["LoginId"]);
             roleNoStr = DataTypeConvert.GetString(userTable.Rows[0]["RoleNo"]);

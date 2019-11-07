@@ -118,7 +118,6 @@
             this.datePlanDateBegin = new DevExpress.XtraEditors.DateEdit();
             this.textCommon = new DevExpress.XtraEditors.TextEdit();
             this.comboBoxReqState = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.lookUpPrepared = new DevExpress.XtraEditors.LookUpEdit();
             this.btnQuery = new DevExpress.XtraEditors.SimpleButton();
             this.dateCurrentDateEnd = new DevExpress.XtraEditors.DateEdit();
             this.dateCurrentDateBegin = new DevExpress.XtraEditors.DateEdit();
@@ -129,6 +128,8 @@
             this.labReqState = new DevExpress.XtraEditors.LabelControl();
             this.lab1 = new DevExpress.XtraEditors.LabelControl();
             this.labCurrentDate = new DevExpress.XtraEditors.LabelControl();
+            this.searchLookUpPrepared = new DevExpress.XtraEditors.SearchLookUpEdit();
+            this.searchLookUpCreatorView = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRight)).BeginInit();
             this.pnlRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottom)).BeginInit();
@@ -166,11 +167,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateBegin.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxReqState.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpPrepared.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateBegin.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateBegin.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpPrepared.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreatorView)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlRight
@@ -593,10 +595,10 @@
             // 
             this.checkAll.Location = new System.Drawing.Point(53, 40);
             this.checkAll.Margin = new System.Windows.Forms.Padding(4);
-            this.checkAll.Properties.AutoHeight = false;
-            this.checkAll.Size = new System.Drawing.Size(16, 15);
             this.checkAll.Name = "checkAll";
+            this.checkAll.Properties.AutoHeight = false;
             this.checkAll.Properties.Caption = "";
+            this.checkAll.Size = new System.Drawing.Size(16, 15);
             this.checkAll.TabIndex = 18;
             this.checkAll.TabStop = false;
             this.checkAll.CheckedChanged += new System.EventHandler(this.checkAll_CheckedChanged);
@@ -969,6 +971,7 @@
             // 
             // pnltop
             // 
+            this.pnltop.Controls.Add(this.searchLookUpPrepared);
             this.pnltop.Controls.Add(this.searchLookUpCodeFileName);
             this.pnltop.Controls.Add(this.labCodeFileName);
             this.pnltop.Controls.Add(this.checkPlanDate);
@@ -976,7 +979,6 @@
             this.pnltop.Controls.Add(this.datePlanDateBegin);
             this.pnltop.Controls.Add(this.textCommon);
             this.pnltop.Controls.Add(this.comboBoxReqState);
-            this.pnltop.Controls.Add(this.lookUpPrepared);
             this.pnltop.Controls.Add(this.btnQuery);
             this.pnltop.Controls.Add(this.dateCurrentDateEnd);
             this.pnltop.Controls.Add(this.dateCurrentDateBegin);
@@ -1005,7 +1007,7 @@
             this.searchLookUpCodeFileName.Properties.ValueMember = "CodeFileName";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
-            this.searchLookUpCodeFileName.TabIndex = 40;
+            this.searchLookUpCodeFileName.TabIndex = 2;
             // 
             // searchLookUpCodeFileNameView
             // 
@@ -1051,7 +1053,7 @@
             this.checkPlanDate.Properties.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.checkPlanDate.Properties.ValueGrayed = false;
             this.checkPlanDate.Size = new System.Drawing.Size(19, 19);
-            this.checkPlanDate.TabIndex = 6;
+            this.checkPlanDate.TabIndex = 5;
             this.checkPlanDate.TabStop = false;
             this.checkPlanDate.CheckedChanged += new System.EventHandler(this.checkPlanDate_CheckedChanged);
             // 
@@ -1072,7 +1074,7 @@
             this.datePlanDateEnd.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.datePlanDateEnd.Properties.Mask.EditMask = "yyyy-MM-dd";
             this.datePlanDateEnd.Size = new System.Drawing.Size(100, 20);
-            this.datePlanDateEnd.TabIndex = 8;
+            this.datePlanDateEnd.TabIndex = 7;
             // 
             // datePlanDateBegin
             // 
@@ -1091,7 +1093,7 @@
             this.datePlanDateBegin.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.datePlanDateBegin.Properties.Mask.EditMask = "yyyy-MM-dd";
             this.datePlanDateBegin.Size = new System.Drawing.Size(100, 20);
-            this.datePlanDateBegin.TabIndex = 7;
+            this.datePlanDateBegin.TabIndex = 6;
             // 
             // textCommon
             // 
@@ -1099,7 +1101,7 @@
             this.textCommon.Location = new System.Drawing.Point(404, 44);
             this.textCommon.Name = "textCommon";
             this.textCommon.Size = new System.Drawing.Size(150, 20);
-            this.textCommon.TabIndex = 11;
+            this.textCommon.TabIndex = 8;
             // 
             // comboBoxReqState
             // 
@@ -1113,31 +1115,14 @@
             "待审批",
             "审批"});
             this.comboBoxReqState.Size = new System.Drawing.Size(120, 20);
-            this.comboBoxReqState.TabIndex = 5;
-            // 
-            // lookUpPrepared
-            // 
-            this.lookUpPrepared.EnterMoveNextControl = true;
-            this.lookUpPrepared.Location = new System.Drawing.Point(604, 14);
-            this.lookUpPrepared.Name = "lookUpPrepared";
-            this.lookUpPrepared.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lookUpPrepared.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 80, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("LoginId", "用户名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("EmpName", "员工名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near)});
-            this.lookUpPrepared.Properties.DisplayMember = "EmpName";
-            this.lookUpPrepared.Properties.NullText = "";
-            this.lookUpPrepared.Properties.ValueMember = "EmpName";
-            this.lookUpPrepared.Size = new System.Drawing.Size(120, 20);
-            this.lookUpPrepared.TabIndex = 9;
+            this.comboBoxReqState.TabIndex = 4;
             // 
             // btnQuery
             // 
             this.btnQuery.Location = new System.Drawing.Point(569, 43);
             this.btnQuery.Name = "btnQuery";
             this.btnQuery.Size = new System.Drawing.Size(75, 23);
-            this.btnQuery.TabIndex = 12;
+            this.btnQuery.TabIndex = 9;
             this.btnQuery.Text = "查询";
             this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
@@ -1233,6 +1218,23 @@
             this.labCurrentDate.TabIndex = 1;
             this.labCurrentDate.Text = "单据日期：";
             // 
+            // searchLookUpPrepared
+            // 
+            this.searchLookUpPrepared.Location = new System.Drawing.Point(604, 14);
+            this.searchLookUpPrepared.Name = "searchLookUpPrepared";
+            this.searchLookUpPrepared.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.searchLookUpPrepared.Properties.View = this.searchLookUpCreatorView;
+            this.searchLookUpPrepared.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpPrepared.TabIndex = 3;
+            // 
+            // searchLookUpCreatorView
+            // 
+            this.searchLookUpCreatorView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchLookUpCreatorView.Name = "searchLookUpCreatorView";
+            this.searchLookUpCreatorView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchLookUpCreatorView.OptionsView.ShowGroupPanel = false;
+            // 
             // FrmProductionSchedule
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1282,11 +1284,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateBegin.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxReqState.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpPrepared.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateBegin.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateBegin.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpPrepared.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreatorView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1326,7 +1329,6 @@
         private DevExpress.XtraEditors.DateEdit datePlanDateBegin;
         private DevExpress.XtraEditors.TextEdit textCommon;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxReqState;
-        private DevExpress.XtraEditors.LookUpEdit lookUpPrepared;
         private DevExpress.XtraEditors.SimpleButton btnQuery;
         private DevExpress.XtraEditors.DateEdit dateCurrentDateEnd;
         private DevExpress.XtraEditors.DateEdit dateCurrentDateBegin;
@@ -1393,5 +1395,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colTotalQty;
         private DevExpress.XtraEditors.Repository.RepositoryItemButtonEdit repbtnDelete;
         private DevExpress.XtraGrid.Columns.GridColumn colDelete;
+        private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpPrepared;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpCreatorView;
     }
 }

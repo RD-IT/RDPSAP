@@ -18,6 +18,11 @@ namespace PSAP.VIEW.BSVIEW
         FrmPrReqListDistributionDAO prReqDAO = new FrmPrReqListDistributionDAO();
         FrmCommonDAO commonDAO = new FrmCommonDAO();
 
+        /// <summary>
+        /// 查询的请购单号
+        /// </summary>
+        public static string queryPrReqNo = "";
+
         public FrmPrReqListDistribution()
         {
             InitializeComponent();
@@ -35,18 +40,23 @@ namespace PSAP.VIEW.BSVIEW
                 dateRequirementDateBegin.DateTime = nowDate.Date;
                 dateRequirementDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
 
-                DataTable partsCodeTable_t = commonDAO.QueryPartsCode(true);
-                DataTable userTable_f= commonDAO.QueryUserInfo(false);
+                //DataTable partsCodeTable_t = commonDAO.QueryPartsCode(true);
 
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
-                searchLookUpProjectNo.Text = "全部";
-                searchLookUpCodeFileName.Properties.DataSource = partsCodeTable_t;
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = partsCodeTable_t;
+                //searchLookUpCodeFileName.EditValue = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId_NoAll(searchLookUpArrangement);
+                //searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
 
-                lookUpArrangement.Properties.DataSource = userTable_f;
-
-                repLookUpCodeName.DataSource = partsCodeTable_t;
-                repLookUpOperator.DataSource = userTable_f;
+                repLookUpCodeName.DataSource = searchLookUpCodeFileName.Properties.DataSource;
+                repLookUpOperator.DataSource = searchLookUpArrangement.Properties.DataSource;
 
                 checkContainOk.Checked = false;
 
@@ -63,6 +73,31 @@ namespace PSAP.VIEW.BSVIEW
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 窗体激活事件
+        /// </summary>
+        private void FrmPrReqListDistribution_Activated(object sender, EventArgs e)
+        {
+            try
+            {
+                if (queryPrReqNo != "")
+                {
+                    textCommon.Text = queryPrReqNo;
+                    queryPrReqNo = "";
+                    checkRequirementDate.Checked = false;
+                    searchLookUpCodeFileName.EditValue = 0;
+                    searchLookUpProjectNo.Text = "全部";
+                    checkContainOk.Checked = true;
+
+                    btnQuery_Click(null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException(this.Text + "--窗体激活事件错误。", ex);
             }
         }
 
@@ -164,7 +199,7 @@ namespace PSAP.VIEW.BSVIEW
                 string commonStr = textCommon.Text.Trim();
                 dataSet_PrReqList.Tables[0].Clear();
 
-                prReqDAO.QueryPrReqListDistribution(dataSet_PrReqList.Tables[0], requirementDateBeginStr, requirementDateEndStr, projectNoStr, codeIdInt, 0, commonStr, checkContainOk.Checked);
+                prReqDAO.QueryPrReqListDistribution(dataSet_PrReqList.Tables[0], requirementDateBeginStr, requirementDateEndStr, projectNoStr, codeIdInt, 0, commonStr, checkContainOk.Checked, checkContainPO.Checked);
             }
             catch (Exception ex)
             {
@@ -189,10 +224,10 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                if(lookUpArrangement.ItemIndex < 0)
+                if (searchLookUpArrangement.Text == "")
                 {
                     MessageHandler.ShowMessageBox("请选择要设定的执行人。");
-                    lookUpArrangement.Focus();
+                    searchLookUpArrangement.Focus();
                     return;
                 }
 
@@ -202,10 +237,12 @@ namespace PSAP.VIEW.BSVIEW
                     autoIdList.Add(DataTypeConvert.GetInt(gridViewPrReqList.GetDataRow(i)["AutoId"]));
                 }
 
-                prReqDAO.SetArrangement(autoIdList, DataTypeConvert.GetInt(lookUpArrangement.EditValue));
-                MessageHandler.ShowMessageBox(string.Format("设定{0}条请购明细记录的执行人成功。", autoIdList.Count));
+                if (prReqDAO.SetArrangement(autoIdList, DataTypeConvert.GetInt(searchLookUpArrangement.EditValue)))
+                {
+                    MessageHandler.ShowMessageBox(string.Format("设定{0}条请购明细记录的执行人成功。", autoIdList.Count));
 
-                btnQuery_Click(null, null);
+                    btnQuery_Click(null, null);
+                }
             }
             catch (Exception ex)
             {
@@ -236,15 +273,18 @@ namespace PSAP.VIEW.BSVIEW
                     autoIdList.Add(DataTypeConvert.GetInt(gridViewPrReqList.GetDataRow(i)["AutoId"]));
                 }
 
-                prReqDAO.ClearArrangement(autoIdList);
-                MessageHandler.ShowMessageBox(string.Format("清空{0}条请购明细记录的执行人成功。", autoIdList.Count));
+                if (prReqDAO.ClearArrangement(autoIdList))
+                {
+                    MessageHandler.ShowMessageBox(string.Format("清空{0}条请购明细记录的执行人成功。", autoIdList.Count));
 
-                btnQuery_Click(null, null);
+                    btnQuery_Click(null, null);
+                }
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(this.Text + "--设定执行人错误。", ex);
             }
         }
+
     }
 }

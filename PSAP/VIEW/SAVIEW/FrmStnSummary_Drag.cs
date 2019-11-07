@@ -340,7 +340,7 @@ namespace PSAP.VIEW.BSVIEW
         private void RefreshStnSummary(string autoQuotationNoStr, string ssNoStr)
         {
             TableStnSummary.Rows.Clear();
-            ssDAO.QueryStnSummary(TableStnSummary, autoQuotationNoStr, ssNoStr);
+            ssDAO.QueryStnSummary(TableStnSummary, autoQuotationNoStr, ssNoStr, false);
             if (TableStnSummary.Rows.Count > 0)
             {
                 btnEditAutoQuotationNo.Text = DataTypeConvert.GetString(TableStnSummary.Rows[0]["AutoQuotationNo"]);
@@ -384,7 +384,7 @@ namespace PSAP.VIEW.BSVIEW
             }
 
             TableStnList.Rows.Clear();
-            ssDAO.QueryStnSummaryList(TableStnList, ssNoStr);
+            ssDAO.QueryStnSummaryList(TableStnList, ssNoStr, false);
 
             if (queryStnSummaryListAutoIdInt > 0)
             {
@@ -468,7 +468,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新当前工位的所有信息
+        /// 查询当前工位的所有信息
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -492,7 +492,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--刷新当前工位的所有信息错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--查询当前工位的所有信息错误。", ex);
             }
         }
 
@@ -733,7 +733,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -762,7 +762,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
@@ -872,7 +872,7 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 if (!btnStnListNew.Enabled)
                 {
-                    MessageHandler.ShowMessageBox("工位信息正在编辑状态，请保存后再进行拖拽功能模块操作。");
+                    MessageHandler.ShowMessageBox("工位信息正在修改状态，请保存后再进行拖拽功能模块操作。");
                     return;
                 }
 

@@ -1094,7 +1094,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (ret)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";

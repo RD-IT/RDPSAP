@@ -33,7 +33,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.FormBorderStyle = FormBorderStyle.None;
                     editForm.TopLevel = false;
                     editForm.TableName = "BS_WorkFlowModuleProper";
-                    editForm.TableCaption = "审核流-模块字段";
+                    editForm.TableCaption = "审批流-模块字段";
                     editForm.Sql = "select BS_WorkFlowModuleProper.*, BS_WorkFlowModule.FlowModuleText from BS_WorkFlowModuleProper left join BS_WorkFlowModule on BS_WorkFlowModuleProper.FlowModuleId = BS_WorkFlowModule.FlowModuleId order by AutoId";
                     editForm.PrimaryKeyColumn = "AutoId";
                     editForm.MasterDataSet = dSWorkFlowModuleProper;

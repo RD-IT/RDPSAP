@@ -30,15 +30,15 @@ namespace PSAP.BLL.BSBLL
                 }
                 else
                 {
-                    //MessageBox.Show(string.Format("用ID或密码错误。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(string.Format(f.tsmiYhidhmmcw.Text), f.tsmiyhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageHandler.ShowMessageBox(string.Format("用户ID或密码错误。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("用户ID或密码错误。");
                     return false;
                 }
             }
             catch
             {
-                //MessageBox.Show(string.Format("数据库连接错误，请检查服务器连接情况。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(f.tsmisjkljcw.Text), f.tsmiyhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("数据库连接错误，请检查服务器连接情况。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("数据库连接错误，请检查服务器连接情况。");
                 return false;
             }
 
@@ -60,8 +60,8 @@ namespace PSAP.BLL.BSBLL
             }
             else
             {
-                //MessageBox.Show(string.Format("用户ID或原密码错误。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(f.tsmiyhidhymmcw.Text), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("用户ID或原密码错误。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("用户ID或原密码错误。");
             }
         }
 

@@ -55,7 +55,7 @@ namespace PSAP.DAO.PURDAO
                         if (sumInt != 100)
                         {
                             trans.Rollback();
-                            //MessageHandler.ShowMessageBox("付款百分比的合计必须是100，请刷新后再重新操作。");
+                            //MessageHandler.ShowMessageBox("付款百分比的合计必须是100，请查询后再重新操作。");
                             MessageHandler.ShowMessageBox(f.tsmiFkbfbd.Text);
                             return false;
                         }

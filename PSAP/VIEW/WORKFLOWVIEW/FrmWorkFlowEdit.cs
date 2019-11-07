@@ -37,7 +37,7 @@ namespace PSAP.VIEW.BSVIEW
         //private Dictionary<DiagramConnector, int> dConnDic = new Dictionary<DiagramConnector, int>();
 
         /// <summary>
-        /// 流程图编辑区域的宽度和高度
+        /// 流程图修改区域的宽度和高度
         /// </summary>
         private int diagramMainWidth = 1440;
         private int diagramMainHeight = 900;
@@ -68,7 +68,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 lookUpFunctionModule.Properties.DataSource = wfEditDAO.QueryWorkFlowType();
                 searchLookUpFlowModuleId.Properties.DataSource = wfDAO.QueryWorkFlowModule(false);
-                lookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(false);
+                lookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
                 radioHandleCate_SelectedIndexChanged(null, null);
 
                 diagramCopyBarItem1.ImageUri = "copy;Colored;Size32x32";
@@ -278,7 +278,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新按钮事件
+        /// 查询按钮事件
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -306,7 +306,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
@@ -365,7 +365,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮和编辑区控件的状态
+        /// 设定按钮和修改区控件的状态
         /// </summary>
         private void Set_ButtonAndControl_State(bool state)
         {
@@ -437,7 +437,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 清空流程编辑区
+        /// 清空流程修改区
         /// </summary>
         private void InitializationDiagram()
         {
@@ -544,7 +544,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (DataTypeConvert.GetString(dshape.Content) == "")
                 {
-                    MessageHandler.ShowMessageBox("节点的内容不能为空，请重新编辑。");
+                    MessageHandler.ShowMessageBox("节点的内容不能为空，请重新修改。");
                     diagramMain.ClearSelection();
                     diagramMain.SelectItem(dshape);
                     textContent.Focus();
@@ -575,7 +575,7 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 else if (!isFindBegin && !isFindEnd)
                 {
-                    MessageHandler.ShowMessageBox("节点的信息只能包括一个开始节点和一个结束节点，请重新编辑。");
+                    MessageHandler.ShowMessageBox("节点的信息只能包括一个开始节点和一个结束节点，请重新修改。");
                     diagramMain.ClearSelection();
                     diagramMain.SelectItem(dshape);
                     return false;
@@ -587,7 +587,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (beginNode > 1 || endNode > 1)
                 {
-                    MessageHandler.ShowMessageBox("节点的信息必须且只能包括一个开始节点和一个结束节点，请重新编辑。");
+                    MessageHandler.ShowMessageBox("节点的信息必须且只能包括一个开始节点和一个结束节点，请重新修改。");
                     diagramMain.ClearSelection();
                     diagramMain.SelectItem(dshape);
                     return false;
@@ -595,7 +595,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (dshape.Appearance.Name == "" && dshape.MinHeight != 3)
                 {
-                    MessageHandler.ShowMessageBox("节点的业务模块不能为空，请重新编辑。");
+                    MessageHandler.ShowMessageBox("节点的业务模块不能为空，请重新修改。");
                     diagramMain.ClearSelection();
                     diagramMain.SelectItem(dshape);
                     searchLookUpFlowModuleId.Focus();
@@ -605,7 +605,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (!(beginNode == 1 && endNode == 1))
             {
-                MessageHandler.ShowMessageBox("节点的信息必须且只能包括一个开始节点和一个结束节点，请重新编辑。");
+                MessageHandler.ShowMessageBox("节点的信息必须且只能包括一个开始节点和一个结束节点，请重新修改。");
                 diagramMain.ClearSelection();
                 return false;
             }
@@ -614,7 +614,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (dConn.BeginItem == null || dConn.EndItem == null)
                 {
-                    MessageHandler.ShowMessageBox("连接线两端不能为空，请重新编辑。");
+                    MessageHandler.ShowMessageBox("连接线两端不能为空，请重新修改。");
                     diagramMain.ClearSelection();
                     diagramMain.SelectItem(dConn);
                     return false;
@@ -622,7 +622,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 if (dConn.BeginItem == dConn.EndItem)
                 {
-                    MessageHandler.ShowMessageBox("连接线两端不能同时指向相同节点，请重新编辑。");
+                    MessageHandler.ShowMessageBox("连接线两端不能同时指向相同节点，请重新修改。");
                     diagramMain.ClearSelection();
                     diagramMain.SelectItem(dConn);
                     return false;
@@ -813,9 +813,9 @@ namespace PSAP.VIEW.BSVIEW
                 ExceptionHandler.HandleException(this.Text + "--刷新当前选择节点的属性错误。", ex);
             }
         }
-         
+
         /// <summary>
-        /// 禁用双击编辑控件
+        /// 禁用双击修改控件
         /// </summary>
         private void diagramMain_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -850,14 +850,14 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--禁用双击编辑控件错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--禁用双击修改控件错误。", ex);
             }
         }
 
 
 
         /// <summary>
-        /// 禁用剪切编辑控件
+        /// 禁用剪切修改控件
         /// </summary>
         private void diagramMain_KeyDown(object sender, KeyEventArgs e)
         {
@@ -891,7 +891,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--禁用剪切编辑控件错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--禁用剪切修改控件错误。", ex);
             }
         }
 
@@ -1058,13 +1058,13 @@ namespace PSAP.VIEW.BSVIEW
                     return;
                 }
 
-                FrmWorkFlowNToN_Condition.flowModuleIdStr = flowModuleIdStr;
-                FrmWorkFlowNToN_Condition.oldConditionStr = dConn.Text;
-                FrmWorkFlowNToN_Condition condForm = new FrmWorkFlowNToN_Condition();
-                if (condForm.ShowDialog() == DialogResult.OK)
-                {
-                    dConn.Text = FrmWorkFlowNToN_Condition.flowModuleIdStr;
-                }
+                //FrmWorkFlowsLineSet_Condition.flowModuleIdStr = flowModuleIdStr;
+                //FrmWorkFlowsLineSet_Condition.oldConditionStr = dConn.Text;
+                //FrmWorkFlowsLineSet_Condition condForm = new FrmWorkFlowsLineSet_Condition();
+                //if (condForm.ShowDialog() == DialogResult.OK)
+                //{
+                //    dConn.Text = FrmWorkFlowsLineSet_Condition.flowModuleIdStr;
+                //}
             }
             catch (Exception ex)
             {
@@ -1196,7 +1196,7 @@ namespace PSAP.VIEW.BSVIEW
                 int autoIdInt = DataTypeConvert.GetInt(dshape.CustomStyleId);
                 if (autoIdInt == 0)
                 {
-                    MessageHandler.ShowMessageBox("请先新增保存后，再编辑进行登记节点处理人员信息。");
+                    MessageHandler.ShowMessageBox("请先新增保存后，再修改进行登记节点处理人员信息。");
                     return;
                 }
 

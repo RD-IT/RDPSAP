@@ -36,41 +36,40 @@ namespace PSAP.VIEW.BSVIEW
 
             if (txtUserID.Text == string.Empty)
             {
-                //MessageBox.Show(string.Format("用户ID不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(tsmiYhidbnwk.Text), tsmiYhdl.Text, MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("用户ID不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("用户ID不能为空。");
                 txtUserID.Focus();
                 return;
             }
 
             if (txtPassword.Text == string.Empty)
             {
-                //MessageBox.Show(string.Format("密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(tsmiMm.Text), tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("密码不能为空。");
                 txtPassword.Focus();
                 return;
             }
 
             if (txtPasswordNew.Text == string.Empty)
             {
-                //MessageBox.Show(string.Format("新密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(tsmiXmm.Text), tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("新密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("新密码不能为空。");
                 txtPasswordNew.Focus();
                 return;
             }
 
             if (txtPasswordNewV.Text == string.Empty)
             {
-                //MessageBox.Show(string.Format("验证密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(tsmiYzmm.Text), tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("验证密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("验证密码不能为空。");
                 txtPasswordNewV.Focus();
                 return;
             }
 
             if (txtPasswordNew.Text != txtPasswordNewV.Text)
             {
-                //MessageBox.Show(string.Format("新密码和验证密码必须一致。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(string.Format(tsmiXmmhyz.Text), tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox(string.Format("新密码和验证密码必须一致。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("新密码和验证密码必须一致。");
                 txtPasswordNew.Focus();
                 return;
             }

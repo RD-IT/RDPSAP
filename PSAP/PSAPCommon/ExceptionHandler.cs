@@ -22,6 +22,16 @@ namespace PSAP.PSAPCommon
         }
 
         /// <summary>
+        /// 处理异常方法（不弹消息）
+        /// </summary>
+        /// <param name="exceptionText">异常信息文本</param>
+        /// <param name="exception">异常实例</param>
+        public static void HandleException_NoMessage(string exceptionText, Exception exception)
+        {
+            new ExceptionHandler().OutputLog(exceptionText, exception);
+        }
+
+        /// <summary>
         /// 构造方法
         /// </summary>
         public ExceptionHandler()
@@ -32,6 +42,8 @@ namespace PSAP.PSAPCommon
         /// <summary>
         /// 捕获的异常记录本地日志
         /// </summary>
+        /// <param name="exceptionText">异常信息文本</param>
+        /// <param name="exception">异常实例</param>
         public void OutputLog(string exceptionText, Exception exception)
         {
             try
@@ -49,6 +61,7 @@ namespace PSAP.PSAPCommon
                         }
                     }
                     RecordLocalLogText(string.Format("{0}-{1}{3}{2}", exceptionText, exception.Message, msg, Environment.NewLine));
+                    //RecordLocalLogText(string.Format("{0}-{1}{2}{3}{2}{4}{2}{5}", exceptionText, exception.Message, Environment.NewLine, msg, exception.Source, exception.TargetSite));
                 }
                 else
                 {

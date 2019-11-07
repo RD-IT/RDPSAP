@@ -48,15 +48,22 @@ namespace PSAP.VIEW.BSVIEW
             {
                 DataTable bussBaseTable = commonDAO.QueryBussinessBaseInfo(false);
 
-                searchProjectName.Properties.DataSource = commonDAO.QueryProjectList(false);
+                //searchProjectName.Properties.DataSource = commonDAO.QueryProjectList(false);
                 searchBussinessBaseNo.Properties.DataSource = bussBaseTable;
                 lookUpCollectionTypeNo.Properties.DataSource = commonDAO.QueryCollectionType(false);
                 lookUpCurrencyCate.Properties.DataSource = commonDAO.QueryCurrencyCate(false);
-                lookUpProjectLeader.Properties.DataSource = commonDAO.QueryUserInfo(false);
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId_NoAll(searchLookUpProjectLeaderId);
+                searchLookUpProjectLeaderId.EditValue = SystemInfo.user.AutoId;
+                LookUpCreator.Properties.DataSource = searchLookUpProjectLeaderId.Properties.DataSource;
+                LookUpModifierId.Properties.DataSource = searchLookUpProjectLeaderId.Properties.DataSource;
+                ctlInit.SearchLookUpEdit_ProjectList(searchProjectName, false);
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
 
                 repSearchBussinessBaseNo.DataSource = bussBaseTable;
+                repLookUpCreator.DataSource = searchLookUpProjectLeaderId.Properties.DataSource;
 
                 dateSalesOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSalesOrderDateEnd.DateTime = nowDate.Date;
@@ -65,8 +72,14 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
 
                 repSearchLookUpBussinessBaseNo.DataSource = bussBaseTable;
+                repItemLookUpCreator.DataSource = searchLookUpProjectLeaderId.Properties.DataSource;
 
-                Set_ButtonEditGrid_State(true);
+                if (queryAutoSalesOrderNoStr == "")
+                {
+                    dataSet_SalesOrder.Tables[0].Clear();
+                    soDAO.QuerySalesOrder(dataSet_SalesOrder.Tables[0], "", "", "", "", 0, "", true);
+                    Set_ButtonEditGrid_State(true);
+                }                
             }
             catch (Exception ex)
             {
@@ -89,7 +102,7 @@ namespace PSAP.VIEW.BSVIEW
                     searchLookUpBussinessBaseNo.Text = "全部";
 
                     dataSet_SalesOrder.Tables[0].Clear();
-                    soDAO.QuerySalesOrder(dataSet_SalesOrder.Tables[0], "", "", "", "", "", textCommon.Text);
+                    soDAO.QuerySalesOrder(dataSet_SalesOrder.Tables[0], "", "", "", "", 0, textCommon.Text,false);
                     Set_ButtonEditGrid_State(true);
 
                     if (dataSet_SalesOrder.Tables[0].Rows.Count > 0)
@@ -138,7 +151,7 @@ namespace PSAP.VIEW.BSVIEW
                     if (oldAutoQuotationNoStr != autoQuotationNoStr || oldVersionsStr != VersionsStr)
                     {
                         dataSet_Quotation.Tables[0].Rows.Clear();
-                        quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", "", autoQuotationNoStr);
+                        quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", 0, autoQuotationNoStr,false);
 
                         string BussinessBaseNo = DataTypeConvert.GetString(selectBaseRow["BussinessBaseNo"]);
 
@@ -414,6 +427,8 @@ namespace PSAP.VIEW.BSVIEW
 
                     if (DataTypeConvert.GetString(headRow["ProjectName"]) != searchProjectName.Text)
                         headRow["ProjectName"] = searchProjectName.Text;
+                    //if (searchLookUpProjectLeaderId.Text.Trim()!="" && DataTypeConvert.GetString(headRow["ProjectLeader"]) != searchLookUpProjectLeaderId.Text)
+                    //    headRow["ProjectLeader"] = searchLookUpProjectLeaderId.Text.Trim();
 
                     int ret = soDAO.SaveSalesOrder(headRow);
                     switch (ret)
@@ -538,7 +553,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         ///// <summary>
-        ///// 刷新按钮事件
+        ///// 查询按钮事件
         ///// </summary>
         //private void btnRefresh_Click(object sender, EventArgs e)
         //{
@@ -564,7 +579,7 @@ namespace PSAP.VIEW.BSVIEW
         //    }
         //    catch (Exception ex)
         //    {
-        //        ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
+        //        ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
         //    }
         //}
 
@@ -634,7 +649,7 @@ namespace PSAP.VIEW.BSVIEW
                 e.Row["Amount"] = 0;
                 e.Row["Tax"] = SystemInfo.SalesOrder_DefaultTax;
                 e.Row["IsEnd"] = 0;
-                e.Row["Prepared"] = SystemInfo.user.EmpName;
+                e.Row["Creator"] = SystemInfo.user.AutoId;
                 e.Row["SalesOrderState"] = 1;
 
                 DataTable tmpTable = ((DataTable)lookUpCurrencyCate.Properties.DataSource);
@@ -648,7 +663,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -673,7 +688,7 @@ namespace PSAP.VIEW.BSVIEW
             lookUpCurrencyCate.ReadOnly = state;
             spinAmount.ReadOnly = state;
             spinTax.ReadOnly = state;
-            lookUpProjectLeader.ReadOnly = state;
+            searchLookUpProjectLeaderId.ReadOnly = state;
             textRemark.ReadOnly = state;
 
             if (bindingSource_SalesOrder.Current != null)
@@ -700,7 +715,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
@@ -744,7 +759,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 dataSet_SalesOrder.Tables[0].Rows.Clear();
 
-                soDAO.QuerySalesOrder(dataSet_SalesOrder.Tables[0], recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, "", "", commonStr);
+                soDAO.QuerySalesOrder(dataSet_SalesOrder.Tables[0], recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, "", 0, commonStr, false);
 
                 Set_ButtonEditGrid_State(true);
             }
@@ -766,7 +781,7 @@ namespace PSAP.VIEW.BSVIEW
                     DataRow dr = gridViewSalesOrder.GetFocusedDataRow();
                     if (dr.RowState != DataRowState.Unchanged)
                     {
-                        MessageHandler.ShowMessageBox("当前销售订单正在编辑，请保存后再进行换行。");
+                        MessageHandler.ShowMessageBox("当前销售订单正在修改，请保存后再进行换行。");
                         e.Allow = false;
                     }
                     else
@@ -809,7 +824,7 @@ namespace PSAP.VIEW.BSVIEW
         private void RefreshQuotationBaseInfo(string autoQuotationNoStr)
         {
             dataSet_Quotation.Tables[0].Rows.Clear();
-            quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", "", autoQuotationNoStr);
+            quoDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], "", "", "", 0, autoQuotationNoStr,false);
         }
 
         #endregion

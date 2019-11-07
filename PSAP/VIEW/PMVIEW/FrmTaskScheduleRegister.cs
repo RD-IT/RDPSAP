@@ -37,19 +37,24 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
                 searchLookUpProjectNo.Text = "全部";
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpRSProjectUser);
+                searchLookUpRSProjectUser.EditValue = SystemInfo.user.AutoId;
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
 
                 searchLookUpRSTaskNo.Properties.DataSource = null;
 
-                searchLookUpRSProjectUser.Properties.DataSource = projectDAO.QueryUserInfo(true);
-                searchLookUpRSProjectUser.EditValue = SystemInfo.user.AutoId;
+                //searchLookUpRSProjectUser.Properties.DataSource = projectDAO.QueryUserInfo(true);
+                //searchLookUpRSProjectUser.EditValue = SystemInfo.user.AutoId;
 
                 textCommon.Text = "";
 
                 checkNoComplete.Checked = true;
 
-                repLookUpUserId.DataSource = projectDAO.QueryUserInfo(false);
+                repLookUpUserId.DataSource = searchLookUpRSProjectUser.Properties.DataSource;
 
                 btnQueryTask_Click(null, null);
             }

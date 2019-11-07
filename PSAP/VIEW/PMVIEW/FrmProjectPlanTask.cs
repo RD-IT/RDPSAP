@@ -90,9 +90,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
-                DataTable userTable = commonDAO.QueryUserInfo(false);
-                lookUpCreator.Properties.DataSource = userTable;
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, false);
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
+                lookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
 
                 searchLookUpTaskNo.Properties.DataSource = null;
                 searchLookUpProjectUser.Properties.DataSource = null;
@@ -257,14 +258,14 @@ namespace PSAP.VIEW.BSVIEW
                 int currentStatusInt = DataTypeConvert.GetInt(dr["PlanTaskStatus", DataRowVersion.Original]);
                 if (statusInt != currentStatusInt)
                 {
-                    MessageHandler.ShowMessageBox("当前任务状态与数据库的任务状态不同步，请刷新后重新操作。");
+                    MessageHandler.ShowMessageBox("当前任务状态与数据库的任务状态不同步，请查询后重新操作。");
                     return false;
                 }
 
                 switch (statusInt)
                 {
                     case 0:
-                        MessageHandler.ShowMessageBox("任务状态异常，请刷新后重新操作。");
+                        MessageHandler.ShowMessageBox("任务状态异常，请查询后重新操作。");
                         return false;
                     case 2:
                     case 3:
@@ -362,7 +363,7 @@ namespace PSAP.VIEW.BSVIEW
             //    int currentStatusInt = DataTypeConvert.GetInt(dr["PlanTaskStatus"]);
             //    if (statusInt != currentStatusInt)
             //    {
-            //        MessageHandler.ShowMessageBox("当前任务状态与数据库的任务状态不同步，请刷新后重新操作。");
+            //        MessageHandler.ShowMessageBox("当前任务状态与数据库的任务状态不同步，请查询后重新操作。");
             //        return false;
             //    }
             //}

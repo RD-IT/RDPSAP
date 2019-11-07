@@ -86,38 +86,42 @@ namespace PSAP.VIEW.BSVIEW
                 dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateOrderDateEnd.DateTime = nowDate.Date;
 
-                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
                 DataTable departmentTable_f = commonDAO.QueryDepartment(false);
                 DataTable purCategoryTable_f = commonDAO.QueryPurCategory(false);
-                DataTable projectListTable_t = commonDAO.QueryProjectList(true);
-                DataTable partsCodeTable_t = commonDAO.QueryPartsCode(true);
 
                 lookUpDepartmentNo.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpDepartmentNo.ItemIndex = 0;
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpCreator.Properties.DataSource = userInfoTable_t;
-                lookUpCreator.EditValue = SystemInfo.user.AutoId;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
+                searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
 
                 repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 repLookUpDepartmentNo.DataSource = departmentTable_f;
-                repLookUpCreator.DataSource = userInfoTable_t;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
-                repLookUpCodeId.DataSource = partsCodeTable_t;
+                repLookUpCodeId.DataSource = searchLookUpCodeFileName.Properties.DataSource;
 
                 dateReqDateBegin.DateTime = dateOrderDateBegin.DateTime;
                 dateReqDateEnd.DateTime = dateOrderDateEnd.DateTime;
-                searchLookUpProjectNo.Properties.DataSource = projectListTable_t;
-                searchLookUpProjectNo.Text = "全部";
+                //searchLookUpProjectNo.Properties.DataSource = projectListTable_t;
+                //searchLookUpProjectNo.Text = "全部";
 
                 repLookUpPrReqReqDep.DataSource = departmentTable_f;
                 repLookUpPrReqPurCategory.DataSource = purCategoryTable_f;
-                repSearchPrReqProjectNo.DataSource = projectListTable_t;
+                repSearchPrReqProjectNo.DataSource = searchLookUpProjectNo.Properties.DataSource;
+                repItemLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 dateReqDateBegin2.DateTime = dateOrderDateBegin.DateTime;
                 dateReqDateEnd2.DateTime = dateOrderDateEnd.DateTime;
-                searchLookUpCodeFileName.Properties.DataSource = partsCodeTable_t;
-                searchLookUpCodeFileName.EditValue = 0;
+                //searchLookUpCodeFileName.Properties.DataSource = partsCodeTable_t;
+                //searchLookUpCodeFileName.EditValue = 0;
 
                 if (textCommon.Text == "")
                 {
@@ -162,7 +166,7 @@ namespace PSAP.VIEW.BSVIEW
                     queryPIHeadNo = "";
                     lookUpDepartmentNo.ItemIndex = 0;
                     searchLookUpBussinessBaseNo.Text = "全部";
-                    lookUpCreator.ItemIndex = 0;
+                    searchLookUpCreator.EditValue = 0;
 
                     dataSet_Inquiry.Tables[0].Clear();
                     dataSet_Inquiry.Tables[1].Clear();
@@ -223,7 +227,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 string departmentNoStr = lookUpDepartmentNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpDepartmentNo.EditValue) : "";
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_Inquiry.Tables[0].Clear();
@@ -1136,7 +1140,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (ret)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";

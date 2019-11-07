@@ -42,16 +42,22 @@ namespace PSAP.VIEW.BSVIEW
 
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
-                DataTable projectTable_t = commonDAO.QueryProjectList(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = projectTable_t;
-                searchLookUpProjectNo.Text = "全部";
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpProjectNo.Properties.DataSource = projectTable_t;
+                //searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
+                ctlInit.ComboBoxEdit_OrderState_Submit(comboBoxReqState);
                 comboBoxReqState.SelectedIndex = 0;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -59,7 +65,7 @@ namespace PSAP.VIEW.BSVIEW
                 //repLookUpProjectNo.DataSource = commonDAO.QueryProjectList(false);
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpPurCategory.DataSource = purCateTable_t;
-                repLookUpProjectNo.DataSource = projectTable_t;
+                repLookUpProjectNo.DataSource = searchLookUpProjectNo.Properties.DataSource;
 
                 if (SystemInfo.DisableProjectNo)
                 {

@@ -69,10 +69,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 lookUpProjectStatusId.Properties.DataSource = statusDAO.QueryProjectStatus(false);
-                searchLookUpLeaderId.Properties.DataSource = projectDAO.QueryUserInfo(false);
+                //searchLookUpLeaderId.Properties.DataSource = projectDAO.QueryUserInfo(false);
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId_NoAll(searchLookUpLeaderId);
 
                 repLookUpProjectStatusId.DataSource = statusDAO.QueryProjectStatus(false);
-                repLookUpLeaderId.DataSource = projectDAO.QueryUserInfo(false);
+                repLookUpLeaderId.DataSource = searchLookUpLeaderId.Properties.DataSource;
 
                 stnList = new FrmStnList("", "");
                 stnList.Show(this.PageStnInfo);

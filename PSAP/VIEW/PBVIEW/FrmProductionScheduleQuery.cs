@@ -41,8 +41,9 @@ namespace PSAP.VIEW.BSVIEW
                 dateReqDateEnd.DateTime = nowDate.Date.AddDays(SystemInfo.OrderQueryDate_DateIntervalDays);
                 checkReqDate.Checked = false;
 
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_EmpName(searchLookUpPrepared);
+                searchLookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -135,7 +136,7 @@ namespace PSAP.VIEW.BSVIEW
                     reqDateEndStr = dateReqDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
                 }
 
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                string empNameStr = searchLookUpPrepared.Text != "全部" ? DataTypeConvert.GetString(searchLookUpPrepared.EditValue) : "";
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_PSchedule.Tables[0].Clear();

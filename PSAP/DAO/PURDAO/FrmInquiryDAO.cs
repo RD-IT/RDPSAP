@@ -57,7 +57,7 @@ namespace PSAP.DAO.PURDAO
             }
             if (commonStr != "")
             {
-                sqlStr += string.Format(" and (PIHeadNo like '%{0}%' or ProjectNo like '%{0}%' or StnNo like '%{0}%' or PIRemark like '%{0}%')", commonStr);
+                sqlStr += string.Format(" and (PIHeadNo like '%{0}%' or ProjectNo like '%{0}%' or StnNo like '%{0}%' or PIRemark like '%{0}%' or PUR_InquiryHead.PIHeadNo in (select PIHeadNo from PUR_InquiryList join PUR_PIPR on PIListId = PUR_InquiryList.AutoId join PUR_PrReqList on PRListId = PUR_PrReqList.AutoId where PUR_PrReqList.PrReqNo like '%{0}%'))", commonStr);
             }
             if (nullTable)
             {

@@ -38,13 +38,14 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateWRDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateWRDateEnd.DateTime = nowDate.Date;
 
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
-                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
                 DataTable wrTypeTable_t = wrDAO.QueryWarehouseReceiptType(true);
                 DataTable manuInfoTable_t = commonDAO.QueryManufactureInfo(true);
 
@@ -52,16 +53,18 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpReqDep.ItemIndex = 0;
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
                 SearchLocationId.EditValue = 0;
                 lookUpWarehouseReceiptTypeNo.Properties.DataSource = wrTypeTable_t;
                 lookUpWarehouseReceiptTypeNo.ItemIndex = 0;
                 lookUpManufactureNo.Properties.DataSource = manuInfoTable_t;
                 lookUpManufactureNo.ItemIndex = 0;
-                comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState);
+                comboBoxWarehouseState.SelectedIndex = 0;                
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
@@ -70,10 +73,11 @@ namespace PSAP.VIEW.BSVIEW
                 //repLookUpManufactureNo.DataSource = wrDAO.QueryManufactureInfo(false);
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
-                repLookUpRepertoryLocationId.DataSource = locationTable_t;
+                repLookUpRepertoryLocationId.DataSource = SearchLocationId.Properties.DataSource;
                 repLookUpWRTypeNo.DataSource = wrTypeTable_t;
                 repLookUpManufactureNo.DataSource = manuInfoTable_t;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -148,12 +152,12 @@ namespace PSAP.VIEW.BSVIEW
                 string wrTypeNoStr = lookUpWarehouseReceiptTypeNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpWarehouseReceiptTypeNo.EditValue) : "";
                 string manufactureNoStr = lookUpManufactureNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpManufactureNo.EditValue) : "";
 
-                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text); 
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_WR.Tables[0].Rows.Clear();
-                string querySqlStr = wrDAO.QueryWarehouseReceiptHead_SQL(wrDateBeginStr, wrDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, wrTypeNoStr, manufactureNoStr, warehouseStateInt, empNameStr, -1, commonStr, false);
+                string querySqlStr = wrDAO.QueryWarehouseReceiptHead_SQL(wrDateBeginStr, wrDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, wrTypeNoStr, manufactureNoStr, warehouseStateInt, creatorInt, -1, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

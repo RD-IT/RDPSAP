@@ -1,4 +1,5 @@
 ﻿using PSAP.DAO.BSDAO;
+using PSAP.PSAPCommon;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -61,9 +62,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(ex.Message, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                ExceptionHandler.HandleException("获得文档备注信息错误。", ex);
             }
         }
 
@@ -85,7 +84,7 @@ namespace PSAP.DAO.SALEDAO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("获得项目备注信息错误。", ex);
             }
         }
     }

@@ -35,12 +35,20 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 checkIsUse.Checked = false;
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
-                searchLookUpProjectNo.Text = "全部";
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
+
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -107,11 +115,11 @@ namespace PSAP.VIEW.BSVIEW
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
                 //string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
                 int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_DesignBom.Tables[0].Rows.Clear();
-                string querySqlStr = bomDAO.Query_DesignBomList_SQL(projectNoStr, codeIdInt, checkIsUse.Checked, empNameStr, commonStr, false);
+                string querySqlStr = bomDAO.Query_DesignBomList_SQL(projectNoStr, codeIdInt, checkIsUse.Checked, creatorInt, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

@@ -81,11 +81,14 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 repSearchBussinessBaseNo.DataSource = bussBaseTable;
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 repLookUpCurrencyCate.DataSource = commonDAO.QueryCurrencyCate(false);
 
@@ -95,10 +98,11 @@ namespace PSAP.VIEW.BSVIEW
                 searchBussinessBaseNo.Text = "全部";
 
                 repSearchLookUpBussinessBaseNo.DataSource = bussBaseTable;
+                repLookUpProjectLeaderId.DataSource = searchLookUpCreator.Properties.DataSource;
 
-                if (textCommon.Text == "")
+                if (querySettleAccountNo == "")
                 {
-                    saDAO.QuerySettleAccountsHead(dataSet_SettleAccounts.Tables[0], "", "", "", "", "", "", true);
+                    saDAO.QuerySettleAccountsHead(dataSet_SettleAccounts.Tables[0], "", "", "", "", 0, "", true);
                     saDAO.QuerySettlementList(dataSet_SettleAccounts.Tables[1], "", true);
                 }
             }
@@ -121,11 +125,11 @@ namespace PSAP.VIEW.BSVIEW
                     querySettleAccountNo = "";
                     lookUpReqDep.ItemIndex = 0;
                     searchLookUpBussinessBaseNo.Text = "全部";
-                    lookUpPrepared.ItemIndex = 0;
+                    searchLookUpCreator.EditValue = 0;
 
                     dataSet_SettleAccounts.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    saDAO.QuerySettleAccountsHead(dataSet_SettleAccounts.Tables[0], "", "", "", "", "", textCommon.Text, false);
+                    saDAO.QuerySettleAccountsHead(dataSet_SettleAccounts.Tables[0], "", "", "", "", 0, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_SettleAccounts.Tables[0].Rows.Count > 0)
@@ -179,12 +183,12 @@ namespace PSAP.VIEW.BSVIEW
 
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
                 dataSet_SettleAccounts.Tables[0].Clear();
                 dataSet_SettleAccounts.Tables[1].Clear();
                 headFocusedLineNo = 0;
-                saDAO.QuerySettleAccountsHead(dataSet_SettleAccounts.Tables[0], saDateBeginStr, saDateEndStr, reqDepStr, bussinessBaseNoStr, empNameStr, commonStr, false);
+                saDAO.QuerySettleAccountsHead(dataSet_SettleAccounts.Tables[0], saDateBeginStr, saDateEndStr, reqDepStr, bussinessBaseNoStr, creatorInt, commonStr, false);
 
                 SetButtonAndColumnState(false);
                 checkAll.Checked = false;
@@ -491,7 +495,7 @@ namespace PSAP.VIEW.BSVIEW
                 gridViewSettleAccountsHead.SetFocusedRowCellValue("SettleAccountDate", nowDate);
                 gridViewSettleAccountsHead.SetFocusedRowCellValue("ReqDep", SystemInfo.user.DepartmentNo);
 
-                gridViewSettleAccountsHead.SetFocusedRowCellValue("Prepared", SystemInfo.user.EmpName);
+                gridViewSettleAccountsHead.SetFocusedRowCellValue("Creator", SystemInfo.user.AutoId);
                 gridViewSettleAccountsHead.SetFocusedRowCellValue("IsVoucher", 0);
 
             }
@@ -631,7 +635,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (ret)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";

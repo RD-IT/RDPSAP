@@ -38,7 +38,6 @@ namespace PSAP.VIEW.BSVIEW
                 dateOrderDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateOrderDateEnd.DateTime = nowDate.Date;
 
-                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
                 DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
 
@@ -46,14 +45,17 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpDepartmentNo.ItemIndex = 0;
                 searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpCreator.Properties.DataSource = userInfoTable_t;
-                lookUpCreator.EditValue = SystemInfo.user.AutoId;
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
+
 
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpDepartmentNo.DataSource = departmentTable_t;
-                repLookUpCreator.DataSource = userInfoTable_t;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -112,7 +114,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 string departmentNoStr = lookUpDepartmentNo.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpDepartmentNo.EditValue) : "";
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 int codeIdInt = DataTypeConvert.GetInt(searchLookUpCodeFileName.EditValue);
                 string commonStr = textCommon.Text.Trim();
 

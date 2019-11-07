@@ -175,7 +175,7 @@
             // 
             this.tsmiWcxdyc.Name = "tsmiWcxdyc";
             this.tsmiWcxdyc.Size = new System.Drawing.Size(352, 22);
-            this.tsmiWcxdyc.Text = "未查询到要操作的采购订单，请刷新后再进行操作。";
+            this.tsmiWcxdyc.Text = "未查询到要操作的采购订单，请查询后再进行操作。";
             // 
             // tsmiCgddzm
             // 
@@ -212,7 +212,7 @@
             // 
             this.tsmiFkbfbd.Name = "tsmiFkbfbd";
             this.tsmiFkbfbd.Size = new System.Drawing.Size(361, 22);
-            this.tsmiFkbfbd.Text = "付款百分比的合计必须是100，请刷新后再重新操作。";
+            this.tsmiFkbfbd.Text = "付款百分比的合计必须是100，请查询后再重新操作。";
             // 
             // tsmiQgd
             // 
@@ -408,7 +408,7 @@
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
             this.toolStripMenuItem7.Size = new System.Drawing.Size(364, 22);
-            this.toolStripMenuItem7.Text = "未查询到要操作的采购结账单，请刷新后再进行操作。";
+            this.toolStripMenuItem7.Text = "未查询到要操作的采购结账单，请查询后再进行操作。";
             // 
             // tsmiCzsjw
             // 

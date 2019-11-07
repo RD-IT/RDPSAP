@@ -70,7 +70,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 //Insert_Standard_ErrorLog.Insert("FtpWeb", "Upload Error --> " + ex.Message);
-                MessageBox.Show("Upload Error --> " + ex.Message);
+                ExceptionHandler.HandleException("Upload Error.",ex);
             }
         }
 
@@ -111,7 +111,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 //Insert_Standard_ErrorLog.Insert("FtpWeb", "Download Error --> " + ex.Message);
-                MessageBox.Show("Download Error --> " + ex.Message);
+                ExceptionHandler.HandleException("Download Error.", ex);
             }
         }
 
@@ -145,7 +145,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 //Insert_Standard_ErrorLog.Insert("FtpWeb", "Delete Error --> " + ex.Message + "  文件名:" + fileName);
-                MessageBox.Show("Delete Error --> " + ex.Message + "  "+f.tsmiWjm.Text + fileName);
+                ExceptionHandler.HandleException("Delete Error --> " + ex.Message + "  "+f.tsmiWjm.Text + fileName,ex);
             }
         }
 
@@ -178,7 +178,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 //Insert_Standard_ErrorLog.Insert("FtpWeb", "Delete Error --> " + ex.Message + "  文件名:" + folderName);
-                MessageBox.Show("Delete Error --> " + ex.Message + "  "+ f.tsmiWjm.Text + folderName);
+                ExceptionHandler.HandleException("Delete Error --> " + ex.Message + "  "+ f.tsmiWjm.Text + folderName,ex);
             }
         }
 
@@ -228,7 +228,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 downloadFiles = null;
-                MessageBox.Show("GetFilesDetailList Error --> " + ex.Message);
+                ExceptionHandler.HandleException("GetFilesDetailList Error.",ex);
                 return downloadFiles;
             }
         }
@@ -293,7 +293,7 @@ namespace PSAP.PSAPCommon
                 downloadFiles = null;
                 if (ex.Message.Trim() != "远程服务器返回错误: (550) 文件不可用(例如，未找到文件，无法访问文件)。")
                 {
-                    MessageBox.Show("GetFileList Error --> " + ex.Message.ToString());
+                    ExceptionHandler.HandleException("GetFileList Error.",ex);
                 }
                 return downloadFiles;
             }
@@ -395,7 +395,7 @@ namespace PSAP.PSAPCommon
             }
             catch (Exception ex)
             {
-                MessageBox.Show("MakeDir Error --> " + ex.Message);
+                ExceptionHandler.HandleException("MakeDir Error.",ex);
             }
         }
 
@@ -424,7 +424,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 //Insert_Standard_ErrorLog.Insert("FtpWeb", "GetFileSize Error --> " + ex.Message);
-                MessageBox.Show("GetFileSize Error --> " + ex.Message);
+                ExceptionHandler.HandleException("GetFileSize Error.",ex);
             }
             return fileSize;
         }
@@ -453,8 +453,7 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 //Insert_Standard_ErrorLog.Insert("FtpWeb", "ReName Error --> " + ex.Message);
-                MessageBox.Show("FtpWeb", "ReName Error --> " + ex.Message);
-
+                ExceptionHandler.HandleException("ReName Error.", ex);
             }
         }
 

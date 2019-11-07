@@ -11,22 +11,26 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace PSAP.VIEW.BSVIEW
 {
-    public partial class FrmWorkFlowNToN_Condition : DockContent
+    public partial class FrmWorkFlowsLineSet_Condition : DockContent
     {
         /// <summary>
-        /// 业务模块ID
+        /// 流程图ID
         /// </summary>
-        public static string flowModuleIdStr = "";
+        public static int workFlowsIdInt = 0;
 
         /// <summary>
-        /// 历史的条件字符串
+        /// 连接线Id
         /// </summary>
-        public static string oldConditionStr = "";
+        public static int lineIdInt = 0;
 
-        FrmWorkFlowNToN_ConditionDAO conDAO = new FrmWorkFlowNToN_ConditionDAO();
-        FrmWorkFlowModuleDAO wfDAO = new FrmWorkFlowModuleDAO();
+        /// <summary>
+        /// 连接线名称
+        /// </summary>
+        public static string lineTextStr = "";
 
-        public FrmWorkFlowNToN_Condition()
+        FrmWorkFlowsNodeLineSetDAO conDAO = new FrmWorkFlowsNodeLineSetDAO();
+
+        public FrmWorkFlowsLineSet_Condition()
         {
             InitializeComponent();
         }
@@ -38,22 +42,24 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                DataTable wfModuleTable = wfDAO.QueryWorkFlowModule(false);
-                if (wfModuleTable.Rows.Count > 0)
-                {
-                    this.Text = string.Format("设定结点模块【{0}】的关系条件", DataTypeConvert.GetString(wfModuleTable.Rows[0]["FlowModuleText"]));
-                }
+                this.Text = string.Format("设定连接线【{0}】的条件", lineTextStr);
 
-                DataTable moduleProperTable = conDAO.QueryWorkFlowModuleProper(flowModuleIdStr);
-                if (moduleProperTable.Rows.Count == 0)
+
+                DataTable typeFieldTable = conDAO.QueryWorkFlowsTypeField(workFlowsIdInt);
+                if (typeFieldTable.Rows.Count == 0)
                 {
-                    MessageHandler.ShowMessageBox("业务模块没有设定模块字段，不能设定关系条件。");
+                    MessageHandler.ShowMessageBox("流程图类型没有设定字段，不能设定条件。");
                     this.DialogResult = DialogResult.Cancel;
                     this.Close();
                     return;
                 }
 
-                lookUpConditionItem.Properties.DataSource = moduleProperTable;
+                lookUpConditionItem.Properties.DataSource = typeFieldTable;
+
+                foreach(string symbolStr in WorkFlowsHandleDAO.OperateRelation)
+                {
+                    comBoxRelationSelect.Properties.Items.Add(symbolStr);
+                }                
             }
             catch (Exception ex)
             {
@@ -105,7 +111,7 @@ namespace PSAP.VIEW.BSVIEW
                 switch (type)
                 {
                     case 1:
-                        if (symbolType ==2)
+                        if (symbolType == 2)
                         {
                             if (textConditionValue.Text == "")
                             {
@@ -158,8 +164,6 @@ namespace PSAP.VIEW.BSVIEW
                         value = textConditionValue.Text;
                         break;
                 }
-
-                
 
                 string connect = "";
                 string column = DataTypeConvert.GetString(lookUpConditionItem.EditValue);
@@ -262,7 +266,7 @@ namespace PSAP.VIEW.BSVIEW
                 string symbol = DataTypeConvert.GetString(comBoxRelationSelect.EditValue);
 
                 int type = GetType(columnType);
-                if(symbol == "IN")
+                if (symbol == "IN")
                 {
                     type = 3;
                 }
@@ -336,8 +340,15 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if(textConditionText.Text.Trim() == "")
+                {
+                    MessageHandler.ShowMessageBox("条件名称不能为空，请重新输入。");
+                    textConditionText.Focus();
+                    return;
+                }
+
                 string tempStr = "";
-                for(int i=0;i< dSCondition.Tables[0].Rows.Count;i++)
+                for (int i = 0; i < dSCondition.Tables[0].Rows.Count; i++)
                 {
                     tempStr += DataTypeConvert.GetString(dSCondition.Tables[0].Rows[i]["Condition"]) + " ";
                 }
@@ -345,14 +356,12 @@ namespace PSAP.VIEW.BSVIEW
                 this.DialogResult = DialogResult.OK;
                 this.Close();
 
-                flowModuleIdStr = tempStr;
+                lineTextStr = tempStr;
             }
             catch (Exception ex)
             {
                 ExceptionHandler.HandleException(this.Text + "--确定当前已选择的关系条件错误。", ex);
             }
         }
-
-
     }
 }

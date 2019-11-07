@@ -1,12 +1,11 @@
 ﻿using PSAP.BLL.SALEBLL;
+using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PSAP.VIEW.BSVIEW
@@ -48,8 +47,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (string.IsNullOrEmpty(txtRemarks.Text.Trim()))
             {
-                //MessageBox.Show("备注内容不能为空！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(tsmiBznr.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox("备注内容不能为空！");
+                MessageHandler.ShowMessageBox(tsmiBznr.Text);
             }
             else
             {

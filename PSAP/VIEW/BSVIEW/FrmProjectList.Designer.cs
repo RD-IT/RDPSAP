@@ -58,10 +58,6 @@
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
             this.searchLookUpLeaderId = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpLeaderIdView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColuAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuEmpName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuDepartmentNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuDepartmentName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labLeaderId = new DevExpress.XtraEditors.LabelControl();
             this.lookUpProjectStatusId = new DevExpress.XtraEditors.LookUpEdit();
             this.labProjectStatusId = new DevExpress.XtraEditors.LabelControl();
@@ -376,62 +372,16 @@
             this.searchLookUpLeaderId.Name = "searchLookUpLeaderId";
             this.searchLookUpLeaderId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpLeaderId.Properties.DisplayMember = "EmpName";
-            this.searchLookUpLeaderId.Properties.NullText = "";
-            this.searchLookUpLeaderId.Properties.ValueMember = "AutoId";
             this.searchLookUpLeaderId.Properties.View = this.searchLookUpLeaderIdView;
             this.searchLookUpLeaderId.Size = new System.Drawing.Size(160, 20);
             this.searchLookUpLeaderId.TabIndex = 5;
             // 
             // searchLookUpLeaderIdView
             // 
-            this.searchLookUpLeaderIdView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColuAutoId,
-            this.gridColuEmpName,
-            this.gridColuDepartmentNo,
-            this.gridColuDepartmentName});
             this.searchLookUpLeaderIdView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpLeaderIdView.IndicatorWidth = 60;
             this.searchLookUpLeaderIdView.Name = "searchLookUpLeaderIdView";
             this.searchLookUpLeaderIdView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpLeaderIdView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpLeaderIdView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.searchLookUpBussinessBaseNoView_CustomDrawRowIndicator);
-            // 
-            // gridColuAutoId
-            // 
-            this.gridColuAutoId.Caption = "AutoId";
-            this.gridColuAutoId.FieldName = "AutoId";
-            this.gridColuAutoId.Name = "gridColuAutoId";
-            // 
-            // gridColuEmpName
-            // 
-            this.gridColuEmpName.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColuEmpName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColuEmpName.Caption = "姓名";
-            this.gridColuEmpName.FieldName = "EmpName";
-            this.gridColuEmpName.Name = "gridColuEmpName";
-            this.gridColuEmpName.Visible = true;
-            this.gridColuEmpName.VisibleIndex = 0;
-            // 
-            // gridColuDepartmentNo
-            // 
-            this.gridColuDepartmentNo.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColuDepartmentNo.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColuDepartmentNo.Caption = "部门编号";
-            this.gridColuDepartmentNo.FieldName = "DepartmentNo";
-            this.gridColuDepartmentNo.Name = "gridColuDepartmentNo";
-            this.gridColuDepartmentNo.Visible = true;
-            this.gridColuDepartmentNo.VisibleIndex = 1;
-            // 
-            // gridColuDepartmentName
-            // 
-            this.gridColuDepartmentName.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColuDepartmentName.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColuDepartmentName.Caption = "部门名称";
-            this.gridColuDepartmentName.FieldName = "DepartmentName";
-            this.gridColuDepartmentName.Name = "gridColuDepartmentName";
-            this.gridColuDepartmentName.Visible = true;
-            this.gridColuDepartmentName.VisibleIndex = 2;
             // 
             // labLeaderId
             // 
@@ -764,10 +714,6 @@
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpLeaderIdView;
         private DevExpress.XtraEditors.LabelControl labLeaderId;
         private DevExpress.XtraEditors.LookUpEdit lookUpProjectStatusId;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuAutoId;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuEmpName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuDepartmentNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuDepartmentName;
         private DevExpress.XtraGrid.Columns.GridColumn colProjectStatusId;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpProjectStatusId;
         private DevExpress.XtraGrid.Columns.GridColumn colLeaderId;

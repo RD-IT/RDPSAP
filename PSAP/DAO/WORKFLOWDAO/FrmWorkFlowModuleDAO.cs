@@ -59,7 +59,7 @@ namespace PSAP.DAO.WORKFLOWDAO
 
             newRow = table.NewRow();
             newRow["AutoId"] = 2;
-            newRow["ModuleTypeName"] = "审核";
+            newRow["ModuleTypeName"] = "审批";
             table.Rows.Add(newRow);
 
             return table;

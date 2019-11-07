@@ -59,7 +59,16 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                btnRefresh_Click(null, null);
+                LookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(false);
+
+                repLookUpCreator.DataSource = LookUpCreator.Properties.DataSource;
+
+                if (queryAutoQuotationNoStr == "")
+                {
+                    ssDAO.QueryStnSummary(TableStnSummary, "", "", true);
+                    ssDAO.QueryStnSummaryList(TableStnList, "", true);
+                    Set_ButtonEditGrid_State(true);
+                }
             }
             catch (Exception ex)
             {
@@ -110,12 +119,12 @@ namespace PSAP.VIEW.BSVIEW
         private void RefreshStnSummary(string autoQuotationNoStr, string ssNoStr)
         {
             TableStnSummary.Rows.Clear();
-            ssDAO.QueryStnSummary(TableStnSummary, autoQuotationNoStr, ssNoStr);
+            ssDAO.QueryStnSummary(TableStnSummary, autoQuotationNoStr, ssNoStr, false);
             if (TableStnSummary.Rows.Count > 0)
             {
                 btnEditAutoQuotationNo.Text = DataTypeConvert.GetString(TableStnSummary.Rows[0]["AutoQuotationNo"]);
                 ssNoStr = DataTypeConvert.GetString(TableStnSummary.Rows[0]["SSNo"]);
-                textPrepared.Text = DataTypeConvert.GetString(TableStnSummary.Rows[0]["Prepared"]);
+                LookUpCreator.EditValue = DataTypeConvert.GetInt(TableStnSummary.Rows[0]["Creator"]);
                 textGetTime.Text = DataTypeConvert.GetDateTime(TableStnSummary.Rows[0]["GetTime"]).ToString("yyyy-MM-dd HH:mm:ss");
 
                 RefreshStnSummaryList(ssNoStr);
@@ -123,11 +132,11 @@ namespace PSAP.VIEW.BSVIEW
             else
             {
                 int count = ssDAO.QueryQuotationBaseInfoCount(autoQuotationNoStr);
-                if(count >0)
+                if (count > 0)
                     btnEditAutoQuotationNo.Text = autoQuotationNoStr;
                 else
                     btnEditAutoQuotationNo.Text = "";
-                textPrepared.Text = "";
+                LookUpCreator.EditValue = null;
                 textGetTime.Text = "";
 
                 TableStnList.Rows.Clear();
@@ -156,7 +165,7 @@ namespace PSAP.VIEW.BSVIEW
             }
 
             TableStnList.Rows.Clear();
-            ssDAO.QueryStnSummaryList(TableStnList, ssNoStr);
+            ssDAO.QueryStnSummaryList(TableStnList, ssNoStr, false);
 
             if (queryStnSummaryListAutoIdInt > 0)
             {
@@ -223,7 +232,7 @@ namespace PSAP.VIEW.BSVIEW
                 ExceptionHandler.HandleException(this.Text + "--选择报价单号错误。", ex);
             }
         }
-        
+
         /// <summary>
         /// 报价单号手动输入后检测
         /// </summary>
@@ -231,7 +240,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if(btnEditAutoQuotationNo.Text.Trim()=="")
+                if (btnEditAutoQuotationNo.Text.Trim() == "")
                 {
                     string autoQuotationNoStr = "-1";
                     RefreshStnSummary(autoQuotationNoStr, "");
@@ -251,7 +260,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新当前工位的所有信息
+        /// 查询当前工位的所有信息
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -270,7 +279,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--刷新当前工位的所有信息错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--查询当前工位的所有信息错误。", ex);
             }
         }
 
@@ -506,7 +515,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -536,7 +545,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
@@ -640,7 +649,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 编辑基础功能模块
+        /// 修改基础功能模块
         /// </summary>
         private void btnModuleEdit_Click(object sender, EventArgs e)
         {
@@ -652,7 +661,7 @@ namespace PSAP.VIEW.BSVIEW
                 DataRow focusedRow = gridViewModuleList.GetFocusedDataRow();
                 if (focusedRow == null)
                 {
-                    MessageHandler.ShowMessageBox("请选择要进行编辑的功能模块。");
+                    MessageHandler.ShowMessageBox("请选择要进行修改的功能模块。");
                     return;
                 }
 
@@ -671,12 +680,12 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--编辑基础功能模块错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--修改基础功能模块错误。", ex);
             }
         }
 
         /// <summary>
-        /// 复制编辑基础功能模块
+        /// 复制修改基础功能模块
         /// </summary>
         private void btnModuleCopy_Click(object sender, EventArgs e)
         {
@@ -688,7 +697,7 @@ namespace PSAP.VIEW.BSVIEW
                 DataRow focusedRow = gridViewModuleList.GetFocusedDataRow();
                 if (focusedRow == null)
                 {
-                    MessageHandler.ShowMessageBox("请选择要进行复制编辑的功能模块。");
+                    MessageHandler.ShowMessageBox("请选择要进行复制修改的功能模块。");
                     return;
                 }
 
@@ -715,7 +724,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--复制编辑基础功能模块错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--复制修改基础功能模块错误。", ex);
             }
         }
 

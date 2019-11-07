@@ -488,8 +488,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             else
             {
-                //MessageBox.Show("请先选择要打开的文件或文件夹。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(tsmiQxzydk.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要打开的文件或文件夹。");
             }
         }
 
@@ -537,8 +536,8 @@ namespace PSAP.VIEW.BSVIEW
             //文件名不合法
             else if (!IsValidFileName(newName))
             {
-                //MessageBox.Show("文件名不能包含下列任何字符:\r\n" + "\t\\/:*?\"<>|", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show(tsmiWjmbbh.Text + ":\r\n" + "\t\\/:*?\"<>|", tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageHandler.ShowMessageBox("文件名不能包含下列任何字符:\r\n" + "\t\\/:*?\"<>|", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageHandler.ShowMessageBox(tsmiWjmbbh.Text + ":\r\n" + "\t\\/:*?\"<>|");
                 e.CancelEdit = true;  //显示时，恢复原来的标签
             }
             else
@@ -549,8 +548,8 @@ namespace PSAP.VIEW.BSVIEW
                     //如果当前路径下有同名的文件
                     if (File.Exists(Path.Combine(curFilePath, newName)))
                     {
-                        //MessageBox.Show("当前路径下有同名的文件！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        MessageBox.Show(tsmiDqljxy.Text, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageHandler.ShowMessageBox("当前路径下有同名的文件！");
+                        MessageHandler.ShowMessageBox(tsmiDqljxy.Text);
                         //显示时，恢复原来的标签
                         e.CancelEdit = true;
                     }
@@ -572,8 +571,8 @@ namespace PSAP.VIEW.BSVIEW
                     //如果当前路径下有同名的文件夹
                     if (Directory.Exists(Path.Combine(curFilePath, newName)))
                     {
-                        //MessageBox.Show("当前路径下有同名的文件夹！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        MessageBox.Show(tsmidqljxytmwjj.Text, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageHandler.ShowMessageBox("当前路径下有同名的文件夹！");
+                        MessageHandler.ShowMessageBox(tsmidqljxytmwjj.Text);
 
                         //显示时，恢复原来的标签
                         e.CancelEdit = true;
@@ -805,9 +804,9 @@ namespace PSAP.VIEW.BSVIEW
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--加载子节点错误。", ex);
             }
         }
 
@@ -948,9 +947,9 @@ namespace PSAP.VIEW.BSVIEW
 
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--指定路径下所有文件/文件夹错误。", ex);
             }
 
             //更新状态栏
@@ -1106,9 +1105,9 @@ namespace PSAP.VIEW.BSVIEW
                     item.SubItems.Add(dr["lockOpened"].ToString());//打开过10
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--显示找到的所有文件/文件夹错误。", ex);
             }
 
             //更新状态栏
@@ -1164,9 +1163,9 @@ namespace PSAP.VIEW.BSVIEW
                 FrmProjectDocumentDAO.CreateFolderToSever(newFolderName, nPath, curPathNode.iProjectID);
                 return newFolderName;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--新建文件夹错误。", ex);
                 return null;
             }
         }
@@ -1193,9 +1192,9 @@ namespace PSAP.VIEW.BSVIEW
                         Process.Start(path);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException(this.Text + "--打开文件/文件夹错误。", ex);
                 }
             }
         }
@@ -1229,8 +1228,8 @@ namespace PSAP.VIEW.BSVIEW
                         if (Convert.ToInt32(lvwFiles.SelectedItems[0].SubItems[5].Text) != SystemInfo.user.AutoId &&
                             lvwFiles.SelectedItems[0].SubItems[6].Text == "pc-songxi")//change
                         {
-                            //MessageBox.Show("当前电脑已经有用户进行了【检入】操作，其他用户无权打开！如需查看请使用其它电脑！", "信息提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            MessageBox.Show(tsmidqdn.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //MessageHandler.ShowMessageBox("当前电脑已经有用户进行了【检入】操作，其他用户无权打开！如需查看请使用其它电脑！");
+                            MessageHandler.ShowMessageBox(tsmidqdn.Text);
                             return;
                         }
 
@@ -1256,9 +1255,9 @@ namespace PSAP.VIEW.BSVIEW
                         Process.Start(fileFullPath); //打开文件
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException(this.Text + "--打开虚拟文件/文件夹错误。", ex);
                 }
             }
         }
@@ -1287,7 +1286,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (curFilePath == "最近访问")
             {
-                MessageBox.Show("不能在当前路径下进行粘贴操作！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageHandler.ShowMessageBox("不能在当前路径下进行粘贴操作！");
                 return;
             }
 
@@ -1332,7 +1331,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (lvwFiles.SelectedItems.Count > 0)
             {
-                DialogResult dialogResult = MessageBox.Show("确定要删除吗？", "确认删除", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                DialogResult dialogResult = MessageHandler.ShowMessageBox_YesNo("确定要删除吗？");
 
                 if (dialogResult == DialogResult.No)
                 {
@@ -1363,9 +1362,9 @@ namespace PSAP.VIEW.BSVIEW
                         //刷新左边的目录树
                         LoadChildNodes(curSelectedNode);
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(e.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ExceptionHandler.HandleException(this.Text + "--删除文件错误。", ex);
                     }
                 }
             }
@@ -1413,11 +1412,10 @@ namespace PSAP.VIEW.BSVIEW
                     fileInfo.CopyTo(destPath);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--执行文件移动或复制错误。", ex);
             }
-
         }
 
         //通过递归，复制并粘贴文件夹（包含文件夹下的所有文件）
@@ -1429,8 +1427,8 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (dirInfo.FullName == sourceDirInfo.FullName)
                 {
-                    //MessageBox.Show("无法复制！目标文件夹是源文件夹的子目录！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    MessageBox.Show(tsmiWffzmb.Text, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageHandler.ShowMessageBox("无法复制！目标文件夹是源文件夹的子目录！");
+                    MessageHandler.ShowMessageBox(tsmiWffzmb.Text);
                     return;
                 }
             }
@@ -1491,9 +1489,9 @@ namespace PSAP.VIEW.BSVIEW
                     CopyAndPasteDirectory(sourceDirectoryInfo, new DirectoryInfo(destPath));
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--执行文件夹移动或复制错误。", ex);
             }
         }
 
@@ -1507,8 +1505,8 @@ namespace PSAP.VIEW.BSVIEW
             }
             else
             {
-                //MessageBox.Show("请选择要重命名的文件或文件夹！", "提示", MessageBoxButtons.OK);
-                MessageBox.Show(tsmiQxzycm.Text, tsmiTs.Text, MessageBoxButtons.OK);
+                //MessageHandler.ShowMessageBox("请选择要重命名的文件或文件夹！");
+                MessageHandler.ShowMessageBox(tsmiQxzycm.Text);
             }
         }
 
@@ -1860,9 +1858,9 @@ namespace PSAP.VIEW.BSVIEW
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException(this.Text + "--将在资源管理器复制的文件粘贴到本地缓存错误。", ex);
             }
         }
 
@@ -1993,8 +1991,8 @@ namespace PSAP.VIEW.BSVIEW
             }
             else
             {
-                //MessageBox.Show("请先选择要打开的文件或文件夹！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(tsmiQxzydk.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox("请先选择要打开的文件或文件夹！");
+                MessageHandler.ShowMessageBox(tsmiQxzydk.Text);
             }
         }
         /// <summary>
@@ -2114,8 +2112,8 @@ namespace PSAP.VIEW.BSVIEW
             }
             else
             {
-                //MessageBox.Show("请先选择要添加备注的文件或文件夹！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(tsmiQxzytjbz.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox("请先选择要添加备注的文件或文件夹！");
+                MessageHandler.ShowMessageBox(tsmiQxzytjbz.Text);
             }
 
             lvwFiles.Focus();
@@ -2139,8 +2137,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (string.IsNullOrEmpty(gvRemarks.GetFocusedDataRow()["Remarks"].ToString()))
             {
-                //MessageBox.Show("【备注信息】不能为空，如不需要备注信息请进行【删除】操作！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(tsmiBzxxbn.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageHandler.ShowMessageBox("【备注信息】不能为空，如不需要备注信息请进行【删除】操作！");
+                MessageHandler.ShowMessageBox(tsmiBzxxbn.Text);
                 return;
             }
             Validate();
@@ -2153,8 +2151,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             if (gvRemarks.GetFocusedDataRow() != null)//当前是否有数据
             {
-                if (MessageBox.Show(tsmiQdysc.Text, tsmiTs.Text, MessageBoxButtons.YesNo,
-                                            MessageBoxIcon.Question) == DialogResult.Yes)//确定要删除吗
+                if (MessageHandler.ShowMessageBox_YesNo(tsmiQdysc.Text) == DialogResult.Yes)//确定要删除吗
                 {
                     //删除相关数据
                     if (FrmProjectDocumentDAO.DeleteRemarksInfoData(Convert.ToInt32(gvRemarks.GetRowCellValue
@@ -2208,8 +2205,7 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     else
                     {
-                        //MessageBox.Show("无权限或不需要进行【添加到库】操作！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MessageBox.Show(tsmiWqxtjdk.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("无权限或不需要进行【添加到库】操作！");
                     }
                 }
 
@@ -2224,8 +2220,7 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     else
                     {
-                        //MessageBox.Show("无权限或不需要进行【检入】操作！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MessageBox.Show(tsmiWqxjr.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("无权限或不需要进行【检入】操作！");
                     }
                 }
 
@@ -2240,8 +2235,7 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     else
                     {
-                        //MessageBox.Show("无权限或不需要进行【检出】操作！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MessageBox.Show(tsmiwqxjc.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("无权限或不需要进行【检出】操作！");
                     }
                 }
 
@@ -2256,8 +2250,7 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     else
                     {
-                        //MessageBox.Show("无权限或不能进行【新建报价单】操作！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MessageBox.Show(tsmiNxjbjd.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("无权限或不能进行【新建报价单】操作！");
                     }
                 }
 
@@ -2272,8 +2265,7 @@ namespace PSAP.VIEW.BSVIEW
                     }
                     else
                     {
-                        //MessageBox.Show("无权限或不能进行【取消报价单】操作！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        MessageBox.Show(tsmiNqxbjd.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("无权限或不能进行【取消报价单】操作！");
                     }
                 }
 
@@ -2310,8 +2302,7 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 else
                 {
-                    //MessageBox.Show("剪贴板中没有可以粘贴到缓存的文件！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(tsmiJtbzmy.Text, tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("剪贴板中没有可以粘贴到缓存的文件！");
                 }
             }
         }

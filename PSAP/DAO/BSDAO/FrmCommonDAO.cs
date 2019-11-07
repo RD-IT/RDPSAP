@@ -51,10 +51,36 @@ namespace PSAP.DAO.BSDAO
         /// </summary>
         public DataTable QueryUserInfo(bool addAllItem)
         {
-            string sqlStr = "select AutoId, LoginId, EmpName from BS_UserInfo order by AutoId";
+            string sqlStr = "select BS_UserInfo.AutoId, LoginId, EmpName, DepartmentName from BS_UserInfo left join BS_Department on BS_UserInfo.DepartmentNo = BS_Department.DepartmentNo order by AutoId";
             if (addAllItem)
             {
-                sqlStr = "select 0 as AutoId, '" + f.tsmiQb + "' as LoginId, '" + f.tsmiQb + "' as EmpName union " + sqlStr;
+                sqlStr = "select 0 as AutoId, '全部' as LoginId, '全部' as EmpName, '' as DepartmentName union " + sqlStr;
+            }
+            return BaseSQL.GetTableBySql(sqlStr);
+        }
+
+        /// <summary>
+        /// 查询操作员信息
+        /// </summary>
+        public DataTable QueryUserInfo_OnlyColumn(bool addAllItem)
+        {
+            string sqlStr = "select AutoId, EmpName from BS_UserInfo order by AutoId";
+            if (addAllItem)
+            {
+                sqlStr = "select 0 as AutoId, '" + f.tsmiQb + "' as EmpName union " + sqlStr;
+            }
+            return BaseSQL.GetTableBySql(sqlStr);
+        }
+
+        /// <summary>
+        /// 查询操作员信息（不包含停用）
+        /// </summary>
+        public DataTable QueryUserInfo_NoDisable(bool addAllItem)
+        {
+            string sqlStr = "select AutoId, LoginId, EmpName from BS_UserInfo where ISNULL(IsDisable, 0) = 0 order by AutoId";
+            if (addAllItem)
+            {
+                sqlStr = "select 0 as AutoId, '全部' as LoginId, '全部' as EmpName union " + sqlStr;
             }
             return BaseSQL.GetTableBySql(sqlStr);
         }

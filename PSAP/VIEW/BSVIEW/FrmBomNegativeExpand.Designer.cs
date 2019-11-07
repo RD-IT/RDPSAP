@@ -52,10 +52,7 @@
             this.btnQuery = new DevExpress.XtraEditors.SimpleButton();
             this.labPartsCodeId = new DevExpress.XtraEditors.LabelControl();
             this.searchCodeFileName = new DevExpress.XtraEditors.SearchLookUpEdit();
-            this.searchPartsCodeIdView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.searchCodeFileNameView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.cms = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiCtjzsj = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFxcxlj = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,7 +68,7 @@
             this.pnlTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textCodeName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileName.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchPartsCodeIdView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileNameView)).BeginInit();
             this.cms.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -322,48 +319,17 @@
             this.searchCodeFileName.Name = "searchCodeFileName";
             this.searchCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchCodeFileName.Properties.DisplayMember = "CodeFileName";
-            this.searchCodeFileName.Properties.NullText = "";
-            this.searchCodeFileName.Properties.ValueMember = "AutoId";
-            this.searchCodeFileName.Properties.View = this.searchPartsCodeIdView;
+            this.searchCodeFileName.Properties.View = this.searchCodeFileNameView;
             this.searchCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchCodeFileName.TabIndex = 1;
             this.searchCodeFileName.EditValueChanging += new DevExpress.XtraEditors.Controls.ChangingEventHandler(this.searchCodeFileName_EditValueChanging);
             // 
-            // searchPartsCodeIdView
+            // searchCodeFileNameView
             // 
-            this.searchPartsCodeIdView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.gridColumn3,
-            this.gridColumn2});
-            this.searchPartsCodeIdView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchPartsCodeIdView.IndicatorWidth = 60;
-            this.searchPartsCodeIdView.Name = "searchPartsCodeIdView";
-            this.searchPartsCodeIdView.OptionsSelection.EnableAppearanceFocusedCell = false;
-            this.searchPartsCodeIdView.OptionsView.ShowGroupPanel = false;
-            this.searchPartsCodeIdView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewBomMateriel_CustomDrawRowIndicator);
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "零件编号";
-            this.gridColumn1.FieldName = "CodeFileName";
-            this.gridColumn1.Name = "gridColumn1";
-            this.gridColumn1.Visible = true;
-            this.gridColumn1.VisibleIndex = 0;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.Caption = "零件名称";
-            this.gridColumn3.FieldName = "CodeName";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 1;
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.Caption = "AutoId";
-            this.gridColumn2.FieldName = "AutoId";
-            this.gridColumn2.Name = "gridColumn2";
+            this.searchCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchCodeFileNameView.Name = "searchCodeFileNameView";
+            this.searchCodeFileNameView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchCodeFileNameView.OptionsView.ShowGroupPanel = false;
             // 
             // cms
             // 
@@ -425,7 +391,7 @@
             this.pnlTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textCodeName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileName.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchPartsCodeIdView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchCodeFileNameView)).EndInit();
             this.cms.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -453,10 +419,7 @@
         private DevExpress.XtraEditors.SimpleButton btnQuery;
         private DevExpress.XtraEditors.LabelControl labPartsCodeId;
         private DevExpress.XtraEditors.SearchLookUpEdit searchCodeFileName;
-        private DevExpress.XtraGrid.Views.Grid.GridView searchPartsCodeIdView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchCodeFileNameView;
         private DevExpress.XtraEditors.SimpleButton btnSaveExcel;
         private System.Windows.Forms.ContextMenuStrip cms;
         private System.Windows.Forms.ToolStripMenuItem tsmiCtjzsj;

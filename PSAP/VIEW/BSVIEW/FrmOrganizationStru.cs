@@ -54,9 +54,9 @@ namespace PSAP.VIEW.BSVIEW
                 saveNodeToTable();//将新建节点同步到数据库
 
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--insertTreeNode_Click错误。", ex);
             }
         }
 
@@ -71,9 +71,9 @@ namespace PSAP.VIEW.BSVIEW
                 tvwOrganizationStru.SelectedNode.Name = nodeId;
                 saveNodeToTable();//将新建节点同步到数据库
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--addChildTreeNode_Click错误。", ex);
             }
         }
         /// <summary>
@@ -107,9 +107,9 @@ namespace PSAP.VIEW.BSVIEW
                 tvwOrganizationStru.SelectedNode.Name = nodeId;
                 saveNodeToTable();//将新建节点同步到数据库
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--addRootTreeNode_Click错误。", ex);
             }
         }
 
@@ -121,12 +121,11 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     if (tvwOrganizationStru.SelectedNode.Nodes.Count > 0)
                     {
-                        MessageBox.Show("包含子部门，不能直接删除，请从最低层部门开始删！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("包含子部门，不能直接删除，请从最低层部门开始删！");
                     }
                     else
                     {
-                        if (MessageBox.Show("真的要删除吗？", "删除确认", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Information) == DialogResult.Yes)
+                        if (MessageHandler.ShowMessageBox_YesNo("真的要删除吗？") == DialogResult.Yes)
                         {
                             //先删除对此数据有依赖关系的相关数数
                             // FrmRightDAO.DeleteMenuCorrelationData(tvwOrganizationStru.SelectedNode.Name);//删除与菜单相关数据
@@ -142,16 +141,16 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 else
                 {
-                    MessageBox.Show("不能删除最后一个部门！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("不能删除最后一个部门！");
                 }
             }
             catch (System.Data.SqlClient.SqlException)
             {
-                MessageBox.Show("当前部门已经被其它数据使用，不能删除！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("当前部门已经被其它数据使用，不能删除！");
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--删除树节点错误。", ex);
             }
         }
 
@@ -193,14 +192,14 @@ namespace PSAP.VIEW.BSVIEW
 
             if (string.IsNullOrEmpty(departmentNoTextBox1.Text))
             {
-                MessageBox.Show("【部门编码】为必填项！", "提示信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("【部门编码】为必填项！");
                 departmentNoTextBox1.Focus();
                 return;
             }
 
             //if (string.IsNullOrEmpty(departmentNameTextBox1.Text))
             //{
-            //    MessageBox.Show("【部门名称】为必填项！", "提示信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    MessageHandler.ShowMessageBox("【部门名称】为必填项！");
             //    departmentNameTextBox1.Focus();
             //    return;
             //}
@@ -222,7 +221,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (System.Data.ConstraintException)//关键字字段值重复
             {
-                MessageBox.Show("此部门编码已经存在！", "提示信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("此部门编码已经存在！");
                 departmentNoTextBox1.Focus();
             }
             bS_DepartmentDataGridView.Enabled = true;//保存后数据表控件可用
@@ -271,7 +270,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// panel（pnlEdit）的Enabled属性设置为“False”，表示最开始panel里面的控件都设置为不可编辑状态
+        /// panel（pnlEdit）的Enabled属性设置为“False”，表示最开始panel里面的控件都设置为不可修改状态
         /// 保存了、取消初始Enable为"False"
         /// 将数据导航条、GroupBox、新增、修改、删除、保存、取消的Enabled状态取反
         /// </summary>
@@ -283,7 +282,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 b.Enabled = !b.Enabled;
             }
-            //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+            //检测窗口状态：新增、修改="EDIT"，保存、取消=""
             if (((Label)this.Controls["lblEditFlag"]).Text == "")
             {
                 ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";

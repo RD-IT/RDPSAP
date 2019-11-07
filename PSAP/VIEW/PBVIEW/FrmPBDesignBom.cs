@@ -49,7 +49,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                //searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchCodeFileName, false, "CodeFileName", "CodeFileName");
+
                 lookUpCatgName.Properties.DataSource = commonDAO.QueryPartNoCatg(true);
                 lookUpCatgName.ItemIndex = 0;
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(true);
@@ -194,7 +197,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新信息
+        /// 查询信息
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -211,7 +214,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--刷新信息错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--查询信息错误。", ex);
             }
         }
 
@@ -313,7 +316,7 @@ namespace PSAP.VIEW.BSVIEW
         //}
 
         ///// <summary>
-        ///// 设定树的显示编辑事件
+        ///// 设定树的显示修改事件
         ///// </summary>
         //private void treeListDesignBom_ShowingEditor(object sender, CancelEventArgs e)
         //{
@@ -330,7 +333,7 @@ namespace PSAP.VIEW.BSVIEW
         //    }
         //    catch (Exception ex)
         //    {
-        //        ExceptionHandler.HandleException(this.Text + "--设定树的显示编辑事件错误。", ex);
+        //        ExceptionHandler.HandleException(this.Text + "--设定树的显示修改事件错误。", ex);
         //    }
         //}
 
@@ -651,7 +654,7 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             //treeList1.Nodes.Add(node);
                             //codeFileNameList.Add(DataTypeConvert.GetString(node["CodeFileName"]));
-                            //MessageBox.Show(node["CodeFileName"].ToString());
+                            //MessageHandler.ShowMessageBox(node["CodeFileName"].ToString());
                             codeIdList.Add(DataTypeConvert.GetInt(node["PCAutoId"]), DataTypeConvert.GetString(node["CodeFileName"]));
                         }
                     }
@@ -663,7 +666,7 @@ namespace PSAP.VIEW.BSVIEW
                     {
                         foreach (DataRow dr in drs)
                         {
-                            //MessageBox.Show(drs[0]["CodeFileName"].ToString().ToString());
+                            //MessageHandler.ShowMessageBox(drs[0]["CodeFileName"].ToString().ToString());
                             //codeFileNameList.Add(DataTypeConvert.GetString(dr["CodeFileName"]));
                             codeIdList.Add(DataTypeConvert.GetInt(dr["AutoId"]), DataTypeConvert.GetString(dr["CodeFileName"]));
                         }

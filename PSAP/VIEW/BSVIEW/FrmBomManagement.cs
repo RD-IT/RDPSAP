@@ -51,12 +51,17 @@ namespace PSAP.VIEW.BSVIEW
             {
                 ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
-                searchPartsCodeId.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchPartsCodeId, false, "AutoId", "CodeFileName");
+                ctlInit.SearchLookUpEdit_PartsCode(searchCodeFileName, false, "CodeFileName", "CodeFileName");
+                ctlInit.RepositoryItemSearchLookUpEdit_PartsCode(repSearchCodeFileName, "CodeFileName", "CodeFileName");
+
+                //searchPartsCodeId.Properties.DataSource = commonDAO.QueryPartsCode(false);
                 lookUpMaterieState.Properties.DataSource = bomDAO.QueryBomMaterieState(false);
 
-                repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
+                //repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
 
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                //searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
                 //RefreshTreeList();
                 Set_ButtonEditGrid_State(true, null);
             }
@@ -629,7 +634,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state, DataRow dr)
         {

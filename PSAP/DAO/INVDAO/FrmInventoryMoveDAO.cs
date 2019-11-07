@@ -247,40 +247,40 @@ namespace PSAP.DAO.INVDAO
                 int wState = DataTypeConvert.GetInt(tmpTable.Rows[i]["WarehouseState"]);
                 switch (wState)
                 {
-                    case 1:
+                    case (int)CommonHandler.WarehouseState.待审批:
                         if (checkNoApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"]), CommonHandler.WarehouseState.待审批));
                             imHeadTable.RejectChanges();
                             if (imListTable != null)
                                 imListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.WarehouseState.已审批:
                         if (checkApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"]), CommonHandler.WarehouseState.已审批));
                             imHeadTable.RejectChanges();
                             if (imListTable != null)
                                 imListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    //case 3:
+                    //case (int)CommonHandler.WarehouseState.已结账:
                     //    if (checkSettle)
                     //    {
-                    //        MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"])));
+                    //        MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"]),CommonHandler.WarehouseState.已结账));
                     //        swwHeadTable.RejectChanges();
                     //        if (swwListTable != null)
                     //            swwListTable.RejectChanges();
                     //        return false;
                     //    }
                     //    break;
-                    case 4:
+                    case (int)CommonHandler.WarehouseState.审批中:
                         if (checkApproverBetween)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("库存移动单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryMoveNo"]), CommonHandler.WarehouseState.审批中));
                             imHeadTable.RejectChanges();
                             if (imListTable != null)
                                 imListTable.RejectChanges();
@@ -432,10 +432,10 @@ namespace PSAP.DAO.INVDAO
 
                                     new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, imHeadTable.Rows[i], "库存移动单", "InventoryMoveNo", imHeadNoStr, serverTime);
 
-                                    cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState=2 where InventoryMoveNo='{0}'", imHeadNoStr);
+                                    cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState={1} where InventoryMoveNo='{0}'", imHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                     cmd.ExecuteNonQuery();
 
-                                    imHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    imHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
 
                                     successCountInt++;
                                 }
@@ -457,7 +457,7 @@ namespace PSAP.DAO.INVDAO
                                     if (tmpTable.Rows.Count == 0)
                                     {
                                         trans.Rollback();
-                                        MessageHandler.ShowMessageBox("未查询到要操作的库存移动单，请刷新后再进行操作。");
+                                        MessageHandler.ShowMessageBox("未查询到要操作的库存移动单，请查询后再进行操作。");
                                         return false;
                                     }
 
@@ -470,9 +470,9 @@ namespace PSAP.DAO.INVDAO
                                     listadpt.Fill(listTable);
                                     if (listTable.Rows.Count == 0)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState = 2 where InventoryMoveNo='{0}'", imHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState={1} where InventoryMoveNo='{0}'", imHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        imHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        imHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                         continue;
                                     }
                                     int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
@@ -494,28 +494,28 @@ namespace PSAP.DAO.INVDAO
 
                                     if (listTable.Rows.Count == 1 || approvalCatInt == 2)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState=2 where InventoryMoveNo='{0}'", imHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState={1} where InventoryMoveNo='{0}'", imHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        imHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        imHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                     }
                                     else
                                     {
-                                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState=4 where InventoryMoveNo='{0}'", imHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState={1} where InventoryMoveNo='{0}'", imHeadNoStr, (int)CommonHandler.WarehouseState.审批中);
                                         cmd.ExecuteNonQuery();
-                                        imHeadTable.Rows[i]["WarehouseState"] = 4;
+                                        imHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.审批中;
                                     }
 
                                     //保存日志到日志表中
                                     string logStr = LogHandler.RecordLog_OperateRow(cmd, "库存移动单", imHeadTable.Rows[i], "InventoryMoveNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                                    //if (DataTypeConvert.GetInt(imHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    //if (DataTypeConvert.GetInt(imHeadTable.Rows[i]["WarehouseState"]) == (int)CommonHandler.WarehouseState.已审批)//全部审批通过进行下一步操作
                                     //{
                                     //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
                                     //    string errorText = "";
                                     //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, imHeadNoStr, 1, out errorText))
                                     //    {
                                     //        trans.Rollback();
-                                    //        MessageHandler.ShowMessageBox("库存移动单审核出库错误--" + errorText);
+                                    //        MessageHandler.ShowMessageBox("库存移动单审批出库错误--" + errorText);
                                     //        return false;
                                     //    }
                                     //}
@@ -554,7 +554,7 @@ namespace PSAP.DAO.INVDAO
                 if (DataTypeConvert.GetBoolean(imHeadTable.Rows[i]["Select"]))
                 {
                     imHeadNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(imHeadTable.Rows[i]["InventoryMoveNo"]));
-                    imHeadTable.Rows[i]["WarehouseState"] = 1;
+                    imHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.待审批;
                 }
             }
 
@@ -571,14 +571,14 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
-                        cmd.CommandText = string.Format("select InventoryMoveNo from INV_InventoryMoveHead where WarehouseState = 2 and InventoryMoveNo in ({0})", imHeadNoListStr);
+                        cmd.CommandText = string.Format("select InventoryMoveNo from INV_InventoryMoveHead where WarehouseState={1} and InventoryMoveNo in ({0})", imHeadNoListStr, (int)CommonHandler.WarehouseState.已审批);
                         DataTable approcalIMTable = new DataTable();
                         SqlDataAdapter appradpt = new SqlDataAdapter(cmd);
                         appradpt.Fill(approcalIMTable);
 
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", imHeadNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState=1 where InventoryMoveNo in ({0})", imHeadNoListStr);
+                        cmd.CommandText = string.Format("Update INV_InventoryMoveHead set WarehouseState={1} where InventoryMoveNo in ({0})", imHeadNoListStr, (int)CommonHandler.WarehouseState.待审批);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -595,7 +595,7 @@ namespace PSAP.DAO.INVDAO
                         //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalIMTable.Rows[i]["InventoryMoveNo"]), 2, out errorText))
                         //    {
                         //        trans.Rollback();
-                        //        MessageHandler.ShowMessageBox("库存移动单取消审核出库错误--" + errorText);
+                        //        MessageHandler.ShowMessageBox("库存移动单取消审批出库错误--" + errorText);
                         //        return false;
                         //    }
                         //}

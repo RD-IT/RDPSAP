@@ -121,20 +121,15 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                FrmWorkFlowDataHandle wfDataHandle = new FrmWorkFlowDataHandle();
+                FrmWorkFlowsDataHandle wfDataHandle = new FrmWorkFlowsDataHandle();
                 wfDataHandle.orderNameStr = "请购单";
                 wfDataHandle.dataNoList = new List<string>() { "PR00000000119" };
-                wfDataHandle.workFlowTypeText = "采购流程";
-                wfDataHandle.tableNameStr = "PUR_PrReqHead";
-                wfDataHandle.moduleTypeInt = 2;
                 if (wfDataHandle.ShowDialog() == DialogResult.OK)
                 {
-                    int nodeIdInt = wfDataHandle.nodeIdInt;
-                    string flowModuleIdStr = wfDataHandle.flowModuleIdStr;
                     string approverOptionStr = wfDataHandle.memoApproverOption.Text;
                     int approverResultInt = DataTypeConvert.GetInt(wfDataHandle.radioApproverResult.EditValue);
 
-                    MessageHandler.ShowMessageBox(nodeIdInt + "-----" + flowModuleIdStr + "-----" + approverOptionStr + "-----" + approverResultInt);
+                    MessageHandler.ShowMessageBox(approverOptionStr + "-----" + approverResultInt);
                 }
             }
             catch (Exception ex)

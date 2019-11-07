@@ -90,7 +90,7 @@ namespace PSAP.DAO.PURDAO
                             }
 
                             //保存日志到日志表中
-                            string logStr = string.Format("对[审批信息]表进行[上移]操作：主键的值为[{0}]，审核类型的值为[{1}]，审核人的值为[{2}]", opAutoId, typeNoStr, opApprover);
+                            string logStr = string.Format("对[审批信息]表进行[上移]操作：主键的值为[{0}]，审批类型的值为[{1}]，审批人的值为[{2}]", opAutoId, typeNoStr, opApprover);
                             LogHandler.RecordLog(cmd, logStr);
                         }
                         else
@@ -159,7 +159,7 @@ namespace PSAP.DAO.PURDAO
                             }
 
                             //保存日志到日志表中
-                            string logStr = string.Format("对[审批信息]表进行[下移]操作：主键的值为[{0}]，审核类型的值为[{1}]，审核人的值为[{2}]", opAutoId, typeNoStr, opApprover);
+                            string logStr = string.Format("对[审批信息]表进行[下移]操作：主键的值为[{0}]，审批类型的值为[{1}]，审批人的值为[{2}]", opAutoId, typeNoStr, opApprover);
                             LogHandler.RecordLog(cmd, logStr);
                         }
                         else

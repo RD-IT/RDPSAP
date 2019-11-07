@@ -13,25 +13,29 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询功能模块信息
         /// </summary>
-        public void QueryStnModule(DataTable queryDataTable, string beginDateStr, string endDateStr, string preparedStr, string smNoStr, string commonStr)
+        public void QueryStnModule(DataTable queryDataTable, string beginDateStr, string endDateStr, int creatorInt, string smNoStr, string commonStr, bool nullTable)
         {
-            string sqlStr = QueryStnModule_SQL(beginDateStr, endDateStr, preparedStr, smNoStr, commonStr);
+            string sqlStr = QueryStnModule_SQL(beginDateStr, endDateStr, creatorInt, smNoStr, commonStr, nullTable);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
         /// <summary>
         /// 查询功能模块信息的SQL
         /// </summary>
-        public string QueryStnModule_SQL(string beginDateStr, string endDateStr, string preparedStr, string smNoStr, string commonStr)
+        public string QueryStnModule_SQL(string beginDateStr, string endDateStr, int creatorInt, string smNoStr, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
+            if(nullTable)
+            {
+                sqlStr = " 1=2";
+            }
             if (beginDateStr != "")
             {
                 sqlStr += string.Format(" and GetTime between '{0}' and '{1}'", beginDateStr, endDateStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (smNoStr != "")
             {
@@ -65,7 +69,7 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and SMNo = '{0}'", smNoStr);
             }
-            sqlStr = string.Format("select dd.AutoId, dd.SMNo, dd.DeliveryText, dd.FunctionDesc, dd.DeliveryQty, dd.Unit, dd.Amount, dd.Prepared, md.MaterialName, md.MaterialBrand, md.MaterialDesc, md.MaterialCate, md.MaterialQty as MatQty, md.Unit as MatUnit, md.Amount as MatAmount from SA_DeliveryDetail as dd left join SA_MaterialDetail as md on dd.AutoId = md.DeliveryDetailNO where {0} order by dd.SMNo, dd.AutoId", sqlStr);
+            sqlStr = string.Format("select dd.AutoId, dd.SMNo, dd.DeliveryText, dd.FunctionDesc, dd.DeliveryQty, dd.Unit, dd.Amount, dd.Creator, md.MaterialName, md.MaterialBrand, md.MaterialDesc, md.MaterialCate, md.MaterialQty as MatQty, md.Unit as MatUnit, md.Amount as MatAmount from SA_DeliveryDetail as dd left join SA_MaterialDetail as md on dd.AutoId = md.DeliveryDetailNO where {0} order by dd.SMNo, dd.AutoId", sqlStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -81,7 +85,7 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询功能模块信息的SQL（包括几个表关联的全部信息）
         /// </summary>
-        public string QueryStnModuleList_SQL(string beginDateStr, string endDateStr, string smNoStr, string preparedStr, string commonStr, bool nullTable)
+        public string QueryStnModuleList_SQL(string beginDateStr, string endDateStr, string smNoStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -92,9 +96,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and SMNo = '{0}'", smNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -161,8 +165,8 @@ namespace PSAP.DAO.SADAO
                             p1.Value = copySMNoStr;
                             SqlParameter p2 = new SqlParameter("@NewSMNo", SqlDbType.VarChar);
                             p2.Value = smNoStr;
-                            SqlParameter p3 = new SqlParameter("@Prepared", SqlDbType.VarChar);
-                            p3.Value = SystemInfo.user.EmpName;
+                            SqlParameter p3 = new SqlParameter("@Creator", SqlDbType.Int);
+                            p3.Value = SystemInfo.user.AutoId;
                             SqlParameter p4 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                             p4.Value = SystemInfo.HostIpAddress;
                             IDataParameter[] parameters = new IDataParameter[] { p1, p2, p3, p4 };

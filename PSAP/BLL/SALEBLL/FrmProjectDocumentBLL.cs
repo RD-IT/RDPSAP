@@ -84,11 +84,10 @@ namespace PSAP.BLL.SALEBLL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("初始化FTP文件夹错误。", ex);
             }
-
         }
 
         //将本地文件复制到本地文件夹//////////////////////////////////////////////
@@ -110,8 +109,7 @@ namespace PSAP.BLL.SALEBLL
 
                 else//下载//////////////
                 {
-                    //dialogResult = MessageBox.Show("确定要将选定文件添加到系统缓存？",  f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    dialogResult = MessageBox.Show(f.tsmiQdyjxdwjtjdxthc.Text, f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要将选定文件添加到系统缓存？");
                     if (dialogResult == DialogResult.Cancel)
                     {
                         return;
@@ -138,9 +136,9 @@ namespace PSAP.BLL.SALEBLL
                                 }
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception ex)
                         {
-                            MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ExceptionHandler.HandleException("将本地文件复制到本地文件夹错误。", ex);
                         }
                     }
                 }
@@ -182,7 +180,7 @@ namespace PSAP.BLL.SALEBLL
             try
             {
                 FileInfo fileInfo = new FileInfo(sourcePath);
-                //  MessageBox.Show(Path.GetExtension(destPath) + "【】" + Path.GetFileNameWithoutExtension(destPath) + "【】" + Path.GetDirectoryName(destPath));
+                //  MessageHandler.ShowMessageBox(Path.GetExtension(destPath) + "【】" + Path.GetFileNameWithoutExtension(destPath) + "【】" + Path.GetDirectoryName(destPath));
 
                 //如果目的路径和源路径相同，则不执行任何操作
                 if (sDestPath == sourcePath)
@@ -240,7 +238,7 @@ namespace PSAP.BLL.SALEBLL
                 }
                 else
                 {
-                    dialogResult = MessageBox.Show("文件【" + fileInfo.Name + "】已存在，要覆盖原文件吗？", "文件存在确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    dialogResult = MessageHandler.ShowMessageBox_OKCancel("文件【" + fileInfo.Name + "】已存在，要覆盖原文件吗？");
                     if (dialogResult == DialogResult.OK)
                     {
                         //将复制的文档数据同步到数据库////
@@ -255,9 +253,9 @@ namespace PSAP.BLL.SALEBLL
                 }
                 //}
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("执行文件的“复制到”错误。", ex);
             }
         }
 
@@ -295,9 +293,9 @@ namespace PSAP.BLL.SALEBLL
                 //将刚刚建立的临时文件删除
                 File.Delete(Application.StartupPath + @"\img\" + icoFileName + ".ico");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("将新出现的文件图标上传到FTP错误。", ex);
             }
         }
 
@@ -319,9 +317,9 @@ namespace PSAP.BLL.SALEBLL
                 nPath = (string.IsNullOrEmpty(@FrmProjectDocument.curPathNode.Path) ? @"\" : @FrmProjectDocument.curPathNode.Path);
                 CopyAndPasteDirectory(sourceDirectoryInfo, new DirectoryInfo(destPath), isOverwrite, isDownLoad, destProjectID, nPath, ilRight);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("执行文件夹的“复制到”错误。", ex);
             }
         }
 
@@ -338,8 +336,7 @@ namespace PSAP.BLL.SALEBLL
                 {
                     if (dirInfo.FullName == sourceDirInfo.FullName)
                     {
-                        //MessageBox.Show("无法复制，目标文件夹是源文件夹的子目。", f.tsmiCw.Text , MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        MessageBox.Show(f.tsmiWffzmbwjjsy.Text, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageHandler.ShowMessageBox("无法复制，目标文件夹是源文件夹的子目。");
                         return;
                     }
                 }
@@ -441,7 +438,7 @@ namespace PSAP.BLL.SALEBLL
                     }
                     else
                     {
-                        dialogResult = MessageBox.Show("文件【" + fileInfo.Name + "】已存在，要覆盖原文件吗？", "文件存在确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                        dialogResult = MessageHandler.ShowMessageBox_OKCancel("文件【" + fileInfo.Name + "】已存在，要覆盖原文件吗？");
                         if (dialogResult == DialogResult.OK)
                         {
                             //将新出现的文件图标上传到FTP
@@ -494,11 +491,10 @@ namespace PSAP.BLL.SALEBLL
                     CopyAndPasteDirectory(sourceSubDirInfo, destSubDirInfo, isOverwrite, isDownload, destProjectID, Convert.ToString(htPath[destSubDirInfo.FullName]), ilRight);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("通过递归，复制并粘贴文件夹错误。", ex);
             }
-
         }
 
         /// <summary>
@@ -510,7 +506,7 @@ namespace PSAP.BLL.SALEBLL
         /// <param name="sProjectFileCreateCatg"></param>
         public static void DocumentManagementRecord(string sSourcePath, string sDestPath, string sProjectFileProcessCatg, string sProjectFileCreateCatg)
         {
-            //MessageBox.Show("me将" + sSourcePath + "【" + sProjectFileProcessCatg + "】到" + sDestPath + "【" + sProjectFileCreateCatg);
+            //MessageHandler.ShowMessageBox("me将" + sSourcePath + "【" + sProjectFileProcessCatg + "】到" + sDestPath + "【" + sProjectFileCreateCatg);
         }
 
         /// <summary>
@@ -553,9 +549,9 @@ namespace PSAP.BLL.SALEBLL
                         File.Delete(localPath + lvi.Text);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("删除选择项错误。", ex);
                 }
             }
         }
@@ -579,11 +575,10 @@ namespace PSAP.BLL.SALEBLL
                 info.Attributes = info.Attributes & ~(FileAttributes.Archive | FileAttributes.ReadOnly | FileAttributes.Hidden);
                 info.Delete();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("用来遍历删除目录下的文件以及该文件夹错误。", ex);
             }
-
         }
 
 
@@ -609,9 +604,9 @@ namespace PSAP.BLL.SALEBLL
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("遍历子项错误。", ex);
             }
         }
 
@@ -624,9 +619,8 @@ namespace PSAP.BLL.SALEBLL
             if (lv.SelectedItems.Count > 0)
             {
                 DialogResult dialogResult;
-                //dialogResult = MessageBox.Show("确定要删除选定项吗？", "删除确认", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                dialogResult = MessageBox.Show(f.tsmiQdyscxdxm.Text, f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-
+                dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要删除选定项吗？");
+                
                 if (dialogResult == DialogResult.Cancel)
                 {
                     return;
@@ -635,8 +629,7 @@ namespace PSAP.BLL.SALEBLL
             }
             else
             {
-                //MessageBox.Show("请先选择要删除的文件或文件夹？", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(f.tsmiQxxzyscdwjhwjj.Text, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要删除的文件或文件夹？");                
             }
         }
         #region **********************添加到库***********************************************
@@ -649,8 +642,7 @@ namespace PSAP.BLL.SALEBLL
             if (lv.SelectedItems.Count > 0)
             {
                 DialogResult dialogResult;
-                //dialogResult = MessageBox.Show("确定要检入选定项吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                dialogResult = MessageBox.Show(f.tsmiQdyjrxdxm.Text, f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要检入选定项吗？");
                 if (dialogResult == DialogResult.Cancel)
                 {
                     return;
@@ -659,8 +651,7 @@ namespace PSAP.BLL.SALEBLL
             }
             else
             {
-                //MessageBox.Show("请先选择要检入的文件或文件夹？", "提示", MessageBoxButtons.OK,MessageBoxIcon.Information);
-                MessageBox.Show(f.tsmiQxzyjrdwjhwjj.Text, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要检入的文件或文件夹？");
             }
         }
 
@@ -711,9 +702,9 @@ namespace PSAP.BLL.SALEBLL
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("检入选择项错误。", ex);
                 }
             }
         }
@@ -755,8 +746,7 @@ namespace PSAP.BLL.SALEBLL
 
                 if (!File.Exists(localFilePath))
                 {
-                    //MessageBox.Show("本地文件【" + fileName + "】不存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(f.tsmiBdwj.Text + "【" + fileName + "】" + f.tsmiBcz.Text, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("本地文件【" + fileName + "】不存在。");
                     return;
                 }
 
@@ -774,8 +764,7 @@ namespace PSAP.BLL.SALEBLL
 
                 if (FrmProjectDocument.ftp.FileExist(ftpFileName))//文件存在
                 {//此部分正常是用不上的
-                 //dialogResult = MessageBox.Show("文件已存在，不需再次添加入库。", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                    dialogResult = MessageBox.Show(f.tsmiWjyczbxzctjrk.Text, f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                    dialogResult = MessageHandler.ShowMessageBox_OKCancel("文件已存在，不需再次添加入库。");
                     if (dialogResult == DialogResult.Cancel)
                     {
                         return;
@@ -789,9 +778,9 @@ namespace PSAP.BLL.SALEBLL
                     FrmProjectDocumentDAO.UpdateAddToFtpFlag(documentID, fileInfo.Length, fileInfo.LastWriteTime);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("文件添加入库方法错误。", ex);
             }
         }
         #endregion **********************添加到库***********************************************
@@ -806,10 +795,7 @@ namespace PSAP.BLL.SALEBLL
         {
             if (lv.SelectedItems.Count > 0)
             {
-                //DialogResult dialogResult;
-                //dialogResult = MessageBox.Show("确定要检入选定项吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                DialogResult dialogResult;
-                dialogResult = MessageBox.Show(f.tsmiQdyjrxdxm.Text, f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要检入选定项吗？");
                 if (dialogResult == DialogResult.Cancel)
                 {
                     return;
@@ -818,8 +804,7 @@ namespace PSAP.BLL.SALEBLL
             }
             else
             {
-                //MessageBox.Show("请先选择要检入的文件或文件夹。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(f.tsmiQxxzyjrdwjhwjj.Text, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要检入的文件或文件夹。");
             }
         }
 
@@ -867,14 +852,14 @@ namespace PSAP.BLL.SALEBLL
                             && Convert.ToInt32(dr["defValStored"]) == 1)
                         {
                             CheckInFile(localPath, Convert.ToInt32(lvi.Tag), dr["fileName"].ToString(), Convert.ToInt32(dr["latestRevisionNo"]), Convert.ToBoolean(Convert.ToBoolean(dr["lockOpened"])));
-                            //MessageBox.Show(dr["filename"].ToString());
+                            //MessageHandler.ShowMessageBox(dr["filename"].ToString());
                         }
 
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("检入选择项错误。", ex);
                 }
             }
         }
@@ -915,8 +900,7 @@ namespace PSAP.BLL.SALEBLL
 
                 if (!File.Exists(localFilePath))
                 {
-                    //MessageBox.Show("本地文件【" + fileName + "】不存在！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(f.tsmiBdwj.Text + "【" + fileName + "】" + f.tsmiBcz.Text, f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("本地文件【" + fileName + "】不存在！");
                     return;
                 }
                 string xt = FrmProjectDocument.rootDir + @"\" + documentDir.Substring(documentDir.Length - 1, 1);
@@ -940,9 +924,9 @@ namespace PSAP.BLL.SALEBLL
                 FrmProjectDocumentDAO.UpdateCheckInFlag(documentID);
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("CheckInFile错误。", ex);
             }
         }
         #endregion **********************检入***********************************************
@@ -957,9 +941,7 @@ namespace PSAP.BLL.SALEBLL
         {
             if (lv.SelectedItems.Count > 0)
             {
-                DialogResult dialogResult;
-                //dialogResult = MessageBox.Show("确定要检出选定项吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                dialogResult = MessageBox.Show(f.tsmiQdyjcxdxm.Text, f.tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要检出选定项吗？");
                 if (dialogResult == DialogResult.Cancel)
                 {
                     return;
@@ -968,8 +950,7 @@ namespace PSAP.BLL.SALEBLL
             }
             else
             {
-                //MessageBox.Show("请先选择要检出的文件或文件夹。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(f.tsmiQxxzyjcdwjhwjj.Text , f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要检出的文件或文件夹。");
             }
         }
 
@@ -1018,9 +999,9 @@ namespace PSAP.BLL.SALEBLL
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("检出选择项错误。", ex);
                 }
             }
         }
@@ -1050,8 +1031,7 @@ namespace PSAP.BLL.SALEBLL
                 }
                 else
                 {
-                    //MessageBox.Show("远程文件夹不存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(f.tsmiYcwjjbcz.Text ,f.tsmiTs.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("远程文件夹不存在。");
                     return;
                 }
                 string ftpFileName;
@@ -1079,14 +1059,13 @@ namespace PSAP.BLL.SALEBLL
                 }
                 else
                 {
-                    //MessageBox.Show("远程文件【" + fileName + "】不存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(f.tsmiYcwj.Text +"【" + fileName + "】"+f.tsmiBcz.Text , f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("远程文件【" + fileName + "】不存在。");
                     return;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("检出文件错误。", ex);
             }
         }
         #endregion *********************检出***********************************************
@@ -1117,9 +1096,9 @@ namespace PSAP.BLL.SALEBLL
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("将要打开的且本地没有的文件缓存到本地错误。", ex);
                 }
             }
         }
@@ -1149,8 +1128,7 @@ namespace PSAP.BLL.SALEBLL
                 }
                 else
                 {
-                    //MessageBox.Show("远程文件夹不存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(f.tsmiYcwjjbcz.Text , f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("远程文件夹不存在。");
                     return;
                 }
                 string ftpFileName;
@@ -1174,15 +1152,14 @@ namespace PSAP.BLL.SALEBLL
                 }
                 else
                 {
-                    //MessageBox.Show("远程文件【" + fileName + "】不存在。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(f.tsmiYcwj.Text+"【" + fileName + "】"+f.tsmiBcz.Text , f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("远程文件【" + fileName + "】不存在。");
                     return;
                 }
 
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ExceptionHandler.HandleException("缓存文件错误。", ex);
             }
         }
         #endregion *********************缓存文件***********************************************
@@ -1407,9 +1384,9 @@ namespace PSAP.BLL.SALEBLL
 
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("判断选择项错误。", ex);
                 }
             }
         }
@@ -1614,9 +1591,7 @@ namespace PSAP.BLL.SALEBLL
         {
             if (lv.SelectedItems.Count > 0)
             {
-                DialogResult dialogResult;
-                //dialogResult = MessageBox.Show("确定要隐藏选定文件吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                dialogResult = MessageBox.Show(f.tsmiQdyycxdwjm.Text , f.tsmiTs.Text , MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要隐藏选定文件吗？");
                 if (dialogResult == DialogResult.Cancel)
                 {
                     return;
@@ -1625,8 +1600,7 @@ namespace PSAP.BLL.SALEBLL
             }
             else
             {
-                //MessageBox.Show("请先选择要隐藏的文件或文件夹。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(f.tsmiQxxzyycdwjhwjj.Text ,f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要隐藏的文件或文件夹。");
             }
         }
 
@@ -1665,9 +1639,9 @@ namespace PSAP.BLL.SALEBLL
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("隐藏选择项错误。", ex);
                 }
             }
         }
@@ -1684,9 +1658,7 @@ namespace PSAP.BLL.SALEBLL
         {
             if (lv.SelectedItems.Count > 0)
             {
-                DialogResult dialogResult;
-                //dialogResult = MessageBox.Show("确定要取消隐藏选定文件吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                dialogResult = MessageBox.Show(f.tsmiQdyycxdwjm.Text , f.tsmiTs.Text , MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult dialogResult = MessageHandler.ShowMessageBox_OKCancel("确定要取消隐藏选定文件吗？");
                 if (dialogResult == DialogResult.Cancel)
                 {
                     return;
@@ -1695,8 +1667,7 @@ namespace PSAP.BLL.SALEBLL
             }
             else
             {
-                //MessageBox.Show("请先选择要取消隐藏的文件或文件夹？", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(f.tsmiQxxzyycdwjhwjj.Text , f.tsmiTs.Text , MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("请先选择要取消隐藏的文件或文件夹？");
             }
         }
 
@@ -1735,9 +1706,9 @@ namespace PSAP.BLL.SALEBLL
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, f.tsmiCw.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("取消隐藏选择项错误。", ex);
                 }
             }
         }

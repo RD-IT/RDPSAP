@@ -72,8 +72,11 @@ namespace PSAP.VIEW.BSVIEW
             {
                 DataTable catgNameTable_t = commonDAO.QueryPartNoCatg(true);
 
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchCodeFileName, true,"AutoId","CodeFileName");
                 searchCodeFileName.EditValue = 0;
+
                 lookUpCatgName.Properties.DataSource = catgNameTable_t;
                 lookUpCatgName.ItemIndex = 0;
                 lookUpBrand.Properties.DataSource = commonDAO.QueryBrandCatg(true);
@@ -731,7 +734,7 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             //treeList1.Nodes.Add(node);
                             codeIdList.Add(DataTypeConvert.GetInt(node["PCAutoId"]), DataTypeConvert.GetString(node["CodeFileName"]));
-                            //MessageBox.Show(node["CodeFileName"].ToString());
+                            //MessageHandler.ShowMessageBox(node["CodeFileName"].ToString());
                         }
                     }
                 }
@@ -742,7 +745,7 @@ namespace PSAP.VIEW.BSVIEW
                     {
                         foreach (DataRow dr in drs)
                         {
-                            //MessageBox.Show(drs[0]["CodeFileName"].ToString().ToString());
+                            //MessageHandler.ShowMessageBox(drs[0]["CodeFileName"].ToString().ToString());
                             codeIdList.Add(DataTypeConvert.GetInt(dr["AutoId"]), DataTypeConvert.GetString(dr["CodeFileName"]));
                         }
                     }
@@ -1118,7 +1121,7 @@ namespace PSAP.VIEW.BSVIEW
                 int autoIdInt = DataTypeConvert.GetInt(focusedNode["ReId"]);
                 if (bomDAO.Delete_WorkProcess(autoIdInt))
                 {
-                    MessageBox.Show("删除工序信息成功。");
+                    MessageHandler.ShowMessageBox("删除工序信息成功。");
                     RefreshDesignBomInfo(focusedNode.ParentNode,true);
                     treeListDesignBom.FocusedNode.Expanded = true;
                 }

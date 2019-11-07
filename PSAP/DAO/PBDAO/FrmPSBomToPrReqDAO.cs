@@ -65,8 +65,8 @@ namespace PSAP.DAO.PBDAO
                         p7.Value = purCategoryStr;
                         SqlParameter p8 = new SqlParameter("@ApprovalType", SqlDbType.VarChar);
                         p8.Value = approvalTypeStr;
-                        SqlParameter p9 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                        p9.Value = SystemInfo.user.EmpName;
+                        SqlParameter p9 = new SqlParameter("@Creator", SqlDbType.Int);
+                        p9.Value = SystemInfo.user.AutoId;
                         SqlParameter p10 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                         p10.Value = SystemInfo.HostIpAddress;
 

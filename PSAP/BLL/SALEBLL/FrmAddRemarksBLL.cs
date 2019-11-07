@@ -1,12 +1,11 @@
 ﻿using PSAP.DAO.BSDAO;
 using PSAP.DAO.SALEDAO;
+using PSAP.PSAPCommon;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PSAP.BLL.SALEBLL
@@ -63,9 +62,9 @@ namespace PSAP.BLL.SALEBLL
                     }
                     BaseSQL.ExecuteSqlTran(FrmAddRemarksDAO.sqlLlist);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ExceptionHandler.HandleException("SaveRemarks error", ex);
                 }
             }
         }
@@ -89,7 +88,7 @@ namespace PSAP.BLL.SALEBLL
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException("GetRemarksInfo error", ex);
             }
         }
 

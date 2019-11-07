@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PSAP.PSAPCommon;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -92,7 +93,7 @@ namespace PSAP.DAO.BSDAO
                 }
                 catch (System.Data.SqlClient.SqlException e)
                 {
-                    MessageBox.Show("当前往来方编码已经被使用，不能修改！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("当前往来方编码已经被使用，不能修改！");
                     tx.Rollback();
                     return false;
                     throw new Exception(e.Message);
@@ -145,7 +146,7 @@ namespace PSAP.DAO.BSDAO
                     }
                     catch (System.Data.SqlClient.SqlException)
                     {
-                        MessageBox.Show("当前往来方编码已经被使用，不能修改！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("当前往来方编码已经被使用，不能修改！");
                         trans.Rollback();
                         dataSet1.Tables["BussinessDetailInfo"].RejectChanges();
                         dataSet1.Tables["BussinessFinancialInfo"].RejectChanges();
@@ -153,7 +154,7 @@ namespace PSAP.DAO.BSDAO
                     }
                     catch (System.Data.DBConcurrencyException)
                     {
-                        MessageBox.Show("当前往来方编码已经被使用，不能修改1111！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("当前往来方编码已经被使用，不能修改1111！");
                         trans.Rollback();
                         dataSet1.Tables["BussinessDetailInfo"].RejectChanges();
                         dataSet1.Tables["BussinessFinancialInfo"].RejectChanges();

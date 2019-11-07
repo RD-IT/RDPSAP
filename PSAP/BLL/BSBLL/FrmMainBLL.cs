@@ -115,7 +115,7 @@ namespace PSAP.BLL.BSBLL
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
+                        MessageHandler.ShowMessageBox(e.Message);
                     }
                 }
             }
@@ -227,7 +227,7 @@ namespace PSAP.BLL.BSBLL
                         }
                         catch (Exception e)
                         {
-                            MessageBox.Show(e.Message);
+                            MessageHandler.ShowMessageBox(e.Message);
                         }
                     }
                 }
@@ -276,7 +276,7 @@ namespace PSAP.BLL.BSBLL
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message);
+                        MessageHandler.ShowMessageBox(e.Message);
                     }
                 }
             }

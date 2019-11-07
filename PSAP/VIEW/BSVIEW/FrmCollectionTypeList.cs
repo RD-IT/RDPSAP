@@ -224,7 +224,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新按钮事件
+        /// 查询按钮事件
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -240,13 +240,12 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiSxansjcw.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
         /// <summary>
-        /// 设定编辑器控件的ReadOnly状态
+        /// 设定修改区控件的ReadOnly状态
         /// </summary>
         /// <param name="readOnlyState">ReadOnly状态</param>
         private void Set_EditZone_ControlReadOnly(bool readOnlyState)

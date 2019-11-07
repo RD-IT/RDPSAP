@@ -44,6 +44,7 @@
             this.tsmiYhidbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiMmbnwk = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiYhdlcw = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSet = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.txtUserID.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtPassword.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panel1)).BeginInit();
@@ -106,6 +107,7 @@
             // panel1
             // 
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.btnSet);
             this.panel1.Controls.Add(this.cboLanguage);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.btnChangePassword);
@@ -158,7 +160,7 @@
             this.tsmiMmbnwk,
             this.tsmiYhdlcw});
             this.cms.Name = "cms";
-            this.cms.Size = new System.Drawing.Size(174, 114);
+            this.cms.Size = new System.Drawing.Size(174, 92);
             // 
             // tsmiYhdl
             // 
@@ -183,6 +185,17 @@
             this.tsmiYhdlcw.Name = "tsmiYhdlcw";
             this.tsmiYhdlcw.Size = new System.Drawing.Size(173, 22);
             this.tsmiYhdlcw.Text = "用户登录错误。";
+            // 
+            // btnSet
+            // 
+            this.btnSet.Location = new System.Drawing.Point(104, 218);
+            this.btnSet.Name = "btnSet";
+            this.btnSet.Size = new System.Drawing.Size(75, 23);
+            this.btnSet.TabIndex = 9;
+            this.btnSet.TabStop = false;
+            this.btnSet.Text = "配置";
+            this.btnSet.Visible = false;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // FrmLogin
             // 
@@ -226,6 +239,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiYhidbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiMmbnwk;
         private System.Windows.Forms.ToolStripMenuItem tsmiYhdlcw;
+        private DevExpress.XtraEditors.SimpleButton btnSet;
     }
 }
 

@@ -26,18 +26,18 @@ namespace PSAP.DAO.PURDAO
         /// <param name="reqDepStr">部门编号</param>
         /// <param name="bussinessBaseNoStr">往来方编号</param>
         /// <param name="reqStateInt">状态</param>
-        /// <param name="preparedStr">申请人</param>
+        /// <param name="creatorInt">制单人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QuerySettlementHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string beginPayDateStr, string endPayDateStr, string reqDepStr, string bussinessBaseNoStr, int reqStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QuerySettlementHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string beginPayDateStr, string endPayDateStr, string reqDepStr, string bussinessBaseNoStr, int reqStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QuerySettlementHead_SQL(beginDateStr, endDateStr, beginPayDateStr, endPayDateStr, reqDepStr, bussinessBaseNoStr, reqStateInt, preparedStr, approverInt, commonStr, 0, nullTable), queryDataTable);
+            BaseSQL.Query(QuerySettlementHead_SQL(beginDateStr, endDateStr, beginPayDateStr, endPayDateStr, reqDepStr, bussinessBaseNoStr, reqStateInt, creatorInt, approverInt, commonStr, 0, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询采购结账单表头表的SQL
         /// </summary>
-        public string QuerySettlementHead_SQL(string beginDateStr, string endDateStr, string beginPayDateStr, string endPayDateStr, string reqDepStr, string bussinessBaseNoStr, int reqStateInt, string preparedStr, int approverInt, string commonStr, int wwListAutoIdInt, bool nullTable)
+        public string QuerySettlementHead_SQL(string beginDateStr, string endDateStr, string beginPayDateStr, string endPayDateStr, string reqDepStr, string bussinessBaseNoStr, int reqStateInt, int creatorInt, int approverInt, string commonStr, int wwListAutoIdInt, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -60,13 +60,13 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and WarehouseState={0}", reqStateInt);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
-                sqlStr += string.Format(" and (SettlementNo like '%{0}%' or InvoiceNo like '%{0}%' or Remark like '%{0}%' or PUR_SettlementHead.ApprovalType like '%{0}%')", commonStr);
+                sqlStr += string.Format(" and (SettlementNo like '%{0}%' or InvoiceNo like '%{0}%' or Remark like '%{0}%' or PUR_SettlementHead.ApprovalType like '%{0}%' or SettlementNo in (select SettlementNo from PUR_SettlementList where WarehouseWarrant like '%{0}%'))", commonStr);
             }
             if (wwListAutoIdInt > 0)
             {
@@ -146,7 +146,8 @@ namespace PSAP.DAO.PURDAO
                             if (!CheckWarehouseState(SettlementHeadRow.Table, SettlementListTable, string.Format("'{0}'", DataTypeConvert.GetString(SettlementHeadRow["SettlementNo"])), false, true, true, true))
                                 return -1;
 
-                            SettlementHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            SettlementHeadRow["ModifierId"] = SystemInfo.user.AutoId;
+                            //SettlementHeadRow["Modifier"] = SystemInfo.user.EmpName;
                             SettlementHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             SettlementHeadRow["ModifierTime"] = BaseSQL.GetServerDateTime();
                         }
@@ -200,45 +201,40 @@ namespace PSAP.DAO.PURDAO
                 int wState = DataTypeConvert.GetInt(tmpTable.Rows[i]["WarehouseState"]);
                 switch (wState)
                 {
-                    case 1:
+                    case (int)CommonHandler.WarehouseState.待审批:
                         if (checkNoApprover)
                         {
-                            //MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
-                            MessageHandler.ShowMessageBox(string.Format(f.tsmiCgjzd.Text + "[{0}]" + f.tsmiWsp.Text + f.tsmiBkycz.Text, DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"]), CommonHandler.WarehouseState.待审批));
                             SettlementHeadTable.RejectChanges();
                             if (SettlementListTable != null)
                                 SettlementListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.WarehouseState.已审批:
                         if (checkApprover)
                         {
-                            //MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
-                            MessageHandler.ShowMessageBox(string.Format(f.tsmiCgjzd.Text + "[{0}]" + f.tsmiYjsp.Text + f.tsmiBkycz.Text, DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
-
+                            MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"]), CommonHandler.WarehouseState.已审批));
                             SettlementHeadTable.RejectChanges();
                             if (SettlementListTable != null)
                                 SettlementListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 3:
+                    case (int)CommonHandler.WarehouseState.已结账:
                         if (checkSettle)
                         {
-                            //MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
-                            MessageHandler.ShowMessageBox(string.Format(f.tsmiCgjzd.Text + "[{0}]" + f.tsmiYjjz.Text + f.tsmiBkycz.Text, DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"]), CommonHandler.WarehouseState.已结账));
                             SettlementHeadTable.RejectChanges();
                             if (SettlementListTable != null)
                                 SettlementListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 4:
+                    case (int)CommonHandler.WarehouseState.审批中:
                         if (checkApproverBetween)
                         {
-                            //MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
-                            MessageHandler.ShowMessageBox(string.Format(f.tsmiCgjzd.Text + "[{0}]" + f.tsmiYjspz.Text + f.tsmiBkycz.Text, DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("采购结账单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SettlementNo"]), CommonHandler.WarehouseState.审批中));
                             SettlementHeadTable.RejectChanges();
                             if (SettlementListTable != null)
                                 SettlementListTable.RejectChanges();
@@ -303,6 +299,9 @@ namespace PSAP.DAO.PURDAO
             //        cmd.ExecuteNonQuery();
             //    }
             //}
+
+            if (settlementListTable == null)
+                return;
 
             List<string> wwHeadNoList = new List<string>();
             foreach (DataRow dr in settlementListTable.Rows)
@@ -429,12 +428,12 @@ namespace PSAP.DAO.PURDAO
                                 if (tmpTable.Rows.Count == 0)
                                 {
                                     trans.Rollback();
-                                    //MessageHandler.ShowMessageBox("未查询到要操作的采购结账单，请刷新后再进行操作。");
+                                    //MessageHandler.ShowMessageBox("未查询到要操作的采购结账单，请查询后再进行操作。");
                                     MessageHandler.ShowMessageBox(f.tsmiWcxdyc.Text);
                                     return false;
                                 }
 
-                                //审核检查采购结账单明细数量是否超过入库单明细数量
+                                //审批检查采购结账单明细数量是否超过入库单明细数量
                                 DataTable orderListTable = new DataTable();
                                 QuerySettlementList(orderListTable, settlementNoStr, false);
                                 if (!CheckWarehouseWarrantApplyBeyondCount(cmd, settlementNoStr, orderListTable))
@@ -452,9 +451,9 @@ namespace PSAP.DAO.PURDAO
                                 listadpt.Fill(listTable);
                                 if (listTable.Rows.Count == 0)
                                 {
-                                    cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState = 2 where SettlementNo='{0}'", settlementNoStr);
+                                    cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState={1} where SettlementNo='{0}'", settlementNoStr, (int)CommonHandler.WarehouseState.已审批);
                                     cmd.ExecuteNonQuery();
-                                    settlementHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    settlementHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                     continue;
                                 }
                                 int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
@@ -476,15 +475,15 @@ namespace PSAP.DAO.PURDAO
 
                                 if (listTable.Rows.Count == 1 || approvalCatInt == 2)
                                 {
-                                    cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState=2 where SettlementNo='{0}'", settlementNoStr);
+                                    cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState={1} where SettlementNo='{0}'", settlementNoStr, (int)CommonHandler.WarehouseState.已审批);
                                     cmd.ExecuteNonQuery();
-                                    settlementHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    settlementHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                 }
                                 else
                                 {
-                                    cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState=4 where SettlementNo='{0}'", settlementNoStr);
+                                    cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState={1} where SettlementNo='{0}'", settlementNoStr, (int)CommonHandler.WarehouseState.审批中);
                                     cmd.ExecuteNonQuery();
-                                    settlementHeadTable.Rows[i]["WarehouseState"] = 4;
+                                    settlementHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.审批中;
                                 }
 
                                 //保存日志到日志表中
@@ -522,7 +521,7 @@ namespace PSAP.DAO.PURDAO
                 if (DataTypeConvert.GetBoolean(settlementHeadTable.Rows[i]["Select"]))
                 {
                     SettlementNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(settlementHeadTable.Rows[i]["SettlementNo"]));
-                    settlementHeadTable.Rows[i]["WarehouseState"] = 1;
+                    settlementHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.待审批;
                 }
             }
 
@@ -540,7 +539,7 @@ namespace PSAP.DAO.PURDAO
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", SettlementNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState=1 where SettlementNo in ({0})", SettlementNoListStr);
+                        cmd.CommandText = string.Format("Update PUR_SettlementHead set WarehouseState={0} where SettlementNo in ({0})", SettlementNoListStr, (int)CommonHandler.WarehouseState.待审批);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中

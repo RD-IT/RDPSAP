@@ -54,12 +54,15 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpQState.Properties.DataSource = CommonHandler.GetQuotationInfoStateTable(true);
                 lookUpQState.ItemIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpQState.DataSource = CommonHandler.GetQuotationInfoStateTable(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -117,7 +120,7 @@ namespace PSAP.VIEW.BSVIEW
                 string recordDateEndStr = dateRecordDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_Quotation.Tables[0].Rows.Clear();
@@ -133,7 +136,7 @@ namespace PSAP.VIEW.BSVIEW
                         break;
                 }
 
-                string querySqlStr = quoDAO.QueryQuotationBaseInfoAndCor_SQL(recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, empNameStr, commonStr,qStateInt);
+                string querySqlStr = quoDAO.QueryQuotationBaseInfoAndCor_SQL(recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, creatorInt, commonStr,qStateInt);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

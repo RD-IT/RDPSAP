@@ -11,6 +11,8 @@ namespace PSAP.DAO.PBDAO
 {
     class FrmProductionPlanDAO
     {
+        WorkFlowsHandleDAO wfHandleDAO = new WorkFlowsHandleDAO();
+
         /// <summary>
         /// 查询工单信息
         /// </summary>
@@ -22,7 +24,7 @@ namespace PSAP.DAO.PBDAO
         /// <param name="projectNoStr">项目号</param>
         /// <param name="currentStatusInt">状态</param>
         /// <param name="creatorInt">创建人</param>
-        /// <param name="approverInt">审核人</param>
+        /// <param name="approverInt">审批人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
         public void QueryProductionPlan(DataTable queryDataTable, string beginDateStr, string endDateStr, int codeIdInt, string manufactureNoStr, string projectNoStr, int currentStatusInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
@@ -77,11 +79,16 @@ namespace PSAP.DAO.PBDAO
                     sqlStr += string.Format(" and CurrentStatus in (4, 5)");
                 else
                 {
-                    string tableNameStr = "PB_ProductionPlan";
-                    int moduleTypeInt = 2;
-                    string tmpSqlStr = new FrmWorkFlowDataHandleDAO().GetWorkFlowLine_ConditionString(tableNameStr, moduleTypeInt, approverInt);
-                    sqlStr = string.Format("select PB_ProductionPlan.*, CodeFileName, CodeName from PB_ProductionPlan left join SW_PartsCode on PB_ProductionPlan.CodeId = SW_PartsCode.AutoId where {0} {1} order by AutoId", sqlStr, tmpSqlStr);
-                    return sqlStr;
+                    //string tableNameStr = "PB_ProductionPlan";
+                    //int moduleTypeInt = 2;
+                    //string tmpSqlStr = new FrmWorkFlowDataHandleDAO().GetWorkFlowLine_ConditionString(tableNameStr, moduleTypeInt, approverInt);
+                    //sqlStr = string.Format("select PB_ProductionPlan.*, CodeFileName, CodeName from PB_ProductionPlan left join SW_PartsCode on PB_ProductionPlan.CodeId = SW_PartsCode.AutoId where {0} {1} order by AutoId", sqlStr, tmpSqlStr);
+                    //return sqlStr;
+                    string tmpSqlStr = wfHandleDAO.GetWorkFlowsLine_OrderQuerySQL(WorkFlowsHandleDAO.OrderType.工单, approverInt);
+                    if (tmpSqlStr != "")
+                        return tmpSqlStr;
+                    else
+                        sqlStr += string.Format(" and CurrentStatus in (4, 5)");
                 }
             }
             if (nullTable)
@@ -109,15 +116,18 @@ namespace PSAP.DAO.PBDAO
         public bool DeleteProductionPlan_Multi(DataTable productionPlanTable)
         {
             string planNoListStr = "";
+            Dictionary<string, int> planNoDictionary = new Dictionary<string, int>();
             for (int i = 0; i < productionPlanTable.Rows.Count; i++)
             {
                 if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
                 {
-                    planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
+                    string planNoStr = DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]);
+                    planNoListStr += string.Format("'{0}',", planNoStr);
+                    planNoDictionary.Add(planNoStr, 0);
                 }
             }
             planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
-            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, false, true, true, true, false))
+            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, false, true, true))
                 return false;
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
@@ -127,6 +137,11 @@ namespace PSAP.DAO.PBDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
+
+                        if (!wfHandleDAO.MultiOrderWorkFlowsHandle(cmd, WorkFlowsHandleDAO.OrderType.工单, WorkFlowsHandleDAO.LineType.删除, ref planNoDictionary))
+                        {
+                            return false;
+                        }
 
                         //保存日志到日志表中
                         DataRow[] productionPlanRows = productionPlanTable.Select("select=1");
@@ -140,10 +155,7 @@ namespace PSAP.DAO.PBDAO
                         cmd.CommandText = string.Format("Delete from PB_ProductionPlan where PlanNo in ({0})", planNoListStr);
                         cmd.ExecuteNonQuery();
 
-                        //if (SystemInfo.EnableWorkFlowMessage)
-                        {
-                            new FrmWorkFlowDataHandleDAO().DeleteDataCurrentNode(cmd, planNoListStr);
-                        }
+                        //new FrmWorkFlowDataHandleDAO().DeleteDataCurrentNode(cmd, planNoListStr);                        
 
                         trans.Commit();
                         return true;
@@ -164,7 +176,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 检测数据库中工单状态是否可以操作
         /// </summary>
-        public bool CheckCurrentStatus(DataTable productionPlanTable, DataTable productionPlanListTable, string planNoListStr, bool checkNoApprover, bool checkApprover, bool checkApproverBetween, bool checkSubmit, bool checkReject)
+        public bool CheckCurrentStatus(DataTable productionPlanTable, DataTable productionPlanListTable, string planNoListStr, bool checkNoSubmit, bool checkApprover, bool checkApproverBetween)
         {
             string sqlStr = string.Format("select PlanNo, CurrentStatus from PB_ProductionPlan where PlanNo in ({0})", planNoListStr);
             DataTable tmpTable = BaseSQL.Query(sqlStr).Tables[0];
@@ -173,50 +185,30 @@ namespace PSAP.DAO.PBDAO
                 int currentStatusInt = DataTypeConvert.GetInt(tmpTable.Rows[i]["CurrentStatus"]);
                 switch (currentStatusInt)
                 {
-                    case 1:
-                        if (checkNoApprover)
+                    case (int)CommonHandler.OrderState.待提交:
+                        if (checkNoSubmit)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"]), CommonHandler.OrderState.待提交));
                             productionPlanTable.RejectChanges();
                             if (productionPlanListTable != null)
                                 productionPlanListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.OrderState.已审批:
                         if (checkApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"]), CommonHandler.OrderState.已审批));
                             productionPlanTable.RejectChanges();
                             if (productionPlanListTable != null)
                                 productionPlanListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 4:
+                    case (int)CommonHandler.OrderState.审批中:
                         if (checkApproverBetween)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"])));
-                            productionPlanTable.RejectChanges();
-                            if (productionPlanListTable != null)
-                                productionPlanListTable.RejectChanges();
-                            return false;
-                        }
-                        break;
-                    case 5:
-                        if (checkSubmit)
-                        {
-                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]已经提交，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"])));
-                            productionPlanTable.RejectChanges();
-                            if (productionPlanListTable != null)
-                                productionPlanListTable.RejectChanges();
-                            return false;
-                        }
-                        break;
-                    case 6:
-                        if (checkReject)
-                        {
-                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]已经拒绝，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("工单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PlanNo"]), CommonHandler.OrderState.审批中));
                             productionPlanTable.RejectChanges();
                             if (productionPlanListTable != null)
                                 productionPlanListTable.RejectChanges();
@@ -251,7 +243,7 @@ namespace PSAP.DAO.PBDAO
                         }
 
                         //cmd.CommandText = string.Format("select RemainQty - (Select IsNull(SUM(Qty), 0) from V_PB_ProductionPlanList_All as ppList where ppList.DesignBomListId = PB_DesignBomList.AutoId and ppList.PlanNo != '{1}') as OpQty from PB_DesignBomList where AutoId = {0}", dbListId, DataTypeConvert.GetString(productionPlanRow["PlanNo"]));
-                        double remainQty = Query_DesignBomList_OpQty(cmd,dbListId, DataTypeConvert.GetString(productionPlanRow["PlanNo"]));
+                        double remainQty = Query_DesignBomList_OpQty(cmd, dbListId, DataTypeConvert.GetString(productionPlanRow["PlanNo"]));
                         double ppRowQty = DataTypeConvert.GetDouble(productionPlanRow["Qty"]);
                         if (ppRowQty > remainQty)
                         {
@@ -301,7 +293,7 @@ namespace PSAP.DAO.PBDAO
                         }
                         else//修改
                         {
-                            if (!CheckCurrentStatus(productionPlanRow.Table, productionPlanListTable, string.Format("'{0}'", DataTypeConvert.GetString(productionPlanRow["PlanNo"])), false, true, true, true, false))
+                            if (!CheckCurrentStatus(productionPlanRow.Table, productionPlanListTable, string.Format("'{0}'", DataTypeConvert.GetString(productionPlanRow["PlanNo"])), false, true, true))
                                 return -1;
 
                             productionPlanRow["Modifier"] = SystemInfo.user.AutoId;
@@ -309,18 +301,11 @@ namespace PSAP.DAO.PBDAO
                             productionPlanRow["ModifierTime"] = BaseSQL.GetServerDateTime();
                         }
 
+                        if (wfHandleDAO.OrderWorkFlowsHandle(cmd, WorkFlowsHandleDAO.OrderType.工单, WorkFlowsHandleDAO.LineType.保存, DataTypeConvert.GetString(productionPlanRow["PlanNo"]), "") < 0)
+                            return -1;
+
                         //保存日志到日志表中
                         string logStr = LogHandler.RecordLog_DataRow(cmd, "工单", productionPlanRow, "PlanNo");
-
-                        //if (SystemInfo.EnableWorkFlowMessage)
-                        //{
-                        //    if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(productionPlanRow["PlanNo"]) }, "生产流程", "PB_ProductionPlan", 1, DataTypeConvert.GetInt(productionPlanRow["CurrentStatus"]), "", "", 1, false))
-                        //    {
-                        //        trans.Rollback();
-                        //        MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
-                        //        return -1;
-                        //    }
-                        //}
 
                         for (int i = 0; i < productionPlanListTable.Rows.Count; i++)
                         {
@@ -413,7 +398,7 @@ namespace PSAP.DAO.PBDAO
 
             cmd.CommandText = string.Format("select SUM(TotalQty) - SUM(AbsQty) from F_DesignBomList_RelationNodeTotal({0})", dbListIdInt);
             double relationTotalQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
-            cmd.CommandText =string.Format("Select IsNull(SUM(Qty), 0) from V_PB_ProductionPlanList_All where DesignBomListId in (select AutoId from F_DesignBomList_RelationNodeTotal({0})) and PlanNo != '{1}'", dbListIdInt, planNo);
+            cmd.CommandText = string.Format("Select IsNull(SUM(Qty), 0) from V_PB_ProductionPlanList_All where DesignBomListId in (select AutoId from F_DesignBomList_RelationNodeTotal({0})) and PlanNo != '{1}'", dbListIdInt, planNo);
             double relationTotalQty_OtherPPList = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
             double opQty_relationTotalQty = relationTotalQty - relationTotalQty_OtherPPList;
 
@@ -429,18 +414,21 @@ namespace PSAP.DAO.PBDAO
         public bool SubmitPPlan_Multi(DataTable productionPlanTable)
         {
             string planNoListStr = "";
+            Dictionary<string, int> planNoDictionary = new Dictionary<string, int>();
             DateTime serverTime = BaseSQL.GetServerDateTime();
             for (int i = 0; i < productionPlanTable.Rows.Count; i++)
             {
                 if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
                 {
-                    planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
-                    productionPlanTable.Rows[i]["CurrentStatus"] = 5;
+                    string planNoStr = DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]);
+                    planNoListStr += string.Format("'{0}',", planNoStr);                    
+                    productionPlanTable.Rows[i]["CurrentStatus"] = (int)CommonHandler.OrderState.审批中;
+                    planNoDictionary.Add(planNoStr, (int)CommonHandler.OrderState.审批中);
                 }
             }
 
             planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
-            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, false, true, true, true, false))
+            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, false, true, true))
                 return false;
 
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
@@ -451,7 +439,26 @@ namespace PSAP.DAO.PBDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
-                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo in ({0})", planNoListStr, 5);
+
+                        if (!wfHandleDAO.MultiOrderWorkFlowsHandle(cmd, WorkFlowsHandleDAO.OrderType.工单, WorkFlowsHandleDAO.LineType.提交, ref planNoDictionary))
+                        {
+                            return false;
+                        }
+
+                        int stateInt = (int)CommonHandler.OrderState.审批中;
+                        if (!planNoDictionary.ContainsValue(stateInt))
+                        {
+                            for (int i = 0; i < productionPlanTable.Rows.Count; i++)
+                            {
+                                if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
+                                {
+                                    stateInt = planNoDictionary[DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"])];
+                                    productionPlanTable.Rows[i]["CurrentStatus"] = stateInt;
+                                }
+                            }
+                        }
+
+                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo in ({0})", planNoListStr, (int)stateInt);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -459,23 +466,13 @@ namespace PSAP.DAO.PBDAO
                         for (int i = 0; i < productionPlanRows.Length; i++)
                         {
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanRows[i], "PlanNo", "提交", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                            
-                            //if (SystemInfo.EnableWorkFlowMessage)
-                            {
-                                int stateInt = 5;
-                                if (!new FrmWorkFlowDataHandleDAO().HandleWorkFlowData(cmd, DataTypeConvert.GetString(productionPlanRows[i]["PlanNo"]), "生产流程", "PB_ProductionPlan", "PlanNo", 1, ref stateInt, -1, "", "", 0, false))
-                                {
-                                    trans.Rollback();
-                                    return false;
-                                }
 
-                                //if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { DataTypeConvert.GetString(productionPlanRows[i]["PlanNo"]) }, "生产流程", "PB_ProductionPlan", 1, DataTypeConvert.GetInt(productionPlanRows[i]["CurrentStatus"]), "", "", 1, false))
-                                //{
-                                //    trans.Rollback();
-                                //    MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
-                                //    return false;
-                                //}
-                            }
+                            //int stateInt = 4;
+                            //if (!new FrmWorkFlowDataHandleDAO().HandleWorkFlowData(cmd, DataTypeConvert.GetString(productionPlanRows[i]["PlanNo"]), "生产流程", "PB_ProductionPlan", "PlanNo", 1, ref stateInt, -1, "", "", 0, false))
+                            //{
+                            //    trans.Rollback();
+                            //    return false;
+                            //}
                         }
                         trans.Commit();
                         productionPlanTable.AcceptChanges();
@@ -501,18 +498,21 @@ namespace PSAP.DAO.PBDAO
         public bool CancelSubmitPPlan_Multi(DataTable productionPlanTable)
         {
             string planNoListStr = "";
+            Dictionary<string, int> planNoDictionary = new Dictionary<string, int>();
             DateTime serverTime = BaseSQL.GetServerDateTime();
             for (int i = 0; i < productionPlanTable.Rows.Count; i++)
             {
                 if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
                 {
-                    planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
-                    productionPlanTable.Rows[i]["CurrentStatus"] = 1;
+                    string planNoStr = DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]);
+                    planNoListStr += string.Format("'{0}',", planNoStr);
+                    productionPlanTable.Rows[i]["CurrentStatus"] = (int)CommonHandler.OrderState.待提交;
+                    planNoDictionary.Add(planNoStr, (int)CommonHandler.OrderState.待提交);
                 }
             }
 
             planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
-            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, true, true, false, true))
+            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, true, false))
                 return false;
 
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
@@ -523,7 +523,13 @@ namespace PSAP.DAO.PBDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
-                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo in ({0})", planNoListStr, 1);
+
+                        if (!wfHandleDAO.MultiOrderWorkFlowsHandle(cmd, WorkFlowsHandleDAO.OrderType.工单, WorkFlowsHandleDAO.LineType.取消提交, ref planNoDictionary))
+                        {
+                            return false;
+                        }
+
+                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo in ({0})", planNoListStr, (int)CommonHandler.OrderState.待提交);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -533,11 +539,8 @@ namespace PSAP.DAO.PBDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanRows[i], "PlanNo", "取消提交", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
-                        //if (SystemInfo.EnableWorkFlowMessage)
-                        {
-                            new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, planNoListStr, 1, 0);
-                        }
-
+                        //new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, planNoListStr, 1, 0);
+                        
                         trans.Commit();
                         productionPlanTable.AcceptChanges();
                         return true;
@@ -556,138 +559,138 @@ namespace PSAP.DAO.PBDAO
             }
         }
 
-        /// <summary>
-        /// 审批选中的多条工单
-        /// </summary>
-        public bool PPlanApprovalInfo_Multi(DataTable productionPlanTable, int nodeIdInt, string flowModuleIdStr, string approverOptionStr, int approverResultInt, ref int successCountInt)
-        {
-            string planNoListStr = "";
-            for (int i = 0; i < productionPlanTable.Rows.Count; i++)
-            {
-                if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
-                {
-                    planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
-                }
-            }
+        ///// <summary>
+        ///// 审批选中的多条工单
+        ///// </summary>
+        //public bool PPlanApprovalInfo_Multi(DataTable productionPlanTable, int nodeIdInt, string flowModuleIdStr, string approverOptionStr, int approverResultInt, ref int successCountInt)
+        //{
+        //    string planNoListStr = "";
+        //    for (int i = 0; i < productionPlanTable.Rows.Count; i++)
+        //    {
+        //        if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
+        //        {
+        //            planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
+        //        }
+        //    }
 
-            planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
-            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, true, false, false, true))
-                return false;
-            successCountInt = 0;
-            using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
-            {
-                conn.Open();
-                using (SqlTransaction trans = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        SqlCommand cmd = new SqlCommand("", conn, trans);
-                        DateTime serverTime = BaseSQL.GetServerDateTime();
-                        for (int i = 0; i < productionPlanTable.Rows.Count; i++)
-                        {
-                            if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
-                            {
-                                DataRow productionPlanRow = productionPlanTable.Rows[i];
-                                string planNoStr = DataTypeConvert.GetString(productionPlanRow["PlanNo"]);
+        //    planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
+        //    if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, true, false))
+        //        return false;
+        //    successCountInt = 0;
+        //    using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
+        //    {
+        //        conn.Open();
+        //        using (SqlTransaction trans = conn.BeginTransaction())
+        //        {
+        //            try
+        //            {
+        //                SqlCommand cmd = new SqlCommand("", conn, trans);
+        //                DateTime serverTime = BaseSQL.GetServerDateTime();
+        //                for (int i = 0; i < productionPlanTable.Rows.Count; i++)
+        //                {
+        //                    if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
+        //                    {
+        //                        DataRow productionPlanRow = productionPlanTable.Rows[i];
+        //                        string planNoStr = DataTypeConvert.GetString(productionPlanRow["PlanNo"]);
 
-                                cmd.CommandText = string.Format("select PB_ProductionPlan.PlanNo, PB_ProductionPlan.ApprovalType, PUR_ApprovalType.ApprovalCat from PB_ProductionPlan left join PUR_ApprovalType on PB_ProductionPlan.ApprovalType = PUR_ApprovalType.TypeNo where PlanNo='{0}'", planNoStr);
-                                DataTable tmpTable = new DataTable();
-                                SqlDataAdapter prReqadpt = new SqlDataAdapter(cmd);
-                                prReqadpt.Fill(tmpTable);
-                                if (tmpTable.Rows.Count == 0)
-                                {
-                                    trans.Rollback();
-                                    MessageHandler.ShowMessageBox("未查询到要操作的工单，请刷新后再进行操作。");
-                                    return false;
-                                }
+        //                        cmd.CommandText = string.Format("select PB_ProductionPlan.PlanNo, PB_ProductionPlan.ApprovalType, PUR_ApprovalType.ApprovalCat from PB_ProductionPlan left join PUR_ApprovalType on PB_ProductionPlan.ApprovalType = PUR_ApprovalType.TypeNo where PlanNo='{0}'", planNoStr);
+        //                        DataTable tmpTable = new DataTable();
+        //                        SqlDataAdapter prReqadpt = new SqlDataAdapter(cmd);
+        //                        prReqadpt.Fill(tmpTable);
+        //                        if (tmpTable.Rows.Count == 0)
+        //                        {
+        //                            trans.Rollback();
+        //                            MessageHandler.ShowMessageBox("未查询到要操作的工单，请查询后再进行操作。");
+        //                            return false;
+        //                        }
 
-                                string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
-                                cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", planNoStr, approvalTypeStr);
-                                DataTable listTable = new DataTable();
-                                SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
-                                listadpt.Fill(listTable);
-                                if (listTable.Rows.Count == 0)
-                                {
-                                    cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus=2 where PlanNo='{0}'", planNoStr);
-                                    cmd.ExecuteNonQuery();
-                                    productionPlanTable.Rows[i]["CurrentStatus"] = 2;
-                                    continue;
-                                }
-                                int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
-                                switch (approvalCatInt)
-                                {
-                                    case 0:
-                                        if (DataTypeConvert.GetInt(listTable.Rows[0]["Approver"]) != SystemInfo.user.AutoId)
-                                            continue;
-                                        break;
-                                    case 1:
-                                    case 2:
-                                        if (listTable.Select(string.Format("Approver={0}", SystemInfo.user.AutoId)).Length == 0)
-                                            continue;
-                                        break;
-                                }
+        //                        string approvalTypeStr = DataTypeConvert.GetString(tmpTable.Rows[0]["ApprovalType"]);
+        //                        cmd.CommandText = string.Format("select * from F_OrderNoApprovalList('{0}','{1}') Order by AppSequence", planNoStr, approvalTypeStr);
+        //                        DataTable listTable = new DataTable();
+        //                        SqlDataAdapter listadpt = new SqlDataAdapter(cmd);
+        //                        listadpt.Fill(listTable);
+        //                        if (listTable.Rows.Count == 0)
+        //                        {
+        //                            cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus=2 where PlanNo='{0}'", planNoStr);
+        //                            cmd.ExecuteNonQuery();
+        //                            productionPlanTable.Rows[i]["CurrentStatus"] = 2;
+        //                            continue;
+        //                        }
+        //                        int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
+        //                        switch (approvalCatInt)
+        //                        {
+        //                            case 0:
+        //                                if (DataTypeConvert.GetInt(listTable.Rows[0]["Approver"]) != SystemInfo.user.AutoId)
+        //                                    continue;
+        //                                break;
+        //                            case 1:
+        //                            case 2:
+        //                                if (listTable.Select(string.Format("Approver={0}", SystemInfo.user.AutoId)).Length == 0)
+        //                                    continue;
+        //                                break;
+        //                        }
 
-                                if (!SystemInfo.EnableWorkFlowMessage || (SystemInfo.EnableWorkFlowMessage && approverResultInt == 1))
-                                {
-                                    cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", planNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                                    cmd.ExecuteNonQuery();
+        //                        if (!SystemInfo.EnableWorkFlowMessage || (SystemInfo.EnableWorkFlowMessage && approverResultInt == 1))
+        //                        {
+        //                            cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", planNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                            cmd.ExecuteNonQuery();
 
-                                    //保存日志到日志表中
-                                    string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanTable.Rows[i], "PlanNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                                }
-                                else
-                                {
-                                    //保存日志到日志表中
-                                    string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanTable.Rows[i], "PlanNo", "拒绝审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                                }
+        //                            //保存日志到日志表中
+        //                            string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanTable.Rows[i], "PlanNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                        }
+        //                        else
+        //                        {
+        //                            //保存日志到日志表中
+        //                            string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanTable.Rows[i], "PlanNo", "拒绝审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+        //                        }
 
-                                successCountInt++;
-                                if (listTable.Rows.Count == 1 || approvalCatInt == 2)
-                                {
-                                    productionPlanTable.Rows[i]["CurrentStatus"] = 2;
-                                }
-                                else
-                                {
-                                    productionPlanTable.Rows[i]["CurrentStatus"] = 4;
-                                }
+        //                        successCountInt++;
+        //                        if (listTable.Rows.Count == 1 || approvalCatInt == 2)
+        //                        {
+        //                            productionPlanTable.Rows[i]["CurrentStatus"] = 2;
+        //                        }
+        //                        else
+        //                        {
+        //                            productionPlanTable.Rows[i]["CurrentStatus"] = 4;
+        //                        }
 
-                                if (SystemInfo.EnableWorkFlowMessage)
-                                {
-                                    if (approverResultInt != 1)
-                                    {
-                                        productionPlanTable.Rows[i]["CurrentStatus"] = 6;
-                                    }
+        //                        if (SystemInfo.EnableWorkFlowMessage)
+        //                        {
+        //                            if (approverResultInt != 1)
+        //                            {
+        //                                productionPlanTable.Rows[i]["CurrentStatus"] = 6;
+        //                            }
 
-                                    if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { planNoStr }, "生产流程", "PB_ProductionPlan", approverResultInt == 1 ? 2 : 1, DataTypeConvert.GetInt(productionPlanTable.Rows[i]["CurrentStatus"]), SystemInfo.user.LoginID, approverOptionStr, approverResultInt, true))
-                                    {
-                                        trans.Rollback();
-                                        MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
-                                        return false;
-                                    }
-                                }
+        //                            if (!new FrmWorkFlowDataHandleDAO().InsertWorkFlowDataHandle(cmd, new List<string>() { planNoStr }, "生产流程", "PB_ProductionPlan", approverResultInt == 1 ? 2 : 1, DataTypeConvert.GetInt(productionPlanTable.Rows[i]["CurrentStatus"]), SystemInfo.user.LoginID, approverOptionStr, approverResultInt, true))
+        //                            {
+        //                                trans.Rollback();
+        //                                MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
+        //                                return false;
+        //                            }
+        //                        }
 
-                                cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo='{0}'", planNoStr, productionPlanTable.Rows[i]["CurrentStatus"]);
-                                cmd.ExecuteNonQuery();
-                            }
-                        }
+        //                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo='{0}'", planNoStr, productionPlanTable.Rows[i]["CurrentStatus"]);
+        //                        cmd.ExecuteNonQuery();
+        //                    }
+        //                }
 
-                        trans.Commit();
-                        productionPlanTable.AcceptChanges();
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        trans.Rollback();
-                        productionPlanTable.RejectChanges();
-                        throw ex;
-                    }
-                    finally
-                    {
-                        conn.Close();
-                    }
-                }
-            }
-        }
+        //                trans.Commit();
+        //                productionPlanTable.AcceptChanges();
+        //                return true;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                trans.Rollback();
+        //                productionPlanTable.RejectChanges();
+        //                throw ex;
+        //            }
+        //            finally
+        //            {
+        //                conn.Close();
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// 取消审批选中的多条工单
@@ -695,17 +698,20 @@ namespace PSAP.DAO.PBDAO
         public bool CancalPPlanApprovalInfo_Multi(DataTable productionPlanTable)
         {
             string planNoListStr = "";
+            Dictionary<string, int> planNoDictionary = new Dictionary<string, int>();
             for (int i = 0; i < productionPlanTable.Rows.Count; i++)
             {
                 if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
                 {
-                    planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
-                    productionPlanTable.Rows[i]["CurrentStatus"] = 1;
+                    string planNoStr = DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]);
+                    planNoListStr += string.Format("'{0}',", planNoStr);
+                    productionPlanTable.Rows[i]["CurrentStatus"] = (int)CommonHandler.OrderState.待提交;
+                    planNoDictionary.Add(planNoStr, (int)CommonHandler.OrderState.待提交);
                 }
             }
 
             planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
-            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, false, false, true, true))
+            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, false, true))
                 return false;
 
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
@@ -716,9 +722,15 @@ namespace PSAP.DAO.PBDAO
                     try
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
+
+                        if (!wfHandleDAO.MultiOrderWorkFlowsHandle(cmd, WorkFlowsHandleDAO.OrderType.工单, WorkFlowsHandleDAO.LineType.取消审批, ref planNoDictionary))
+                        {
+                            return false;
+                        }
+
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", planNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus = 1 where PlanNo in ({0})", planNoListStr);
+                        cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus = {1} where PlanNo in ({0})", planNoListStr, (int)CommonHandler.OrderState.待提交);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -735,11 +747,8 @@ namespace PSAP.DAO.PBDAO
                             string logStr = LogHandler.RecordLog_OperateRow(cmd, "工单", productionPlanRows[i], "PlanNo", "取消审批", SystemInfo.user.EmpName, BaseSQL.GetServerDateTime().ToString("yyyy-MM-dd HH:mm:ss"));
                         }
 
-                        //if (SystemInfo.EnableWorkFlowMessage)
-                        {
-                            new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, planNoListStr, 1, 0);
-                        }
-
+                        //new FrmWorkFlowDataHandleDAO().HandleDataCurrentNode_IsEnd(cmd, planNoListStr, 1, 0);
+                        
                         trans.Commit();
                         productionPlanTable.AcceptChanges();
                         return true;
@@ -813,7 +822,7 @@ namespace PSAP.DAO.PBDAO
                         break;
                     case "CodeWeight":
                         headTable.Columns[i].Caption = "重量";
-                        break;                    
+                        break;
                     case "Brand":
                         headTable.Columns[i].Caption = "品牌";
                         break;
@@ -837,7 +846,7 @@ namespace PSAP.DAO.PBDAO
                         break;
                     case "Currentdatetime":
                         headTable.Columns[i].Caption = "登记时间";
-                        break;                    
+                        break;
                     case "Line":
                         headTable.Columns[i].Caption = "产线名称";
                         break;
@@ -917,7 +926,7 @@ namespace PSAP.DAO.PBDAO
                         break;
                     case "CodeWeight":
                         listTable.Columns[i].Caption = "重量";
-                        break;                    
+                        break;
                     case "Brand":
                         listTable.Columns[i].Caption = "品牌";
                         break;
@@ -947,23 +956,38 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 审批选中的多条工单
         /// </summary>
-        public bool PPlanApprovalInfo2_Multi(DataTable productionPlanTable, int nodeIdInt, string flowModuleIdStr, string approverOptionStr, int approverResultInt, ref int successCountInt)
+        public bool PPlanApprovalInfoNew_Multi(DataTable productionPlanTable, string approverOptionStr, int approverResultInt, ref int successCountInt)
         {
             string planNoListStr = "";
+            Dictionary<string, int> planNoDictionary = new Dictionary<string, int>();
+            int stateInt = (int)CommonHandler.OrderState.已审批;
+            if (approverResultInt != 1)
+                stateInt = (int)CommonHandler.OrderState.待提交;
+
             for (int i = 0; i < productionPlanTable.Rows.Count; i++)
             {
                 if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
                 {
-                    planNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]));
+                    string planNoStr = DataTypeConvert.GetString(productionPlanTable.Rows[i]["PlanNo"]);
+                    planNoListStr += string.Format("'{0}',", planNoStr);
+                    planNoDictionary.Add(planNoStr, stateInt);
                 }
             }
 
             planNoListStr = planNoListStr.Substring(0, planNoListStr.Length - 1);
-            if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, true, false, false, true))
-                return false;
+            if (successCountInt == 1)
+            {
+                if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, false, true, false))
+                    return false;
+            }
+            else
+            {
+                if (!CheckCurrentStatus(productionPlanTable, null, planNoListStr, true, true, false))
+                    return false;
+            }
             successCountInt = 0;
 
-            FrmWorkFlowDataHandleDAO wfdhDAO = new FrmWorkFlowDataHandleDAO();
+            //FrmWorkFlowDataHandleDAO wfdhDAO = new FrmWorkFlowDataHandleDAO();
             using (SqlConnection conn = new SqlConnection(BaseSQL.connectionString))
             {
                 conn.Open();
@@ -973,6 +997,12 @@ namespace PSAP.DAO.PBDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
+
+                        if (!wfHandleDAO.MultiOrderWorkFlowsHandle(cmd, WorkFlowsHandleDAO.OrderType.工单, approverResultInt == 1 ? WorkFlowsHandleDAO.LineType.审批 : WorkFlowsHandleDAO.LineType.拒绝, approverOptionStr, ref planNoDictionary))
+                        {
+                            return false;
+                        }
+
                         for (int i = 0; i < productionPlanTable.Rows.Count; i++)
                         {
                             if (DataTypeConvert.GetBoolean(productionPlanTable.Rows[i]["Select"]))
@@ -980,25 +1010,26 @@ namespace PSAP.DAO.PBDAO
                                 DataRow productionPlanRow = productionPlanTable.Rows[i];
                                 string planNoStr = DataTypeConvert.GetString(productionPlanRow["PlanNo"]);
 
-                                int reqStateInt = 2;
-                                if (!wfdhDAO.HandleWorkFlowData(cmd, planNoStr, "生产流程", "PB_ProductionPlan", "PlanNo", 2, ref reqStateInt, SystemInfo.user.AutoId, SystemInfo.user.LoginID, approverOptionStr, approverResultInt, true))
-                                {
-                                    trans.Rollback();
-                                    return false;
-                                }
+                                int reqStateInt = planNoDictionary[planNoStr];
 
+                                //if (!wfdhDAO.HandleWorkFlowData(cmd, planNoStr, "生产流程", "PB_ProductionPlan", "PlanNo", 2, ref reqStateInt, SystemInfo.user.AutoId, SystemInfo.user.LoginID, approverOptionStr, approverResultInt, true))
+                                //{
+                                //    trans.Rollback();
+                                //    return false;
+                                //}
+
+                                productionPlanTable.Rows[i]["CurrentStatus"] = reqStateInt;
                                 if (approverResultInt == 1)
                                 {
-                                    productionPlanTable.Rows[i]["CurrentStatus"] = reqStateInt;
-
                                     //保存日志到日志表中
                                     string logStr = LogHandler.RecordLog_OperateRow(cmd, "生产计划单", productionPlanTable.Rows[i], "PlanNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                                    cmd.CommandText = string.Format("Insert into PUR_OrderApprovalInfo(OrderHeadNo, Approver, ApproverTime) values ('{0}', {1}, '{2}')", planNoStr, SystemInfo.user.AutoId, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                    cmd.ExecuteNonQuery();
                                 }
                                 else
                                 {
-                                    wfdhDAO.HandleDataCurrentNode_IsEnd(cmd, "'" + planNoStr + "'", 6, 0);
-
-                                    productionPlanTable.Rows[i]["CurrentStatus"] = 6;
+                                    //wfdhDAO.HandleDataCurrentNode_IsEnd(cmd, "'" + planNoStr + "'", 1, 0);
 
                                     //保存日志到日志表中
                                     string logStr = LogHandler.RecordLog_OperateRow(cmd, "生产计划单", productionPlanTable.Rows[i], "PlanNo", "拒绝审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -1006,8 +1037,8 @@ namespace PSAP.DAO.PBDAO
 
                                 successCountInt++;
 
-                                cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo='{0}'", planNoStr, productionPlanTable.Rows[i]["CurrentStatus"]);                         
-                                cmd.ExecuteNonQuery();                                
+                                cmd.CommandText = string.Format("Update PB_ProductionPlan set CurrentStatus={1} where PlanNo='{0}'", planNoStr, productionPlanTable.Rows[i]["CurrentStatus"]);
+                                cmd.ExecuteNonQuery();
                             }
                         }
 
@@ -1039,7 +1070,7 @@ namespace PSAP.DAO.PBDAO
             {
                 sqlStr += string.Format(" and ProjectNo = '{0}'", projectNoStr);
             }
-            if(codeIdInt > 0)
+            if (codeIdInt > 0)
             {
                 sqlStr += string.Format(" and CodeId = {0}", codeIdInt);
             }
@@ -1068,6 +1099,15 @@ namespace PSAP.DAO.PBDAO
         {
             string sql = string.Format("WITH CTE AS (SELECT c.* FROM PB_DesignBomList c WHERE IsNull(IsMaterial, 1) = 1 and c.AutoId = {0} UNION ALL SELECT a.* FROM PB_DesignBomList a INNER JOIN CTE b ON b.AutoId = a.ParentId where IsNull(a.IsMaterial, 1) = 1) select * from CTE", autoIdInt);
             return BaseSQL.Query(sql).Tables[0];
+        }
+
+        /// <summary>
+        /// 根据制造BomId查询销售订单号
+        /// </summary>
+        public String GetSalesOrderNo(int designBomListId)
+        {
+            string sqlStr = string.Format("select SalesOrderNo from PB_DesignBomList where AutoId = {0}", designBomListId);
+            return DataTypeConvert.GetString(BaseSQL.GetSingle(sqlStr));
         }
     }
 }

@@ -47,7 +47,7 @@ namespace PSAP.DAO.WORKFLOWDAO
             string allSqlStr = string.Format("select {0} from (", columnStr);
             foreach (DataRow dr in userWFTable.Rows)
             {
-                string tempStr = DataTypeConvert.GetString(dr["Condition"]).Replace("‘", "'").Replace("’", "'");
+                string tempStr = DataHandler.SQLStringReplaceHandle(DataTypeConvert.GetString(dr["Condition"]));
                 if (tempStr == "")
                 {
                     tempStr = " 1=1";

@@ -80,7 +80,6 @@
             this.dataColSMNo = new System.Data.DataColumn();
             this.dataColFunctionDesc = new System.Data.DataColumn();
             this.dataColFunctionDetail = new System.Data.DataColumn();
-            this.dataColPrepared = new System.Data.DataColumn();
             this.dataColPreparedIp = new System.Data.DataColumn();
             this.dataColGetTime = new System.Data.DataColumn();
             this.gridViewStnModule = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -88,9 +87,10 @@
             this.colSMNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFunctionDesc = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFunctionDetail = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPrepared = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCreator = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPreparedIp = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colGetTime = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.dataColCreator = new System.Data.DataColumn();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRightTop)).BeginInit();
             this.pnlRightTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).BeginInit();
@@ -578,9 +578,9 @@
             this.dataColSMNo,
             this.dataColFunctionDesc,
             this.dataColFunctionDetail,
-            this.dataColPrepared,
             this.dataColPreparedIp,
-            this.dataColGetTime});
+            this.dataColGetTime,
+            this.dataColCreator});
             this.TableStnModule.TableName = "StnModule";
             // 
             // dataColAutoId
@@ -603,11 +603,6 @@
             this.dataColFunctionDetail.Caption = "功能详细";
             this.dataColFunctionDetail.ColumnName = "FunctionDetail";
             // 
-            // dataColPrepared
-            // 
-            this.dataColPrepared.Caption = "制单人";
-            this.dataColPrepared.ColumnName = "Prepared";
-            // 
             // dataColPreparedIp
             // 
             this.dataColPreparedIp.Caption = "制单人IP";
@@ -626,7 +621,7 @@
             this.colSMNo,
             this.colFunctionDesc,
             this.colFunctionDetail,
-            this.colPrepared,
+            this.colCreator,
             this.colPreparedIp,
             this.colGetTime});
             this.gridViewStnModule.GridControl = this.gridControlStnModule;
@@ -687,10 +682,10 @@
             this.colFunctionDetail.VisibleIndex = 3;
             this.colFunctionDetail.Width = 220;
             // 
-            // colPrepared
+            // colCreator
             // 
-            this.colPrepared.FieldName = "Prepared";
-            this.colPrepared.Name = "colPrepared";
+            this.colCreator.FieldName = "Creator";
+            this.colCreator.Name = "colCreator";
             // 
             // colPreparedIp
             // 
@@ -701,6 +696,12 @@
             // 
             this.colGetTime.FieldName = "GetTime";
             this.colGetTime.Name = "colGetTime";
+            // 
+            // dataColCreator
+            // 
+            this.dataColCreator.Caption = "制单人";
+            this.dataColCreator.ColumnName = "Creator";
+            this.dataColCreator.DataType = typeof(int);
             // 
             // FrmSelectStnModule
             // 
@@ -773,14 +774,13 @@
         private System.Data.DataColumn dataColSMNo;
         private System.Data.DataColumn dataColFunctionDesc;
         private System.Data.DataColumn dataColFunctionDetail;
-        private System.Data.DataColumn dataColPrepared;
         private System.Data.DataColumn dataColPreparedIp;
         private System.Data.DataColumn dataColGetTime;
         private DevExpress.XtraGrid.Columns.GridColumn colAutoId;
         private DevExpress.XtraGrid.Columns.GridColumn colSMNo;
         private DevExpress.XtraGrid.Columns.GridColumn colFunctionDesc;
         private DevExpress.XtraGrid.Columns.GridColumn colFunctionDetail;
-        private DevExpress.XtraGrid.Columns.GridColumn colPrepared;
+        private DevExpress.XtraGrid.Columns.GridColumn colCreator;
         private DevExpress.XtraGrid.Columns.GridColumn colPreparedIp;
         private DevExpress.XtraGrid.Columns.GridColumn colGetTime;
         private System.Windows.Forms.BindingSource bindingSource_DeliveryDetail;
@@ -814,5 +814,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colMatQty;
         private DevExpress.XtraGrid.Columns.GridColumn colMatAmount;
         private DevExpress.XtraGrid.Columns.GridColumn colMaterialDesc;
+        private System.Data.DataColumn dataColCreator;
     }
 }

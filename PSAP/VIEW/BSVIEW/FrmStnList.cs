@@ -106,7 +106,9 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, false);
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(false);
             }
             catch (Exception ex)
             {

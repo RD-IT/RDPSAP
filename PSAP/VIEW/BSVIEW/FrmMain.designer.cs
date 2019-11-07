@@ -244,7 +244,8 @@
             // 
             // timerMessage
             // 
-            this.timerMessage.Interval = 600000;
+            this.timerMessage.Interval = 10000;
+            this.timerMessage.Tag = "600000";
             this.timerMessage.Tick += new System.EventHandler(this.timerMessage_Tick);
             // 
             // alertControlMessage

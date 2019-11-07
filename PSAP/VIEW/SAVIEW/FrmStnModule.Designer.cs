@@ -36,7 +36,6 @@
             this.dataColSMNo = new System.Data.DataColumn();
             this.dataColFunctionDesc = new System.Data.DataColumn();
             this.dataColFunctionDetail = new System.Data.DataColumn();
-            this.dataColPrepared = new System.Data.DataColumn();
             this.dataColPreparedIp = new System.Data.DataColumn();
             this.dataColGetTime = new System.Data.DataColumn();
             this.dockManagerLeft = new DevExpress.XtraBars.Docking.DockManager(this.components);
@@ -50,7 +49,7 @@
             this.colSMNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFunctionDesc = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colFunctionDetail = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPrepared = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCreator = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPreparedIp = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colGetTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlLeftTop = new DevExpress.XtraEditors.PanelControl();
@@ -82,7 +81,7 @@
             this.dataColuUnit = new System.Data.DataColumn();
             this.dataColuAmount = new System.Data.DataColumn();
             this.dataColuDeliveryQty = new System.Data.DataColumn();
-            this.dataColuPrepared = new System.Data.DataColumn();
+            this.dataColuCreator = new System.Data.DataColumn();
             this.gridViewDeliveryDetail = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colSMNo1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colDeliveryText = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -91,7 +90,8 @@
             this.colUnit = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colDeliveryQty = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colAmount = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.colPrepared1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colCreator1 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.repLookUpCreator = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.colMaterialName = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterialBrand = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colMaterialCate = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -106,10 +106,9 @@
             this.btnDDSave = new DevExpress.XtraEditors.SimpleButton();
             this.btnDDNew = new DevExpress.XtraEditors.SimpleButton();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
-            this.textPrepared = new DevExpress.XtraEditors.TextEdit();
             this.dateGetTime = new DevExpress.XtraEditors.DateEdit();
             this.labGetTime = new DevExpress.XtraEditors.LabelControl();
-            this.labPrepared = new DevExpress.XtraEditors.LabelControl();
+            this.labCreator = new DevExpress.XtraEditors.LabelControl();
             this.memoFunctionDetail = new DevExpress.XtraEditors.MemoEdit();
             this.labFunctionDetail = new DevExpress.XtraEditors.LabelControl();
             this.textFunctionDesc = new DevExpress.XtraEditors.TextEdit();
@@ -122,6 +121,9 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.btnSave = new DevExpress.XtraEditors.SimpleButton();
             this.btnNew = new DevExpress.XtraEditors.SimpleButton();
+            this.dataColCreator = new System.Data.DataColumn();
+            this.LookUpCreator = new DevExpress.XtraEditors.LookUpEdit();
+            this.repItemLookUpCreator = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_StnModule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableStnModule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManagerLeft)).BeginInit();
@@ -150,11 +152,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.TableDeliveryDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewDeliveryDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repMemoDeliveryText)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCreator)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottomToolBar)).BeginInit();
             this.pnlBottomToolBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textPrepared.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateGetTime.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateGetTime.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.memoFunctionDetail.Properties)).BeginInit();
@@ -162,6 +164,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.textSMNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
             this.pnlToolBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LookUpCreator.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repItemLookUpCreator)).BeginInit();
             this.SuspendLayout();
             // 
             // dataSet_StnModule
@@ -177,9 +181,9 @@
             this.dataColSMNo,
             this.dataColFunctionDesc,
             this.dataColFunctionDetail,
-            this.dataColPrepared,
             this.dataColPreparedIp,
-            this.dataColGetTime});
+            this.dataColGetTime,
+            this.dataColCreator});
             this.TableStnModule.TableName = "StnModule";
             this.TableStnModule.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TableStnModule_TableNewRow);
             // 
@@ -202,11 +206,6 @@
             // 
             this.dataColFunctionDetail.Caption = "功能详细";
             this.dataColFunctionDetail.ColumnName = "FunctionDetail";
-            // 
-            // dataColPrepared
-            // 
-            this.dataColPrepared.Caption = "制单人";
-            this.dataColPrepared.ColumnName = "Prepared";
             // 
             // dataColPreparedIp
             // 
@@ -281,6 +280,8 @@
             this.gridControlStnModule.Location = new System.Drawing.Point(2, 2);
             this.gridControlStnModule.MainView = this.gridViewStnModule;
             this.gridControlStnModule.Name = "gridControlStnModule";
+            this.gridControlStnModule.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
+            this.repItemLookUpCreator});
             this.gridControlStnModule.Size = new System.Drawing.Size(338, 622);
             this.gridControlStnModule.TabIndex = 6;
             this.gridControlStnModule.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -298,7 +299,7 @@
             this.colSMNo,
             this.colFunctionDesc,
             this.colFunctionDetail,
-            this.colPrepared,
+            this.colCreator,
             this.colPreparedIp,
             this.colGetTime});
             this.gridViewStnModule.GridControl = this.gridControlStnModule;
@@ -351,15 +352,16 @@
             this.colFunctionDetail.FieldName = "FunctionDetail";
             this.colFunctionDetail.Name = "colFunctionDetail";
             // 
-            // colPrepared
+            // colCreator
             // 
-            this.colPrepared.AppearanceHeader.Options.UseTextOptions = true;
-            this.colPrepared.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colPrepared.FieldName = "Prepared";
-            this.colPrepared.Name = "colPrepared";
-            this.colPrepared.Visible = true;
-            this.colPrepared.VisibleIndex = 2;
-            this.colPrepared.Width = 60;
+            this.colCreator.AppearanceHeader.Options.UseTextOptions = true;
+            this.colCreator.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colCreator.ColumnEdit = this.repItemLookUpCreator;
+            this.colCreator.FieldName = "Creator";
+            this.colCreator.Name = "colCreator";
+            this.colCreator.Visible = true;
+            this.colCreator.VisibleIndex = 2;
+            this.colCreator.Width = 60;
             // 
             // colPreparedIp
             // 
@@ -502,7 +504,8 @@
             this.gridControlDeliveryDetail.MainView = this.gridViewDeliveryDetail;
             this.gridControlDeliveryDetail.Name = "gridControlDeliveryDetail";
             this.gridControlDeliveryDetail.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
-            this.repMemoDeliveryText});
+            this.repMemoDeliveryText,
+            this.repLookUpCreator});
             this.gridControlDeliveryDetail.Size = new System.Drawing.Size(877, 430);
             this.gridControlDeliveryDetail.TabIndex = 7;
             this.gridControlDeliveryDetail.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
@@ -536,7 +539,7 @@
             this.dataColuUnit,
             this.dataColuAmount,
             this.dataColuDeliveryQty,
-            this.dataColuPrepared});
+            this.dataColuCreator});
             this.TableDeliveryDetail.TableName = "DeliveryDetail";
             // 
             // dataColumn1
@@ -615,10 +618,11 @@
             this.dataColuDeliveryQty.ColumnName = "DeliveryQty";
             this.dataColuDeliveryQty.DataType = typeof(double);
             // 
-            // dataColuPrepared
+            // dataColuCreator
             // 
-            this.dataColuPrepared.Caption = "制单人";
-            this.dataColuPrepared.ColumnName = "Prepared";
+            this.dataColuCreator.Caption = "制单人";
+            this.dataColuCreator.ColumnName = "Creator";
+            this.dataColuCreator.DataType = typeof(int);
             // 
             // gridViewDeliveryDetail
             // 
@@ -629,7 +633,7 @@
             this.colUnit,
             this.colDeliveryQty,
             this.colAmount,
-            this.colPrepared1,
+            this.colCreator1,
             this.colMaterialName,
             this.colMaterialBrand,
             this.colMaterialCate,
@@ -740,15 +744,26 @@
             this.colAmount.VisibleIndex = 4;
             this.colAmount.Width = 90;
             // 
-            // colPrepared1
+            // colCreator1
             // 
-            this.colPrepared1.AppearanceHeader.Options.UseTextOptions = true;
-            this.colPrepared1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colPrepared1.FieldName = "Prepared";
-            this.colPrepared1.Name = "colPrepared1";
-            this.colPrepared1.Visible = true;
-            this.colPrepared1.VisibleIndex = 5;
-            this.colPrepared1.Width = 60;
+            this.colCreator1.AppearanceHeader.Options.UseTextOptions = true;
+            this.colCreator1.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colCreator1.ColumnEdit = this.repLookUpCreator;
+            this.colCreator1.FieldName = "Creator";
+            this.colCreator1.Name = "colCreator1";
+            this.colCreator1.Visible = true;
+            this.colCreator1.VisibleIndex = 5;
+            this.colCreator1.Width = 60;
+            // 
+            // repLookUpCreator
+            // 
+            this.repLookUpCreator.AutoHeight = false;
+            this.repLookUpCreator.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repLookUpCreator.DisplayMember = "EmpName";
+            this.repLookUpCreator.Name = "repLookUpCreator";
+            this.repLookUpCreator.NullText = "";
+            this.repLookUpCreator.ValueMember = "AutoId";
             // 
             // colMaterialName
             // 
@@ -897,32 +912,21 @@
             // 
             // pnlEdit
             // 
-            this.pnlEdit.Controls.Add(this.textPrepared);
             this.pnlEdit.Controls.Add(this.dateGetTime);
             this.pnlEdit.Controls.Add(this.labGetTime);
-            this.pnlEdit.Controls.Add(this.labPrepared);
+            this.pnlEdit.Controls.Add(this.labCreator);
             this.pnlEdit.Controls.Add(this.memoFunctionDetail);
             this.pnlEdit.Controls.Add(this.labFunctionDetail);
             this.pnlEdit.Controls.Add(this.textFunctionDesc);
             this.pnlEdit.Controls.Add(this.labFunctionDesc);
             this.pnlEdit.Controls.Add(this.textSMNo);
             this.pnlEdit.Controls.Add(this.labSMNo);
+            this.pnlEdit.Controls.Add(this.LookUpCreator);
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
             this.pnlEdit.Size = new System.Drawing.Size(883, 190);
             this.pnlEdit.TabIndex = 8;
-            // 
-            // textPrepared
-            // 
-            this.textPrepared.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_StnModule, "Prepared", true));
-            this.textPrepared.EnterMoveNextControl = true;
-            this.textPrepared.Location = new System.Drawing.Point(334, 21);
-            this.textPrepared.Name = "textPrepared";
-            this.textPrepared.Properties.ReadOnly = true;
-            this.textPrepared.Size = new System.Drawing.Size(150, 20);
-            this.textPrepared.TabIndex = 1;
-            this.textPrepared.TabStop = false;
             // 
             // dateGetTime
             // 
@@ -953,13 +957,13 @@
             this.labGetTime.TabIndex = 21;
             this.labGetTime.Text = "登记时间";
             // 
-            // labPrepared
+            // labCreator
             // 
-            this.labPrepared.Location = new System.Drawing.Point(281, 24);
-            this.labPrepared.Name = "labPrepared";
-            this.labPrepared.Size = new System.Drawing.Size(36, 14);
-            this.labPrepared.TabIndex = 20;
-            this.labPrepared.Text = "制单人";
+            this.labCreator.Location = new System.Drawing.Point(281, 24);
+            this.labCreator.Name = "labCreator";
+            this.labCreator.Size = new System.Drawing.Size(36, 14);
+            this.labCreator.TabIndex = 20;
+            this.labCreator.Text = "制单人";
             // 
             // memoFunctionDetail
             // 
@@ -1079,6 +1083,35 @@
             this.btnNew.Text = "新增";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
+            // dataColCreator
+            // 
+            this.dataColCreator.Caption = "制单人";
+            this.dataColCreator.ColumnName = "Creator";
+            this.dataColCreator.DataType = typeof(int);
+            // 
+            // LookUpCreator
+            // 
+            this.LookUpCreator.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bindingSource_StnModule, "Creator", true));
+            this.LookUpCreator.Location = new System.Drawing.Point(334, 21);
+            this.LookUpCreator.Name = "LookUpCreator";
+            this.LookUpCreator.Properties.DisplayMember = "EmpName";
+            this.LookUpCreator.Properties.NullText = "";
+            this.LookUpCreator.Properties.ReadOnly = true;
+            this.LookUpCreator.Properties.ValueMember = "AutoId";
+            this.LookUpCreator.Size = new System.Drawing.Size(150, 20);
+            this.LookUpCreator.TabIndex = 1;
+            this.LookUpCreator.TabStop = false;
+            // 
+            // repItemLookUpCreator
+            // 
+            this.repItemLookUpCreator.AutoHeight = false;
+            this.repItemLookUpCreator.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.repItemLookUpCreator.DisplayMember = "EmpName";
+            this.repItemLookUpCreator.Name = "repItemLookUpCreator";
+            this.repItemLookUpCreator.NullText = "";
+            this.repItemLookUpCreator.ValueMember = "AutoId";
+            // 
             // FrmStnModule
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1124,12 +1157,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.TableDeliveryDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewDeliveryDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repMemoDeliveryText)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repLookUpCreator)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlBottomToolBar)).EndInit();
             this.pnlBottomToolBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.textPrepared.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateGetTime.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateGetTime.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.memoFunctionDetail.Properties)).EndInit();
@@ -1137,6 +1170,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.textSMNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).EndInit();
             this.pnlToolBar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.LookUpCreator.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.repItemLookUpCreator)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1149,7 +1184,6 @@
         private System.Data.DataColumn dataColSMNo;
         private System.Data.DataColumn dataColFunctionDesc;
         private System.Data.DataColumn dataColFunctionDetail;
-        private System.Data.DataColumn dataColPrepared;
         private System.Data.DataColumn dataColPreparedIp;
         private System.Data.DataColumn dataColGetTime;
         private DevExpress.XtraBars.Docking.DockManager dockManagerLeft;
@@ -1178,7 +1212,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colSMNo;
         private DevExpress.XtraGrid.Columns.GridColumn colFunctionDesc;
         private DevExpress.XtraGrid.Columns.GridColumn colFunctionDetail;
-        private DevExpress.XtraGrid.Columns.GridColumn colPrepared;
+        private DevExpress.XtraGrid.Columns.GridColumn colCreator;
         private DevExpress.XtraGrid.Columns.GridColumn colPreparedIp;
         private DevExpress.XtraGrid.Columns.GridColumn colGetTime;
         private DevExpress.XtraEditors.TextEdit textSMNo;
@@ -1187,10 +1221,9 @@
         private DevExpress.XtraEditors.LabelControl labFunctionDesc;
         private DevExpress.XtraEditors.LabelControl labFunctionDetail;
         private DevExpress.XtraEditors.MemoEdit memoFunctionDetail;
-        private DevExpress.XtraEditors.TextEdit textPrepared;
         private DevExpress.XtraEditors.DateEdit dateGetTime;
         private DevExpress.XtraEditors.LabelControl labGetTime;
-        private DevExpress.XtraEditors.LabelControl labPrepared;
+        private DevExpress.XtraEditors.LabelControl labCreator;
         private DevExpress.XtraEditors.SimpleButton btnQuery;
         private DevExpress.XtraEditors.TextEdit textCommon;
         private DevExpress.XtraEditors.LabelControl labCommon;
@@ -1216,7 +1249,7 @@
         private System.Data.DataColumn dataColuUnit;
         private System.Data.DataColumn dataColuAmount;
         private System.Data.DataColumn dataColuDeliveryQty;
-        private System.Data.DataColumn dataColuPrepared;
+        private System.Data.DataColumn dataColuCreator;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewDeliveryDetail;
         private DevExpress.XtraGrid.Columns.GridColumn colSMNo1;
         private DevExpress.XtraGrid.Columns.GridColumn colDeliveryText;
@@ -1225,7 +1258,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colUnit;
         private DevExpress.XtraGrid.Columns.GridColumn colDeliveryQty;
         private DevExpress.XtraGrid.Columns.GridColumn colAmount;
-        private DevExpress.XtraGrid.Columns.GridColumn colPrepared1;
+        private DevExpress.XtraGrid.Columns.GridColumn colCreator1;
         private DevExpress.XtraGrid.Columns.GridColumn colMaterialName;
         private DevExpress.XtraGrid.Columns.GridColumn colMaterialBrand;
         private DevExpress.XtraGrid.Columns.GridColumn colMaterialCate;
@@ -1235,5 +1268,9 @@
         private DevExpress.XtraGrid.Columns.GridColumn colMaterialDesc;
         private DevExpress.XtraGrid.Columns.GridColumn colAutoId1;
         private DevExpress.XtraEditors.SimpleButton btnSaveExcel;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCreator;
+        private System.Data.DataColumn dataColCreator;
+        private DevExpress.XtraEditors.LookUpEdit LookUpCreator;
+        private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repItemLookUpCreator;
     }
 }

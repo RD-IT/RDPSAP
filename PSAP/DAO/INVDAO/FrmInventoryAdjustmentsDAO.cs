@@ -41,9 +41,9 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and RepertoryId={0}", repertoryIdInt);
             }
-            if(locationIdInt!=0)
+            if (locationIdInt != 0)
             {
-                sqlStr += string.Format(" and LocationId={0}", locationIdInt);                
+                sqlStr += string.Format(" and LocationId={0}", locationIdInt);
             }
             if (projectNoStr != "")
             {
@@ -325,40 +325,40 @@ namespace PSAP.DAO.INVDAO
                 int wState = DataTypeConvert.GetInt(tmpTable.Rows[i]["WarehouseState"]);
                 switch (wState)
                 {
-                    case 1:
+                    case (int)CommonHandler.WarehouseState.待审批:
                         if (checkNoApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"]), CommonHandler.WarehouseState.待审批));
                             iaHeadTable.RejectChanges();
                             if (iaListTable != null)
                                 iaListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.WarehouseState.已审批:
                         if (checkApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"]), CommonHandler.WarehouseState.已审批));
                             iaHeadTable.RejectChanges();
                             if (iaListTable != null)
                                 iaListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    //case 3:
+                    //case (int)CommonHandler.WarehouseState.已结账:
                     //    if (checkSettle)
                     //    {
-                    //        MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"])));
+                    //        MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"]),CommonHandler.WarehouseState.已结账));
                     //        swwHeadTable.RejectChanges();
                     //        if (swwListTable != null)
                     //            swwListTable.RejectChanges();
                     //        return false;
                     //    }
                     //    break;
-                    case 4:
+                    case (int)CommonHandler.WarehouseState.审批中:
                         if (checkApproverBetween)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("库存调整单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["InventoryAdjustmentsNo"]), CommonHandler.WarehouseState.审批中));
                             iaHeadTable.RejectChanges();
                             if (iaListTable != null)
                                 iaListTable.RejectChanges();
@@ -485,10 +485,10 @@ namespace PSAP.DAO.INVDAO
 
                                     new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, iaHeadTable.Rows[i], "库存调整单", "InventoryAdjustmentsNo", iaHeadNoStr, serverTime);
 
-                                    cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState=2 where InventoryAdjustmentsNo='{0}'", iaHeadNoStr);
+                                    cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState={1} where InventoryAdjustmentsNo='{0}'", iaHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                     cmd.ExecuteNonQuery();
 
-                                    iaHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    iaHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
 
                                     successCountInt++;
                                 }
@@ -510,7 +510,7 @@ namespace PSAP.DAO.INVDAO
                                     if (tmpTable.Rows.Count == 0)
                                     {
                                         trans.Rollback();
-                                        MessageHandler.ShowMessageBox("未查询到要操作的库存调整单，请刷新后再进行操作。");
+                                        MessageHandler.ShowMessageBox("未查询到要操作的库存调整单，请查询后再进行操作。");
                                         return false;
                                     }
 
@@ -523,9 +523,9 @@ namespace PSAP.DAO.INVDAO
                                     listadpt.Fill(listTable);
                                     if (listTable.Rows.Count == 0)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState = 2 where InventoryAdjustmentsNo='{0}'", iaHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState={1} where InventoryAdjustmentsNo='{0}'", iaHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        iaHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        iaHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                         continue;
                                     }
                                     int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
@@ -547,28 +547,28 @@ namespace PSAP.DAO.INVDAO
 
                                     if (listTable.Rows.Count == 1 || approvalCatInt == 2)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState=2 where InventoryAdjustmentsNo='{0}'", iaHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState={1} where InventoryAdjustmentsNo='{0}'", iaHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        iaHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        iaHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                     }
                                     else
                                     {
-                                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState=4 where InventoryAdjustmentsNo='{0}'", iaHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState={1} where InventoryAdjustmentsNo='{0}'", iaHeadNoStr, (int)CommonHandler.WarehouseState.审批中);
                                         cmd.ExecuteNonQuery();
-                                        iaHeadTable.Rows[i]["WarehouseState"] = 4;
+                                        iaHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.审批中;
                                     }
 
                                     //保存日志到日志表中
                                     string logStr = LogHandler.RecordLog_OperateRow(cmd, "库存调整单", iaHeadTable.Rows[i], "InventoryAdjustmentsNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                                    //if (DataTypeConvert.GetInt(iaHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    //if (DataTypeConvert.GetInt(iaHeadTable.Rows[i]["WarehouseState"]) == (int)CommonHandler.WarehouseState.已审批)//全部审批通过进行下一步操作
                                     //{
                                     //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
                                     //    string errorText = "";
                                     //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, iaHeadNoStr, 1, out errorText))
                                     //    {
                                     //        trans.Rollback();
-                                    //        MessageHandler.ShowMessageBox("库存调整单审核出库错误--" + errorText);
+                                    //        MessageHandler.ShowMessageBox("库存调整单审批出库错误--" + errorText);
                                     //        return false;
                                     //    }
                                     //}
@@ -607,7 +607,7 @@ namespace PSAP.DAO.INVDAO
                 if (DataTypeConvert.GetBoolean(iaHeadTable.Rows[i]["Select"]))
                 {
                     iaHeadNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(iaHeadTable.Rows[i]["InventoryAdjustmentsNo"]));
-                    iaHeadTable.Rows[i]["WarehouseState"] = 1;
+                    iaHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.待审批;
                 }
             }
 
@@ -624,14 +624,14 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
-                        cmd.CommandText = string.Format("select InventoryAdjustmentsNo from INV_InventoryAdjustmentsHead where WarehouseState = 2 and InventoryAdjustmentsNo in ({0})", iaHeadNoListStr);
+                        cmd.CommandText = string.Format("select InventoryAdjustmentsNo from INV_InventoryAdjustmentsHead where WarehouseState={1} and InventoryAdjustmentsNo in ({0})", iaHeadNoListStr, (int)CommonHandler.WarehouseState.已审批);
                         DataTable approcalSWWTable = new DataTable();
                         SqlDataAdapter appradpt = new SqlDataAdapter(cmd);
                         appradpt.Fill(approcalSWWTable);
 
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", iaHeadNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState=1 where InventoryAdjustmentsNo in ({0})", iaHeadNoListStr);
+                        cmd.CommandText = string.Format("Update INV_InventoryAdjustmentsHead set WarehouseState={1} where InventoryAdjustmentsNo in ({0})", iaHeadNoListStr, (int)CommonHandler.WarehouseState.待审批);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -648,7 +648,7 @@ namespace PSAP.DAO.INVDAO
                         //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalSWWTable.Rows[i]["InventoryAdjustmentsNo"]), 2, out errorText))
                         //    {
                         //        trans.Rollback();
-                        //        MessageHandler.ShowMessageBox("库存调整单取消审核出库错误--" + errorText);
+                        //        MessageHandler.ShowMessageBox("库存调整单取消审批出库错误--" + errorText);
                         //        return false;
                         //    }
                         //}
@@ -805,7 +805,7 @@ namespace PSAP.DAO.INVDAO
                         break;
                     case "Remark":
                         listTable.Columns[i].Caption = "备注";
-                        break;                    
+                        break;
                     case "ShelfId":
                         listTable.Columns[i].Caption = "货架ID";
                         break;

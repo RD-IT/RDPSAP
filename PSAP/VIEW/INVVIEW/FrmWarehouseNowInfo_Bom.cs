@@ -29,11 +29,16 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchCodeFileName, false, "CodeFileName", "CodeFileName");
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
+                SearchLocationId.EditValue = 0;
+
+                //searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
                 lookUpRepertoryId.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
-                SearchLocationId.EditValue = 0;
+                //SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
+                //SearchLocationId.EditValue = 0;
 
                 repLookUpCatgName.DataSource = commonDAO.QueryPartNoCatg(false);
             }
@@ -58,7 +63,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                textCodeName.Text = DataTypeConvert.GetString(searchPartsCodeIdView.GetRowCellValue(searchCodeFileName.Properties.GetIndexByKeyValue(e.NewValue), "CodeName"));
+                textCodeName.Text = DataTypeConvert.GetString(searchCodeFileNameView.GetRowCellValue(searchCodeFileName.Properties.GetIndexByKeyValue(e.NewValue), "CodeName"));
             }
             catch (Exception ex)
             {

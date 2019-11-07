@@ -206,8 +206,8 @@ namespace PSAP.DAO.PBDAO
                             p3.Value = codeFileNameStr;
                             SqlParameter p4 = new SqlParameter("@Qty", SqlDbType.Float);
                             p4.Value = qty;
-                            SqlParameter p5 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            p5.Value = SystemInfo.user.EmpName;
+                            SqlParameter p5 = new SqlParameter("@Creator", SqlDbType.Int);
+                            p5.Value = SystemInfo.user.AutoId;
                             SqlParameter p6 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                             p6.Value = SystemInfo.HostIpAddress;
                             IDataParameter[] parameters = new IDataParameter[] { p1, p2, p3, p4, p5, p6 };
@@ -301,8 +301,8 @@ namespace PSAP.DAO.PBDAO
                             p3.Value = codeFileNameStr;
                             SqlParameter p4 = new SqlParameter("@Qty", SqlDbType.Float);
                             p4.Value = qty;
-                            SqlParameter p5 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            p5.Value = SystemInfo.user.EmpName;
+                            SqlParameter p5 = new SqlParameter("@Creator", SqlDbType.Int);
+                            p5.Value = SystemInfo.user.AutoId;
                             SqlParameter p6 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                             p6.Value = SystemInfo.HostIpAddress;
                             IDataParameter[] insertParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6 };
@@ -365,7 +365,7 @@ namespace PSAP.DAO.PBDAO
                 DataTable bomTable = BaseSQL.Query(sqlStr).Tables[0];
                 if (bomTable.Rows.Count == 0)
                 {
-                    MessageHandler.ShowMessageBox(string.Format("未查询到当前要操作的设计Bom信息[{0}]，请刷新后重新操作。", pbBomNoStr));
+                    MessageHandler.ShowMessageBox(string.Format("未查询到当前要操作的设计Bom信息[{0}]，请查询后重新操作。", pbBomNoStr));
                     return 0;
                 }
                 //else
@@ -640,8 +640,8 @@ namespace PSAP.DAO.PBDAO
                         p5.Value = remainQty;
                         SqlParameter p6 = new SqlParameter("@IsBuy", SqlDbType.Int);
                         p6.Value = isBuy;
-                        SqlParameter p7 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                        p7.Value = SystemInfo.user.EmpName;
+                        SqlParameter p7 = new SqlParameter("@Creator", SqlDbType.Int);
+                        p7.Value = SystemInfo.user.AutoId;
                         SqlParameter p8 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                         p8.Value = SystemInfo.HostIpAddress;
                         IDataParameter[] updateParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7, p8 };
@@ -664,8 +664,8 @@ namespace PSAP.DAO.PBDAO
                             para3.Value = planDate;
                             SqlParameter para4 = new SqlParameter("@ParentRemainQty", SqlDbType.Float);
                             para4.Value = remainQty;
-                            SqlParameter para5 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            para5.Value = SystemInfo.user.EmpName;
+                            SqlParameter para5 = new SqlParameter("@Creator", SqlDbType.Int);
+                            para5.Value = SystemInfo.user.AutoId;
                             SqlParameter para6 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                             para6.Value = SystemInfo.HostIpAddress;
                             IDataParameter[] updateParameters = new IDataParameter[] { para1, para2, para3, para4, para5, para6 };
@@ -728,8 +728,8 @@ namespace PSAP.DAO.PBDAO
                             p5.Value = remainQty;
                             SqlParameter p6 = new SqlParameter("@IsBuy", SqlDbType.Int);
                             p6.Value = -1;
-                            SqlParameter p7 = new SqlParameter("@Prepared", SqlDbType.NVarChar);
-                            p7.Value = SystemInfo.user.EmpName;
+                            SqlParameter p7 = new SqlParameter("@Creator", SqlDbType.Int);
+                            p7.Value = SystemInfo.user.AutoId;
                             SqlParameter p8 = new SqlParameter("@PreparedIp", SqlDbType.VarChar);
                             p8.Value = SystemInfo.HostIpAddress;
                             IDataParameter[] updateParas = new IDataParameter[] { p1, p2, p3, p4, p5, p6, p7, p8 };
@@ -835,7 +835,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询设计Bom信息
         /// </summary>
-        public string Query_DesignBomList_SQL(string projectNoStr, int codeIdInt, bool containNoUse, string preparedStr, string commonStr, bool nullTable)
+        public string Query_DesignBomList_SQL(string projectNoStr, int codeIdInt, bool containNoUse, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (projectNoStr != "")
@@ -850,9 +850,9 @@ namespace PSAP.DAO.PBDAO
             {
                 sqlStr += " and IsUse = 1";
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {

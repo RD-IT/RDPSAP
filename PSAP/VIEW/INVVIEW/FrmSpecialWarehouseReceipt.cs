@@ -73,36 +73,44 @@ namespace PSAP.VIEW.BSVIEW
                 //ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd, checkAll });
                 ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateSWRDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSWRDateEnd.DateTime = nowDate.Date;
-
-                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
 
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
                 lookUpRepertoryId.Properties.DataSource = commonDAO.QueryRepertoryInfo(true);
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
+                //SearchLocationId.Properties.DataSource = commonDAO.QueryRepertoryLocationInfo(true);
+                //SearchLocationId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
                 SearchLocationId.EditValue = 0;
-                comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = userInfoTable_t;
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
-                lookUpApprover.Properties.DataSource = userInfoTable_t;
-                lookUpApprover.ItemIndex = -1;
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState);
+                comboBoxWarehouseState.SelectedIndex = 0;                
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpApprover);
+                searchLookUpApprover.EditValue = null;
 
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
-                repSearchRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                //repSearchRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
+                ctlInit.RepositoryItemSearchLookUpEdit_RepertoryLocationInfo(repSearchRepertoryLocationId);
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
-                repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
-                repSearchShelfId.DataSource = commonDAO.QueryShelfInfo(false);
-                repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                //repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
+                ctlInit.RepositoryItemSearchLookUpEdit_PartsCode(repSearchCodeFileName, "CodeFileName", "CodeFileName");
+                //repSearchShelfId.DataSource = commonDAO.QueryShelfInfo(false);
+                ctlInit.RepositoryItemSearchLookUpEdit_ShelfInfo(repSearchShelfId);
+                //repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
+                ctlInit.RepositoryItemSearchLookUpEdit_ProjectList(repSearchProjectNo, "ProjectName", "ProjectName");
 
                 if (textCommon.Text == "")
                 {
-                    swrDAO.QuerySpecialWarehouseReceiptHead(dataSet_SWR.Tables[0], "", "", "", 0, 0, 0, "", -1, "", true);
+                    swrDAO.QuerySpecialWarehouseReceiptHead(dataSet_SWR.Tables[0], "", "", "", 0, 0, 0, 0, -1, "", true);
                     swrDAO.QuerySpecialWarehouseReceiptList(dataSet_SWR.Tables[1], "", true);
                 }
 
@@ -139,12 +147,12 @@ namespace PSAP.VIEW.BSVIEW
                     lookUpRepertoryId.ItemIndex = 0;
                     SearchLocationId.EditValue = 0;
                     comboBoxWarehouseState.SelectedIndex = 0;
-                    lookUpPrepared.ItemIndex = 0;
-                    lookUpApprover.ItemIndex = -1;
+                    searchLookUpCreator.EditValue = 0;
+                    searchLookUpApprover.EditValue = null;
 
                     dataSet_SWR.Tables[0].Clear();
                     headFocusedLineNo = 0;
-                    swrDAO.QuerySpecialWarehouseReceiptHead(dataSet_SWR.Tables[0], "", "", "", 0, 0, 0, "", -1, textCommon.Text, false);
+                    swrDAO.QuerySpecialWarehouseReceiptHead(dataSet_SWR.Tables[0], "", "", "", 0, 0, 0, 0, -1, textCommon.Text, false);
                     SetButtonAndColumnState(false);
 
                     if (dataSet_SWR.Tables[0].Rows.Count > 0)
@@ -175,11 +183,11 @@ namespace PSAP.VIEW.BSVIEW
         /// <summary>
         /// 删除选项
         /// </summary>
-        private void lookUpApprover_KeyDown(object sender, KeyEventArgs e)
+        private void searchLookUpApprover_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
             {
-                lookUpApprover.EditValue = null;
+                searchLookUpApprover.EditValue = null;
             }
         }
 
@@ -210,18 +218,21 @@ namespace PSAP.VIEW.BSVIEW
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
 
                 int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 int approverInt = -1;
-                if (lookUpApprover.ItemIndex == 0)
-                    approverInt = 0;
-                else if (lookUpApprover.ItemIndex > 0)
-                    approverInt = DataTypeConvert.GetInt(lookUpApprover.EditValue);
+                if (searchLookUpApprover.Text != "")
+                {
+                    if (DataTypeConvert.GetInt(searchLookUpApprover.EditValue) == 0)
+                        approverInt = 0;
+                    else
+                        approverInt = DataTypeConvert.GetInt(searchLookUpApprover.EditValue);
+                }
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_SWR.Tables[0].Rows.Clear();
                 dataSet_SWR.Tables[1].Rows.Clear();
                 headFocusedLineNo = 0;
-                swrDAO.QuerySpecialWarehouseReceiptHead(dataSet_SWR.Tables[0], swrDateBeginStr, swrDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, empNameStr, approverInt, commonStr, false);
+                swrDAO.QuerySpecialWarehouseReceiptHead(dataSet_SWR.Tables[0], swrDateBeginStr, swrDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, creatorInt, approverInt, commonStr, false);
 
                 SetButtonAndColumnState(false);
                 checkAll.Checked = false;
@@ -245,6 +256,9 @@ namespace PSAP.VIEW.BSVIEW
                     {
                         dataSet_SWR.Tables[0].AcceptChanges();
                         onlySelectColChangeRowState = false;
+
+                        if (btnNew.Enabled)
+                            ControlHandler.SetButtonBar_EnabledState_Warehouse(dataSet_SWR.Tables[0].Select("select=1"), gridViewSWRHead.GetFocusedDataRow(), "WarehouseState", btnSave, btnDelete, btnApprove, btnCancelApprove, btnPreview);
                     }
                     else
                     {
@@ -610,9 +624,20 @@ namespace PSAP.VIEW.BSVIEW
                 if (!SystemInfo.InventorySaveApproval && count == 1)
                 {
                     //弹出审批页面
-                    FrmOrderApproval frmOrder = new FrmOrderApproval(DataTypeConvert.GetString(dataSet_SWR.Tables[0].Select("select=1")[0]["SpecialWarehouseReceipt"]));
+                    string specialWarehouseReceiptStr = DataTypeConvert.GetString(dataSet_SWR.Tables[0].Select("select=1")[0]["SpecialWarehouseReceipt"]);
+                    FrmOrderApproval frmOrder = new FrmOrderApproval(specialWarehouseReceiptStr);
                     if (frmOrder.ShowDialog() == DialogResult.OK)
+                    {
                         btnQuery_Click(null, null);
+                        for (int i = 0; i < gridViewSWRHead.DataRowCount; i++)
+                        {
+                            if (DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"]) == specialWarehouseReceiptStr)
+                            {
+                                gridViewSWRHead.FocusedRowHandle = i;
+                                break;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -631,6 +656,7 @@ namespace PSAP.VIEW.BSVIEW
                     }
                 }
                 ClearHeadGridAllSelect();
+                ControlHandler.SetButtonBar_EnabledState_Warehouse(dataSet_SWR.Tables[0].Select("select=1"), gridViewSWRHead.GetFocusedDataRow(), "WarehouseState", btnSave, btnDelete, btnApprove, btnCancelApprove, btnPreview);
             }
             catch (Exception ex)
             {
@@ -670,6 +696,7 @@ namespace PSAP.VIEW.BSVIEW
                     MessageHandler.ShowMessageBox(string.Format("成功取消审批了{0}条记录。", count));
                 }
                 ClearHeadGridAllSelect();
+                ControlHandler.SetButtonBar_EnabledState_Warehouse(dataSet_SWR.Tables[0].Select("select=1"), gridViewSWRHead.GetFocusedDataRow(), "WarehouseState", btnSave, btnDelete, btnApprove, btnCancelApprove, btnPreview);
             }
             catch (Exception ex)
             {
@@ -754,6 +781,9 @@ namespace PSAP.VIEW.BSVIEW
                 dr["Select"] = value;
             }
             onlySelectColChangeRowState = true;
+
+            if (btnNew.Enabled)
+                ControlHandler.SetButtonBar_EnabledState_Warehouse(dataSet_SWR.Tables[0].Select("select=1"), gridViewSWRHead.GetFocusedDataRow(), "WarehouseState", btnSave, btnDelete, btnApprove, btnCancelApprove, btnPreview);
         }
 
         /// <summary>
@@ -784,7 +814,7 @@ namespace PSAP.VIEW.BSVIEW
                 gridViewSWRHead.SetFocusedRowCellValue("SpecialWarehouseReceiptDate", BaseSQL.GetServerDateTime());
                 gridViewSWRHead.SetFocusedRowCellValue("ReqDep", SystemInfo.user.DepartmentNo);
                 gridViewSWRHead.SetFocusedRowCellValue("WarehouseState", 1);
-                gridViewSWRHead.SetFocusedRowCellValue("Prepared", SystemInfo.user.EmpName);
+                gridViewSWRHead.SetFocusedRowCellValue("Creator", SystemInfo.user.AutoId);
             }
             catch (Exception ex)
             {
@@ -1067,6 +1097,10 @@ namespace PSAP.VIEW.BSVIEW
                 gridViewSWRHead.GetFocusedDataRow()["Select"] = false;
             else
                 gridViewSWRHead.GetFocusedDataRow()["Select"] = true;
+
+            if (btnNew.Enabled)
+                ControlHandler.SetButtonBar_EnabledState_Warehouse(dataSet_SWR.Tables[0].Select("select=1"), gridViewSWRHead.GetFocusedDataRow(), "WarehouseState", btnSave, btnDelete, btnApprove, btnCancelApprove, btnPreview);
+
             onlySelectColChangeRowState = true;
         }
 
@@ -1143,6 +1177,9 @@ namespace PSAP.VIEW.BSVIEW
                 btnSave.Text = "保存";
                 btnCancel.Enabled = true;
                 btnDelete.Enabled = false;
+                btnApprove.Enabled = false;
+                btnCancelApprove.Enabled = false;
+                btnPreview.Enabled = false;
             }
             else
             {
@@ -1150,11 +1187,13 @@ namespace PSAP.VIEW.BSVIEW
                 btnSave.Text = "修改";
                 btnCancel.Enabled = false;
                 btnDelete.Enabled = true;
-            }
-            btnApprove.Enabled = !ret;
-            btnCancelApprove.Enabled = !ret;
-            btnPreview.Enabled = !ret;
+                //btnDelete.Enabled = true;
+                //btnApprove.Enabled = true;
+                //btnCancelApprove.Enabled = true;
+                //btnPreview.Enabled = true;
 
+                ControlHandler.SetButtonBar_EnabledState_Warehouse(dataSet_SWR.Tables[0].Select("select=1"), gridViewSWRHead.GetFocusedDataRow(), "WarehouseState", btnSave, btnDelete, btnApprove, btnCancelApprove, btnPreview);
+            }
             btnListAdd.Enabled = ret;
 
             //if (SystemInfo.WarehouseReceiptIsAlterDate)
@@ -1181,7 +1220,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (ret)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";
@@ -1203,14 +1242,14 @@ namespace PSAP.VIEW.BSVIEW
             int reqState = DataTypeConvert.GetInt(gridViewSWRHead.GetFocusedDataRow()["WarehouseState"]);
             switch (reqState)
             {
-                case 2:
-                    MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"])));
+                case (int)CommonHandler.WarehouseState.已审批:
+                    MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.已审批));
                     return false;
-                //case 3:
-                //    MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"])));
+                //case (int)CommonHandler.WarehouseState.已结账:
+                //    MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]),CommonHandler.WarehouseState.已结账));
                 //    return false;
-                case 4:
-                    MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"])));
+                case (int)CommonHandler.WarehouseState.审批中:
+                    MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetFocusedDataRow()["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.审批中));
                     return false;
             }
             return true;
@@ -1228,34 +1267,34 @@ namespace PSAP.VIEW.BSVIEW
                     int reqState = DataTypeConvert.GetInt(gridViewSWRHead.GetDataRow(i)["WarehouseState"]);
                     switch (reqState)
                     {
-                        case 1:
+                        case (int)CommonHandler.WarehouseState.待审批:
                             if (checkNoApprover)
                             {
-                                MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"])));
+                                MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.待审批));
                                 gridViewSWRHead.FocusedRowHandle = i;
                                 return false;
                             }
                             break;
-                        case 2:
+                        case (int)CommonHandler.WarehouseState.已审批:
                             if (checkApprover)
                             {
-                                MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"])));
+                                MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.已审批));
                                 gridViewSWRHead.FocusedRowHandle = i;
                                 return false;
                             }
                             break;
-                        //case 3:
+                        //case (int)CommonHandler.WarehouseState.已结账:
                         //    if (checkSettle)
                         //    {
-                        //        MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"])));
+                        //        MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"]),CommonHandler.WarehouseState.已结账));
                         //        gridViewSWRHead.FocusedRowHandle = i;
                         //        return false;
                         //    }
                         //    break;
-                        case 4:
+                        case (int)CommonHandler.WarehouseState.审批中:
                             if (checkApproverBetween)
                             {
-                                MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"])));
+                                MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(gridViewSWRHead.GetDataRow(i)["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.审批中));
                                 gridViewSWRHead.FocusedRowHandle = i;
                                 return false;
                             }

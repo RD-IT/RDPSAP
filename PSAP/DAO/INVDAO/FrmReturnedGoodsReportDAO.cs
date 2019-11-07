@@ -20,19 +20,19 @@ namespace PSAP.DAO.INVDAO
         /// <param name="bussinessBaseNoStr">供应商</param>
         /// <param name="repertoryIdInt">退货仓库</param>
         /// <param name="warehouseStateInt">订单状态</param>
-        /// <param name="preparedStr">制单人</param>
-        /// <param name="approverInt">审核人</param>
+        /// <param name="creatorInt">制单人</param>
+        /// <param name="approverInt">审批人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QueryReturnedGoodsReportHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QueryReturnedGoodsReportHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QueryReturnedGoodsReportHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, warehouseStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QueryReturnedGoodsReportHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, repertoryIdInt, locationIdInt, warehouseStateInt, creatorInt, approverInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询退货单表头的SQL
         /// </summary>
-        public string QueryReturnedGoodsReportHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public string QueryReturnedGoodsReportHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -59,9 +59,9 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and WarehouseState={0}", warehouseStateInt);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -141,7 +141,8 @@ namespace PSAP.DAO.INVDAO
                             if (!CheckWarehouseState(rgrHeadRow.Table, rgrListTable, string.Format("'{0}'", DataTypeConvert.GetString(rgrHeadRow["ReturnedGoodsReportNo"])), false, true, true, true))
                                 return -1;
 
-                            rgrHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            rgrHeadRow["ModifierId"] = SystemInfo.user.AutoId;
+                            //rgrHeadRow["Modifier"] = SystemInfo.user.EmpName;
                             rgrHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             rgrHeadRow["ModifierTime"] = serverTime;
                         }
@@ -222,40 +223,40 @@ namespace PSAP.DAO.INVDAO
                 int wState = DataTypeConvert.GetInt(tmpTable.Rows[i]["WarehouseState"]);
                 switch (wState)
                 {
-                    case 1:
+                    case (int)CommonHandler.WarehouseState.待审批:
                         if (checkNoApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("退货单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("退货单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"]), CommonHandler.WarehouseState.待审批));
                             rgrHeadTable.RejectChanges();
                             if (rgrListTable != null)
                                 rgrListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.WarehouseState.已审批:
                         if (checkApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("退货单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("退货单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"]), CommonHandler.WarehouseState.已审批));
                             rgrHeadTable.RejectChanges();
                             if (rgrListTable != null)
                                 rgrListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    //case 3:
+                    //case (int)CommonHandler.WarehouseState.已结账:
                     //    if (checkSettle)
                     //    {
-                    //        MessageHandler.ShowMessageBox(string.Format("退货单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"])));
+                    //        MessageHandler.ShowMessageBox(string.Format("退货单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"]),CommonHandler.WarehouseState.已结账));
                     //        swwHeadTable.RejectChanges();
                     //        if (swwListTable != null)
                     //            swwListTable.RejectChanges();
                     //        return false;
                     //    }
                     //    break;
-                    case 4:
+                    case (int)CommonHandler.WarehouseState.审批中:
                         if (checkApproverBetween)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("退货单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("退货单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["ReturnedGoodsReportNo"]), CommonHandler.WarehouseState.审批中));
                             rgrHeadTable.RejectChanges();
                             if (rgrListTable != null)
                                 rgrListTable.RejectChanges();
@@ -380,10 +381,10 @@ namespace PSAP.DAO.INVDAO
 
                                     new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, rgrHeadTable.Rows[i], "退货单", "ReturnedGoodsReportNo", rgrHeadNoStr, serverTime);
 
-                                    cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState=2 where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr);
+                                    cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState={1} where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                     cmd.ExecuteNonQuery();
 
-                                    rgrHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    rgrHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
 
                                     successCountInt++;
                                 }
@@ -405,11 +406,11 @@ namespace PSAP.DAO.INVDAO
                                     if (tmpTable.Rows.Count == 0)
                                     {
                                         trans.Rollback();
-                                        MessageHandler.ShowMessageBox("未查询到要操作的退货单，请刷新后再进行操作。");
+                                        MessageHandler.ShowMessageBox("未查询到要操作的退货单，请查询后再进行操作。");
                                         return false;
                                     }
 
-                                    ////审核检查入库明细数量是否超过采购订单明细数量
+                                    ////审批检查入库明细数量是否超过采购订单明细数量
                                     //DataTable orderListTable = new DataTable();
                                     //QueryWarehouseWarrantList(orderListTable, swwHeadNoStr, false);
                                     //if (!CheckOrderApplyBeyondCount(cmd, swwHeadNoStr, orderListTable))
@@ -427,9 +428,9 @@ namespace PSAP.DAO.INVDAO
                                     listadpt.Fill(listTable);
                                     if (listTable.Rows.Count == 0)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState = 2 where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState={1} where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        rgrHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        rgrHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                         continue;
                                     }
                                     int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
@@ -451,28 +452,28 @@ namespace PSAP.DAO.INVDAO
 
                                     if (listTable.Rows.Count == 1 || approvalCatInt == 2)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState=2 where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState={1} where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        rgrHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        rgrHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                     }
                                     else
                                     {
-                                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState=4 where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState={1} where ReturnedGoodsReportNo='{0}'", rgrHeadNoStr, (int)CommonHandler.WarehouseState.审批中);
                                         cmd.ExecuteNonQuery();
-                                        rgrHeadTable.Rows[i]["WarehouseState"] = 4;
+                                        rgrHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.审批中;
                                     }
 
                                     //保存日志到日志表中
                                     string logStr = LogHandler.RecordLog_OperateRow(cmd, "退货单", rgrHeadTable.Rows[i], "ReturnedGoodsReportNo", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                                    //if (DataTypeConvert.GetInt(rgrHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    //if (DataTypeConvert.GetInt(rgrHeadTable.Rows[i]["WarehouseState"]) == (int)CommonHandler.WarehouseState.已审批)//全部审批通过进行下一步操作
                                     //{
                                     //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
                                     //    string errorText = "";
                                     //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, rgrHeadNoStr, 1, out errorText))
                                     //    {
                                     //        trans.Rollback();
-                                    //        MessageHandler.ShowMessageBox("退货单审核入库错误--" + errorText);
+                                    //        MessageHandler.ShowMessageBox("退货单审批入库错误--" + errorText);
                                     //        return false;
                                     //    }
                                     //}
@@ -511,7 +512,7 @@ namespace PSAP.DAO.INVDAO
                 if (DataTypeConvert.GetBoolean(rgrHeadTable.Rows[i]["Select"]))
                 {
                     rgrHeadNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(rgrHeadTable.Rows[i]["ReturnedGoodsReportNo"]));
-                    rgrHeadTable.Rows[i]["WarehouseState"] = 1;
+                    rgrHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.待审批;
                 }
             }
 
@@ -528,14 +529,14 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
-                        cmd.CommandText = string.Format("select ReturnedGoodsReportNo from INV_ReturnedGoodsReportHead where WarehouseState = 2 and ReturnedGoodsReportNo in ({0})", rgrHeadNoListStr);
+                        cmd.CommandText = string.Format("select ReturnedGoodsReportNo from INV_ReturnedGoodsReportHead where WarehouseState={1} and ReturnedGoodsReportNo in ({0})", rgrHeadNoListStr, (int)CommonHandler.WarehouseState.已审批);
                         DataTable approcalRGRTable = new DataTable();
                         SqlDataAdapter appradpt = new SqlDataAdapter(cmd);
                         appradpt.Fill(approcalRGRTable);
 
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", rgrHeadNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState=1 where ReturnedGoodsReportNo in ({0})", rgrHeadNoListStr);
+                        cmd.CommandText = string.Format("Update INV_ReturnedGoodsReportHead set WarehouseState={1} where ReturnedGoodsReportNo in ({0})", rgrHeadNoListStr, (int)CommonHandler.WarehouseState.待审批);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -561,7 +562,7 @@ namespace PSAP.DAO.INVDAO
                         //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalRGRTable.Rows[i]["ReturnedGoodsReportNo"]), 2, out errorText))
                         //    {
                         //        trans.Rollback();
-                        //        MessageHandler.ShowMessageBox("退货单取消审核出库错误--" + errorText);
+                        //        MessageHandler.ShowMessageBox("退货单取消审批出库错误--" + errorText);
                         //        return false;
                         //    }
                         //}

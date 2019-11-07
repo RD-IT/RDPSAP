@@ -835,7 +835,7 @@
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 18;
             this.btnRefresh.TabStop = false;
-            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.Text = "查询";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnDelete
@@ -1484,8 +1484,8 @@
             this.Controls.Add(this.pnlEdit);
             this.Controls.Add(this.pnlToolBar);
             this.Name = "FrmWorkFlowEdit";
-            this.TabText = "审核流-模块流程";
-            this.Text = "审核流-模块流程";
+            this.TabText = "审批流-模块流程";
+            this.Text = "审批流-模块流程";
             this.Activated += new System.EventHandler(this.FrmWorkFlowEdit_Activated);
             this.Load += new System.EventHandler(this.FrmWorkFlowEdit_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();

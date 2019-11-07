@@ -170,19 +170,19 @@
             // 
             this.tsmiWcxdyc.Name = "tsmiWcxdyc";
             this.tsmiWcxdyc.Size = new System.Drawing.Size(340, 22);
-            this.tsmiWcxdyc.Text = "未查询到要操作的出库单，请刷新后再进行操作。";
+            this.tsmiWcxdyc.Text = "未查询到要操作的出库单，请查询后再进行操作。";
             // 
             // tsmiCkshcw
             // 
             this.tsmiCkshcw.Name = "tsmiCkshcw";
             this.tsmiCkshcw.Size = new System.Drawing.Size(340, 22);
-            this.tsmiCkshcw.Text = "出库单审核出库错误";
+            this.tsmiCkshcw.Text = "出库单审批出库错误";
             // 
             // tsmiCkdqxs
             // 
             this.tsmiCkdqxs.Name = "tsmiCkdqxs";
             this.tsmiCkdqxs.Size = new System.Drawing.Size(340, 22);
-            this.tsmiCkdqxs.Text = "出库单取消审核入库错误";
+            this.tsmiCkdqxs.Text = "出库单取消审批入库错误";
             // 
             // cmsFrmWarehouseWarrantDAO
             // 
@@ -275,13 +275,13 @@
             // 
             this.tsmiWccdyc.Name = "tsmiWccdyc";
             this.tsmiWccdyc.Size = new System.Drawing.Size(352, 22);
-            this.tsmiWccdyc.Text = "未查询到要操作的入库单，请刷新后再进行操作。";
+            this.tsmiWccdyc.Text = "未查询到要操作的入库单，请查询后再进行操作。";
             // 
             // tsmiRkdshr
             // 
             this.tsmiRkdshr.Name = "tsmiRkdshr";
             this.tsmiRkdshr.Size = new System.Drawing.Size(352, 22);
-            this.tsmiRkdshr.Text = "入库单审核入库错误";
+            this.tsmiRkdshr.Text = "入库单审批入库错误";
             // 
             // tsmiRkdyjy
             // 
@@ -293,7 +293,7 @@
             // 
             this.tsmiRkdqxs.Name = "tsmiRkdqxs";
             this.tsmiRkdqxs.Size = new System.Drawing.Size(352, 22);
-            this.tsmiRkdqxs.Text = "入库单取消审核出库错误";
+            this.tsmiRkdqxs.Text = "入库单取消审批出库错误";
             // 
             // FrmLanguageINVDAO
             // 

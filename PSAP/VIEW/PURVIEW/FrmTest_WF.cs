@@ -1,6 +1,7 @@
 ﻿using DevExpress.Skins;
 using DevExpress.XtraGrid.Views.Base;
 using PSAP.DAO.PURDAO;
+using PSAP.DAO.WORKFLOWDAO;
 using PSAP.PSAPCommon;
 using System;
 using System.Collections;
@@ -42,16 +43,20 @@ namespace PSAP.VIEW.BSVIEW
 
         private void simpleButton1_Click(object sender, EventArgs e)
         {
-            FrmProjectPlanTask fomr = new FrmProjectPlanTask();            
-            try
-            {
-                
-                fomr.ShowDialog();
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            //FrmProjectPlanTask fomr = new FrmProjectPlanTask();            
+            //try
+            //{
+
+            //    fomr.ShowDialog();
+            //}
+            //catch(Exception ex)
+            //{
+            //    MessageHandler.ShowMessageBox(ex.Message);
+            //}
+
+            WorkFlowsHandleDAO.OrderType orderType = WorkFlowsHandleDAO.OrderType.请购单;
+
+            string ss = ((WorkFlowsHandleDAO.QueryOrderViewName)((int)orderType)).ToString();
         }
     }
 }

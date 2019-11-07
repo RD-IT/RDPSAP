@@ -920,7 +920,7 @@
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 4;
-            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.Text = "查询";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // textGetTime
@@ -1099,7 +1099,7 @@
             this.btnModuleCopy.Size = new System.Drawing.Size(75, 23);
             this.btnModuleCopy.TabIndex = 106;
             this.btnModuleCopy.TabStop = false;
-            this.btnModuleCopy.Text = "复制";
+            this.btnModuleCopy.Text = "复制模块";
             this.btnModuleCopy.Click += new System.EventHandler(this.btnModuleCopy_Click);
             // 
             // btnModuleNew
@@ -1109,7 +1109,7 @@
             this.btnModuleNew.Size = new System.Drawing.Size(75, 23);
             this.btnModuleNew.TabIndex = 105;
             this.btnModuleNew.TabStop = false;
-            this.btnModuleNew.Text = "新增";
+            this.btnModuleNew.Text = "新增模块";
             this.btnModuleNew.Click += new System.EventHandler(this.btnModuleNew_Click);
             // 
             // pnlRightTop
@@ -1133,7 +1133,7 @@
             this.btnModuleQuery.Name = "btnModuleQuery";
             this.btnModuleQuery.Size = new System.Drawing.Size(75, 23);
             this.btnModuleQuery.TabIndex = 104;
-            this.btnModuleQuery.Text = "查询";
+            this.btnModuleQuery.Text = "模块查询";
             this.btnModuleQuery.Click += new System.EventHandler(this.btnModuleQuery_Click);
             // 
             // textCommon

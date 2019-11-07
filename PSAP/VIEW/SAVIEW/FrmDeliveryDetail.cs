@@ -57,6 +57,8 @@ namespace PSAP.VIEW.BSVIEW
             {
                 ControlHandler.DevExpressStyle_ChangeControlLocation(btnListAdd.LookAndFeel.ActiveSkinName, new List<Control> { btnListAdd });
 
+                LookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(false);
+
                 btnRefresh_Click(null, null);
             }
             catch (Exception ex)
@@ -337,7 +339,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新按钮事件
+        /// 查询按钮事件
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -355,6 +357,10 @@ namespace PSAP.VIEW.BSVIEW
                     {
                         ddDAO.QueryMaterialDetail(TableMaterialDetail, currentAutoIdInt);
                     }
+                    else
+                    {
+                        ddDAO.QueryMaterialDetail(TableMaterialDetail, 0);
+                    }
                 }
                 else
                 {
@@ -364,13 +370,17 @@ namespace PSAP.VIEW.BSVIEW
                         currentAutoIdInt = DataTypeConvert.GetInt(TableDeliveryDetail.Rows[0]["AutoId"]);
                         ddDAO.QueryMaterialDetail(TableMaterialDetail, currentAutoIdInt);
                     }
+                    else
+                    {
+                        ddDAO.QueryMaterialDetail(TableMaterialDetail, 0);
+                    }
                 }
 
                 Set_ButtonEditGrid_State(true);
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
@@ -476,7 +486,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 e.Row["SMNo"] = querySMNo;
-                e.Row["Prepared"] = SystemInfo.user.EmpName;
+                e.Row["Creator"] = SystemInfo.user.AutoId;
                 e.Row["DeliveryQty"] = 1;
                 e.Row["Unit"] = 1;
                 e.Row["Amount"] = 1;
@@ -495,7 +505,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 e.Row["DeliveryDetailNO"] = currentAutoIdInt;
-                e.Row["Prepared"] = SystemInfo.user.EmpName;
+                e.Row["Creator"] = SystemInfo.user.AutoId;
                 e.Row["MaterialQty"] = 1;
                 e.Row["Unit"] = 1;
                 e.Row["Amount"] = 1;
@@ -562,7 +572,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -595,7 +605,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";

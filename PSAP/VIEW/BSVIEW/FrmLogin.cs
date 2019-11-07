@@ -9,7 +9,6 @@ using PSAP.DAO.BSDAO;
 using PSAP.BLL.BSBLL;
 using PSAP.VIEW.BSVIEW;
 using PSAP.PSAPCommon;
-using System.Configuration;
 using System.Threading;
 
 namespace PSAP
@@ -48,34 +47,46 @@ namespace PSAP
             {
                 if (txtUserID.Text == string.Empty)
                 {
-                    //MessageBox.Show(string.Format("用户ID不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(string.Format(tsmiYhidbnwk.Text), tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageHandler.ShowMessageBox(string.Format("用户ID不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("用户ID不能为空。");
                     txtUserID.Focus();
                     return;
                 }
 
                 if (txtPassword.Text == string.Empty)
                 {
-                    //MessageBox.Show(string.Format("密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    MessageBox.Show(string.Format(tsmiMmbnwk.Text), tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageHandler.ShowMessageBox(string.Format("密码不能为空。"), "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("密码不能为空。");
                     txtPassword.Focus();
                     return;
                 }
 
+                FileHandler fileHandler = new FileHandler();
+                string iniPath = System.Windows.Forms.Application.StartupPath + "\\Config.ini";
+
                 try
                 {
                     //Data Source=192.168.0.3;Initial Catalog=PSAP;Persist Security Info=True;User ID=sa;Password=1qaz2wsx
+
+                    string dataSourceStr = fileHandler.IniReadValue(iniPath, "System", "DataSource");
+                    string userIDStr = fileHandler.IniReadValue(iniPath, "System", "UserID");
+                    string passwordStr = fileHandler.IniReadValue(iniPath, "System", "Password");
+
+                    BaseSQL.connectionString = BaseSQL.GetConnectionString(dataSourceStr, "PSAP", userIDStr, passwordStr);
+
                     string tempStr = BaseSQL.connectionString.Replace("Data Source=", "");
                     string ipAddressStr = tempStr.Substring(0, tempStr.IndexOf(";"));
 
                     if (!new SystemHandler().TestIPAddress(ipAddressStr, 1000))
                     {
                         MessageHandler.ShowMessageBox(string.Format("IP地址【{0}】连接不通，请确认客户端和服务端的网络是否正常。", ipAddressStr));
+                        btnSet.Visible = true;
                         return;
                     }
                     if (!BaseSQL.TestSqlConnection())
                     {
                         MessageHandler.ShowMessageBox("服务端的数据库不能正常访问，请确认数据库是否正常");
+                        btnSet.Visible = true;
                         return;
                     }
                 }
@@ -108,8 +119,7 @@ namespace PSAP
                         }
                     }
 
-                    string iniPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase.TrimEnd('\\') + "\\Config.ini";
-                    new FileHandler().IniWriteValue(iniPath, "System", "LastLanguage", cboLanguage.SelectedValue.ToString());
+                    fileHandler.IniWriteValue(iniPath, "System", "LastLanguage", cboLanguage.SelectedValue.ToString());
 
                     //Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                     // cfa.AppSettings.Settings["last"].Value = "111";
@@ -141,6 +151,9 @@ namespace PSAP
             txtUserID.Focus();
         }
 
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             try
@@ -163,10 +176,9 @@ namespace PSAP
                         txtPassword.Text = pwdStr;
                 }
             }
-            catch (Exception f)
+            catch (Exception ex)
             {
-                //MessageBox.Show(f.Message, "用户登录", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                MessageBox.Show(f.Message, tsmiYhdl.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ExceptionHandler.HandleException(this.Text + "--窗体加载事件错误。", ex);
             }
         }
 
@@ -175,18 +187,41 @@ namespace PSAP
         /// </summary>
         private void ThreadInitializeForm()
         {
-            using (FrmRight_UserMenuButton userForm = new FrmRight_UserMenuButton())
+            try
             {
-                userForm.FormBorderStyle = FormBorderStyle.None;
-                userForm.TopLevel = false;
-                userForm.Dock = DockStyle.Fill;
-                DevExpress.XtraEditors.PanelControl pnl = new DevExpress.XtraEditors.PanelControl();
-                pnl.Visible = false;
-                pnl.Controls.Add(userForm);
-                userForm.Show();
-                userForm.FrmRight_UserMenuButton_Load(null, null);
-                userForm.Dispose();
-                pnl.Dispose();
+                using (FrmRight_UserMenuButton userForm = new FrmRight_UserMenuButton())
+                {
+                    userForm.FormBorderStyle = FormBorderStyle.None;
+                    userForm.TopLevel = false;
+                    userForm.Dock = DockStyle.Fill;
+                    DevExpress.XtraEditors.PanelControl pnl = new DevExpress.XtraEditors.PanelControl();
+                    pnl.Visible = false;
+                    pnl.Controls.Add(userForm);
+                    userForm.Show();
+                    userForm.FrmRight_UserMenuButton_Load(null, null);
+                    userForm.Dispose();
+                    pnl.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException_NoMessage("线程初始化窗体错误。", ex);
+            }
+        }
+
+        /// <summary>
+        /// 设置数据库配置
+        /// </summary>
+        private void btnSet_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FrmDBConfig dbConfig = new FrmDBConfig();
+                dbConfig.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.HandleException("设置数据库配置错误。", ex);
             }
         }
     }

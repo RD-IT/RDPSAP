@@ -35,8 +35,10 @@ namespace PSAP.VIEW.BSVIEW
 
                 searchLookUpBussinessBaseNo.Properties.DataSource = commonDAO.QueryBussinessBaseInfo(true);
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 repSearchLookUpBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 repLookUpQState.DataSource = CommonHandler.GetQuotationInfoStateTable(false);
@@ -91,11 +93,11 @@ namespace PSAP.VIEW.BSVIEW
                 string recordDateEndStr = dateSalesOrderDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_Quotation.Tables[0].Rows.Clear();
-                ssDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, empNameStr, commonStr);
+                ssDAO.QueryQuotationBaseInfo(dataSet_Quotation.Tables[0], recordDateBeginStr, recordDateEndStr, bussinessBaseNoStr, creatorInt, commonStr);
             }
             catch (Exception ex)
             {

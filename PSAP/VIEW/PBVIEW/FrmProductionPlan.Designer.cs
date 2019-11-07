@@ -72,23 +72,19 @@
             this.dataColuDesignBomListParentId = new System.Data.DataColumn();
             this.bindingSource_ProductionPlan = new System.Windows.Forms.BindingSource(this.components);
             this.pnltop = new DevExpress.XtraEditors.PanelControl();
+            this.searchLookUpApprover = new DevExpress.XtraEditors.SearchLookUpEdit();
+            this.searchLookUpApproverView = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.searchLookUpCreator = new DevExpress.XtraEditors.SearchLookUpEdit();
+            this.searchLookUpCreatorView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.lookUpManufactureNo = new DevExpress.XtraEditors.LookUpEdit();
             this.searchLookUpCodeFileName = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpCodeFileNameView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColuCodeFileName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuCodeName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColuAutoId = new DevExpress.XtraGrid.Columns.GridColumn();
             this.searchLookUpProjectNo = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.searchLookUpProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.labCodeFileName = new DevExpress.XtraEditors.LabelControl();
             this.labProjectNo = new DevExpress.XtraEditors.LabelControl();
-            this.lookUpApprover = new DevExpress.XtraEditors.LookUpEdit();
             this.textCommon = new DevExpress.XtraEditors.TextEdit();
             this.comboBoxCurrentStatus = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.lookUpCreator = new DevExpress.XtraEditors.LookUpEdit();
             this.btnQuery = new DevExpress.XtraEditors.SimpleButton();
             this.datePlanDateEnd = new DevExpress.XtraEditors.DateEdit();
             this.lab = new DevExpress.XtraEditors.LabelControl();
@@ -112,9 +108,6 @@
             this.colProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repSearchProjectNo = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
             this.repSearchProjectNoView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumnProjectNo = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumnProjectName = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumnRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colCreator = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repLookUpCreator = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
@@ -168,6 +161,13 @@
             this.bindingSource_ProductionPlanList = new System.Windows.Forms.BindingSource(this.components);
             this.pnlRight = new DevExpress.XtraEditors.PanelControl();
             this.splitterControl1 = new DevExpress.XtraEditors.SplitterControl();
+            this.barManagerForm = new DevExpress.XtraBars.BarManager(this.components);
+            this.barDockControlTop = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlBottom = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlLeft = new DevExpress.XtraBars.BarDockControl();
+            this.barDockControlRight = new DevExpress.XtraBars.BarDockControl();
+            this.barButtonItemUp = new DevExpress.XtraBars.BarButtonItem();
+            this.popupMenuPP = new DevExpress.XtraBars.PopupMenu(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.repCheckEditIsUse)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_ProductionPlan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataTableProductionPlan)).BeginInit();
@@ -175,15 +175,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_ProductionPlan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).BeginInit();
             this.pnltop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpApprover.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpApproverView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreator.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreatorView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpManufactureNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCodeFileName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCodeFileNameView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpApprover.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxCurrentStatus.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpCreator.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateEnd.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateEnd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateBegin.Properties.CalendarTimeProperties)).BeginInit();
@@ -214,6 +216,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_ProductionPlanList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRight)).BeginInit();
             this.pnlRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barManagerForm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenuPP)).BeginInit();
             this.SuspendLayout();
             // 
             // repCheckEditIsUse
@@ -489,15 +493,15 @@
             // 
             // pnltop
             // 
+            this.pnltop.Controls.Add(this.searchLookUpApprover);
+            this.pnltop.Controls.Add(this.searchLookUpCreator);
             this.pnltop.Controls.Add(this.lookUpManufactureNo);
             this.pnltop.Controls.Add(this.searchLookUpCodeFileName);
             this.pnltop.Controls.Add(this.searchLookUpProjectNo);
             this.pnltop.Controls.Add(this.labCodeFileName);
             this.pnltop.Controls.Add(this.labProjectNo);
-            this.pnltop.Controls.Add(this.lookUpApprover);
             this.pnltop.Controls.Add(this.textCommon);
             this.pnltop.Controls.Add(this.comboBoxCurrentStatus);
-            this.pnltop.Controls.Add(this.lookUpCreator);
             this.pnltop.Controls.Add(this.btnQuery);
             this.pnltop.Controls.Add(this.datePlanDateEnd);
             this.pnltop.Controls.Add(this.lab);
@@ -513,6 +517,41 @@
             this.pnltop.Name = "pnltop";
             this.pnltop.Size = new System.Drawing.Size(1304, 78);
             this.pnltop.TabIndex = 1;
+            // 
+            // searchLookUpApprover
+            // 
+            this.searchLookUpApprover.Location = new System.Drawing.Point(461, 44);
+            this.searchLookUpApprover.Name = "searchLookUpApprover";
+            this.searchLookUpApprover.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.searchLookUpApprover.Properties.View = this.searchLookUpApproverView;
+            this.searchLookUpApprover.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpApprover.TabIndex = 7;
+            this.searchLookUpApprover.KeyDown += new System.Windows.Forms.KeyEventHandler(this.searchLookUpApprover_KeyDown);
+            // 
+            // searchLookUpApproverView
+            // 
+            this.searchLookUpApproverView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchLookUpApproverView.Name = "searchLookUpApproverView";
+            this.searchLookUpApproverView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchLookUpApproverView.OptionsView.ShowGroupPanel = false;
+            // 
+            // searchLookUpCreator
+            // 
+            this.searchLookUpCreator.Location = new System.Drawing.Point(277, 44);
+            this.searchLookUpCreator.Name = "searchLookUpCreator";
+            this.searchLookUpCreator.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.searchLookUpCreator.Properties.View = this.searchLookUpCreatorView;
+            this.searchLookUpCreator.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpCreator.TabIndex = 6;
+            // 
+            // searchLookUpCreatorView
+            // 
+            this.searchLookUpCreatorView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchLookUpCreatorView.Name = "searchLookUpCreatorView";
+            this.searchLookUpCreatorView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchLookUpCreatorView.OptionsView.ShowGroupPanel = false;
             // 
             // lookUpManufactureNo
             // 
@@ -539,47 +578,16 @@
             this.searchLookUpCodeFileName.Name = "searchLookUpCodeFileName";
             this.searchLookUpCodeFileName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpCodeFileName.Properties.DisplayMember = "CodeName";
-            this.searchLookUpCodeFileName.Properties.NullText = "";
-            this.searchLookUpCodeFileName.Properties.ValueMember = "AutoId";
             this.searchLookUpCodeFileName.Properties.View = this.searchLookUpCodeFileNameView;
             this.searchLookUpCodeFileName.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpCodeFileName.TabIndex = 3;
             // 
             // searchLookUpCodeFileNameView
             // 
-            this.searchLookUpCodeFileNameView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColuCodeFileName,
-            this.gridColuCodeName,
-            this.gridColuAutoId});
             this.searchLookUpCodeFileNameView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpCodeFileNameView.IndicatorWidth = 60;
             this.searchLookUpCodeFileNameView.Name = "searchLookUpCodeFileNameView";
             this.searchLookUpCodeFileNameView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpCodeFileNameView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpCodeFileNameView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewProductionPlan_CustomDrawRowIndicator);
-            // 
-            // gridColuCodeFileName
-            // 
-            this.gridColuCodeFileName.Caption = "零件编号";
-            this.gridColuCodeFileName.FieldName = "CodeFileName";
-            this.gridColuCodeFileName.Name = "gridColuCodeFileName";
-            this.gridColuCodeFileName.Visible = true;
-            this.gridColuCodeFileName.VisibleIndex = 0;
-            // 
-            // gridColuCodeName
-            // 
-            this.gridColuCodeName.Caption = "零件名称";
-            this.gridColuCodeName.FieldName = "CodeName";
-            this.gridColuCodeName.Name = "gridColuCodeName";
-            this.gridColuCodeName.Visible = true;
-            this.gridColuCodeName.VisibleIndex = 1;
-            // 
-            // gridColuAutoId
-            // 
-            this.gridColuAutoId.Caption = "AutoId";
-            this.gridColuAutoId.FieldName = "AutoId";
-            this.gridColuAutoId.Name = "gridColuAutoId";
             // 
             // searchLookUpProjectNo
             // 
@@ -588,49 +596,16 @@
             this.searchLookUpProjectNo.Name = "searchLookUpProjectNo";
             this.searchLookUpProjectNo.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.searchLookUpProjectNo.Properties.DisplayMember = "ProjectName";
-            this.searchLookUpProjectNo.Properties.NullText = "";
-            this.searchLookUpProjectNo.Properties.ValueMember = "ProjectNo";
             this.searchLookUpProjectNo.Properties.View = this.searchLookUpProjectNoView;
             this.searchLookUpProjectNo.Size = new System.Drawing.Size(150, 20);
             this.searchLookUpProjectNo.TabIndex = 4;
             // 
             // searchLookUpProjectNoView
             // 
-            this.searchLookUpProjectNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColProjectNo,
-            this.gridColProjectName,
-            this.gridColRemark});
             this.searchLookUpProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.searchLookUpProjectNoView.IndicatorWidth = 60;
             this.searchLookUpProjectNoView.Name = "searchLookUpProjectNoView";
             this.searchLookUpProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.searchLookUpProjectNoView.OptionsView.ShowGroupPanel = false;
-            this.searchLookUpProjectNoView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewProductionPlan_CustomDrawRowIndicator);
-            // 
-            // gridColProjectNo
-            // 
-            this.gridColProjectNo.Caption = "项目号";
-            this.gridColProjectNo.FieldName = "ProjectNo";
-            this.gridColProjectNo.Name = "gridColProjectNo";
-            this.gridColProjectNo.Visible = true;
-            this.gridColProjectNo.VisibleIndex = 0;
-            // 
-            // gridColProjectName
-            // 
-            this.gridColProjectName.Caption = "项目名称";
-            this.gridColProjectName.FieldName = "ProjectName";
-            this.gridColProjectName.Name = "gridColProjectName";
-            this.gridColProjectName.Visible = true;
-            this.gridColProjectName.VisibleIndex = 1;
-            // 
-            // gridColRemark
-            // 
-            this.gridColRemark.Caption = "备注";
-            this.gridColRemark.FieldName = "Remark";
-            this.gridColRemark.Name = "gridColRemark";
-            this.gridColRemark.Visible = true;
-            this.gridColRemark.VisibleIndex = 2;
             // 
             // labCodeFileName
             // 
@@ -648,25 +623,6 @@
             this.labProjectNo.TabIndex = 42;
             this.labProjectNo.Text = "项目号：";
             // 
-            // lookUpApprover
-            // 
-            this.lookUpApprover.EnterMoveNextControl = true;
-            this.lookUpApprover.Location = new System.Drawing.Point(461, 44);
-            this.lookUpApprover.Name = "lookUpApprover";
-            this.lookUpApprover.Properties.AllowNullInput = DevExpress.Utils.DefaultBoolean.True;
-            this.lookUpApprover.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lookUpApprover.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 80, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("LoginId", "用户名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("EmpName", "员工名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near)});
-            this.lookUpApprover.Properties.DisplayMember = "EmpName";
-            this.lookUpApprover.Properties.NullText = "";
-            this.lookUpApprover.Properties.ValueMember = "AutoId";
-            this.lookUpApprover.Size = new System.Drawing.Size(120, 20);
-            this.lookUpApprover.TabIndex = 7;
-            this.lookUpApprover.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lookUpApprover_KeyDown);
-            // 
             // textCommon
             // 
             this.textCommon.EnterMoveNextControl = true;
@@ -682,33 +638,9 @@
             this.comboBoxCurrentStatus.Name = "comboBoxCurrentStatus";
             this.comboBoxCurrentStatus.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.comboBoxCurrentStatus.Properties.Items.AddRange(new object[] {
-            "全部",
-            "待审批",
-            "审批",
-            "审批中",
-            "提交",
-            "拒绝"});
             this.comboBoxCurrentStatus.Properties.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.DisableTextEditor;
             this.comboBoxCurrentStatus.Size = new System.Drawing.Size(120, 20);
             this.comboBoxCurrentStatus.TabIndex = 5;
-            // 
-            // lookUpCreator
-            // 
-            this.lookUpCreator.EnterMoveNextControl = true;
-            this.lookUpCreator.Location = new System.Drawing.Point(277, 44);
-            this.lookUpCreator.Name = "lookUpCreator";
-            this.lookUpCreator.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lookUpCreator.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 80, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("LoginId", "用户名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("EmpName", "员工名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near)});
-            this.lookUpCreator.Properties.DisplayMember = "EmpName";
-            this.lookUpCreator.Properties.NullText = "";
-            this.lookUpCreator.Properties.ValueMember = "AutoId";
-            this.lookUpCreator.Size = new System.Drawing.Size(120, 20);
-            this.lookUpCreator.TabIndex = 6;
             // 
             // btnQuery
             // 
@@ -892,6 +824,7 @@
             this.gridViewProductionPlan.OptionsView.EnableAppearanceOddRow = true;
             this.gridViewProductionPlan.OptionsView.ShowFooter = true;
             this.gridViewProductionPlan.OptionsView.ShowGroupPanel = false;
+            this.gridViewProductionPlan.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridViewProductionPlan_RowClick);
             this.gridViewProductionPlan.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewProductionPlan_CustomDrawRowIndicator);
             this.gridViewProductionPlan.InitNewRow += new DevExpress.XtraGrid.Views.Grid.InitNewRowEventHandler(this.gridViewProductionPlan_InitNewRow);
             this.gridViewProductionPlan.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridViewProductionPlan_FocusedRowChanged);
@@ -986,40 +919,11 @@
             // 
             // repSearchProjectNoView
             // 
-            this.repSearchProjectNoView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumnProjectNo,
-            this.gridColumnProjectName,
-            this.gridColumnRemark});
             this.repSearchProjectNoView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
             this.repSearchProjectNoView.IndicatorWidth = 60;
             this.repSearchProjectNoView.Name = "repSearchProjectNoView";
             this.repSearchProjectNoView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.repSearchProjectNoView.OptionsView.ShowGroupPanel = false;
-            this.repSearchProjectNoView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.gridViewProductionPlan_CustomDrawRowIndicator);
-            // 
-            // gridColumnProjectNo
-            // 
-            this.gridColumnProjectNo.Caption = "项目号";
-            this.gridColumnProjectNo.FieldName = "ProjectNo";
-            this.gridColumnProjectNo.Name = "gridColumnProjectNo";
-            this.gridColumnProjectNo.Visible = true;
-            this.gridColumnProjectNo.VisibleIndex = 0;
-            // 
-            // gridColumnProjectName
-            // 
-            this.gridColumnProjectName.Caption = "项目名称";
-            this.gridColumnProjectName.FieldName = "ProjectName";
-            this.gridColumnProjectName.Name = "gridColumnProjectName";
-            this.gridColumnProjectName.Visible = true;
-            this.gridColumnProjectName.VisibleIndex = 1;
-            // 
-            // gridColumnRemark
-            // 
-            this.gridColumnRemark.Caption = "备注";
-            this.gridColumnRemark.FieldName = "Remark";
-            this.gridColumnRemark.Name = "gridColumnRemark";
-            this.gridColumnRemark.Visible = true;
-            this.gridColumnRemark.VisibleIndex = 2;
             // 
             // colRemark
             // 
@@ -1406,6 +1310,7 @@
             this.treeListDesignBom.Size = new System.Drawing.Size(1300, 286);
             this.treeListDesignBom.TabIndex = 2;
             this.treeListDesignBom.CustomDrawNodeIndicator += new DevExpress.XtraTreeList.CustomDrawNodeIndicatorEventHandler(this.treeListDesignBom_CustomDrawNodeIndicator);
+            this.treeListDesignBom.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeListDesignBom_MouseDown);
             // 
             // columnAutoId
             // 
@@ -1585,11 +1490,68 @@
             this.splitterControl1.TabIndex = 6;
             this.splitterControl1.TabStop = false;
             // 
+            // barManagerForm
+            // 
+            this.barManagerForm.DockControls.Add(this.barDockControlTop);
+            this.barManagerForm.DockControls.Add(this.barDockControlBottom);
+            this.barManagerForm.DockControls.Add(this.barDockControlLeft);
+            this.barManagerForm.DockControls.Add(this.barDockControlRight);
+            this.barManagerForm.Form = this;
+            this.barManagerForm.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
+            this.barButtonItemUp});
+            this.barManagerForm.MaxItemId = 2;
+            // 
+            // barDockControlTop
+            // 
+            this.barDockControlTop.CausesValidation = false;
+            this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlTop.Size = new System.Drawing.Size(1304, 0);
+            // 
+            // barDockControlBottom
+            // 
+            this.barDockControlBottom.CausesValidation = false;
+            this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barDockControlBottom.Location = new System.Drawing.Point(0, 601);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1304, 0);
+            // 
+            // barDockControlLeft
+            // 
+            this.barDockControlLeft.CausesValidation = false;
+            this.barDockControlLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.barDockControlLeft.Location = new System.Drawing.Point(0, 0);
+            this.barDockControlLeft.Size = new System.Drawing.Size(0, 601);
+            // 
+            // barDockControlRight
+            // 
+            this.barDockControlRight.CausesValidation = false;
+            this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.barDockControlRight.Location = new System.Drawing.Point(1304, 0);
+            this.barDockControlRight.Size = new System.Drawing.Size(0, 601);
+            // 
+            // barButtonItemUp
+            // 
+            this.barButtonItemUp.Caption = "上级-制造Bom";
+            this.barButtonItemUp.Id = 1;
+            this.barButtonItemUp.Name = "barButtonItemUp";
+            this.barButtonItemUp.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItemUp_ItemClick);
+            // 
+            // popupMenuPP
+            // 
+            this.popupMenuPP.LinksPersistInfo.AddRange(new DevExpress.XtraBars.LinkPersistInfo[] {
+            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItemUp)});
+            this.popupMenuPP.Manager = this.barManagerForm;
+            this.popupMenuPP.Name = "popupMenuPP";
+            // 
             // FrmProductionPlan
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1304, 601);
             this.Controls.Add(this.pnlRight);
+            this.Controls.Add(this.barDockControlLeft);
+            this.Controls.Add(this.barDockControlRight);
+            this.Controls.Add(this.barDockControlBottom);
+            this.Controls.Add(this.barDockControlTop);
             this.Name = "FrmProductionPlan";
             this.TabText = "工单";
             this.Text = "工单";
@@ -1604,15 +1566,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnltop)).EndInit();
             this.pnltop.ResumeLayout(false);
             this.pnltop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpApprover.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpApproverView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreator.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreatorView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lookUpManufactureNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCodeFileName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCodeFileNameView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNo.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.searchLookUpProjectNoView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpApprover.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.comboBoxCurrentStatus.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpCreator.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateEnd.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateEnd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.datePlanDateBegin.Properties.CalendarTimeProperties)).EndInit();
@@ -1643,7 +1607,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_ProductionPlanList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlRight)).EndInit();
             this.pnlRight.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.barManagerForm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenuPP)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1671,10 +1638,8 @@
         private System.Data.DataColumn dataColRemark;
         private System.Windows.Forms.BindingSource bindingSource_ProductionPlan;
         private DevExpress.XtraEditors.PanelControl pnltop;
-        private DevExpress.XtraEditors.LookUpEdit lookUpApprover;
         private DevExpress.XtraEditors.TextEdit textCommon;
         private DevExpress.XtraEditors.ComboBoxEdit comboBoxCurrentStatus;
-        private DevExpress.XtraEditors.LookUpEdit lookUpCreator;
         private DevExpress.XtraEditors.SimpleButton btnQuery;
         private DevExpress.XtraEditors.DateEdit datePlanDateEnd;
         private DevExpress.XtraEditors.LabelControl lab;
@@ -1687,17 +1652,11 @@
         private DevExpress.XtraEditors.LabelControl labPlanDate;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpCodeFileName;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpCodeFileNameView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuCodeFileName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuCodeName;
         private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpProjectNo;
         private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpProjectNoView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColProjectName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColRemark;
         private DevExpress.XtraEditors.LabelControl labCodeFileName;
         private DevExpress.XtraEditors.LabelControl labProjectNo;
         private DevExpress.XtraEditors.LookUpEdit lookUpManufactureNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColuAutoId;
         private DevExpress.XtraEditors.PanelControl pnlMiddle;
         private DevExpress.XtraEditors.PanelControl pnlMiddleTop;
         private DevExpress.XtraEditors.SimpleButton btnPreview;
@@ -1718,9 +1677,6 @@
         private DevExpress.XtraGrid.Columns.GridColumn colProjectNo;
         private DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit repSearchProjectNo;
         private DevExpress.XtraGrid.Views.Grid.GridView repSearchProjectNoView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumnProjectNo;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumnProjectName;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumnRemark;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpApprovalType;
         private DevExpress.XtraGrid.Columns.GridColumn colRemark;
         private DevExpress.XtraGrid.Columns.GridColumn colCreator;
@@ -1788,5 +1744,16 @@
         private System.Data.DataColumn dataColuDesignBomListParentId;
         private System.Data.DataColumn dataColCodeFileName;
         private DevExpress.XtraGrid.Columns.GridColumn colCodeId;
+        private DevExpress.XtraBars.BarManager barManagerForm;
+        private DevExpress.XtraBars.BarDockControl barDockControlTop;
+        private DevExpress.XtraBars.BarDockControl barDockControlBottom;
+        private DevExpress.XtraBars.BarDockControl barDockControlLeft;
+        private DevExpress.XtraBars.BarDockControl barDockControlRight;
+        private DevExpress.XtraBars.PopupMenu popupMenuPP;
+        private DevExpress.XtraBars.BarButtonItem barButtonItemUp;
+        private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpApprover;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpApproverView;
+        private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpCreator;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpCreatorView;
     }
 }

@@ -29,14 +29,12 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                DataTable userTable_t = commonDAO.QueryUserInfo(true);
-                DataTable partsCodeTable_t = commonDAO.QueryPartsCode(true);
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpArrangement);
+                searchLookUpArrangement.EditValue = SystemInfo.user.AutoId;
 
-                lookUpArrangement.Properties.DataSource = userTable_t;
-                lookUpArrangement.EditValue = SystemInfo.user.AutoId;
-
-                repLookUpCodeName.DataSource = partsCodeTable_t;
-                repLookUpOperator.DataSource = userTable_t;
+                repLookUpCodeName.DataSource = commonDAO.QueryPartsCode(false);
+                repLookUpOperator.DataSource = searchLookUpArrangement.Properties.DataSource;
 
                 //if (!SystemInfo.PrListDistributionAllHandle)
                 //{
@@ -113,17 +111,17 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if (lookUpArrangement.ItemIndex < 0)
+                if (searchLookUpArrangement.Text == "")
                 {
                     MessageHandler.ShowMessageBox("请选择要查询的执行人。");
-                    lookUpArrangement.Focus();
+                    searchLookUpArrangement.Focus();
                     return;
                 }
 
-                int arrangementId = lookUpArrangement.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpArrangement.EditValue) : 0;
+                int arrangementId = DataTypeConvert.GetInt(searchLookUpArrangement.EditValue);
 
                 dataSet_PrReqList.Tables[0].Clear();
-                prReqDAO.QueryPrReqListDistribution(dataSet_PrReqList.Tables[0], "", "", "", 0, arrangementId, "", true);
+                prReqDAO.QueryPrReqListDistribution(dataSet_PrReqList.Tables[0], "", "", "", 0, arrangementId, "", true, true);
             }
             catch (Exception ex)
             {

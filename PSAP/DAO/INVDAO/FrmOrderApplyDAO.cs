@@ -11,7 +11,7 @@ namespace PSAP.DAO.INVDAO
         /// <summary>
         /// 查询采购订单表
         /// </summary>
-        public void QueryOrderHead(DataTable queryDataTable,string orderHeadNoStr,string orderDateBeginStr,string orderDateEndStr, string reqDepStr, string purCategoryStr, string preparedStr, string projectNoStr, string bussinessBaseNoStr, string commonStr)
+        public void QueryOrderHead(DataTable queryDataTable,string orderHeadNoStr,string orderDateBeginStr,string orderDateEndStr, string reqDepStr, string purCategoryStr, int creatorInt, string projectNoStr, string bussinessBaseNoStr, string commonStr)
         {
             string sqlStr = " Head.ReqState in (2) and IsNull(isEnd, 0)=0 ";
             if (orderHeadNoStr != "")
@@ -30,9 +30,9 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and Head.PurCategory='{0}'", purCategoryStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Head.Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Head.Creator={0}", creatorInt);
             }
             if (projectNoStr != "")
             {

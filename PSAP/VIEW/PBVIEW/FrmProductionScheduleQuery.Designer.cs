@@ -55,7 +55,6 @@
             this.dateReqDateBegin = new DevExpress.XtraEditors.DateEdit();
             this.labReqDate = new DevExpress.XtraEditors.LabelControl();
             this.lab2 = new DevExpress.XtraEditors.LabelControl();
-            this.lookUpPrepared = new DevExpress.XtraEditors.LookUpEdit();
             this.labPrepared = new DevExpress.XtraEditors.LabelControl();
             this.btnSaveExcel = new DevExpress.XtraEditors.SimpleButton();
             this.btnQuery = new DevExpress.XtraEditors.SimpleButton();
@@ -78,6 +77,7 @@
             this.colRemark = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colPrepared = new DevExpress.XtraGrid.Columns.GridColumn();
             this.colModifier = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repLookUpReqDep = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.repSearchBussinessBaseNo = new DevExpress.XtraEditors.Repository.RepositoryItemSearchLookUpEdit();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -89,7 +89,8 @@
             this.repSpinTax = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
             this.repLookUpApprovalType = new DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit();
             this.repCheckIsVoucher = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.colModifierTime = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.searchLookUpPrepared = new DevExpress.XtraEditors.SearchLookUpEdit();
+            this.searchLookUpCreatorView = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource_PSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet_PSchedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableProductionSchedule)).BeginInit();
@@ -102,7 +103,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateReqDateEnd.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateReqDateBegin.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateReqDateBegin.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpPrepared.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties)).BeginInit();
@@ -119,6 +119,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repSpinTax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpApprovalType)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsVoucher)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpPrepared.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreatorView)).BeginInit();
             this.SuspendLayout();
             // 
             // bindingSource_PSchedule
@@ -255,12 +257,12 @@
             // 
             // pnltop
             // 
+            this.pnltop.Controls.Add(this.searchLookUpPrepared);
             this.pnltop.Controls.Add(this.checkReqDate);
             this.pnltop.Controls.Add(this.dateReqDateEnd);
             this.pnltop.Controls.Add(this.dateReqDateBegin);
             this.pnltop.Controls.Add(this.labReqDate);
             this.pnltop.Controls.Add(this.lab2);
-            this.pnltop.Controls.Add(this.lookUpPrepared);
             this.pnltop.Controls.Add(this.labPrepared);
             this.pnltop.Controls.Add(this.btnSaveExcel);
             this.pnltop.Controls.Add(this.btnQuery);
@@ -341,24 +343,6 @@
             this.lab2.Size = new System.Drawing.Size(4, 14);
             this.lab2.TabIndex = 41;
             this.lab2.Text = "-";
-            // 
-            // lookUpPrepared
-            // 
-            this.lookUpPrepared.EnterMoveNextControl = true;
-            this.lookUpPrepared.Location = new System.Drawing.Point(86, 44);
-            this.lookUpPrepared.Margin = new System.Windows.Forms.Padding(4);
-            this.lookUpPrepared.Name = "lookUpPrepared";
-            this.lookUpPrepared.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.lookUpPrepared.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 80, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("LoginId", "用户名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("EmpName", "员工名", 80, DevExpress.Utils.FormatType.None, "", true, DevExpress.Utils.HorzAlignment.Near)});
-            this.lookUpPrepared.Properties.DisplayMember = "EmpName";
-            this.lookUpPrepared.Properties.NullText = "";
-            this.lookUpPrepared.Properties.ValueMember = "EmpName";
-            this.lookUpPrepared.Size = new System.Drawing.Size(120, 20);
-            this.lookUpPrepared.TabIndex = 4;
             // 
             // labPrepared
             // 
@@ -608,6 +592,18 @@
             this.colModifier.Visible = true;
             this.colModifier.VisibleIndex = 7;
             // 
+            // colModifierTime
+            // 
+            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
+            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
+            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.colModifierTime.FieldName = "ModifierTime";
+            this.colModifierTime.Name = "colModifierTime";
+            this.colModifierTime.Visible = true;
+            this.colModifierTime.VisibleIndex = 8;
+            this.colModifierTime.Width = 135;
+            // 
             // repLookUpReqDep
             // 
             this.repLookUpReqDep.AutoHeight = false;
@@ -721,17 +717,22 @@
             this.repCheckIsVoucher.NullStyle = DevExpress.XtraEditors.Controls.StyleIndeterminate.Unchecked;
             this.repCheckIsVoucher.ValueGrayed = false;
             // 
-            // colModifierTime
+            // searchLookUpPrepared
             // 
-            this.colModifierTime.AppearanceHeader.Options.UseTextOptions = true;
-            this.colModifierTime.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.colModifierTime.DisplayFormat.FormatString = "yyyy-MM-dd HH:mm:ss";
-            this.colModifierTime.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.colModifierTime.FieldName = "ModifierTime";
-            this.colModifierTime.Name = "colModifierTime";
-            this.colModifierTime.Visible = true;
-            this.colModifierTime.VisibleIndex = 8;
-            this.colModifierTime.Width = 135;
+            this.searchLookUpPrepared.Location = new System.Drawing.Point(86, 44);
+            this.searchLookUpPrepared.Name = "searchLookUpPrepared";
+            this.searchLookUpPrepared.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.searchLookUpPrepared.Properties.View = this.searchLookUpCreatorView;
+            this.searchLookUpPrepared.Size = new System.Drawing.Size(120, 20);
+            this.searchLookUpPrepared.TabIndex = 4;
+            // 
+            // searchLookUpCreatorView
+            // 
+            this.searchLookUpCreatorView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
+            this.searchLookUpCreatorView.Name = "searchLookUpCreatorView";
+            this.searchLookUpCreatorView.OptionsSelection.EnableAppearanceFocusedCell = false;
+            this.searchLookUpCreatorView.OptionsView.ShowGroupPanel = false;
             // 
             // FrmProductionScheduleQuery
             // 
@@ -757,7 +758,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dateReqDateEnd.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateReqDateBegin.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateReqDateBegin.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lookUpPrepared.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textCommon.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateCurrentDateEnd.Properties)).EndInit();
@@ -774,6 +774,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.repSpinTax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpApprovalType)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsVoucher)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpPrepared.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchLookUpCreatorView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -801,7 +803,6 @@
         private DevExpress.XtraEditors.PanelControl pnlBottom;
         private GridBottom gridBottomOrderHead;
         private DevExpress.XtraEditors.PanelControl pnltop;
-        private DevExpress.XtraEditors.LookUpEdit lookUpPrepared;
         private DevExpress.XtraEditors.LabelControl labPrepared;
         private DevExpress.XtraEditors.SimpleButton btnSaveExcel;
         private DevExpress.XtraEditors.SimpleButton btnQuery;
@@ -841,5 +842,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn colModifier;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repCheckSelect;
         private DevExpress.XtraGrid.Columns.GridColumn colModifierTime;
+        private DevExpress.XtraEditors.SearchLookUpEdit searchLookUpPrepared;
+        private DevExpress.XtraGrid.Views.Grid.GridView searchLookUpCreatorView;
     }
 }

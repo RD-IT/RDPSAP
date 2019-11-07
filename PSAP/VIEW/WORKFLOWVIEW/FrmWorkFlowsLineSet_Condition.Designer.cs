@@ -1,6 +1,6 @@
 ﻿namespace PSAP.VIEW.BSVIEW
 {
-    partial class FrmWorkFlowNToN_Condition
+    partial class FrmWorkFlowsLineSet_Condition
     {
         /// <summary>
         /// Required designer variable.
@@ -33,6 +33,8 @@
             this.btnCancel = new DevExpress.XtraEditors.SimpleButton();
             this.BtnConfirm = new DevExpress.XtraEditors.SimpleButton();
             this.pnlTop = new DevExpress.XtraEditors.PanelControl();
+            this.labConditionText = new DevExpress.XtraEditors.LabelControl();
+            this.textConditionText = new DevExpress.XtraEditors.TextEdit();
             this.dateConditionValue = new DevExpress.XtraEditors.DateEdit();
             this.spinConditionValue = new DevExpress.XtraEditors.SpinEdit();
             this.btnJoin = new DevExpress.XtraEditors.SimpleButton();
@@ -55,6 +57,7 @@
             this.pnlBottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).BeginInit();
             this.pnlTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textConditionText.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateConditionValue.Properties.CalendarTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateConditionValue.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinConditionValue.Properties)).BeginInit();
@@ -112,6 +115,8 @@
             // 
             // pnlTop
             // 
+            this.pnlTop.Controls.Add(this.labConditionText);
+            this.pnlTop.Controls.Add(this.textConditionText);
             this.pnlTop.Controls.Add(this.dateConditionValue);
             this.pnlTop.Controls.Add(this.spinConditionValue);
             this.pnlTop.Controls.Add(this.btnJoin);
@@ -126,14 +131,29 @@
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(584, 80);
+            this.pnlTop.Size = new System.Drawing.Size(584, 114);
             this.pnlTop.TabIndex = 13;
+            // 
+            // labConditionText
+            // 
+            this.labConditionText.Location = new System.Drawing.Point(36, 24);
+            this.labConditionText.Name = "labConditionText";
+            this.labConditionText.Size = new System.Drawing.Size(48, 14);
+            this.labConditionText.TabIndex = 9;
+            this.labConditionText.Text = "条件名称";
+            // 
+            // textConditionText
+            // 
+            this.textConditionText.Location = new System.Drawing.Point(102, 21);
+            this.textConditionText.Name = "textConditionText";
+            this.textConditionText.Size = new System.Drawing.Size(130, 20);
+            this.textConditionText.TabIndex = 0;
             // 
             // dateConditionValue
             // 
             this.dateConditionValue.EditValue = null;
             this.dateConditionValue.EnterMoveNextControl = true;
-            this.dateConditionValue.Location = new System.Drawing.Point(324, 42);
+            this.dateConditionValue.Location = new System.Drawing.Point(324, 72);
             this.dateConditionValue.Name = "dateConditionValue";
             this.dateConditionValue.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -145,7 +165,7 @@
             this.dateConditionValue.Properties.EditFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dateConditionValue.Properties.Mask.EditMask = "G";
             this.dateConditionValue.Size = new System.Drawing.Size(150, 20);
-            this.dateConditionValue.TabIndex = 3;
+            this.dateConditionValue.TabIndex = 4;
             this.dateConditionValue.Visible = false;
             // 
             // spinConditionValue
@@ -156,7 +176,7 @@
             0,
             0});
             this.spinConditionValue.EnterMoveNextControl = true;
-            this.spinConditionValue.Location = new System.Drawing.Point(324, 42);
+            this.spinConditionValue.Location = new System.Drawing.Point(324, 72);
             this.spinConditionValue.Name = "spinConditionValue";
             this.spinConditionValue.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -166,16 +186,16 @@
             // 
             // btnJoin
             // 
-            this.btnJoin.Location = new System.Drawing.Point(486, 41);
+            this.btnJoin.Location = new System.Drawing.Point(486, 71);
             this.btnJoin.Name = "btnJoin";
             this.btnJoin.Size = new System.Drawing.Size(75, 23);
-            this.btnJoin.TabIndex = 4;
+            this.btnJoin.TabIndex = 5;
             this.btnJoin.Text = "加入条件";
             this.btnJoin.Click += new System.EventHandler(this.btnJoin_Click);
             // 
             // labConditionValue
             // 
-            this.labConditionValue.Location = new System.Drawing.Point(375, 22);
+            this.labConditionValue.Location = new System.Drawing.Point(375, 52);
             this.labConditionValue.Name = "labConditionValue";
             this.labConditionValue.Size = new System.Drawing.Size(36, 14);
             this.labConditionValue.TabIndex = 7;
@@ -184,14 +204,14 @@
             // textConditionValue
             // 
             this.textConditionValue.EnterMoveNextControl = true;
-            this.textConditionValue.Location = new System.Drawing.Point(324, 42);
+            this.textConditionValue.Location = new System.Drawing.Point(324, 72);
             this.textConditionValue.Name = "textConditionValue";
             this.textConditionValue.Size = new System.Drawing.Size(150, 20);
             this.textConditionValue.TabIndex = 3;
             // 
             // labRelationSelect
             // 
-            this.labRelationSelect.Location = new System.Drawing.Point(254, 22);
+            this.labRelationSelect.Location = new System.Drawing.Point(254, 52);
             this.labRelationSelect.Name = "labRelationSelect";
             this.labRelationSelect.Size = new System.Drawing.Size(48, 14);
             this.labRelationSelect.TabIndex = 5;
@@ -200,27 +220,18 @@
             // comBoxRelationSelect
             // 
             this.comBoxRelationSelect.EnterMoveNextControl = true;
-            this.comBoxRelationSelect.Location = new System.Drawing.Point(238, 42);
+            this.comBoxRelationSelect.Location = new System.Drawing.Point(238, 72);
             this.comBoxRelationSelect.Name = "comBoxRelationSelect";
             this.comBoxRelationSelect.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.comBoxRelationSelect.Properties.DropDownRows = 8;
-            this.comBoxRelationSelect.Properties.Items.AddRange(new object[] {
-            "=",
-            ">",
-            "<",
-            ">=",
-            "<=",
-            "<>",
-            "IN",
-            "LIKE"});
             this.comBoxRelationSelect.Size = new System.Drawing.Size(80, 20);
-            this.comBoxRelationSelect.TabIndex = 2;
+            this.comBoxRelationSelect.TabIndex = 3;
             this.comBoxRelationSelect.EditValueChanged += new System.EventHandler(this.comBoxRelationSelect_EditValueChanged);
             // 
             // labConditionItem
             // 
-            this.labConditionItem.Location = new System.Drawing.Point(149, 22);
+            this.labConditionItem.Location = new System.Drawing.Point(149, 52);
             this.labConditionItem.Name = "labConditionItem";
             this.labConditionItem.Size = new System.Drawing.Size(36, 14);
             this.labConditionItem.TabIndex = 3;
@@ -229,28 +240,28 @@
             // lookUpConditionItem
             // 
             this.lookUpConditionItem.EnterMoveNextControl = true;
-            this.lookUpConditionItem.Location = new System.Drawing.Point(102, 42);
+            this.lookUpConditionItem.Location = new System.Drawing.Point(102, 72);
             this.lookUpConditionItem.Name = "lookUpConditionItem";
             this.lookUpConditionItem.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.lookUpConditionItem.Properties.Columns.AddRange(new DevExpress.XtraEditors.Controls.LookUpColumnInfo[] {
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("AutoId", "AutoId", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("ProperName", "数据库列名"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("ProperText", "名称"),
-            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("Proper", "数据类型", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("FieldName", "数据库列名"),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("FieldText", "名称"),
+            new DevExpress.XtraEditors.Controls.LookUpColumnInfo("FieldType", "数据类型", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default),
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("DataTypeName", "数据类型"),
             new DevExpress.XtraEditors.Controls.LookUpColumnInfo("DataTypeNo", "类型编号", 20, DevExpress.Utils.FormatType.None, "", false, DevExpress.Utils.HorzAlignment.Default)});
-            this.lookUpConditionItem.Properties.DisplayMember = "ProperText";
+            this.lookUpConditionItem.Properties.DisplayMember = "FieldText";
             this.lookUpConditionItem.Properties.NullText = "";
             this.lookUpConditionItem.Properties.PopupFormMinSize = new System.Drawing.Size(400, 300);
-            this.lookUpConditionItem.Properties.ValueMember = "ProperName";
+            this.lookUpConditionItem.Properties.ValueMember = "FieldName";
             this.lookUpConditionItem.Size = new System.Drawing.Size(130, 20);
-            this.lookUpConditionItem.TabIndex = 1;
+            this.lookUpConditionItem.TabIndex = 2;
             this.lookUpConditionItem.EditValueChanged += new System.EventHandler(this.lookUpConditionItem_EditValueChanged);
             // 
             // labRelation
             // 
-            this.labRelation.Location = new System.Drawing.Point(36, 22);
+            this.labRelation.Location = new System.Drawing.Point(36, 52);
             this.labRelation.Name = "labRelation";
             this.labRelation.Size = new System.Drawing.Size(48, 14);
             this.labRelation.TabIndex = 1;
@@ -259,7 +270,7 @@
             // comBoxRelation
             // 
             this.comBoxRelation.EnterMoveNextControl = true;
-            this.comBoxRelation.Location = new System.Drawing.Point(26, 42);
+            this.comBoxRelation.Location = new System.Drawing.Point(26, 72);
             this.comBoxRelation.Name = "comBoxRelation";
             this.comBoxRelation.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -267,15 +278,15 @@
             "并且",
             "或者"});
             this.comBoxRelation.Size = new System.Drawing.Size(70, 20);
-            this.comBoxRelation.TabIndex = 0;
+            this.comBoxRelation.TabIndex = 1;
             // 
             // pnlMiddle
             // 
             this.pnlMiddle.Controls.Add(this.gridControlCondition);
             this.pnlMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMiddle.Location = new System.Drawing.Point(0, 80);
+            this.pnlMiddle.Location = new System.Drawing.Point(0, 114);
             this.pnlMiddle.Name = "pnlMiddle";
-            this.pnlMiddle.Size = new System.Drawing.Size(584, 245);
+            this.pnlMiddle.Size = new System.Drawing.Size(584, 211);
             this.pnlMiddle.TabIndex = 14;
             // 
             // gridControlCondition
@@ -286,7 +297,7 @@
             this.gridControlCondition.Location = new System.Drawing.Point(2, 2);
             this.gridControlCondition.MainView = this.gridViewCondition;
             this.gridControlCondition.Name = "gridControlCondition";
-            this.gridControlCondition.Size = new System.Drawing.Size(580, 241);
+            this.gridControlCondition.Size = new System.Drawing.Size(580, 207);
             this.gridControlCondition.TabIndex = 5;
             this.gridControlCondition.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewCondition});
@@ -331,7 +342,7 @@
             this.gridColCondition.Visible = true;
             this.gridColCondition.VisibleIndex = 0;
             // 
-            // FrmWorkFlowNToN_Condition
+            // FrmWorkFlowsLineSet_Condition
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -341,7 +352,7 @@
             this.Controls.Add(this.pnlBottom);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmWorkFlowNToN_Condition";
+            this.Name = "FrmWorkFlowsLineSet_Condition";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TabText = "设定结点之间关系条件";
@@ -352,6 +363,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pnlTop)).EndInit();
             this.pnlTop.ResumeLayout(false);
             this.pnlTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textConditionText.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateConditionValue.Properties.CalendarTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateConditionValue.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.spinConditionValue.Properties)).EndInit();
@@ -394,5 +406,7 @@
         private System.Data.DataColumn dataColCondition;
         private DevExpress.XtraEditors.DateEdit dateConditionValue;
         private DevExpress.XtraEditors.SpinEdit spinConditionValue;
+        private DevExpress.XtraEditors.LabelControl labConditionText;
+        public DevExpress.XtraEditors.TextEdit textConditionText;
     }
 }

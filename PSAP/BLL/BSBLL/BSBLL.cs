@@ -6,17 +6,14 @@ using System.Windows.Forms;
 using PSAP.DAO.BSDAO;
 using System.Data;
 using System.Data.SqlClient;
-using PSAP;
 using WeifenLuo.WinFormsUI.Docking;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using Microsoft.Reporting.WinForms;
 using System.Drawing;
-using System.Xml;
 using PsapUserControlLibrary;
 using System.Reflection;
-using System.Collections;
 using PSAP.PSAPCommon;
 using DevExpress.XtraGrid;
 
@@ -219,13 +216,13 @@ namespace PSAP.BLL.BSBLL
             }
             else
             {
-                MessageBox.Show("用户主题配置文件丢失，请重新启动系统！");
+                MessageHandler.ShowMessageBox("用户主题配置文件丢失，请重新启动系统！");
                 return;
             }
 
             foreach (DataRow dr in dtUserTheme.Rows)
             {
-                //MessageBox.Show(dr[2] + "  " + dr[3] + "  " + dr[4]);
+                //MessageHandler.ShowMessageBox(dr[2] + "  " + dr[3] + "  " + dr[4]);
 
                 //%%%%%%%%%%%%%%%%%%%%%%%%%
                 if ((dr[2].ToString() + dr[3].ToString()).ToUpper() == ("buttonBackColor").ToUpper())
@@ -652,7 +649,7 @@ namespace PSAP.BLL.BSBLL
                         DevExpress.XtraEditors.ComboBoxEdit cbe = (DevExpress.XtraEditors.ComboBoxEdit)fieldInfo[i].GetValue(FormOrDockContent);
                         foreach (string item in cbe.Properties.Items)
                         {
-                            // MessageBox.Show (item);
+                            // MessageHandler.ShowMessageBox(item);
                             BSCommon.TraverseControlTextAdd(FormOrDockContent.GetType().Name, fieldInfo[i].FieldType.Name, item, item, "");
                         }
                         break;
@@ -757,7 +754,8 @@ namespace PSAP.BLL.BSBLL
             {
                 if (t.BaseType.Name == "DockContent")
                 {
-                    DockContentFormN = (DockContent)Activator.CreateInstance(t, true);
+                    //DockContentFormN = (DockContent)Activator.CreateInstance(t, true);
+                    DockContentFormN = FormHandler.DynamicCreateDockContent(t);
                     GetALLControls(DockContentFormN);//获得个别控件
                     if (DockContentFormN.Text != null && DockContentFormN.Text != string.Empty)
                     {
@@ -767,7 +765,7 @@ namespace PSAP.BLL.BSBLL
 
                     }
 
-                    //MessageBox.Show(DockContectFormN.Text + " | " + DockContectFormN.Name);
+                    //MessageHandler.ShowMessageBox(DockContectFormN.Text + " | " + DockContectFormN.Name);
                     foreach (Control ctl in DockContentFormN.Controls)//遍历所有“DockContent”窗口
                     {
                         if (ctl.Text != null && ctl.Text != string.Empty && ctl.Text != '0'.ToString() && ctl.Name != string.Empty)
@@ -784,14 +782,14 @@ namespace PSAP.BLL.BSBLL
                                 {
                                     if (ch.GetType().Name == "DataGridViewTextBoxColumn")
                                     {
-                                        //MessageBox.Show(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
+                                        //MessageHandler.ShowMessageBox(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
                                         //4.1.1
                                         BSCommon.TraverseControlTextAdd(DockContentFormN.Name, ch.GetType().Name, ((DataGridViewTextBoxColumn)ch).Name, ((DataGridViewTextBoxColumn)ch).HeaderText, "HeaderText");
 
                                     }
                                     if (ch.GetType().Name == "DataGridViewComboBoxColumn")
                                     {
-                                        //MessageBox.Show(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
+                                        //MessageHandler.ShowMessageBox(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
                                         //4.1.2
                                         BSCommon.TraverseControlTextAdd(DockContentFormN.Name, ch.GetType().Name, ((DataGridViewComboBoxColumn)ch).Name, ((DataGridViewComboBoxColumn)ch).HeaderText, "HeaderText");
                                     }
@@ -859,7 +857,7 @@ namespace PSAP.BLL.BSBLL
                         #region ####ContextMenuStrip
                         if (ctl is ContextMenuStrip)
                         {
-                            MessageBox.Show("");
+                            MessageHandler.ShowMessageBox("");
                             ContextMenuStrip cms = (ContextMenuStrip)ctl;
                             foreach (object item in cms.Items)
                             {
@@ -883,7 +881,8 @@ namespace PSAP.BLL.BSBLL
                 //****************************Form
                 if (t.BaseType.Name == "Form")
                 {
-                    FormN = (Form)Activator.CreateInstance(t, true);
+                    //FormN = (Form)Activator.CreateInstance(t, true);
+                    FormN = FormHandler.DynamicCreateForm(t);
                     GetALLControls(FormN);//获得个别控件
                     if (FormN.Text != null && DockContentFormN.Text != string.Empty)
                     {
@@ -891,7 +890,7 @@ namespace PSAP.BLL.BSBLL
                         BSCommon.TraverseControlTextAdd(FormN.Name, t.BaseType.Name, FormN.Name, FormN.Text, "Text");
                     }
 
-                    //MessageBox.Show(DockContectFormN.Text + " | " + DockContectFormN.Name);
+                    //MessageHandler.ShowMessageBox(DockContectFormN.Text + " | " + DockContectFormN.Name);
                     foreach (Control ctl in FormN.Controls)//遍历所有“DockContent”窗口
                     {
                         if (ctl.Text != null && ctl.Text != string.Empty && ctl.Text != '0'.ToString() && ctl.Name != string.Empty)
@@ -908,14 +907,14 @@ namespace PSAP.BLL.BSBLL
                                 {
                                     if (ch.GetType().Name == "DataGridViewTextBoxColumn")
                                     {
-                                        //MessageBox.Show(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
+                                        //MessageHandler.ShowMessageBox(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
                                         //4.1.1
                                         BSCommon.TraverseControlTextAdd(FormN.Name, ch.GetType().Name, ((DataGridViewTextBoxColumn)ch).Name, ((DataGridViewTextBoxColumn)ch).HeaderText, "HeaderText");
 
                                     }
                                     if (ch.GetType().Name == "DataGridViewComboBoxColumn")
                                     {
-                                        //MessageBox.Show(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
+                                        //MessageHandler.ShowMessageBox(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
                                         //4.1.2
                                         BSCommon.TraverseControlTextAdd(FormN.Name, ch.GetType().Name, ((DataGridViewComboBoxColumn)ch).Name, ((DataGridViewComboBoxColumn)ch).HeaderText, "HeaderText");
                                     }
@@ -983,7 +982,7 @@ namespace PSAP.BLL.BSBLL
                         #region ####ContextMenuStrip
                         if (ctl is ContextMenuStrip)
                         {
-                            MessageBox.Show("");
+                            MessageHandler.ShowMessageBox("");
                             ContextMenuStrip cms = (ContextMenuStrip)ctl;
                             foreach (object item in cms.Items)
                             {
@@ -1033,14 +1032,14 @@ namespace PSAP.BLL.BSBLL
                         {
                             if (ch.GetType().Name == "DataGridViewTextBoxColumn")
                             {
-                                //MessageBox.Show(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
+                                //MessageHandler.ShowMessageBox(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
                                 //3.1.1
                                 BSCommon.TraverseControlTextAdd(DockContentFormN.Name, ch.GetType().Name, ((DataGridViewTextBoxColumn)ch).Name, ((DataGridViewTextBoxColumn)ch).HeaderText, "HeaderText");
 
                             }
                             if (ch.GetType().Name == "DataGridViewComboBoxColumn")
                             {
-                                //MessageBox.Show(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
+                                //MessageHandler.ShowMessageBox(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
                                 //3.1.2
                                 BSCommon.TraverseControlTextAdd(DockContentFormN.Name, ch.GetType().Name, ((DataGridViewComboBoxColumn)ch).Name, ((DataGridViewComboBoxColumn)ch).HeaderText, "HeaderText");
                             }
@@ -1055,7 +1054,7 @@ namespace PSAP.BLL.BSBLL
                     {
                         if (tsTmp.Items[i].GetType().Name == "ToolStripButton")//判断是否为ToolStripButton
                         {
-                            //MessageBox.Show(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name + tsTmp.Items[i].ToolTipText);
+                            //MessageHandler.ShowMessageBox(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name + tsTmp.Items[i].ToolTipText);
                             if (tsTmp.Items[i].Text != string.Empty)
                             {
                                 //3.3
@@ -1107,7 +1106,7 @@ namespace PSAP.BLL.BSBLL
                 #region ####ContextMenuStrip
                 if (n is ContextMenuStrip)//nnnn
                 {
-                    MessageBox.Show("");
+                    MessageHandler.ShowMessageBox("");
                     ContextMenuStrip cms = (ContextMenuStrip)n;
                     foreach (object item in cms.Items)
                     {
@@ -1147,7 +1146,7 @@ namespace PSAP.BLL.BSBLL
             {
                 if (n.Text != null && n.Text != string.Empty && n.Text != '0'.ToString() && n.Name != string.Empty)
                 {
-                    //MessageBox.Show(n.Text);
+                    //MessageHandler.ShowMessageBox(n.Text);
                     //4.2
                     BSCommon.TraverseControlTextAdd(FormN.Name, n.GetType().Name, n.Name, n.Text, "Text");
 
@@ -1161,14 +1160,14 @@ namespace PSAP.BLL.BSBLL
                         {
                             if (ch.GetType().Name == "DataGridViewTextBoxColumn")
                             {
-                                //MessageBox.Show(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
+                                //MessageHandler.ShowMessageBox(((DataGridViewTextBoxColumn)ch).HeaderText + "!!!!!!!!!!" + ((DataGridViewTextBoxColumn)ch).ToolTipText);
                                 //4.1.1
                                 BSCommon.TraverseControlTextAdd(FormN.Name, ch.GetType().Name, ((DataGridViewTextBoxColumn)ch).Name, ((DataGridViewTextBoxColumn)ch).HeaderText, "HeaderText");
 
                             }
                             if (ch.GetType().Name == "DataGridViewComboBoxColumn")
                             {
-                                //MessageBox.Show(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
+                                //MessageHandler.ShowMessageBox(((DataGridViewComboBoxColumn)ch).HeaderText + "???????");
                                 //4.1.2
                                 BSCommon.TraverseControlTextAdd(FormN.Name, ch.GetType().Name, ((DataGridViewComboBoxColumn)ch).Name, ((DataGridViewComboBoxColumn)ch).HeaderText, "HeaderText");
                             }
@@ -1183,7 +1182,7 @@ namespace PSAP.BLL.BSBLL
                     {
                         if (tsTmp.Items[i].GetType().ToString() == "System.Windows.Forms.ToolStripButton")//判断是否为ToolStripButton
                         {
-                            //MessageBox.Show(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name);
+                            //MessageHandler.ShowMessageBox(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name);
                             if (tsTmp.Items[i].Text != string.Empty)
                             {
                                 //4.3
@@ -1237,7 +1236,7 @@ namespace PSAP.BLL.BSBLL
 
                 if (n is ContextMenuStrip)
                 {
-                    MessageBox.Show("");
+                    MessageHandler.ShowMessageBox("");
                     ContextMenuStrip cms = (ContextMenuStrip)n;
                     foreach (object item in cms.Items)
                     {
@@ -1743,7 +1742,7 @@ namespace PSAP.BLL.BSBLL
                     {
                         if (tsTmp.Items[i].GetType().ToString() == "System.Windows.Forms.ToolStripButton")//判断是否为ToolStripButton
                         {
-                            //MessageBox.Show(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name);
+                            //MessageHandler.ShowMessageBox(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name);
                             if (tsTmp.Items[i].Text != string.Empty)
                             {
                                 var TextValue = BSCommon.LocationControlsText(dt, tsTmp.Items[i].Name, "Text");

@@ -52,7 +52,7 @@ namespace PSAP.VIEW.BSVIEW
 
             //if (e.Node.Nodes.Count == 0)
             //{
-            //    MessageBox.Show("dfdfdfdfdfdf");
+            //    MessageHandler.ShowMessageBox("dfdfdfdfdfdf");
             //}
 
         }
@@ -97,11 +97,10 @@ namespace PSAP.VIEW.BSVIEW
                 saveNodeToTable();//将新建节点同步到数据库
 
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--插入树节点事件错误。", ex);
             }
-
         }
 
         private void addChildTreeNode_Click(object sender, EventArgs e)
@@ -118,9 +117,9 @@ namespace PSAP.VIEW.BSVIEW
                     tvtbQueryList.SelectedNode.Name = nodeId;
                     saveNodeToTable();//将新建节点同步到数据库
                 }
-                catch (Exception e1)
+                catch (Exception ex)
                 {
-                    MessageBox.Show(e1.Message);
+                    ExceptionHandler.HandleException(this.Text + "--插入树子节点事件错误。", ex);
                 }
             }
 
@@ -138,11 +137,10 @@ namespace PSAP.VIEW.BSVIEW
                 tvtbQueryList.SelectedNode.Name = nodeId;
                 saveNodeToTable();//将新建节点同步到数据库
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--插入树根节点事件错误。", ex);
             }
-
         }
 
         private void deleteTreeNode_Click(object sender, EventArgs e)
@@ -153,12 +151,11 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     if (tvtbQueryList.SelectedNode.Nodes.Count > 0)
                     {
-                        MessageBox.Show("当前文件夹包含查询，请先删除查询！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("当前文件夹包含查询，请先删除查询！");
                     }
                     else
                     {
-                        if (MessageBox.Show("真的要删除吗？", "删除确认", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Information) == DialogResult.Yes)
+                        if (MessageHandler.ShowMessageBox_YesNo("真的要删除吗？") == DialogResult.Yes)
                         {
                             //先删除对此数据有依赖关系的相关数数
                             FrmDataQueryDesignDAO.DeleteQueryCorrelationData(Convert.ToInt16(tvtbQueryList.SelectedNode.Name));
@@ -175,18 +172,17 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 else
                 {
-                    MessageBox.Show("不能删除最后一个文件夹！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("不能删除最后一个文件夹！");
                 }
             }
             //catch (System.Data.SqlClient.SqlException)
             //{
-            //    MessageBox.Show("当前部门已经被其它数据使用，不能删除！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    MessageHandler.ShowMessageBox("当前部门已经被其它数据使用，不能删除！");
             //}
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--删除树节点事件错误。", ex);
             }
-
         }
         /// <summary>
         /// 将新建节点同步到数据库
@@ -265,7 +261,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (string.IsNullOrEmpty(querySqlTextBox.Text))
             {
-                MessageBox.Show("【查询语句】为必填项！", "提示信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageHandler.ShowMessageBox("【查询语句】为必填项！");
                 querySqlTextBox.Focus();
                 return;
             }
@@ -285,9 +281,9 @@ namespace PSAP.VIEW.BSVIEW
                 //dgveQueryItemList.DataSource = bS_QuerySqlBindingSource;
 
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--tsbSave_Click错误。", ex);
             }
 
             dgveQueryItemList.Enabled = true;//保存后数据表控件可用
@@ -322,7 +318,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// panel（pnlEdit）的Enabled属性设置为“False”，表示最开始panel里面的控件都设置为不可编辑状态
+        /// panel（pnlEdit）的Enabled属性设置为“False”，表示最开始panel里面的控件都设置为不可修改状态
         /// 保存了、取消初始Enable为"False"
         /// 将数据导航条、GroupBox、新增、修改、删除、保存、取消的Enabled状态取反
         /// </summary>
@@ -335,7 +331,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 b.Enabled = !b.Enabled;
             }
-            //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+            //检测窗口状态：新增、修改="EDIT"，保存、取消=""
             if (((Label)this.Controls["lblEditFlag"]).Text == "")
             {
                 ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";
@@ -782,14 +778,14 @@ namespace PSAP.VIEW.BSVIEW
         //            Convert.ToInt16(tvwTablesHeader[i].Tag), nodeId, tvwTablesHeader[i].SelectedNode.Text, tvwTablesHeader[i].SelectedNode.Parent != null && tvwTablesHeader[i].SelectedNode.Parent.Name != string.Empty ? tvwTablesHeader[i].SelectedNode.Parent.Name : null);
 
         //    }
-        //    catch (Exception e1)
-        //    {
-        //        MessageBox.Show(e1.Message);
-        //    }
+            //catch (Exception ex)
+            //{
+            //    ExceptionHandler.HandleException(this.Text + "--insertColumnHeader_Click错误。", ex);
+            //}
 
-        //}
+    //}
 
-        private void insertChildColumnHeader_Click(object sender, EventArgs e)
+    private void insertChildColumnHeader_Click(object sender, EventArgs e)
         {
             try
             {
@@ -803,9 +799,9 @@ namespace PSAP.VIEW.BSVIEW
     Convert.ToInt16(tvwTablesHeader[i].Tag), nodeId, tvwTablesHeader[i].SelectedNode.Text, tvwTablesHeader[i].SelectedNode.Parent.Name);
 
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--insertChildColumnHeader_Click错误。", ex);
             }
         }
 
@@ -818,12 +814,11 @@ namespace PSAP.VIEW.BSVIEW
                 {
                     if (tvwTablesHeader[i].SelectedNode.Nodes.Count > 0)
                     {
-                        MessageBox.Show("包含子部门，不能直接删除，请从最低层列标题开始删！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageHandler.ShowMessageBox("包含子部门，不能直接删除，请从最低层列标题开始删！");
                     }
                     else
                     {
-                        if (MessageBox.Show("真的要删除吗？", "删除确认", MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Information) == DialogResult.Yes)
+                        if (MessageHandler.ShowMessageBox_YesNo("真的要删除吗？") == DialogResult.Yes)
                         {
                             //删除数据库数据
                             FrmDataQueryDesignDAO.saveDeleteNode(Convert.ToInt16(tvtbQueryList_User.SelectedNode.Name),
@@ -835,16 +830,16 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 else
                 {
-                    MessageBox.Show("不能删除最后一个标题！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHandler.ShowMessageBox("不能删除最后一个标题！");
                 }
             }
             //catch (System.Data.SqlClient.SqlException)
             //{
-            //    MessageBox.Show("当前标题已经被其它数据使用，不能删除！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    MessageHandler.ShowMessageBox("当前标题已经被其它数据使用，不能删除！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             //}
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--deleteRootColumnHeader_Click错误。", ex);
             }
         }
 
@@ -862,9 +857,9 @@ namespace PSAP.VIEW.BSVIEW
                 FrmDataQueryDesignDAO.saveCreateRootNode(Convert.ToInt16(tvtbQueryList_User.SelectedNode.Name),
                     Convert.ToInt16(tvwTablesHeader[i].Tag), nodeId, tvwTablesHeader[i].SelectedNode.Text);
             }
-            catch (Exception e1)
+            catch (Exception ex)
             {
-                MessageBox.Show(e1.Message);
+                ExceptionHandler.HandleException(this.Text + "--deleteRootColumnHeader_Click错误。", ex);
             }
         }
 

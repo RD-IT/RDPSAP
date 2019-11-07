@@ -48,16 +48,24 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
-                comboBoxReqState.SelectedIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
-                searchLookUpProjectNo.Text = "全部";
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
+                ctlInit.ComboBoxEdit_OrderState_Submit(comboBoxReqState);
+                comboBoxReqState.SelectedIndex = 0;
 
                 //repItemLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repItemLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
                 repItemLookUpReqDep.DataSource = departmentTable_t;
                 repItemLookUpPurCategory.DataSource = purCateTable_t;
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
 
                 if (SystemInfo.DisableProjectNo)
                 {

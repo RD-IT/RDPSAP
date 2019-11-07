@@ -40,6 +40,8 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateSettlementDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSettlementDateEnd.DateTime = nowDate.Date;
@@ -51,13 +53,15 @@ namespace PSAP.VIEW.BSVIEW
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpReqDep.Properties.DataSource = commonDAO.QueryDepartment(true);
                 lookUpReqDep.ItemIndex = 0;
-                comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState, true);
+                comboBoxWarehouseState.SelectedIndex = 0;                
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
                 repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -92,7 +96,7 @@ namespace PSAP.VIEW.BSVIEW
                     searchLookUpBussinessBaseNo.Text = "全部";
                     lookUpReqDep.ItemIndex = 0;
                     comboBoxWarehouseState.SelectedIndex = 0;
-                    lookUpPrepared.ItemIndex = 0;
+                    searchLookUpCreator.Text = "全部";
                     checkPayDate.Checked = false;
                     textCommon.Text = "";
 
@@ -214,13 +218,13 @@ namespace PSAP.VIEW.BSVIEW
 
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
-                int wStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text); 
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int wStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
                 int wwListAutoIdInt = (checkwwListAutoId.Checked && spinwwListAutoId.Value > 0) ? DataTypeConvert.GetInt(spinwwListAutoId.Value) : 0;
                 dataSet_Settlement.Tables[0].Clear();
 
-                string querySqlStr = setDAO.QuerySettlementHead_SQL(orderDateBeginStr, orderDateEndStr, payDateBeginStr, payDateEndStr, reqDepStr, bussinessBaseNoStr, wStateInt, empNameStr, -1, commonStr, wwListAutoIdInt, false);
+                string querySqlStr = setDAO.QuerySettlementHead_SQL(orderDateBeginStr, orderDateEndStr, payDateBeginStr, payDateEndStr, reqDepStr, bussinessBaseNoStr, wStateInt, creatorInt, -1, commonStr, wwListAutoIdInt, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

@@ -19,19 +19,19 @@ namespace PSAP.DAO.SADAO
         /// <param name="reqDepStr">部门编号</param>
         /// <param name="bussinessBaseNoStr">往来方编号</param>
         /// <param name="reqStateInt">状态</param>
-        /// <param name="preparedStr">申请人</param>
-        /// <param name="approverInt">审核人</param>
+        /// <param name="creatorInt">申请人</param>
+        /// <param name="approverInt">审批人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QuerySettleAccountsHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string preparedStr, string commonStr, bool nullTable)
+        public void QuerySettleAccountsHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int creatorInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QuerySettleAccountsHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, preparedStr, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QuerySettleAccountsHead_SQL(beginDateStr, endDateStr, reqDepStr, bussinessBaseNoStr, creatorInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询采购结账单表头表的SQL
         /// </summary>
-        public string QuerySettleAccountsHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, string preparedStr, string commonStr, bool nullTable)
+        public string QuerySettleAccountsHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, string bussinessBaseNoStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -46,9 +46,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo = '{0}'", bussinessBaseNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -127,7 +127,8 @@ namespace PSAP.DAO.SADAO
                         }
                         else//修改
                         {
-                            SettleAccountsHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            //SettleAccountsHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            SettleAccountsHeadRow["ModifierId"] = SystemInfo.user.AutoId;
                             SettleAccountsHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             SettleAccountsHeadRow["ModifierTime"] = BaseSQL.GetServerDateTime();
                         }

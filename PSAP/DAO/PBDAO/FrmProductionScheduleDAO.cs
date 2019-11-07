@@ -13,15 +13,15 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询生产计划单主表
         /// </summary>
-        public void QueryProductionSchedule(DataTable queryDataTable, string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, string codeFileNameStr, int psStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QueryProductionSchedule(DataTable queryDataTable, string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, string codeFileNameStr, int psStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QueryProductionSchedule_SQL(beginDateStr, endDateStr, beginPlanDateStr, endPlanDateStr, codeFileNameStr, psStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QueryProductionSchedule_SQL(beginDateStr, endDateStr, beginPlanDateStr, endPlanDateStr, codeFileNameStr, psStateInt, creatorInt, approverInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询生产计划单主表的SQL
         /// </summary>
-        public string QueryProductionSchedule_SQL(string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, string codeFileNameStr, int psStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public string QueryProductionSchedule_SQL(string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, string codeFileNameStr, int psStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -40,9 +40,9 @@ namespace PSAP.DAO.PBDAO
             {
                 sqlStr += string.Format(" and ps.PsState={0}", psStateInt);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and ps.Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and ps.Creator='{0}'", creatorInt);
             }
             if (commonStr != "")
             {
@@ -157,34 +157,34 @@ namespace PSAP.DAO.PBDAO
                 int reqState = DataTypeConvert.GetInt(tmpTable.Rows[i]["PsState"]);
                 switch (reqState)
                 {
-                    case 1:
+                    case (int)CommonHandler.OrderState.待提交:
                         if (checkNoApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"]), CommonHandler.OrderState.待提交));
                             headTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.OrderState.已审批:
                         if (checkApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"]), CommonHandler.OrderState.已审批));
                             headTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 3:
+                    case (int)CommonHandler.OrderState.已关闭:
                         if (checkClosed)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]已经关闭，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"]), CommonHandler.OrderState.已关闭));
                             headTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 4:
+                    case (int)CommonHandler.OrderState.审批中:
                         if (checkApproverBetween)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"])));
+                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["PsNo"]), CommonHandler.OrderState.审批中));
                             headTable.RejectChanges();
                             return false;
                         }
@@ -605,7 +605,7 @@ namespace PSAP.DAO.PBDAO
         /// <summary>
         /// 查询生产计划单的SQL
         /// </summary>
-        public string QueryProductionSchedule_SQL(string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, string preparedStr, string commonStr, bool nullTable)
+        public string QueryProductionSchedule_SQL(string beginDateStr, string endDateStr, string beginPlanDateStr, string endPlanDateStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -616,9 +616,9 @@ namespace PSAP.DAO.PBDAO
             {
                 sqlStr += string.Format(" and ReqDate between '{0}' and '{1}'", beginPlanDateStr, endPlanDateStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -743,7 +743,7 @@ namespace PSAP.DAO.PBDAO
                     case 1:
                         if (check0)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]是待审核状态，不可以操作。", psNoStr));
+                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]是待审批状态，不可以操作。", psNoStr));
                             if (headTable != null)
                                 headTable.RejectChanges();
                             return false;
@@ -752,7 +752,7 @@ namespace PSAP.DAO.PBDAO
                     case 2:
                         if (check1)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]是审核状态，不可以操作。", psNoStr));
+                            MessageHandler.ShowMessageBox(string.Format("生产计划单[{0}]是审批状态，不可以操作。", psNoStr));
                             if (headTable != null)
                                 headTable.RejectChanges();
                             return false;

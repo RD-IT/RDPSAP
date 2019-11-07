@@ -54,11 +54,6 @@
             this.labShelfNo = new DevExpress.XtraEditors.LabelControl();
             this.SearchRepertoryLocationId = new DevExpress.XtraEditors.SearchLookUpEdit();
             this.SearchRepertoryLocationIdView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn5 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.pnlGrid = new DevExpress.XtraEditors.PanelControl();
             this.gridCrlShelfInfo = new DevExpress.XtraGrid.GridControl();
             this.gridViewShelfInfo = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -284,69 +279,16 @@
             this.SearchRepertoryLocationId.Name = "SearchRepertoryLocationId";
             this.SearchRepertoryLocationId.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.SearchRepertoryLocationId.Properties.DisplayMember = "LocationName";
-            this.SearchRepertoryLocationId.Properties.NullText = "";
-            this.SearchRepertoryLocationId.Properties.ValueMember = "AutoId";
             this.SearchRepertoryLocationId.Properties.View = this.SearchRepertoryLocationIdView;
             this.SearchRepertoryLocationId.Size = new System.Drawing.Size(160, 20);
             this.SearchRepertoryLocationId.TabIndex = 2;
             // 
             // SearchRepertoryLocationIdView
             // 
-            this.SearchRepertoryLocationIdView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn1,
-            this.gridColumn3,
-            this.gridColumn4,
-            this.gridColumn2,
-            this.gridColumn5});
             this.SearchRepertoryLocationIdView.FocusRectStyle = DevExpress.XtraGrid.Views.Grid.DrawFocusRectStyle.RowFocus;
-            this.SearchRepertoryLocationIdView.IndicatorWidth = 60;
             this.SearchRepertoryLocationIdView.Name = "SearchRepertoryLocationIdView";
             this.SearchRepertoryLocationIdView.OptionsSelection.EnableAppearanceFocusedCell = false;
             this.SearchRepertoryLocationIdView.OptionsView.ShowGroupPanel = false;
-            this.SearchRepertoryLocationIdView.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.SearchRepertoryLocationIdView_CustomDrawRowIndicator);
-            // 
-            // gridColumn1
-            // 
-            this.gridColumn1.Caption = "AutoId";
-            this.gridColumn1.FieldName = "AutoId";
-            this.gridColumn1.Name = "gridColumn1";
-            // 
-            // gridColumn2
-            // 
-            this.gridColumn2.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn2.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn2.Caption = "仓库名称";
-            this.gridColumn2.FieldName = "RepertoryName";
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 2;
-            // 
-            // gridColumn3
-            // 
-            this.gridColumn3.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn3.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn3.Caption = "仓位编号";
-            this.gridColumn3.FieldName = "LocationNo";
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 0;
-            // 
-            // gridColumn4
-            // 
-            this.gridColumn4.AppearanceHeader.Options.UseTextOptions = true;
-            this.gridColumn4.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridColumn4.Caption = "仓位名称";
-            this.gridColumn4.FieldName = "LocationName";
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 1;
-            // 
-            // gridColumn5
-            // 
-            this.gridColumn5.Caption = "RepertoryId";
-            this.gridColumn5.FieldName = "RepertoryId";
-            this.gridColumn5.Name = "gridColumn5";
             // 
             // pnlGrid
             // 
@@ -603,10 +545,5 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpRepertoryLocationId;
         private DevExpress.XtraEditors.SearchLookUpEdit SearchRepertoryLocationId;
         private DevExpress.XtraGrid.Views.Grid.GridView SearchRepertoryLocationIdView;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn5;
     }
 }

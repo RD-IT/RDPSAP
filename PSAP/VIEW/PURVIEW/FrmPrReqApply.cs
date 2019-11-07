@@ -23,7 +23,6 @@ namespace PSAP.VIEW.BSVIEW
         {
             InitializeComponent();
             PSAP.BLL.BSBLL.BSBLL.language(this);
-
         }
 
         /// <summary>
@@ -42,23 +41,27 @@ namespace PSAP.VIEW.BSVIEW
 
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
-                DataTable projectTable_t = commonDAO.QueryProjectList(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = projectTable_t;
+                //searchLookUpProjectNo.Properties.DataSource = projectTable_t;
+                //searchLookUpProjectNo.Text = "全部";
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
                 searchLookUpProjectNo.Text = "全部";
-                lookUpApplicant.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpApplicant.ItemIndex = 0;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
                 //repSearchProjectNo.DataSource = commonDAO.QueryProjectList(false);
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpPurCategory.DataSource = purCateTable_t;
-                repSearchProjectNo.DataSource = projectTable_t;
+                repSearchProjectNo.DataSource = searchLookUpProjectNo.Properties.DataSource;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 if (SystemInfo.DisableProjectNo)
                 {
@@ -101,13 +104,13 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string purCategoryStr = lookUpPurCategory.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPurCategory.EditValue) : "";
-                string empNameStr = lookUpApplicant.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpApplicant.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_PrReq.Tables[0].Clear();
                 dataSet_PrReq.Tables[1].Clear();
-                applyDAO.QueryPrReqHead(dataSet_PrReq.Tables[0], prReqNoStr, reqDateBeginStr, reqDateEndStr, reqDepStr, purCategoryStr, empNameStr, projectNoStr, commonStr);
+                applyDAO.QueryPrReqHead(dataSet_PrReq.Tables[0], prReqNoStr, reqDateBeginStr, reqDateEndStr, reqDepStr, purCategoryStr, creatorInt, projectNoStr, commonStr);
             }
             catch (Exception ex)
             {

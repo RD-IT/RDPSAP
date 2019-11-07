@@ -36,24 +36,28 @@ namespace PSAP.VIEW.BSVIEW
                 datePlanDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 datePlanDateEnd.DateTime = nowDate.Date;
 
-                DataTable userInfoTable_t = commonDAO.QueryUserInfo(true);
                 DataTable manuInfoTable_t = commonDAO.QueryManufactureInfo(true);
-                DataTable projectTable_t = commonDAO.QueryProjectList(true);
 
                 lookUpManufactureNo.Properties.DataSource = manuInfoTable_t;
                 lookUpManufactureNo.ItemIndex = 0;
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.EditValue = 0;
-                searchLookUpProjectNo.Properties.DataSource = projectTable_t;
-                searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;
+                //searchLookUpProjectNo.Properties.DataSource = projectTable_t;
+                //searchLookUpProjectNo.Text = "全部";                
 
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
+                searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
+                ctlInit.ComboBoxEdit_OrderState_Submit(comboBoxCurrentStatus, false);
                 comboBoxCurrentStatus.SelectedIndex = 0;
-                lookUpCreator.Properties.DataSource = userInfoTable_t;
-                lookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 repLookUpManufactureNo.DataSource = manuInfoTable_t;
-                repSearchProjectNo.DataSource = projectTable_t;
-                repLookUpCreator.DataSource = userInfoTable_t;
+                repSearchProjectNo.DataSource = searchLookUpProjectNo.Properties.DataSource;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -132,7 +136,7 @@ namespace PSAP.VIEW.BSVIEW
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
 
                 int currentStateInt = CommonHandler.Get_OrderState_No(comboBoxCurrentStatus.Text);
-                int creatorInt = lookUpCreator.ItemIndex > 0 ? DataTypeConvert.GetInt(lookUpCreator.EditValue) : 0;
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 int approverInt = -1;
 
                 string commonStr = textCommon.Text.Trim();

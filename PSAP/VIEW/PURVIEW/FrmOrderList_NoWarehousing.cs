@@ -48,19 +48,25 @@ namespace PSAP.VIEW.BSVIEW
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable bussInfoTable_t = commonDAO.QueryBussinessBaseInfo(true);
                 DataTable purCateTable_t = commonDAO.QueryPurCategory(true);
-                DataTable projectTable_t = commonDAO.QueryProjectList(true);
-
+                
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
                 searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
                 searchLookUpBussinessBaseNo.Text = "全部";
                 lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = projectTable_t;
-                searchLookUpProjectNo.Text = "全部";
-                comboBoxReqState.SelectedIndex = 0;
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpProjectNo.Properties.DataSource = projectTable_t;
+                //searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
                 searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
+                ctlInit.ComboBoxEdit_OrderState_Submit(comboBoxReqState);
+                comboBoxReqState.SelectedIndex = 0;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repSearchBussinessBaseNo.DataSource = commonDAO.QueryBussinessBaseInfo(false);
@@ -69,7 +75,7 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
                 repLookUpPurCategory.DataSource = purCateTable_t;
-                repSearchProjectNo.DataSource = projectTable_t;
+                repSearchProjectNo.DataSource = searchLookUpProjectNo.Properties.DataSource;
 
                 if (SystemInfo.DisableProjectNo)
                 {

@@ -17,18 +17,18 @@ namespace PSAP.DAO.INVDAO
         /// <param name="beginDateStr">开始日期字符串</param>
         /// <param name="endDateStr">结束日期字符串</param>
         /// <param name="repertoryIdInt">出库仓库编号</param>
-        /// <param name="preparedStr">制单人</param>
+        /// <param name="creatorInt">制单人</param>
         /// <param name="commonStr">通用查询条件</param>
         /// <param name="nullTable">是否查询空表</param>
-        public void QuerySpecialWarehouseReceiptHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public void QuerySpecialWarehouseReceiptHead(DataTable queryDataTable, string beginDateStr, string endDateStr, string reqDepStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
-            BaseSQL.Query(QuerySpecialWarehouseReceiptHead_SQL(beginDateStr, endDateStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, preparedStr, approverInt, commonStr, nullTable), queryDataTable);
+            BaseSQL.Query(QuerySpecialWarehouseReceiptHead_SQL(beginDateStr, endDateStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, creatorInt, approverInt, commonStr, nullTable), queryDataTable);
         }
 
         /// <summary>
         /// 查询预算外出库单表头的SQL
         /// </summary>
-        public string QuerySpecialWarehouseReceiptHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, string preparedStr, int approverInt, string commonStr, bool nullTable)
+        public string QuerySpecialWarehouseReceiptHead_SQL(string beginDateStr, string endDateStr, string reqDepStr, int repertoryIdInt, int locationIdInt, int warehouseStateInt, int creatorInt, int approverInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -51,9 +51,9 @@ namespace PSAP.DAO.INVDAO
             {
                 sqlStr += string.Format(" and WarehouseState={0}", warehouseStateInt);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -133,7 +133,8 @@ namespace PSAP.DAO.INVDAO
                             if (!CheckWarehouseState(swrHeadRow.Table, swrListTable, string.Format("'{0}'", DataTypeConvert.GetString(swrHeadRow["SpecialWarehouseReceipt"])), false, true, true, true))
                                 return -1;
 
-                            swrHeadRow["Modifier"] = SystemInfo.user.EmpName;
+                            swrHeadRow["ModifierId"] = SystemInfo.user.AutoId;
+                            //swrHeadRow["Modifier"] = SystemInfo.user.EmpName;
                             swrHeadRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             swrHeadRow["ModifierTime"] = serverTime;
                         }
@@ -214,40 +215,40 @@ namespace PSAP.DAO.INVDAO
                 int wState = DataTypeConvert.GetInt(tmpTable.Rows[i]["WarehouseState"]);
                 switch (wState)
                 {
-                    case 1:
+                    case (int)CommonHandler.WarehouseState.待审批:
                         if (checkNoApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]未审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"])));
+                            MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.待审批));
                             swwHeadTable.RejectChanges();
                             if (swwListTable != null)
                                 swwListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    case 2:
+                    case (int)CommonHandler.WarehouseState.已审批:
                         if (checkApprover)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经审批，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"])));
+                            MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.已审批));
                             swwHeadTable.RejectChanges();
                             if (swwListTable != null)
                                 swwListTable.RejectChanges();
                             return false;
                         }
                         break;
-                    //case 3:
+                    //case (int)CommonHandler.WarehouseState.已结账:
                     //    if (checkSettle)
                     //    {
-                    //        MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经结账，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"])));
+                    //        MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"]),CommonHandler.WarehouseState.已结账));
                     //        swwHeadTable.RejectChanges();
                     //        if (swwListTable != null)
                     //            swwListTable.RejectChanges();
                     //        return false;
                     //    }
                     //    break;
-                    case 4:
+                    case (int)CommonHandler.WarehouseState.审批中:
                         if (checkApproverBetween)
                         {
-                            MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]已经审批中，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"])));
+                            MessageHandler.ShowMessageBox(string.Format("预算外出库单[{0}]{1}，不可以操作。", DataTypeConvert.GetString(tmpTable.Rows[i]["SpecialWarehouseReceipt"]), CommonHandler.WarehouseState.审批中));
                             swwHeadTable.RejectChanges();
                             if (swwListTable != null)
                                 swwListTable.RejectChanges();
@@ -372,10 +373,10 @@ namespace PSAP.DAO.INVDAO
 
                                     new PURDAO.FrmApprovalDAO().InventorySaveApproval(cmd, swwHeadTable.Rows[i], "预算外出库单", "SpecialWarehouseReceipt", swwHeadNoStr, serverTime);
 
-                                    cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState=2 where SpecialWarehouseReceipt='{0}'", swwHeadNoStr);
+                                    cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState={1} where SpecialWarehouseReceipt='{0}'", swwHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                     cmd.ExecuteNonQuery();
 
-                                    swwHeadTable.Rows[i]["WarehouseState"] = 2;
+                                    swwHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
 
                                     successCountInt++;
                                 }
@@ -397,11 +398,11 @@ namespace PSAP.DAO.INVDAO
                                     if (tmpTable.Rows.Count == 0)
                                     {
                                         trans.Rollback();
-                                        MessageHandler.ShowMessageBox("未查询到要操作的预算外出库单，请刷新后再进行操作。");
+                                        MessageHandler.ShowMessageBox("未查询到要操作的预算外出库单，请查询后再进行操作。");
                                         return false;
                                     }
 
-                                    ////审核检查出库明细数量是否超过采购订单明细数量
+                                    ////审批检查出库明细数量是否超过采购订单明细数量
                                     //DataTable orderListTable = new DataTable();
                                     //QueryWarehouseReceiptList(orderListTable, swwHeadNoStr, false);
                                     //if (!CheckOrderApplyBeyondCount(cmd, swwHeadNoStr, orderListTable))
@@ -419,9 +420,9 @@ namespace PSAP.DAO.INVDAO
                                     listadpt.Fill(listTable);
                                     if (listTable.Rows.Count == 0)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState = 2 where SpecialWarehouseReceipt='{0}'", swwHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState={1} where SpecialWarehouseReceipt='{0}'", swwHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        swwHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        swwHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                         continue;
                                     }
                                     int approvalCatInt = DataTypeConvert.GetInt(tmpTable.Rows[0]["ApprovalCat"]);
@@ -443,28 +444,28 @@ namespace PSAP.DAO.INVDAO
 
                                     if (listTable.Rows.Count == 1 || approvalCatInt == 2)
                                     {
-                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState=2 where SpecialWarehouseReceipt='{0}'", swwHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState={1} where SpecialWarehouseReceipt='{0}'", swwHeadNoStr, (int)CommonHandler.WarehouseState.已审批);
                                         cmd.ExecuteNonQuery();
-                                        swwHeadTable.Rows[i]["WarehouseState"] = 2;
+                                        swwHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.已审批;
                                     }
                                     else
                                     {
-                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState=4 where SpecialWarehouseReceipt='{0}'", swwHeadNoStr);
+                                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState={1} where SpecialWarehouseReceipt='{0}'", swwHeadNoStr, (int)CommonHandler.WarehouseState.审批中);
                                         cmd.ExecuteNonQuery();
-                                        swwHeadTable.Rows[i]["WarehouseState"] = 4;
+                                        swwHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.审批中;
                                     }
 
                                     //保存日志到日志表中
                                     string logStr = LogHandler.RecordLog_OperateRow(cmd, "预算外出库单", swwHeadTable.Rows[i], "SpecialWarehouseReceipt", "审批", SystemInfo.user.EmpName, serverTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
-                                    //if (DataTypeConvert.GetInt(swwHeadTable.Rows[i]["WarehouseState"]) == 2)//全部审核通过进行下一步操作
+                                    //if (DataTypeConvert.GetInt(swwHeadTable.Rows[i]["WarehouseState"]) == (int)CommonHandler.WarehouseState.已审批)//全部审批通过进行下一步操作
                                     //{
                                     //    SqlCommand cmd_proc = new SqlCommand("", conn, trans);
                                     //    string errorText = "";
                                     //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, swwHeadNoStr, 1, out errorText))
                                     //    {
                                     //        trans.Rollback();
-                                    //        MessageHandler.ShowMessageBox("预算外出库单审核出库错误--" + errorText);
+                                    //        MessageHandler.ShowMessageBox("预算外出库单审批出库错误--" + errorText);
                                     //        return false;
                                     //    }
                                     //}
@@ -503,7 +504,7 @@ namespace PSAP.DAO.INVDAO
                 if (DataTypeConvert.GetBoolean(swwHeadTable.Rows[i]["Select"]))
                 {
                     swwHeadNoListStr += string.Format("'{0}',", DataTypeConvert.GetString(swwHeadTable.Rows[i]["SpecialWarehouseReceipt"]));
-                    swwHeadTable.Rows[i]["WarehouseState"] = 1;
+                    swwHeadTable.Rows[i]["WarehouseState"] = (int)CommonHandler.WarehouseState.待审批;
                 }
             }
 
@@ -520,14 +521,14 @@ namespace PSAP.DAO.INVDAO
                     {
                         SqlCommand cmd = new SqlCommand("", conn, trans);
                         DateTime serverTime = BaseSQL.GetServerDateTime();
-                        cmd.CommandText = string.Format("select SpecialWarehouseReceipt from INV_SpecialWarehouseReceiptHead where WarehouseState = 2 and SpecialWarehouseReceipt in ({0})", swwHeadNoListStr);
+                        cmd.CommandText = string.Format("select SpecialWarehouseReceipt from INV_SpecialWarehouseReceiptHead where WarehouseState={1} and SpecialWarehouseReceipt in ({0})", swwHeadNoListStr, (int)CommonHandler.WarehouseState.已审批);
                         DataTable approcalSWWTable = new DataTable();
                         SqlDataAdapter appradpt = new SqlDataAdapter(cmd);
                         appradpt.Fill(approcalSWWTable);
 
                         cmd.CommandText = string.Format("Delete from PUR_OrderApprovalInfo where OrderHeadNo in ({0})", swwHeadNoListStr);
                         cmd.ExecuteNonQuery();
-                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState=1 where SpecialWarehouseReceipt in ({0})", swwHeadNoListStr);
+                        cmd.CommandText = string.Format("Update INV_SpecialWarehouseReceiptHead set WarehouseState={1} where SpecialWarehouseReceipt in ({0})", swwHeadNoListStr, (int)CommonHandler.WarehouseState.待审批);
                         cmd.ExecuteNonQuery();
 
                         //保存日志到日志表中
@@ -553,7 +554,7 @@ namespace PSAP.DAO.INVDAO
                         //    if (!new FrmWarehouseNowInfoDAO().Update_WarehouseNowInfo(cmd_proc, DataTypeConvert.GetString(approcalSWWTable.Rows[i]["SpecialWarehouseReceipt"]), 2, out errorText))
                         //    {
                         //        trans.Rollback();
-                        //        MessageHandler.ShowMessageBox("预算外出库单取消审核出库错误--" + errorText);
+                        //        MessageHandler.ShowMessageBox("预算外出库单取消审批出库错误--" + errorText);
                         //        return false;
                         //    }
                         //}

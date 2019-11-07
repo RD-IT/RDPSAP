@@ -12,11 +12,10 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace PSAP.VIEW.BSVIEW
 {
-    public partial class FrmWorkFlowDataHandle : DockContent
+    public partial class FrmWorkFlowsDataHandle : DockContent
     {
         FrmCommonDAO commonDAO = new FrmCommonDAO();
-        FrmWorkFlowModuleDAO modDAO = new FrmWorkFlowModuleDAO();
-        FrmWorkFlowDataHandleDAO dataHandleDAO = new FrmWorkFlowDataHandleDAO();
+        WorkFlowsHandleDAO wfHandleDAO = new WorkFlowsHandleDAO();
 
         /// <summary>
         /// 单据名称
@@ -29,31 +28,11 @@ namespace PSAP.VIEW.BSVIEW
         public List<string> dataNoList = new List<string>();
 
         /// <summary>
-        /// 流程类型名称  销售流程，采购流程，库存流程，人事流程
+        /// 订单类型
         /// </summary>
-        public string workFlowTypeText = "";
+        public WorkFlowsHandleDAO.OrderType orderType;
 
-        /// <summary>
-        /// 数据表名称
-        /// </summary>
-        public string tableNameStr = "";
-
-        /// <summary>
-        /// 模块类型编号  1 制单 2 审核
-        /// </summary>
-        public int moduleTypeInt = 2;
-
-        /// <summary>
-        /// 业务模块ID 返回信息
-        /// </summary>
-        public string flowModuleIdStr = "";
-
-        /// <summary>
-        /// 流程结点ID 返回信息
-        /// </summary>
-        public int nodeIdInt = 0;
-
-        public FrmWorkFlowDataHandle()
+        public FrmWorkFlowsDataHandle()
         {
             InitializeComponent();
         }
@@ -66,20 +45,7 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 this.Text = orderNameStr + "单据处理";
-                DataTable wfNodeTable = dataHandleDAO.ModuleGetWorkFlowNode(workFlowTypeText, tableNameStr, moduleTypeInt);
-                if (wfNodeTable.Rows.Count == 0)
-                {
-                    MessageHandler.ShowMessageBox("未查询到当前操作所属的流程节点信息，请在系统里登记模块流程信息。");
-                    this.Close();
-                    return;
-                }
-
-                flowModuleIdStr = DataTypeConvert.GetString(wfNodeTable.Rows[0]["FlowModuleId"]);
-                nodeIdInt = DataTypeConvert.GetInt(wfNodeTable.Rows[0]["AutoId"]);
-
-                lookUpNodeText.Properties.DataSource = dataHandleDAO.QueryWorkFlowNode();
-                lookUpWorkFlowModule.Properties.DataSource = modDAO.QueryWorkFlowModule(false);
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(false);
+                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
 
                 string dataNoStrs = "";
                 foreach (string dataNo in dataNoList)
@@ -88,11 +54,39 @@ namespace PSAP.VIEW.BSVIEW
                 }
 
                 textDataNo.Text = dataNoStrs.Substring(0, dataNoStrs.Length - 1);
-                lookUpNodeText.EditValue = nodeIdInt;
-                lookUpWorkFlowModule.EditValue = flowModuleIdStr;
-                lookUpPrepared.EditValue = SystemInfo.user.LoginID;
+                lookUpPrepared.EditValue = SystemInfo.user.AutoId;
                 memoApproverOption.Text = "";
-                radioApproverResult.SelectedIndex = 0; 
+
+                if (!wfHandleDAO.MultiOrderWorkFlowsIsPower(orderType, WorkFlowsHandleDAO.LineType.审批, dataNoList))
+                {
+                    for (int i = 0; i < radioApproverResult.Properties.Items.Count; i++)
+                    {
+                        if (radioApproverResult.Properties.Items[i].Description == "同意")
+                        {
+                            radioApproverResult.Properties.Items.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+                if (!wfHandleDAO.MultiOrderWorkFlowsIsPower(orderType, WorkFlowsHandleDAO.LineType.拒绝, dataNoList))
+                {
+                    for (int i = 0; i < radioApproverResult.Properties.Items.Count; i++)
+                    {
+                        if (radioApproverResult.Properties.Items[i].Description == "不同意")
+                        {
+                            radioApproverResult.Properties.Items.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+                if (radioApproverResult.Properties.Items.Count == 0)
+                {
+                    MessageHandler.ShowMessageBox("您选择的登记单包含没有操作登记单[审批]和[拒绝]的权限，请联系管理员调整权限后再进行操作。");
+                    this.Close();
+                    return;
+                }
+
+                radioApproverResult.SelectedIndex = 0;
 
                 memoApproverOption.Focus();
             }
@@ -109,7 +103,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                if (memoApproverOption.Text == "")
+                if (memoApproverOption.Text.Trim() == "")
                 {
                     MessageHandler.ShowMessageBox("审批意见不能为空，请重新填写。");
                     memoApproverOption.Focus();

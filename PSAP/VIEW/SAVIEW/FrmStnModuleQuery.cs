@@ -51,8 +51,12 @@ namespace PSAP.VIEW.BSVIEW
 
                 searchLookUpStnModule.Properties.DataSource = ssDAO.QueryStnModule(true);
                 searchLookUpStnModule.Text = "全部";
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -110,12 +114,12 @@ namespace PSAP.VIEW.BSVIEW
                 string getDateEndStr = dateGetTimeEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
 
                 string smNoStr = DataTypeConvert.GetString(searchLookUpStnModule.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpStnModule.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_StnModuleListInfo.Tables[0].Clear();
 
-                string querySqlStr = smDAO.QueryStnModuleList_SQL(getDateBeginStr, getDateEndStr, smNoStr, empNameStr, commonStr, false);
+                string querySqlStr = smDAO.QueryStnModuleList_SQL(getDateBeginStr, getDateEndStr, smNoStr, creatorInt, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

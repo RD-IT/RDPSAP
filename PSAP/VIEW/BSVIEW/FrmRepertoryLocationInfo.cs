@@ -61,7 +61,7 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpRepertoryId.Properties.DataSource = repertoryInfoTable;
 
                 repLookUpRepertoryId.DataSource = repertoryInfoTable;
-                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
             }
             catch (Exception ex)
             {

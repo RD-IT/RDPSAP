@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject4 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject5 = new DevExpress.Utils.SerializableAppearanceObject();
-            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject6 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject1 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject2 = new DevExpress.Utils.SerializableAppearanceObject();
+            DevExpress.Utils.SerializableAppearanceObject serializableAppearanceObject3 = new DevExpress.Utils.SerializableAppearanceObject();
             this.repositoryItemTextEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
             this.treeListDocTemp = new DevExpress.XtraTreeList.TreeList();
             this.treeColModuleName = new DevExpress.XtraTreeList.Columns.TreeListColumn();
@@ -185,9 +185,9 @@
             // 
             this.repItemBtnEdtUpload.AutoHeight = false;
             this.repItemBtnEdtUpload.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "编辑", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject4, "", null, null, true),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "上传", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject5, "", null, null, true),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "版本", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject6, "", null, null, true)});
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "修改", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject1, "", null, null, true),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "上传", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject2, "", null, null, true),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph, "版本", -1, true, true, false, DevExpress.XtraEditors.ImageLocation.MiddleCenter, null, new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None), serializableAppearanceObject3, "", null, null, true)});
             this.repItemBtnEdtUpload.Name = "repItemBtnEdtUpload";
             this.repItemBtnEdtUpload.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             this.repItemBtnEdtUpload.ButtonClick += new DevExpress.XtraEditors.Controls.ButtonPressedEventHandler(this.repItemBtnEdtUpload_ButtonClick);
@@ -219,20 +219,8 @@
             this.tsmiJjdlbg,
             this.tsmiJjdhbg});
             this.cms.Name = "cmsCommonHandler";
-            this.cms.Size = new System.Drawing.Size(521, 356);
+            this.cms.Size = new System.Drawing.Size(521, 312);
             // 
-            //// tsmiWcxddq
-            //// 
-            //this.tsmiWcxddq.Name = "tsmiWcxddq";
-            //this.tsmiWcxddq.Size = new System.Drawing.Size(520, 22);
-            //this.tsmiWcxddq.Text = "未查询到当前表的模板记录，操作错误。";
-            //// 
-            //// tsmiCxmbwj
-            //// 
-            //this.tsmiCxmbwj.Name = "tsmiCxmbwj";
-            //this.tsmiCxmbwj.Size = new System.Drawing.Size(520, 22);
-            //this.tsmiCxmbwj.Text = "查询模板文件异常。";
-            //// 
             // tsmiCtjzsjcw
             // 
             this.tsmiCtjzsjcw.Name = "tsmiCtjzsjcw";
@@ -267,7 +255,7 @@
             // 
             this.tsmiSdsdxsbj.Name = "tsmiSdsdxsbj";
             this.tsmiSdsdxsbj.Size = new System.Drawing.Size(520, 22);
-            this.tsmiSdsdxsbj.Text = "设定树的显示编辑事件错误。";
+            this.tsmiSdsdxsbj.Text = "设定树的显示修改事件错误。";
             // 
             // tsmiQrgxmk
             // 

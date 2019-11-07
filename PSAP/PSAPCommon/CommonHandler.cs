@@ -15,34 +15,41 @@ namespace PSAP.PSAPCommon
         }
 
         /// <summary>
+        /// 订单状态编号
+        /// </summary>
+        public enum OrderState
+        {
+            待提交 = 1,
+            已审批 = 2,
+            已关闭 = 3,
+            审批中 = 4,
+        }
+
+        /// <summary>
         /// 根据订单状态编号得到订单状态描述
         /// </summary>
         public static string Get_OrderState_Desc(string reqStateStr)
         {
             string stateDescStr = "";
-            switch (reqStateStr)
+            switch (DataTypeConvert.GetInt(reqStateStr))
             {
-                case "1":
-                    stateDescStr = "待审批";
+                case (int)OrderState.待提交:
+                    stateDescStr = OrderState.待提交.ToString();
                     break;
-                case "2":
-                    stateDescStr = "审批";
+                case (int)OrderState.已审批:
+                    stateDescStr = OrderState.已审批.ToString();
                     break;
-                case "3":
-                    stateDescStr = "关闭";
+                case (int)OrderState.已关闭:
+                    stateDescStr = OrderState.已关闭.ToString();
                     break;
-                case "4":
-                    stateDescStr = "审批中";
-                    break;
-                case "5":
-                    stateDescStr = "提交";
-                    break;
-                case "6":
-                    stateDescStr = "拒绝";
+                case (int)OrderState.审批中:
+                    stateDescStr = OrderState.审批中.ToString();
                     break;
             }
             return stateDescStr;
         }
+        
+
 
         /// <summary>
         /// 根据订单状态描述得到订单状态编号
@@ -50,73 +57,67 @@ namespace PSAP.PSAPCommon
         public static int Get_OrderState_No(string stateDescStr)
         {
             int stateNoInt = 0;//全部
-            switch (stateDescStr)
-            {
-                case "待审批":
-                    stateNoInt = 1;
-                    break;
-                case "审批":
-                    stateNoInt = 2;
-                    break;
-                case "关闭":
-                    stateNoInt = 3;
-                    break;
-                case "审批中":
-                    stateNoInt = 4;
-                    break;
-                case "提交":
-                    stateNoInt = 5;
-                    break;
-                case "拒绝":
-                    stateNoInt = 6;
-                    break;
-            }
+            if (stateDescStr == OrderState.待提交.ToString())
+                stateNoInt = (int)OrderState.待提交;
+            else if (stateDescStr == OrderState.已审批.ToString())
+                stateNoInt = (int)OrderState.已审批;
+            else if (stateDescStr == OrderState.已关闭.ToString())
+                stateNoInt = (int)OrderState.已关闭;
+            else if (stateDescStr == OrderState.审批中.ToString())
+                stateNoInt = (int)OrderState.审批中;
 
             return stateNoInt;
         }
 
         /// <summary>
-        /// 根据入库单状态编号得到入库单状态描述
+        /// 库存状态编号
+        /// </summary>
+        public enum WarehouseState
+        {
+            待审批 = 1,
+            已审批 = 2,
+            已结账 = 3,
+            审批中 = 4,
+        }
+
+        /// <summary>
+        /// 根据库存状态编号得到入库单状态描述
         /// </summary>
         public static string Get_WarehouseState_Desc(string wStateStr)
         {
             string stateDescStr = "";
-            switch (wStateStr)
+            switch (DataTypeConvert.GetInt(wStateStr))
             {
-                case "1":
-                    //stateDescStr = "待审批";
-                    stateDescStr = f.tsmiDsp.Text;
+                case (int)WarehouseState.待审批:
+                    stateDescStr = WarehouseState.待审批.ToString();
                     break;
-                case "2":
-                    //stateDescStr = "审批";
-                    stateDescStr = f.tsmiSp.Text;
+                case (int)WarehouseState.已审批:
+                    stateDescStr = WarehouseState.已审批.ToString();
                     break;
-                case "3":
-                    //stateDescStr = "已结账";
-                    stateDescStr = f.tsmiYjz.Text;
+                case (int)WarehouseState.已结账:
+                    stateDescStr = WarehouseState.已结账.ToString();
                     break;
-                case "4":
-                    //stateDescStr = "审批中";
-                    stateDescStr = f.tsmiSpz.Text;
+                case (int)WarehouseState.审批中:
+                    stateDescStr = WarehouseState.审批中.ToString();
                     break;
             }
             return stateDescStr;
         }
 
         /// <summary>
-        /// 根据入库单状态描述得到入库单状态编号
+        /// 根据库存状态描述得到入库单状态编号
         /// </summary>
         public static int Get_WarehouseState_No(string wStateDescStr)
         {
             int wStateNoInt = 0;//全部
-            if (wStateDescStr == f.tsmiDsp.Text)//待审批
-                wStateNoInt = 1;
-            else if (wStateDescStr == f.tsmiSp.Text)//审批
-                wStateNoInt = 2;
-            else if (wStateDescStr == f.tsmiYjz.Text)//已结账
-                wStateNoInt = 3;
-            else if (wStateDescStr == f.tsmiSpz.Text)//审批中
-                wStateNoInt = 4;
+            if (wStateDescStr == WarehouseState.待审批.ToString())//待审批
+                wStateNoInt = (int)WarehouseState.待审批;
+            else if (wStateDescStr == WarehouseState.已审批.ToString())//审批
+                wStateNoInt = (int)WarehouseState.已审批;
+            else if (wStateDescStr == WarehouseState.已结账.ToString())//已结账
+                wStateNoInt = (int)WarehouseState.已结账;
+            else if (wStateDescStr == WarehouseState.审批中.ToString())//审批中
+                wStateNoInt = (int)WarehouseState.审批中;
 
             return wStateNoInt;
         }
@@ -165,7 +166,7 @@ namespace PSAP.PSAPCommon
                     approvalCatDescStr = f.tsmiBxsp.Text;
                     break;
                 case "2":
-                    //approvalCatDescStr = "多选一审核";
+                    //approvalCatDescStr = "多选一审批";
                     approvalCatDescStr = f.tsmiDxysh.Text;
                     break;
             }

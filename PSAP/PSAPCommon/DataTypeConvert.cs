@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Text;
 
@@ -125,6 +126,83 @@ namespace PSAP.PSAPCommon
         public static Color StringToColor(string colorStr)
         {
             return ColorTranslator.FromHtml(colorStr);
+        }
+
+        /// <summary>
+        /// 枚举类型转化为DataTable
+        /// </summary>
+        /// <param name="enumType">枚举类型</param>
+        /// <param name="key">键的列名</param>
+        /// <param name="val">值得列名</param>
+        public static DataTable EnumToDataTable(Type enumType, string key, string val)
+        {
+            var names = Enum.GetNames(enumType);
+            var values = Enum.GetValues(enumType);
+
+            var table = new DataTable();
+            table.Columns.Add(key, Type.GetType("System.String"));
+            table.Columns.Add(val, Type.GetType("System.Int32"));
+            table.Columns[key].Unique = true;
+            for (int i = 0; i < values.Length; i++)
+            {
+                var dr = table.NewRow();
+                dr[key] = names[i];
+                dr[val] = (int)values.GetValue(i);
+                table.Rows.Add(dr);
+            }
+            return table;
+        }
+
+        /// <summary>
+        /// 枚举类型转化为DataTable
+        /// </summary>
+        /// <param name="enumType">枚举类型</param>
+        /// <param name="key">键的列名</param>
+        /// <param name="val">值得列名</param>
+        /// <param name="noIncludeList">不包含的列表</param>
+        public static DataTable EnumToDataTable_NoInclude(Type enumType, string key, string val,List<int> noIncludeList)
+        {
+            var names = Enum.GetNames(enumType);
+            var values = Enum.GetValues(enumType);
+
+            var table = new DataTable();
+            table.Columns.Add(key, Type.GetType("System.String"));
+            table.Columns.Add(val, Type.GetType("System.Int32"));
+            table.Columns[key].Unique = true;
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (!noIncludeList.Contains((int)values.GetValue(i)))
+                {
+                    var dr = table.NewRow();
+                    dr[key] = names[i];
+                    dr[val] = (int)values.GetValue(i);
+                    table.Rows.Add(dr);
+                }
+            }
+            return table;
+        }
+
+        /// <summary>
+        /// 将一个一维数组转换为DataTable
+        /// </summary>
+        /// <param name="Array">一维数组</param>
+        /// <param name="numberColumnNameStr">数组下标的列名</param>
+        /// <param name="valueColumnNameStr">数组下标所对应值的列名</param>
+        public static DataTable ArrayToDataTable(string[] Array, string numberColumnNameStr, string valueColumnNameStr)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(numberColumnNameStr, typeof(int));
+            dt.Columns.Add(valueColumnNameStr, typeof(string));
+
+            for (int i = 0; i < Array.Length; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr[numberColumnNameStr] = i + 1;
+                dr[valueColumnNameStr] = Array[i].ToString();
+                dt.Rows.Add(dr);
+            }
+
+            return dt;
         }
     }
 }

@@ -86,7 +86,7 @@ namespace PSAP.DAO.INVDAO
 
                         if (!SystemInfo.EnableNegativeInventory)
                         {
-                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId);
+                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", dbCodeId, dbCodeFileName, dbRepertoryId, dbLocationId, dbProjectNo, dbShelfId);
 
                             double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                             if (nowQty < 0)
@@ -127,7 +127,7 @@ namespace PSAP.DAO.INVDAO
 
                     if (!SystemInfo.EnableNegativeInventory)
                     {
-                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", updateCodeId, updateCodeFileName, updateRepertoryId, updateLocationId, updateProjectNo, updateShelfId);
+                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", updateCodeId, updateCodeFileName, updateRepertoryId, updateLocationId, updateProjectNo, updateShelfId);
 
                         double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                         if (nowQty < 0)
@@ -200,7 +200,7 @@ namespace PSAP.DAO.INVDAO
 
                         if (!SystemInfo.EnableNegativeInventory)
                         {
-                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbOutRepertoryId, dbOutLocationId, dbOutProjectNo, dbOutShelfId);
+                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", dbCodeId, dbCodeFileName, dbOutRepertoryId, dbOutLocationId, dbOutProjectNo, dbOutShelfId);
 
                             double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                             if (nowQty < 0)
@@ -234,7 +234,7 @@ namespace PSAP.DAO.INVDAO
 
                     if (!SystemInfo.EnableNegativeInventory)
                     {
-                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", updateCodeId, updateCodeFileName, updateOutRepertoryId, updateOutLocationId, updateOutProjectNo, updateOutShelfId);
+                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", updateCodeId, updateCodeFileName, updateOutRepertoryId, updateOutLocationId, updateOutProjectNo, updateOutShelfId);
 
                         double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                         if (nowQty < 0)
@@ -274,7 +274,7 @@ namespace PSAP.DAO.INVDAO
 
                         if (!SystemInfo.EnableNegativeInventory)
                         {
-                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", dbCodeId, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId);
+                            cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", dbCodeId, dbCodeFileName, dbInRepertoryId, dbInLocationId, dbInProjectNo, dbInShelfId);
 
                             double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                             if (nowQty < 0)
@@ -308,7 +308,7 @@ namespace PSAP.DAO.INVDAO
 
                     if (!SystemInfo.EnableNegativeInventory)
                     {
-                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", updateCodeId, updateCodeFileName, updateInRepertoryId, updateInLocationId, updateInProjectNo, updateInShelfId);
+                        cmd.CommandText = string.Format("Select Qty from INV_WarehouseNowInfo where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", updateCodeId, updateCodeFileName, updateInRepertoryId, updateInLocationId, updateInProjectNo, updateInShelfId);
 
                         double nowQty = DataTypeConvert.GetDouble(cmd.ExecuteScalar());
                         if (nowQty < 0)
@@ -332,7 +332,7 @@ namespace PSAP.DAO.INVDAO
         private void UpdateWarehouseNowInfo(SqlCommand cmd, int codeIdInt, string codeFileNameStr, int repertoryIdInt, int locationIdInt, string projectNoStr, int shelfIdInt, double qtyDouble)
         {
             int affectedRowNo = 0;
-            cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = Qty + ({6}) where CodeId={0} and CodeFileName='{1}' and RepertoryId={2} and LocationId={3} and ProjectNo='{4}' and ShelfId={5}", codeIdInt, codeFileNameStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, qtyDouble);
+            cmd.CommandText = string.Format("update INV_WarehouseNowInfo set Qty = Qty + ({6}) where IsNull(CodeId, 0)={0} and IsNull(CodeFileName, '')='{1}' and IsNull(RepertoryId, 0)={2} and IsNull(LocationId, 0)={3} and IsNull(ProjectNo, '')='{4}' and IsNull(ShelfId, 0)={5}", codeIdInt, codeFileNameStr, repertoryIdInt, locationIdInt, projectNoStr, shelfIdInt, qtyDouble);
             affectedRowNo = cmd.ExecuteNonQuery();
             if (affectedRowNo == 0)
             {

@@ -26,6 +26,9 @@ namespace PSAP.VIEW.BSVIEW
         public static FrmMain frmMain;
         public static MenuStrip mnsMain = new MenuStrip();//主菜单
 
+        SessionSwitchHandler ssHandler = new SessionSwitchHandler();
+        WorkFlowsHandleDAO workFlowsDAO = new WorkFlowsHandleDAO();
+
         public FrmMain()
         {
             frmMain = this;
@@ -105,7 +108,8 @@ namespace PSAP.VIEW.BSVIEW
             DockContent frm = FindDocument(caption);
             if (frm == null)
             {
-                frm = Activator.CreateInstance(formType) as DockContent;
+                //frm = Activator.CreateInstance(formType) as DockContent;
+                frm = FormHandler.DynamicCreateDockContent(formType);
                 frm.DockHandler.TabText = caption;
                 frm.Show(dockPanel1);
             }
@@ -204,15 +208,17 @@ namespace PSAP.VIEW.BSVIEW
                 editFlag.Text = "";
                 editFlag.Name = "lblEditFlag";
                 editFlag.Visible = false;
+                editFlag.Width = 1;
                 editFlag.SizeChanged += new System.EventHandler(this.editFlag_VisibleChanged);
 
                 dc.Controls.Add(editFlag);
+                dc.DockAreas = DockAreas.Document | DockAreas.DockLeft | DockAreas.DockRight;
                 dc.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Frm_FormClosing);
 
                 dc.Show(this.dockPanel1);//用于从功能导航窗口调用此窗口
                 BSBLL.SetFormRight(dc);//设置窗口中按钮的权限
                 dc1 = dc;
-                dc.Controls.Find("lblEditFlag", false).First().Width = 1;
+                //dc.Controls.Find("lblEditFlag", false).First().Width = 1;
             }
         }
 
@@ -236,9 +242,10 @@ namespace PSAP.VIEW.BSVIEW
             if (((Label)((DockContent)sender).Controls["lblEditFlag"]).Text == "EDIT")
             {
                 ((DockContent)sender).Activate();
-                //DialogResult result = MessageBox.Show("此界面有未保存信息，你确定要放弃修改吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-                DialogResult result = MessageBox.Show(tsmiCjmywbc.Text, tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.OK)
+                //DialogResult result = MessageHandler.ShowMessageBox("此界面有未保存信息，你确定要放弃修改吗？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
+                //DialogResult result = MessageHandler.ShowMessageBox(tsmiCjmywbc.Text, tsmiTs.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
+                //if (result == DialogResult.OK)
+                if (MessageHandler.ShowMessageBox_OKCancel("此界面有未保存信息，你确定要放弃修改吗？", 2) == DialogResult.OK)
                 {
                     e.Cancel = false;  //点击OK
                 }
@@ -333,7 +340,7 @@ namespace PSAP.VIEW.BSVIEW
         //            }
         //            catch (Exception e)
         //            {
-        //                MessageBox.Show(e.Message);
+        //                MessageHandler.ShowMessageBox(e.Message);
         //            }
         //        }
         //    }
@@ -399,7 +406,7 @@ namespace PSAP.VIEW.BSVIEW
         //            }
         //            catch (Exception e)
         //            {
-        //                MessageBox.Show(e.Message);
+        //                MessageHandler.ShowMessageBox(e.Message);
         //            }
         //        }
         //    }
@@ -448,16 +455,26 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                if (ssHandler.isLock)
+                {
+                    //MessageHandler.ShowMessageBox("I want Locking!!!");
+                    return;
+                }
+
                 if (SystemInfo.EnableWorkFlowMessage)//流程图提醒
                 {
-                    FrmQueryUserWorkFlowDAO userWFDAO = new FrmQueryUserWorkFlowDAO();
+                    //int userWFInt = userWFDAO.QueryUserWorkFlow_Count();
+                    //int rejectInt = userWFDAO.QueryRejectOrder_Count();
 
-                    int userWFInt = userWFDAO.QueryUserWorkFlow_Count();
-                    int rejectInt = userWFDAO.QueryRejectOrder_Count();
+                    //if (userWFInt + rejectInt > 0)
+                    //{
+                    //    alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", userWFInt + rejectInt), null, null, "EnableWorkFlowMessage");
+                    //}
 
-                    if (userWFInt + rejectInt > 0)
+                    int sumCount = workFlowsDAO.QueryUserWorkFlows_Count();
+                    if (sumCount > 0)
                     {
-                        alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", userWFInt + rejectInt), null, null, "EnableWorkFlowMessage");
+                        alertControlMessage.Show(this, "消息提示", string.Format("有{0}条单据需要您处理。", sumCount), null, null, "EnableWorkFlowMessage");
                     }
                 }
 
@@ -472,7 +489,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--定时消息提醒错误。", ex);
+                ExceptionHandler.HandleException_NoMessage(this.Text + "--定时消息提醒错误。", ex);
             }
         }
 
@@ -486,7 +503,7 @@ namespace PSAP.VIEW.BSVIEW
                 switch (DataTypeConvert.GetString(e.Info.Tag))
                 {
                     case "EnableWorkFlowMessage":
-                        ViewHandler.ShowRightWindow("FrmQueryUserWorkFlow");
+                        ViewHandler.ShowRightWindow("FrmWorkFlowsUserQuery");
                         e.AlertForm.Close();
                         break;
                     case "PrListDistributionMessage":

@@ -55,7 +55,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 编辑状态
+        /// 修改状态
         /// </summary>
         public bool EditState
         {
@@ -84,7 +84,7 @@ namespace PSAP.VIEW.BSVIEW
         public bool RowStateUnchangedIsSave = false;
 
         /// <summary>
-        /// 刷新方法进行定位当前编辑行
+        /// 刷新方法进行定位当前修改行
         /// </summary>
         public bool RefreshToSetPosition = false;
 
@@ -159,7 +159,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 编辑区Panel
+        /// 修改区Panel
         /// </summary>
         private PanelControl masterEditPanel;
         public PanelControl MasterEditPanel
@@ -219,7 +219,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 编辑区Panel增加控件，状态随Panel里面的控件状态改变
+        /// 修改区Panel增加控件，状态随Panel里面的控件状态改变
         /// </summary>
         private List<Control> masterEditPanelAddControl = new List<Control>();
         public List<Control> MasterEditPanelAddControl
@@ -234,7 +234,7 @@ namespace PSAP.VIEW.BSVIEW
             }
         }
 
-        //定义委托和事件  保存之前检查编辑区控件填写问题
+        //定义委托和事件  保存之前检查修改区控件填写问题
         public delegate bool Check_MasterEditPanel_Control();
         public event Check_MasterEditPanel_Control CheckControl;
 
@@ -559,7 +559,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新按钮事件
+        /// 查询按钮事件
         /// </summary>
         public void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -578,8 +578,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiSxansjcw.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
@@ -640,8 +639,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                //ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
-                ExceptionHandler.HandleException(this.Text + "--" + f.tsmiSxansjcw.Text, ex);
+                ExceptionHandler.HandleException(this.Text + "--列表行变化离开行事件错误。", ex);
             }
         }
 
@@ -802,7 +800,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定编辑器控件的ReadOnly状态
+        /// 设定修改区控件的ReadOnly状态
         /// </summary>
         /// <param name="readOnlyState">ReadOnly状态</param>
         public void Set_EditZone_ControlReadOnly(bool readOnlyState)
@@ -885,7 +883,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.ParentForm.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.ParentForm.Controls["lblEditFlag"]).Text = "";
@@ -906,6 +904,13 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (textContent.Text.Trim() == "")
                     return;
+
+                if (browseXtraGridView.DataRowCount == 0 || browseXtraGridView.Columns.Count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请查询信息后再进行查找定位操作。");
+                    return;
+                }
+
                 int locationRowNo = browseXtraGridView.FocusedRowHandle;
                 int locationColumnNo = browseXtraGridView.FocusedColumn.AbsoluteIndex;
 
@@ -925,6 +930,8 @@ namespace PSAP.VIEW.BSVIEW
 
                             GridViewInfo vi = browseXtraGridView.GetViewInfo() as GridViewInfo;
                             GridDataRowInfo rowInfo = vi.RowsInfo.GetInfoByHandle(i) as GridDataRowInfo;
+                            if (rowInfo == null || rowInfo.Cells.Count == 0)
+                                continue;
                             GridCellInfo cellInfo = rowInfo.Cells[0];
                             if (cellInfo != null)
                             {
@@ -958,11 +965,19 @@ namespace PSAP.VIEW.BSVIEW
             {
                 if (textContent.Text.Trim() == "")
                     return;
+
+                if (browseXtraGridView.DataRowCount == 0 || browseXtraGridView.Columns.Count == 0)
+                {
+                    MessageHandler.ShowMessageBox("请查询信息后再进行查找定位操作。");
+                    return;
+                }
+
                 int locationRowNo = browseXtraGridView.FocusedRowHandle;
                 int locationColumnNo = browseXtraGridView.FocusedColumn.AbsoluteIndex;
 
                 textContent.Focus();
                 browseXtraGridView.Focus();
+
                 for (int i = locationRowNo; i < browseXtraGridView.DataRowCount; i++)
                 {
                     for (int j = locationColumnNo + 1; j < browseXtraGridView.Columns.Count; j++)
@@ -977,6 +992,8 @@ namespace PSAP.VIEW.BSVIEW
 
                             GridViewInfo vi = browseXtraGridView.GetViewInfo() as GridViewInfo;
                             GridDataRowInfo rowInfo = vi.RowsInfo.GetInfoByHandle(i) as GridDataRowInfo;
+                            if (rowInfo == null || rowInfo.Cells.Count == 0)
+                                continue;
                             GridCellInfo cellInfo = rowInfo.Cells[0];
                             if (cellInfo != null)
                             {

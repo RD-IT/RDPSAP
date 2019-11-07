@@ -13,18 +13,22 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询报价单
         /// </summary>
-        public void QueryQuotationBaseInfo(DataTable queryDataTable, string beginDateStr, string endDateStr, string bussinessBaseNoStr, string preparedStr, string commonStr)
+        public void QueryQuotationBaseInfo(DataTable queryDataTable, string beginDateStr, string endDateStr, string bussinessBaseNoStr, int creatorInt, string commonStr, bool nullTable)
         {
-            string sqlStr = QueryQuotationBaseInfo_SQL(beginDateStr, endDateStr, bussinessBaseNoStr, preparedStr, commonStr);
+            string sqlStr = QueryQuotationBaseInfo_SQL(beginDateStr, endDateStr, bussinessBaseNoStr, creatorInt, commonStr, nullTable);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
         /// <summary>
         /// 查询报价单的SQL
         /// </summary>
-        public string QueryQuotationBaseInfo_SQL(string beginDateStr, string endDateStr, string bussinessBaseNoStr, string preparedStr, string commonStr)
+        public string QueryQuotationBaseInfo_SQL(string beginDateStr, string endDateStr, string bussinessBaseNoStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
+            if (nullTable)
+            {
+                sqlStr = " 1=2";
+            }
             if (beginDateStr != "")
             {
                 sqlStr += string.Format(" and RecordDate between '{0}' and '{1}'", beginDateStr, endDateStr);
@@ -33,9 +37,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -49,7 +53,7 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询报价单的SQL
         /// </summary>
-        public string QueryQuotationBaseInfoAndCor_SQL(string beginDateStr, string endDateStr, string bussinessBaseNoStr, string preparedStr, string commonStr, int qstateInt)
+        public string QueryQuotationBaseInfoAndCor_SQL(string beginDateStr, string endDateStr, string bussinessBaseNoStr, int creatorInt, string commonStr, int qstateInt)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -60,9 +64,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -79,7 +83,7 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询未转销售订单的报价单
         /// </summary>
-        public void QueryQuotationBaseInfo_NotInSalesOrder(DataTable queryDataTable, string beginDateStr, string endDateStr, string bussinessBaseNoStr, string preparedStr, string commonStr)
+        public void QueryQuotationBaseInfo_NotInSalesOrder(DataTable queryDataTable, string beginDateStr, string endDateStr, string bussinessBaseNoStr, int creatorInt, string commonStr)
         {
             string sqlStr = " AutoQuotationNo not in (select AutoQuotationNo from SA_SalesOrder) and IsNull(QuotationState, 0) = 0";
             if (beginDateStr != "")
@@ -90,9 +94,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo='{0}'", bussinessBaseNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared='{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -216,7 +220,9 @@ namespace PSAP.DAO.SADAO
                             //        listTable.Rows[i]["QuotationDate"] = nowTime;
                             //    }
                             //}
-                            headRow["Modifier"] = SystemInfo.user.EmpName;
+
+                            headRow["ModifierId"] = SystemInfo.user.AutoId;
+                            //headRow["Modifier"] = SystemInfo.user.EmpName;
                             headRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             headRow["ModifierTime"] = BaseSQL.GetServerDateTime();
                         }

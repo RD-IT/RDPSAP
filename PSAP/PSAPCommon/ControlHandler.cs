@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DevExpress.Utils.Drawing;
 using DevExpress.Utils;
 using DevExpress.XtraTreeList.Nodes;
+using System.Data;
 
 namespace PSAP.PSAPCommon
 {
@@ -311,6 +312,159 @@ namespace PSAP.PSAPCommon
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        /// <summary>
+        /// 设定登记单按钮栏的状态--库存
+        /// </summary>
+        public static void SetButtonBar_EnabledState_Warehouse(DataRow[] selectRows, DataRow focusedRow, string columnNameStr, SimpleButton saveBtn, SimpleButton deleteBtn, SimpleButton approveBtn, SimpleButton cancelApproveBtn, SimpleButton previewBtn)
+        {
+            DataRow dr = null;
+            if (selectRows.Length == 1)
+            {
+                dr = selectRows[0];
+            }
+            else if (selectRows.Length == 0)
+            {
+                dr = focusedRow;
+            }
+            if (dr != null)
+            {
+                int stateInt = DataTypeConvert.GetInt(dr[columnNameStr]);
+                switch (stateInt)
+                {
+                    case 1://待审批
+                        saveBtn.Enabled = true;
+                        deleteBtn.Enabled = true;
+                        approveBtn.Enabled = true;
+                        cancelApproveBtn.Enabled = false;
+                        previewBtn.Enabled = SystemInfo.ApproveAfterPrint ? false : true;
+                        break;
+                    case 2://已审批
+                        saveBtn.Enabled = false;
+                        deleteBtn.Enabled = false;
+                        approveBtn.Enabled = false;
+                        cancelApproveBtn.Enabled = true;
+                        previewBtn.Enabled = true;
+                        break;
+                    case 3://已结账
+                        saveBtn.Enabled = false;
+                        deleteBtn.Enabled = false;
+                        approveBtn.Enabled = false;
+                        cancelApproveBtn.Enabled = false;
+                        previewBtn.Enabled = true;
+                        break;
+                    case 4://审批中
+                        saveBtn.Enabled = false;
+                        deleteBtn.Enabled = false;
+                        approveBtn.Enabled = true;
+                        cancelApproveBtn.Enabled = true;
+                        previewBtn.Enabled = SystemInfo.ApproveAfterPrint ? false : true;
+                        break;
+                }
+            }
+            else
+            {
+                saveBtn.Enabled = true;
+                deleteBtn.Enabled = true;
+                approveBtn.Enabled = true;
+                cancelApproveBtn.Enabled = true;
+                previewBtn.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// 设定登记单按钮栏的状态--采购订单
+        /// </summary>
+        public static void SetButtonBar_EnabledState_Order(DataRow[] selectRows, DataRow focusedRow, string columnNameStr, SimpleButton saveBtn, SimpleButton deleteBtn, SimpleButton submitBtn, SimpleButton cancelSubmitBtn, SimpleButton approveBtn, SimpleButton cancelApproveBtn, SimpleButton closeBtn, SimpleButton cancelCloseBtn, SimpleButton previewBtn)
+        {
+            DataRow dr = null;
+            if (selectRows.Length == 1)
+            {
+                dr = selectRows[0];
+            }
+            else if (selectRows.Length == 0)
+            {
+                dr = focusedRow;
+            }
+            if (dr != null)
+            {
+                int stateInt = DataTypeConvert.GetInt(dr[columnNameStr]);
+                switch (stateInt)
+                {
+                    case 1://待提交
+                        saveBtn.Enabled = true;
+                        deleteBtn.Enabled = true;
+                        submitBtn.Enabled = true;
+                        cancelSubmitBtn.Enabled = false;
+                        approveBtn.Enabled = false;
+                        cancelApproveBtn.Enabled = false;
+                        if (closeBtn != null)
+                        {
+                            closeBtn.Enabled = true;
+                            cancelCloseBtn.Enabled = false;
+                        }
+                        previewBtn.Enabled = SystemInfo.ApproveAfterPrint ? false : true;
+                        break;
+                    case 2://已审批
+                        saveBtn.Enabled = false;
+                        deleteBtn.Enabled = false;
+                        submitBtn.Enabled = false;
+                        cancelSubmitBtn.Enabled = false;
+                        approveBtn.Enabled = false;
+                        cancelApproveBtn.Enabled = true;
+                        if (closeBtn != null)
+                        {
+                            closeBtn.Enabled = false;
+                            cancelCloseBtn.Enabled = false;
+                        }
+                        previewBtn.Enabled = true;
+                        break;
+                    case 3://已关闭
+                        saveBtn.Enabled = false;
+                        deleteBtn.Enabled = false;
+                        submitBtn.Enabled = false;
+                        cancelSubmitBtn.Enabled = false;
+                        approveBtn.Enabled = false;
+                        cancelApproveBtn.Enabled = false;
+                        if (closeBtn != null)
+                        {
+                            closeBtn.Enabled = false;
+                            cancelCloseBtn.Enabled = true;
+                        }
+                        previewBtn.Enabled = false;
+                        break;
+                    case 4://审批中
+                        saveBtn.Enabled = false;
+                        deleteBtn.Enabled = false;
+                        submitBtn.Enabled = false;
+                        cancelSubmitBtn.Enabled = true;
+                        approveBtn.Enabled = true;
+                        cancelApproveBtn.Enabled = false;
+                        if (closeBtn != null)
+                        {
+                            closeBtn.Enabled = false;
+                            cancelCloseBtn.Enabled = false;
+                        }
+                        previewBtn.Enabled = SystemInfo.ApproveAfterPrint ? false : true;
+                        break;
+                }
+            }
+            else
+            {
+                saveBtn.Enabled = true;
+                deleteBtn.Enabled = true;
+                submitBtn.Enabled = true;
+                cancelSubmitBtn.Enabled = true;
+                approveBtn.Enabled = true;
+                cancelApproveBtn.Enabled = true;
+                if (closeBtn != null)
+                {
+                    closeBtn.Enabled = true;
+                    cancelCloseBtn.Enabled = true;
+                }
+                previewBtn.Enabled = true;
             }
         }
     }

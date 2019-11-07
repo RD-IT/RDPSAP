@@ -105,7 +105,7 @@
             // 
             this.tsmiSkbfbd.Name = "tsmiSkbfbd";
             this.tsmiSkbfbd.Size = new System.Drawing.Size(361, 22);
-            this.tsmiSkbfbd.Text = "收款百分比的合计必须是100，请刷新后再重新操作。";
+            this.tsmiSkbfbd.Text = "收款百分比的合计必须是100，请查询后再重新操作。";
             // 
             // tsmiDsklxx
             // 
@@ -145,7 +145,7 @@
             // 
             this.tsmiYhidhmmcw.Name = "tsmiYhidhmmcw";
             this.tsmiYhidhmmcw.Size = new System.Drawing.Size(304, 22);
-            this.tsmiYhidhmmcw.Text = "用ID或密码错误。";
+            this.tsmiYhidhmmcw.Text = "用户ID或密码错误。";
             // 
             // tsmisjkljcw
             // 

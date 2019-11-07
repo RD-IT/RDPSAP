@@ -43,14 +43,18 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpReqDep.ItemIndex = 0;
                 lookUpPurCategory.Properties.DataSource = purCateTable_t;
                 lookUpPurCategory.ItemIndex = 0;
-                comboBoxReqState.SelectedIndex = 0;
-                lookUpApplicant.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpApplicant.EditValue = SystemInfo.user.EmpName;
 
-                //repositoryItemLookUpEdit1.DataSource = commonDAO.QueryDepartment(false);
-                //repositoryItemLookUpEdit2.DataSource = commonDAO.QueryPurCategory(false);
-                repositoryItemLookUpEdit1.DataSource = departmentTable_t;
-                repositoryItemLookUpEdit2.DataSource = purCateTable_t;
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
+                ctlInit.ComboBoxEdit_OrderState_Submit(comboBoxReqState);
+                comboBoxReqState.SelectedIndex = 0;
+
+                //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
+                //repLookUpPurCategory.DataSource = commonDAO.QueryPurCategory(false);
+                repLookUpReqDep.DataSource = departmentTable_t;
+                repLookUpPurCategory.DataSource = purCateTable_t;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateReqDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
@@ -130,13 +134,13 @@ namespace PSAP.VIEW.BSVIEW
                 string reqDateEndStr = dateReqDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd");
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string purCategoryStr = lookUpPurCategory.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPurCategory.EditValue) : "";
-                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text); 
-                string empNameStr = lookUpApplicant.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpApplicant.EditValue) : "";
+                int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text);
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
                 dataSet_PrReq.Tables[0].Clear();
                 //prReqDAO.QueryPrReqHead(dataSet_PrReq.Tables[0], dateReqDateBegin.DateTime.ToString("yyyy-MM-dd"), dateReqDateEnd.DateTime.AddDays(1).ToString("yyyy-MM-dd"), reqDepStr, purCategoryStr, reqStateInt, empNameStr, commonStr, false);
 
-                string querySqlStr = prReqDAO.QueryPrReqHead_SQL(reqDateBeginStr, reqDateEndStr, reqDepStr, purCategoryStr, reqStateInt, empNameStr, -1, commonStr, false);
+                string querySqlStr = prReqDAO.QueryPrReqHead_SQL(reqDateBeginStr, reqDateEndStr, reqDepStr, purCategoryStr, reqStateInt, creatorInt, -1, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
                 gridBottomPrReq.QueryGridData(ref dataSet_PrReq, "PrReqHead", querySqlStr, countSqlStr, true);

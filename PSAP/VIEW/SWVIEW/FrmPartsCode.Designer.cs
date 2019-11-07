@@ -58,6 +58,8 @@
             this.dataColIsBuy = new System.Data.DataColumn();
             this.bSPartsCode = new System.Windows.Forms.BindingSource(this.components);
             this.pnlToolBar = new DevExpress.XtraEditors.PanelControl();
+            this.btnMultiUpdate = new DevExpress.XtraEditors.SimpleButton();
+            this.btnFind = new DevExpress.XtraEditors.SimpleButton();
             this.pnlEdit = new DevExpress.XtraEditors.PanelControl();
             this.checkIsBuy = new DevExpress.XtraEditors.CheckEdit();
             this.labUnit = new DevExpress.XtraEditors.LabelControl();
@@ -142,10 +144,19 @@
             this.tsmiGgxh = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiWlbb = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiDw = new System.Windows.Forms.ToolStripMenuItem();
+            this.dockManagerOther = new DevExpress.XtraBars.Docking.DockManager(this.components);
+            this.dockPanelInfo = new DevExpress.XtraBars.Docking.DockPanel();
+            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
+            this.TabCtlInfo = new DevExpress.XtraTab.XtraTabControl();
+            this.PagePriceInfo = new DevExpress.XtraTab.XtraTabPage();
+            this.dataColSupplierMaterialId = new System.Data.DataColumn();
+            this.textSupplierMaterialId = new DevExpress.XtraEditors.TextEdit();
+            this.labSupplierMaterialId = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.dSPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSPartsCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).BeginInit();
+            this.pnlToolBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).BeginInit();
             this.pnlEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.checkIsBuy.Properties)).BeginInit();
@@ -179,6 +190,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpMachiningLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).BeginInit();
             this.cms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dockManagerOther)).BeginInit();
+            this.dockPanelInfo.SuspendLayout();
+            this.dockPanel1_Container.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TabCtlInfo)).BeginInit();
+            this.TabCtlInfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.textSupplierMaterialId.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // dSPartsCode
@@ -214,7 +231,8 @@
             this.dataColBfree1,
             this.dataColBfree2,
             this.dataColBfree3,
-            this.dataColIsBuy});
+            this.dataColIsBuy,
+            this.dataColSupplierMaterialId});
             this.TablePartsCode.TableName = "PartsCode";
             this.TablePartsCode.TableNewRow += new System.Data.DataTableNewRowEventHandler(this.TablePartsCode_TableNewRow);
             // 
@@ -358,14 +376,38 @@
             // pnlToolBar
             // 
             this.pnlToolBar.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.pnlToolBar.Controls.Add(this.btnMultiUpdate);
+            this.pnlToolBar.Controls.Add(this.btnFind);
             this.pnlToolBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlToolBar.Location = new System.Drawing.Point(0, 0);
             this.pnlToolBar.Name = "pnlToolBar";
-            this.pnlToolBar.Size = new System.Drawing.Size(1924, 40);
+            this.pnlToolBar.Size = new System.Drawing.Size(1224, 40);
             this.pnlToolBar.TabIndex = 3;
+            // 
+            // btnMultiUpdate
+            // 
+            this.btnMultiUpdate.Location = new System.Drawing.Point(577, 9);
+            this.btnMultiUpdate.Name = "btnMultiUpdate";
+            this.btnMultiUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnMultiUpdate.TabIndex = 4;
+            this.btnMultiUpdate.TabStop = false;
+            this.btnMultiUpdate.Text = "批量修改";
+            this.btnMultiUpdate.Click += new System.EventHandler(this.btnMultiUpdate_Click);
+            // 
+            // btnFind
+            // 
+            this.btnFind.Location = new System.Drawing.Point(496, 9);
+            this.btnFind.Name = "btnFind";
+            this.btnFind.Size = new System.Drawing.Size(75, 23);
+            this.btnFind.TabIndex = 3;
+            this.btnFind.TabStop = false;
+            this.btnFind.Text = "过滤查找";
+            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // pnlEdit
             // 
+            this.pnlEdit.Controls.Add(this.textSupplierMaterialId);
+            this.pnlEdit.Controls.Add(this.labSupplierMaterialId);
             this.pnlEdit.Controls.Add(this.checkIsBuy);
             this.pnlEdit.Controls.Add(this.labUnit);
             this.pnlEdit.Controls.Add(this.lookUpUnit);
@@ -404,7 +446,7 @@
             this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEdit.Location = new System.Drawing.Point(0, 40);
             this.pnlEdit.Name = "pnlEdit";
-            this.pnlEdit.Size = new System.Drawing.Size(1924, 209);
+            this.pnlEdit.Size = new System.Drawing.Size(1224, 209);
             this.pnlEdit.TabIndex = 7;
             // 
             // checkIsBuy
@@ -418,7 +460,7 @@
             this.checkIsBuy.Properties.ValueChecked = ((short)(1));
             this.checkIsBuy.Properties.ValueUnchecked = ((short)(0));
             this.checkIsBuy.Size = new System.Drawing.Size(97, 19);
-            this.checkIsBuy.TabIndex = 17;
+            this.checkIsBuy.TabIndex = 18;
             // 
             // labUnit
             // 
@@ -509,7 +551,7 @@
             // 
             this.lookUpBrand.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSPartsCode, "Brand", true));
             this.lookUpBrand.EnterMoveNextControl = true;
-            this.lookUpBrand.Location = new System.Drawing.Point(872, 89);
+            this.lookUpBrand.Location = new System.Drawing.Point(875, 89);
             this.lookUpBrand.Name = "lookUpBrand";
             this.lookUpBrand.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -534,7 +576,7 @@
             // 
             this.lookUpCatgName.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSPartsCode, "CatgName", true));
             this.lookUpCatgName.EnterMoveNextControl = true;
-            this.lookUpCatgName.Location = new System.Drawing.Point(872, 21);
+            this.lookUpCatgName.Location = new System.Drawing.Point(875, 21);
             this.lookUpCatgName.Name = "lookUpCatgName";
             this.lookUpCatgName.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
@@ -636,10 +678,10 @@
             // 
             this.textTel.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSPartsCode, "Tel", true));
             this.textTel.EnterMoveNextControl = true;
-            this.textTel.Location = new System.Drawing.Point(872, 160);
+            this.textTel.Location = new System.Drawing.Point(875, 160);
             this.textTel.Name = "textTel";
             this.textTel.Size = new System.Drawing.Size(160, 20);
-            this.textTel.TabIndex = 19;
+            this.textTel.TabIndex = 20;
             // 
             // labTel
             // 
@@ -656,7 +698,7 @@
             this.textDesigner.Location = new System.Drawing.Point(615, 160);
             this.textDesigner.Name = "textDesigner";
             this.textDesigner.Size = new System.Drawing.Size(160, 20);
-            this.textDesigner.TabIndex = 18;
+            this.textDesigner.TabIndex = 19;
             // 
             // labDesigner
             // 
@@ -674,7 +716,7 @@
             this.checkIsPreprocessing.Name = "checkIsPreprocessing";
             this.checkIsPreprocessing.Properties.Caption = "预处理";
             this.checkIsPreprocessing.Size = new System.Drawing.Size(97, 19);
-            this.checkIsPreprocessing.TabIndex = 16;
+            this.checkIsPreprocessing.TabIndex = 17;
             // 
             // checkIsPrecious
             // 
@@ -684,7 +726,7 @@
             this.checkIsPrecious.Name = "checkIsPrecious";
             this.checkIsPrecious.Properties.Caption = "贵重";
             this.checkIsPrecious.Size = new System.Drawing.Size(97, 19);
-            this.checkIsPrecious.TabIndex = 15;
+            this.checkIsPrecious.TabIndex = 16;
             // 
             // checkIsLongPeriod
             // 
@@ -694,7 +736,7 @@
             this.checkIsLongPeriod.Name = "checkIsLongPeriod";
             this.checkIsLongPeriod.Properties.Caption = "长周期";
             this.checkIsLongPeriod.Size = new System.Drawing.Size(97, 19);
-            this.checkIsLongPeriod.TabIndex = 14;
+            this.checkIsLongPeriod.TabIndex = 15;
             // 
             // checkIsPreferred
             // 
@@ -704,7 +746,7 @@
             this.checkIsPreferred.Name = "checkIsPreferred";
             this.checkIsPreferred.Properties.Caption = "优选";
             this.checkIsPreferred.Size = new System.Drawing.Size(97, 19);
-            this.checkIsPreferred.TabIndex = 13;
+            this.checkIsPreferred.TabIndex = 14;
             // 
             // spinCodeWeight
             // 
@@ -734,7 +776,7 @@
             // 
             this.textCodeSpec.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSPartsCode, "CodeSpec", true));
             this.textCodeSpec.EnterMoveNextControl = true;
-            this.textCodeSpec.Location = new System.Drawing.Point(872, 55);
+            this.textCodeSpec.Location = new System.Drawing.Point(875, 55);
             this.textCodeSpec.Name = "textCodeSpec";
             this.textCodeSpec.Size = new System.Drawing.Size(160, 20);
             this.textCodeSpec.TabIndex = 5;
@@ -822,7 +864,7 @@
             this.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGrid.Location = new System.Drawing.Point(0, 249);
             this.pnlGrid.Name = "pnlGrid";
-            this.pnlGrid.Size = new System.Drawing.Size(1924, 416);
+            this.pnlGrid.Size = new System.Drawing.Size(1224, 416);
             this.pnlGrid.TabIndex = 8;
             // 
             // gridCrlPartsCode
@@ -838,7 +880,7 @@
             this.repLookUpCatgName,
             this.repLookUpFinish,
             this.repLookUpMachiningLevel});
-            this.gridCrlPartsCode.Size = new System.Drawing.Size(1920, 412);
+            this.gridCrlPartsCode.Size = new System.Drawing.Size(1220, 412);
             this.gridCrlPartsCode.TabIndex = 0;
             this.gridCrlPartsCode.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewPartsCode});
@@ -881,6 +923,7 @@
             this.gridViewPartsCode.OptionsView.ShowFooter = true;
             this.gridViewPartsCode.OptionsView.ShowGroupPanel = false;
             this.gridViewPartsCode.CustomDrawRowIndicator += new DevExpress.XtraGrid.Views.Grid.RowIndicatorCustomDrawEventHandler(this.searchLookUpMaterialView_CustomDrawRowIndicator);
+            this.gridViewPartsCode.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridViewPartsCode_FocusedRowChanged);
             this.gridViewPartsCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gridViewPartsCode_KeyDown);
             // 
             // colAutoId
@@ -1235,6 +1278,89 @@
             this.tsmiDw.Size = new System.Drawing.Size(256, 22);
             this.tsmiDw.Text = "单位不能为空，请重新操作。";
             // 
+            // dockManagerOther
+            // 
+            this.dockManagerOther.Form = this;
+            this.dockManagerOther.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
+            this.dockPanelInfo});
+            this.dockManagerOther.TopZIndexControls.AddRange(new string[] {
+            "DevExpress.XtraBars.BarDockControl",
+            "DevExpress.XtraBars.StandaloneBarDockControl",
+            "System.Windows.Forms.StatusBar",
+            "System.Windows.Forms.MenuStrip",
+            "System.Windows.Forms.StatusStrip",
+            "DevExpress.XtraBars.Ribbon.RibbonStatusBar",
+            "DevExpress.XtraBars.Ribbon.RibbonControl",
+            "DevExpress.XtraBars.Navigation.OfficeNavigationBar",
+            "DevExpress.XtraBars.Navigation.TileNavPane"});
+            // 
+            // dockPanelInfo
+            // 
+            this.dockPanelInfo.Controls.Add(this.dockPanel1_Container);
+            this.dockPanelInfo.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
+            this.dockPanelInfo.ID = new System.Guid("507f608f-1c29-4292-9b4c-c741031e98d4");
+            this.dockPanelInfo.Location = new System.Drawing.Point(1224, 0);
+            this.dockPanelInfo.Name = "dockPanelInfo";
+            this.dockPanelInfo.Options.AllowDockAsTabbedDocument = false;
+            this.dockPanelInfo.Options.AllowDockBottom = false;
+            this.dockPanelInfo.Options.AllowDockFill = false;
+            this.dockPanelInfo.Options.AllowDockLeft = false;
+            this.dockPanelInfo.Options.AllowDockTop = false;
+            this.dockPanelInfo.Options.AllowFloating = false;
+            this.dockPanelInfo.Options.FloatOnDblClick = false;
+            this.dockPanelInfo.Options.ShowCloseButton = false;
+            this.dockPanelInfo.Options.ShowMaximizeButton = false;
+            this.dockPanelInfo.OriginalSize = new System.Drawing.Size(700, 200);
+            this.dockPanelInfo.Size = new System.Drawing.Size(700, 665);
+            this.dockPanelInfo.Text = "物料其他信息";
+            // 
+            // dockPanel1_Container
+            // 
+            this.dockPanel1_Container.Controls.Add(this.TabCtlInfo);
+            this.dockPanel1_Container.Location = new System.Drawing.Point(4, 23);
+            this.dockPanel1_Container.Name = "dockPanel1_Container";
+            this.dockPanel1_Container.Size = new System.Drawing.Size(692, 638);
+            this.dockPanel1_Container.TabIndex = 0;
+            // 
+            // TabCtlInfo
+            // 
+            this.TabCtlInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabCtlInfo.Location = new System.Drawing.Point(0, 0);
+            this.TabCtlInfo.Name = "TabCtlInfo";
+            this.TabCtlInfo.SelectedTabPage = this.PagePriceInfo;
+            this.TabCtlInfo.Size = new System.Drawing.Size(692, 638);
+            this.TabCtlInfo.TabIndex = 10;
+            this.TabCtlInfo.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
+            this.PagePriceInfo});
+            // 
+            // PagePriceInfo
+            // 
+            this.PagePriceInfo.Name = "PagePriceInfo";
+            this.PagePriceInfo.Size = new System.Drawing.Size(686, 609);
+            this.PagePriceInfo.Text = "供应商价格信息";
+            // 
+            // dataColSupplierMaterialId
+            // 
+            this.dataColSupplierMaterialId.Caption = "材料供应商";
+            this.dataColSupplierMaterialId.ColumnName = "SupplierMaterialId";
+            // 
+            // textSupplierMaterialId
+            // 
+            this.textSupplierMaterialId.DataBindings.Add(new System.Windows.Forms.Binding("EditValue", this.bSPartsCode, "SupplierMaterialId", true));
+            this.textSupplierMaterialId.EnterMoveNextControl = true;
+            this.textSupplierMaterialId.Location = new System.Drawing.Point(875, 123);
+            this.textSupplierMaterialId.Name = "textSupplierMaterialId";
+            this.textSupplierMaterialId.Size = new System.Drawing.Size(160, 20);
+            this.textSupplierMaterialId.TabIndex = 13;
+            // 
+            // labSupplierMaterialId
+            // 
+            this.labSupplierMaterialId.Location = new System.Drawing.Point(805, 126);
+            this.labSupplierMaterialId.Name = "labSupplierMaterialId";
+            this.labSupplierMaterialId.Size = new System.Drawing.Size(60, 14);
+            this.labSupplierMaterialId.TabIndex = 48;
+            this.labSupplierMaterialId.Text = "材料供应商";
+            // 
             // FrmPartsCode
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1242,6 +1368,7 @@
             this.Controls.Add(this.pnlGrid);
             this.Controls.Add(this.pnlEdit);
             this.Controls.Add(this.pnlToolBar);
+            this.Controls.Add(this.dockPanelInfo);
             this.Name = "FrmPartsCode";
             this.TabText = "物料信息";
             this.Text = "物料信息";
@@ -1251,6 +1378,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TablePartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bSPartsCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlToolBar)).EndInit();
+            this.pnlToolBar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pnlEdit)).EndInit();
             this.pnlEdit.ResumeLayout(false);
             this.pnlEdit.PerformLayout();
@@ -1285,6 +1413,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.repLookUpMachiningLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repCheckIsBuy)).EndInit();
             this.cms.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dockManagerOther)).EndInit();
+            this.dockPanelInfo.ResumeLayout(false);
+            this.dockPanel1_Container.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TabCtlInfo)).EndInit();
+            this.TabCtlInfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.textSupplierMaterialId.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1404,5 +1538,15 @@
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpCatgName;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpFinish;
         private DevExpress.XtraEditors.Repository.RepositoryItemLookUpEdit repLookUpMachiningLevel;
+        private DevExpress.XtraEditors.SimpleButton btnFind;
+        private DevExpress.XtraEditors.SimpleButton btnMultiUpdate;
+        private DevExpress.XtraBars.Docking.DockManager dockManagerOther;
+        private DevExpress.XtraBars.Docking.DockPanel dockPanelInfo;
+        private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
+        private DevExpress.XtraTab.XtraTabControl TabCtlInfo;
+        private DevExpress.XtraTab.XtraTabPage PagePriceInfo;
+        private System.Data.DataColumn dataColSupplierMaterialId;
+        private DevExpress.XtraEditors.TextEdit textSupplierMaterialId;
+        private DevExpress.XtraEditors.LabelControl labSupplierMaterialId;
     }
 }

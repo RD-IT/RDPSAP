@@ -398,8 +398,8 @@
             this.Controls.Add(this.pnlEdit);
             this.Controls.Add(this.pnlToolBar);
             this.Name = "FrmWorkFlowModule";
-            this.TabText = "审核流-业务模块";
-            this.Text = "审核流-业务模块";
+            this.TabText = "审批流-业务模块";
+            this.Text = "审批流-业务模块";
             this.Load += new System.EventHandler(this.FrmWorkFlowModule_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dSWorkFlowModule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TableWorkFlowModule)).EndInit();

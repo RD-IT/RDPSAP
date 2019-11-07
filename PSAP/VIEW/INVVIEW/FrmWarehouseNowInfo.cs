@@ -39,28 +39,35 @@ namespace PSAP.VIEW.BSVIEW
             try
             {
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
-                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
-                DataTable shelfTable_t = commonDAO.QueryShelfInfo(true);
                 DataTable catgNameTable_f = commonDAO.QueryPartNoCatg(false);
 
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = locationTable_t;
-                SearchLocationId.EditValue = 0;
-                searchLookUpShelfId.Properties.DataSource = shelfTable_t;
-                searchLookUpShelfId.EditValue = 0;
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
-                searchLookUpProjectNo.Text = "全部";
-                searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.EditValue = 0;
+                //SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.EditValue = 0;
+                //searchLookUpShelfId.Properties.DataSource = shelfTable_t;
+                //searchLookUpShelfId.EditValue = 0;
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
+                //searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
+                //searchLookUpCodeFileName.EditValue = 0;
 
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchLookUpCodeFileName, true);
+                searchLookUpCodeFileName.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
+                searchLookUpProjectNo.Text = "全部";
+                ctlInit.SearchLookUpEdit_ShelfInfo(searchLookUpShelfId, true);
+                searchLookUpShelfId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
+                SearchLocationId.EditValue = 0;
 
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
                 //repLookUpLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 //repLookUpShelfId.DataSource = commonDAO.QueryShelfInfo(false);
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
-                repLookUpLocationId.DataSource = locationTable_t;
-                repLookUpShelfId.DataSource = shelfTable_t;
+                repLookUpLocationId.DataSource = SearchLocationId.Properties.DataSource;
+                repLookUpShelfId.DataSource = searchLookUpShelfId.Properties.DataSource;
                 repLookUpCatgName.DataSource = catgNameTable_f;
 
                 if (SystemInfo.DisableProjectNo)

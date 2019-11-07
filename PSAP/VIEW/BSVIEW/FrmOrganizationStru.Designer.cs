@@ -422,7 +422,7 @@
             this.tsbEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbEdit.Name = "tsbEdit";
             this.tsbEdit.Size = new System.Drawing.Size(36, 22);
-            this.tsbEdit.Text = "编辑";
+            this.tsbEdit.Text = "修改";
             this.tsbEdit.Click += new System.EventHandler(this.tsbEdit_Click);
             // 
             // tsbSave

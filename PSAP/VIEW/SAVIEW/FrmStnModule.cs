@@ -43,7 +43,7 @@ namespace PSAP.VIEW.BSVIEW
         private DataRow copyRow = null;
 
         /// <summary>
-        /// 复制编辑新的功能模块号
+        /// 复制修改新的功能模块号
         /// </summary>
         public static string copyNewSMNoStr = "";
 
@@ -76,8 +76,17 @@ namespace PSAP.VIEW.BSVIEW
                 dateGetTimeBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateGetTimeEnd.DateTime = nowDate.Date;
 
-                Set_ButtonEditGrid_State(true);
+                LookUpCreator.Properties.DataSource = commonDAO.QueryUserInfo(false);
 
+                repItemLookUpCreator.DataSource = LookUpCreator.Properties.DataSource;
+
+                repLookUpCreator.DataSource = LookUpCreator.Properties.DataSource;
+
+                if (querySMNoStr == "")
+                {
+                    smDAO.QueryStnModule(dataSet_StnModule.Tables[0], "", "", 0, "", "", true);
+                    Set_ButtonEditGrid_State(true);
+                }
             }
             catch (Exception ex)
             {
@@ -98,7 +107,7 @@ namespace PSAP.VIEW.BSVIEW
                     querySMNoStr = "";
 
                     dataSet_StnModule.Tables[0].Clear();
-                    smDAO.QueryStnModule(dataSet_StnModule.Tables[0], "", "", "", textCommon.Text, "");
+                    smDAO.QueryStnModule(dataSet_StnModule.Tables[0], "", "", 0, textCommon.Text, "",false);
                     Set_ButtonEditGrid_State(true);
 
                     if (dataSet_StnModule.Tables[0].Rows.Count > 0)
@@ -318,7 +327,7 @@ namespace PSAP.VIEW.BSVIEW
                     case "Unit":
                     case "DeliveryQty":
                     case "Amount":
-                    case "Prepared":
+                    case "Creator":
                         {
                             string valueFirstColumn1 = Convert.ToString(view.GetRowCellValue(e.RowHandle1, firstColumnFieldName));
                             string valueFirstColumn2 = Convert.ToString(view.GetRowCellValue(e.RowHandle2, firstColumnFieldName));
@@ -551,7 +560,7 @@ namespace PSAP.VIEW.BSVIEW
                 if (tmpSMNoStr != "")
                 {
                     DataTable tmpTable = TableStnModule.Clone();
-                    smDAO.QueryStnModule(tmpTable, "", "", "", tmpSMNoStr, "");
+                    smDAO.QueryStnModule(tmpTable, "", "", 0, tmpSMNoStr, "",false);
 
                     btnNew_Click(null, null);
                     
@@ -591,7 +600,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                e.Row["Prepared"] = SystemInfo.user.EmpName;
+                e.Row["Creator"] = SystemInfo.user.AutoId;
             }
             catch (Exception ex)
             {
@@ -600,7 +609,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -639,7 +648,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";
@@ -678,7 +687,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 dataSet_StnModule.Tables[0].Rows.Clear();
 
-                smDAO.QueryStnModule(dataSet_StnModule.Tables[0], getTimeBeginStr, getTimeEndStr, "", "", commonStr);
+                smDAO.QueryStnModule(dataSet_StnModule.Tables[0], getTimeBeginStr, getTimeEndStr, 0, "", commonStr,false);
 
                 Set_ButtonEditGrid_State(true);
             }
@@ -700,7 +709,7 @@ namespace PSAP.VIEW.BSVIEW
                     DataRow dr = gridViewStnModule.GetFocusedDataRow();
                     if (dr.RowState != DataRowState.Unchanged)
                     {
-                        MessageHandler.ShowMessageBox("当前功能模块正在编辑，请保存后再进行换行。");
+                        MessageHandler.ShowMessageBox("当前功能模块正在修改，请保存后再进行换行。");
                         e.Allow = false;
                     }
                     else

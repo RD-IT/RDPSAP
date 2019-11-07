@@ -404,7 +404,7 @@ namespace PSAP.VIEW.BSVIEW
                         {
                             //treeList1.Nodes.Add(node);
                             pbBomNoList.Add(DataTypeConvert.GetString(node["PbBomNo"]));
-                            //MessageBox.Show(node["PbBomNo"].ToString());
+                            //MessageHandler.ShowMessageBox(node["PbBomNo"].ToString());
                         }
                     }
                 }
@@ -646,7 +646,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 刷新按钮事件
+        /// 查询按钮事件
         /// </summary>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -678,7 +678,7 @@ namespace PSAP.VIEW.BSVIEW
             }
             catch (Exception ex)
             {
-                ExceptionHandler.HandleException(this.Text + "--刷新按钮事件错误。", ex);
+                ExceptionHandler.HandleException(this.Text + "--查询按钮事件错误。", ex);
             }
         }
 
@@ -749,7 +749,7 @@ namespace PSAP.VIEW.BSVIEW
         }
 
         /// <summary>
-        /// 编辑选择销售订单
+        /// 修改选择销售订单
         /// </summary>
         private void buttonEditSalesOrderNo_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
         {
@@ -784,7 +784,7 @@ namespace PSAP.VIEW.BSVIEW
                 e.Row["CurrentDate"] = nowDate;
                 e.Row["ReqDate"] = nowDate.Date.AddDays(14);
                 e.Row["PsState"] = 1;
-                e.Row["Prepared"] = SystemInfo.user.EmpName;
+                e.Row["Creator"] = SystemInfo.user.AutoId;
             }
             catch (Exception ex)
             {
@@ -1092,7 +1092,7 @@ namespace PSAP.VIEW.BSVIEW
         //}
 
         ///// <summary>
-        ///// 设定树的显示编辑事件
+        ///// 设定树的显示修改事件
         ///// </summary>
         //private void treeListPSBom_ShowingEditor(object sender, CancelEventArgs e)
         //{
@@ -1112,12 +1112,12 @@ namespace PSAP.VIEW.BSVIEW
         //    }
         //    catch (Exception ex)
         //    {
-        //        ExceptionHandler.HandleException(this.Text + "--设定树的显示编辑事件错误。", ex);
+        //        ExceptionHandler.HandleException(this.Text + "--设定树的显示修改事件错误。", ex);
         //    }
         //}
 
         /// <summary>
-        /// 设定按钮编辑区列表区的状态
+        /// 设定按钮修改区列表区的状态
         /// </summary>
         private void Set_ButtonEditGrid_State(bool state)
         {
@@ -1162,7 +1162,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (state)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "";

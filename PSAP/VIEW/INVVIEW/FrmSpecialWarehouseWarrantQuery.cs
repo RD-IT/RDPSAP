@@ -34,31 +34,36 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
+                ControlCommonInit ctlInit = new ControlCommonInit();
+
                 DateTime nowDate = BaseSQL.GetServerDateTime();
                 dateSWWDateBegin.DateTime = nowDate.Date.AddDays(-SystemInfo.OrderQueryDate_DateIntervalDays);
                 dateSWWDateEnd.DateTime = nowDate.Date;
 
                 DataTable departmentTable_t = commonDAO.QueryDepartment(true);
                 DataTable repertoryTable_t = commonDAO.QueryRepertoryInfo(true);
-                DataTable locationTable_t = commonDAO.QueryRepertoryLocationInfo(true);
 
                 lookUpReqDep.Properties.DataSource = departmentTable_t;
                 lookUpReqDep.ItemIndex = 0;
                 lookUpRepertoryId.Properties.DataSource = repertoryTable_t;
                 lookUpRepertoryId.ItemIndex = 0;
-                SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.Properties.DataSource = locationTable_t;
+                //SearchLocationId.EditValue = 0;
+                ctlInit.SearchLookUpEdit_RepertoryLocationInfo(SearchLocationId, true);
                 SearchLocationId.EditValue = 0;
+                ctlInit.ComboBoxEdit_WarehouseState(comboBoxWarehouseState);
                 comboBoxWarehouseState.SelectedIndex = 0;
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = SystemInfo.user.AutoId;
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
                 //repLookUpRepertoryId.DataSource = commonDAO.QueryRepertoryInfo(false);
                 //repLookUpRepertoryLocationId.DataSource = commonDAO.QueryRepertoryLocationInfo(false);
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpRepertoryId.DataSource = repertoryTable_t;
-                repLookUpRepertoryLocationId.DataSource = locationTable_t;
+                repLookUpRepertoryLocationId.DataSource = SearchLocationId.Properties.DataSource;
                 repLookUpApprovalType.DataSource = commonDAO.QueryApprovalType(false);
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 gridBottomOrderHead.pageRowCount = SystemInfo.OrderQueryGrid_PageRowCount;
 
@@ -131,11 +136,11 @@ namespace PSAP.VIEW.BSVIEW
                 int locationIdInt = DataTypeConvert.GetInt(SearchLocationId.EditValue);
 
                 int warehouseStateInt = CommonHandler.Get_WarehouseState_No(comboBoxWarehouseState.Text);
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? lookUpPrepared.EditValue.ToString() : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_SWW.Tables[0].Rows.Clear();
-                string querySqlStr = swwDAO.QuerySpecialWarehouseWarrantHead_SQL(swwDateBeginStr, swwDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, empNameStr, -1, commonStr, false);
+                string querySqlStr = swwDAO.QuerySpecialWarehouseWarrantHead_SQL(swwDateBeginStr, swwDateEndStr, reqDepStr, repertoryIdInt, locationIdInt, warehouseStateInt, creatorInt, -1, commonStr, false);
                 lastQuerySqlStr = querySqlStr;
                 string countSqlStr = commonDAO.QuerySqlTranTotalCountSql(querySqlStr);
 

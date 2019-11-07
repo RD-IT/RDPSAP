@@ -31,8 +31,10 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
+                //searchCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(false);
 
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_PartsCode(searchCodeFileName, false, "CodeFileName", "CodeFileName");
             }
             catch (Exception ex)
             {
@@ -56,7 +58,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                textCodeName.Text = DataTypeConvert.GetString(searchPartsCodeIdView.GetRowCellValue(searchCodeFileName.Properties.GetIndexByKeyValue(e.NewValue), "CodeName"));
+                textCodeName.Text = DataTypeConvert.GetString(searchCodeFileNameView.GetRowCellValue(searchCodeFileName.Properties.GetIndexByKeyValue(e.NewValue), "CodeName"));
             }
             catch (Exception ex)
             {

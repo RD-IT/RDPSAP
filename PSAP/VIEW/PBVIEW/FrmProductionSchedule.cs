@@ -75,10 +75,12 @@ namespace PSAP.VIEW.BSVIEW
                 checkPlanDate.Checked = false;
 
                 searchLookUpCodeFileName.Properties.DataSource = commonDAO.QueryPartsCode(true);
-                searchLookUpCodeFileName.Text = "全部";
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.EditValue = SystemInfo.user.EmpName;
+                searchLookUpCodeFileName.Text = "全部";                
                 comboBoxReqState.SelectedIndex = 0;
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_EmpName(searchLookUpPrepared);
+                searchLookUpPrepared.EditValue = SystemInfo.user.EmpName;
 
                 repSearchCodeFileName.DataSource = commonDAO.QueryPartsCode(false);
 
@@ -106,7 +108,7 @@ namespace PSAP.VIEW.BSVIEW
                     textCommon.Text = queryPsNo;
                     queryPsNo = "";
                     comboBoxReqState.SelectedIndex = 0;
-                    lookUpPrepared.ItemIndex = 0;
+                    searchLookUpPrepared.Text = "全部";
                     checkPlanDate.Checked = false;
 
                     dataSet_PSchedule.Tables[0].Clear();
@@ -180,7 +182,7 @@ namespace PSAP.VIEW.BSVIEW
 
                 string codeFileNameStr = searchLookUpCodeFileName.Text != "全部" ? DataTypeConvert.GetString(searchLookUpCodeFileName.EditValue) : "";
                 int reqStateInt = CommonHandler.Get_OrderState_No(comboBoxReqState.Text);
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                string empNameStr = searchLookUpPrepared.Text != "全部" ? DataTypeConvert.GetString(searchLookUpPrepared.EditValue) : "";
                 int approverInt = -1;
 
                 string commonStr = textCommon.Text.Trim();
@@ -916,7 +918,7 @@ namespace PSAP.VIEW.BSVIEW
 
             if (this.Controls.ContainsKey("lblEditFlag"))
             {
-                //检测窗口状态：新增、编辑="EDIT"，保存、取消=""
+                //检测窗口状态：新增、修改="EDIT"，保存、取消=""
                 if (ret)
                 {
                     ((Label)this.Controls["lblEditFlag"]).Text = "EDIT";

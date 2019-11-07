@@ -15,7 +15,7 @@ namespace PSAP.DAO.PURDAO
         /// </summary>
         /// <param name="queryDataTable">要查询填充的数据表</param>
         /// <param name="prReqNoStr">请购单号</param>
-        public void QueryPrReqHead(DataTable queryDataTable, string prReqNoStr,string reqDateBeginStr,string reqDateEndStr, string reqDepStr, string purCategoryStr, string applicantStr, string projectNoStr, string commonStr)
+        public void QueryPrReqHead(DataTable queryDataTable, string prReqNoStr,string reqDateBeginStr,string reqDateEndStr, string reqDepStr, string purCategoryStr, int creatorInt, string projectNoStr, string commonStr)
         {
             string sqlStr = " ReqState in (2) and IsNull(isEnd, 0)=0 ";
             if (prReqNoStr != "")
@@ -34,9 +34,9 @@ namespace PSAP.DAO.PURDAO
             {
                 sqlStr += string.Format(" and PurCategory='{0}'", purCategoryStr);
             }
-            if (applicantStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Applicant='{0}'", applicantStr);
+                sqlStr += string.Format(" and Creator={0}", creatorInt);
             }
             if(projectNoStr!="")
             {

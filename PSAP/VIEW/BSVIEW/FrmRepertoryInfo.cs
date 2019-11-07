@@ -62,7 +62,7 @@ namespace PSAP.VIEW.BSVIEW
         {
             try
             {
-                repLookUpCreator.DataSource = commonDAO.QueryUserInfo(false);
+                repLookUpCreator.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
             }
             catch (Exception ex)
             {

@@ -47,7 +47,7 @@ namespace PSAP.VIEW.BSVIEW
                     editForm.TopLevel = false;
                     editForm.TableName = "BS_Department";
                     editForm.TableCaption = "部门信息";
-                    editForm.Sql = "select Dept.*, parent.DepartmentName as ParentDepartmentName from BS_Department as Dept left join BS_Department as parent on Dept.ParentDepartmentNo = parent.DepartmentNo order by AutoId";
+                    editForm.Sql = "select Dept.*, parent.DepartmentName as ParentDepartmentName from BS_Department as Dept left join BS_Department as parent on Dept.ParentDepartmentNo = parent.DepartmentNo order by ParentDepartmentName";
                     editForm.PrimaryKeyColumn = "DepartmentNo";
                     editForm.MasterDataSet = dSDepartment;
                     editForm.MasterBindingSource = bSDepartment;

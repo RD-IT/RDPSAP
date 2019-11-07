@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using PSAP.PSAPCommon;
-using System.Windows.Forms;
 
 namespace PSAP.DAO.BSDAO
 {
@@ -22,6 +20,14 @@ namespace PSAP.DAO.BSDAO
 
         }
 
+        /// <summary>
+        /// 得到数据库连接字符串
+        /// </summary>
+        public static string GetConnectionString(string dataSourceStr, string dbNameStr, string userIDStr, string passwordStr)
+        {
+            return string.Format("Data Source={0};Initial Catalog={1};Persist Security Info=True;User ID={2};Password={3}", dataSourceStr, dbNameStr, userIDStr, passwordStr);
+        }
+
         #region 公用方法
 
         /// <summary>
@@ -29,9 +35,13 @@ namespace PSAP.DAO.BSDAO
         /// </summary>
         public static bool TestSqlConnection()
         {
+            return TestSqlConnection(BaseSQL.connectionString);
+        }
+        public static bool TestSqlConnection(string connStr)
+        {
             try
             {
-                SqlConnection conn = new SqlConnection(BaseSQL.connectionString);
+                SqlConnection conn = new SqlConnection(connStr);
                 conn.Open();
 
                 if (conn.State == ConnectionState.Open)

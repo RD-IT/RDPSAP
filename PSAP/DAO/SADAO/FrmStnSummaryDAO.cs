@@ -85,9 +85,13 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询工位主表信息
         /// </summary>
-        public void QueryStnSummary(DataTable queryDataTable, string autoQuotationNoStr, string ssNoStr)
+        public void QueryStnSummary(DataTable queryDataTable, string autoQuotationNoStr, string ssNoStr, bool nullTable)
         {
             string sqlStr = " 1=1";
+            if (nullTable)
+            {
+                sqlStr = " 1=2";
+            }
             if (autoQuotationNoStr != "")
             {
                 sqlStr += string.Format(" and AutoQuotationNo = '{0}'", autoQuotationNoStr);
@@ -112,9 +116,13 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询工位子表信息
         /// </summary>
-        public void QueryStnSummaryList(DataTable queryDataTable, string ssNoStr)
+        public void QueryStnSummaryList(DataTable queryDataTable, string ssNoStr, bool nullTable)
         {
             string sqlStr = " 1=1";
+            if (nullTable)
+            {
+                sqlStr = " 1=2";
+            }
             if (ssNoStr != "")
             {
                 sqlStr += string.Format(" and SSNo = '{0}'", ssNoStr);
@@ -140,7 +148,7 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询工位信息的SQL（包括几个表关联的全部信息）
         /// </summary>
-        public string QueryStnSummaryList_SQL(string beginDateStr, string endDateStr, string smNoStr, string preparedStr, string commonStr, bool nullTable)
+        public string QueryStnSummaryList_SQL(string beginDateStr, string endDateStr, string smNoStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -151,9 +159,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and SMNo = '{0}'", smNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = '{0}'", creatorInt);
             }
             if (commonStr != "")
             {
@@ -170,7 +178,7 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询报价单
         /// </summary>
-        public void QueryQuotationBaseInfo(DataTable queryDataTable, string beginDateStr, string endDateStr, string bussinessBaseNoStr, string preparedStr, string commonStr)
+        public void QueryQuotationBaseInfo(DataTable queryDataTable, string beginDateStr, string endDateStr, string bussinessBaseNoStr, int creatorInt, string commonStr)
         {
             string sqlStr = " 1=1";
             if (beginDateStr != "")
@@ -181,9 +189,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and BussinessBaseNo = '{0}'", bussinessBaseNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and SA_QuotationBaseInfo.Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and SA_QuotationBaseInfo.Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {
@@ -214,13 +222,13 @@ namespace PSAP.DAO.SADAO
                             if (DataTypeConvert.GetString(headRow["SSNo"]) == "")
                             {
                                 string ssNoStr = BaseSQL.GetMaxCodeNo(cmd, "SS");
-                                cmd.CommandText = string.Format("Insert into SA_StnSummary(SSNo, AutoQuotationNo, Prepared, PreparedIp, GetTime) values ('{0}', '{1}', '{2}', '{3}', '{4}')", ssNoStr, autoQuotationNoStr, SystemInfo.user.EmpName, SystemInfo.HostIpAddress, nowTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                                cmd.CommandText = string.Format("Insert into SA_StnSummary(SSNo, AutoQuotationNo, Creator, PreparedIp, GetTime) values ('{0}', '{1}', {2}, '{3}', '{4}')", ssNoStr, autoQuotationNoStr, SystemInfo.user.AutoId, SystemInfo.HostIpAddress, nowTime.ToString("yyyy-MM-dd HH:mm:ss"));
                                 cmd.ExecuteNonQuery();
 
                                 headRow["SSNo"] = ssNoStr;
                             }
 
-                            headRow["Prepared"] = SystemInfo.user.EmpName;
+                            headRow["Creator"] = SystemInfo.user.AutoId;
                             headRow["PreparedIp"] = SystemInfo.HostIpAddress;
                             headRow["GetTime"] = nowTime;
                             addState = true;

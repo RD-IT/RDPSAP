@@ -56,7 +56,7 @@ namespace PSAP.BLL.BSBLL
                 if (t.BaseType.Name == "Form" || t.BaseType.Name == "DockContent")
                 {
                     dgvcbxTmp.Items.Add(t.Name);
-                    //MessageBox.Show(t.Name+" " +t.BaseType.Name+" " );
+                    //MessageHandler.ShowMessageBox(t.Name+" " +t.BaseType.Name+" " );
                 }
             }
         }
@@ -257,8 +257,9 @@ namespace PSAP.BLL.BSBLL
             {
                 if (t.BaseType.Name == "DockContent")
                 {
-                    DockContentFormN = (DockContent)Activator.CreateInstance(t, true);
-                    //MessageBox.Show(DockContectFormN.Text + " | " + DockContectFormN.Name);
+                    //DockContentFormN = (DockContent)Activator.CreateInstance(t, true);
+                    DockContentFormN = FormHandler.DynamicCreateDockContent(t);
+                    //MessageHandler.ShowMessageBox(DockContectFormN.Text + " | " + DockContectFormN.Name);
                     foreach (Control ctl in DockContentFormN.Controls)//遍历所有“DockContent”窗口
                     {
                         if (ctl is Button)
@@ -296,7 +297,7 @@ namespace PSAP.BLL.BSBLL
             {
                 if (n is Button)
                 {
-                    //MessageBox.Show(DockContentFormN.Name + "==>" + n.Text + "==>" + n.Name);
+                    //MessageHandler.ShowMessageBox(DockContentFormN.Name + "==>" + n.Text + "==>" + n.Name);
                     FrmRightDAO.AddSqlStatement(DockContentFormN.Name, n.Name, n.Text);
                 }
                 else if (n is SimpleButton)
@@ -310,7 +311,7 @@ namespace PSAP.BLL.BSBLL
                     {
                         if (tsTmp.Items[i].GetType().ToString() == "System.Windows.Forms.ToolStripButton")//判断是否为ToolStripButton
                         {
-                            //MessageBox.Show(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name);
+                            //MessageHandler.ShowMessageBox(DockContentFormN.Name + "==>" + tsTmp.Items[i].Text + "==>" + tsTmp.Items[i].Name);
                             FrmRightDAO.AddSqlStatement(DockContentFormN.Name, tsTmp.Items[i].Name, tsTmp.Items[i].Text);
                         }
                     }
@@ -407,15 +408,16 @@ namespace PSAP.BLL.BSBLL
         public static void TraverseForm(string strFormName, TreeNode tn, string strUserNo)
         {
             //Form f = new Form();
-            DockContent DockContectFormN = new DockContent();
+            DockContent DockContentFormN = new DockContent();
             Assembly a = Assembly.LoadFile(Application.ExecutablePath);//.net中的反射
             Type[] types = a.GetTypes();
             foreach (Type t in types)
             {
                 if (t.BaseType.Name == "DockContent" && t.Name == strFormName)//遍历找到指定“DockContent”窗口
                 {
-                    DockContectFormN = (DockContent)Activator.CreateInstance(t, true);
-                    foreach (Control ctl in DockContectFormN.Controls)//遍历
+                    //DockContectFormN = (DockContent)Activator.CreateInstance(t, true);
+                    DockContentFormN = FormHandler.DynamicCreateDockContent(t);
+                    foreach (Control ctl in DockContentFormN.Controls)//遍历
                     {
                         if (ctl is Button)
                         {
@@ -450,7 +452,7 @@ namespace PSAP.BLL.BSBLL
 
                             }
                         }
-                        TraverseFormControlsAddTree(DockContectFormN, ctl, tn, strUserNo);
+                        TraverseFormControlsAddTree(DockContentFormN, ctl, tn, strUserNo);
                     }
                 }
             }
@@ -460,8 +462,10 @@ namespace PSAP.BLL.BSBLL
             //Form f = new Form();
             if (types.ContainsKey(strFormName))
             {
-                DockContent DockContectFormN = (DockContent)Activator.CreateInstance(types[strFormName], true);
-                foreach (Control ctl in DockContectFormN.Controls)//遍历
+                //DockContent DockContectFormN = (DockContent)Activator.CreateInstance(types[strFormName], true);
+                DockContent DockContentFormN = FormHandler.DynamicCreateDockContent(types[strFormName]);
+
+                foreach (Control ctl in DockContentFormN.Controls)//遍历
                 {
                     if (ctl is Button)
                     {
@@ -497,7 +501,7 @@ namespace PSAP.BLL.BSBLL
 
                     //    }
                     //}
-                    TraverseFormControlsAddTree(DockContectFormN, ctl, tn);
+                    TraverseFormControlsAddTree(DockContentFormN, ctl, tn);
                 }
             }
         }

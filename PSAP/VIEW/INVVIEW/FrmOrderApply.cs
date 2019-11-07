@@ -50,9 +50,13 @@ namespace PSAP.VIEW.BSVIEW
                 lookUpPurCategory.ItemIndex = 0;
                 searchLookUpBussinessBaseNo.Properties.DataSource = bussInfoTable_t;
                 searchLookUpBussinessBaseNo.Text = "全部";
-                lookUpPrepared.Properties.DataSource = commonDAO.QueryUserInfo(true);
-                lookUpPrepared.ItemIndex = 0;
-                searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Properties.DataSource = commonDAO.QueryProjectList(true);
+                //searchLookUpProjectNo.Text = "全部";
+
+                ControlCommonInit ctlInit = new ControlCommonInit();
+                ctlInit.SearchLookUpEdit_UserInfo_ValueMember_AutoId(searchLookUpCreator);
+                searchLookUpCreator.EditValue = 0;
+                ctlInit.SearchLookUpEdit_ProjectList(searchLookUpProjectNo, true);
                 searchLookUpProjectNo.Text = "全部";
 
                 //repLookUpReqDep.DataSource = commonDAO.QueryDepartment(false);
@@ -61,6 +65,7 @@ namespace PSAP.VIEW.BSVIEW
                 repLookUpReqDep.DataSource = departmentTable_t;
                 repLookUpPurCategory.DataSource = purCateTable_t;
                 repSearchBussinessBaseNo.DataSource = bussInfoTable_t;
+                repLookUpCreator.DataSource = searchLookUpCreator.Properties.DataSource;
 
                 if (SystemInfo.DisableProjectNo)
                 {
@@ -103,14 +108,14 @@ namespace PSAP.VIEW.BSVIEW
                 }
                 string reqDepStr = lookUpReqDep.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpReqDep.EditValue) : "";
                 string purCategoryStr = lookUpPurCategory.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPurCategory.EditValue) : "";
-                string empNameStr = lookUpPrepared.ItemIndex > 0 ? DataTypeConvert.GetString(lookUpPrepared.EditValue) : "";
+                int creatorInt = DataTypeConvert.GetInt(searchLookUpCreator.EditValue);
                 string projectNoStr = searchLookUpProjectNo.Text != "全部" ? DataTypeConvert.GetString(searchLookUpProjectNo.EditValue) : "";
                 string bussinessBaseNoStr = DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) != "全部" ? DataTypeConvert.GetString(searchLookUpBussinessBaseNo.EditValue) : "";
                 string commonStr = textCommon.Text.Trim();
 
                 dataSet_Order.Tables[0].Clear();
                 dataSet_Order.Tables[1].Clear();
-                orderApplyDAO.QueryOrderHead(dataSet_Order.Tables[0], orderHeadNoStr, orderDateBeginStr, orderDateEndStr, reqDepStr, purCategoryStr, empNameStr, projectNoStr, bussinessBaseNoStr, commonStr);
+                orderApplyDAO.QueryOrderHead(dataSet_Order.Tables[0], orderHeadNoStr, orderDateBeginStr, orderDateEndStr, reqDepStr, purCategoryStr, creatorInt, projectNoStr, bussinessBaseNoStr, commonStr);
             }
             catch (Exception ex)
             {

@@ -117,7 +117,7 @@ namespace PSAP.VIEW.BSVIEW
             {
                 FrmCommonDAO commonDAO = new FrmCommonDAO();
                 repItemLookUpTypeNo.DataSource = commonDAO.QueryApprovalType(false);
-                repItemLookUpApprover.DataSource = commonDAO.QueryUserInfo(false);
+                repItemLookUpApprover.DataSource = commonDAO.QueryUserInfo_OnlyColumn(false);
             }
             catch (Exception ex)
             {

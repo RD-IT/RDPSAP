@@ -87,7 +87,7 @@
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 4;
             this.btnRefresh.TabStop = false;
-            this.btnRefresh.Text = "刷新";
+            this.btnRefresh.Text = "查询";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // btnDelete
@@ -197,7 +197,7 @@
             // 
             this.tsmiEdit.Name = "tsmiEdit";
             this.tsmiEdit.Size = new System.Drawing.Size(100, 22);
-            this.tsmiEdit.Text = "编辑";
+            this.tsmiEdit.Text = "修改";
             // 
             // FrmBaseEdit
             // 

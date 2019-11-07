@@ -137,7 +137,8 @@ namespace PSAP.DAO.SADAO
                                 return 1;
                             }
 
-                            headRow["Modifier"] = SystemInfo.user.EmpName;
+                            headRow["ModifierId"] = SystemInfo.user.AutoId;
+                            //headRow["Modifier"] = SystemInfo.user.EmpName;
                             headRow["ModifierIp"] = SystemInfo.HostIpAddress;
                             headRow["ModifierTime"] = BaseSQL.GetServerDateTime();
                         }
@@ -382,14 +383,14 @@ namespace PSAP.DAO.SADAO
             //    sqlStr += string.Format(" and BussinessBaseNo = '{0}'", bussinessBaseNoStr);
             //}
             //sqlStr = string.Format("select *, (Select IsNull(Sum(Amount), 0) from SA_SettleAccountsList where SA_SettleAccountsList.AutoSalesOrderNo = SA_SalesOrder.AutoSalesOrderNo) as SettleAmount, Amount - (Select IsNull(Sum(Amount), 0) from SA_SettleAccountsList where SA_SettleAccountsList.AutoSalesOrderNo = SA_SalesOrder.AutoSalesOrderNo) as NoSettleAmount from SA_SalesOrder where {0} order by AutoId", sqlStr);
-            string sqlStr = QuerySalesOrder_NoSettle_SQL(soDateBeginStr, soDateEndStr, bussinessBaseNoStr, "", "", commonStr);
+            string sqlStr = QuerySalesOrder_NoSettle_SQL(soDateBeginStr, soDateEndStr, bussinessBaseNoStr, "", 0, commonStr);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
         /// <summary>
         /// 查询销售订单SQL
         /// </summary>
-        public string QuerySalesOrderAndCor_SQL(string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, string preparedStr, string commonStr)
+        public string QuerySalesOrderAndCor_SQL(string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, int creatorInt, string commonStr)
         {
             string sqlStr = " 1=1";
             if (soDateBeginStr != "")
@@ -404,25 +405,29 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and ProjectNo = '{0}'", projectNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {
-                sqlStr += string.Format(" and (AutoSalesOrderNo like '%{0}%' or ProjectNo like '%{0}%' or ProjectName like '%{0}%' or AutoQuotationNo like '%{0}%' or CustomerPoNo like '%{0}%' or CollectionTypeNo like '%{0}%' or ProjectLeader like '%{0}%' or Remark like '%{0}%' or ParentAutoSalesOrderNo like '%{0}%' or ParentProjectNo like '%{0}%')", commonStr);
+                sqlStr += string.Format(" and (AutoSalesOrderNo like '%{0}%' or ProjectNo like '%{0}%' or ProjectName like '%{0}%' or AutoQuotationNo like '%{0}%' or CustomerPoNo like '%{0}%' or CollectionTypeNo like '%{0}%' or EmpName like '%{0}%' or Remark like '%{0}%' or ParentAutoSalesOrderNo like '%{0}%' or ParentProjectNo like '%{0}%')", commonStr);
             }
 
-            sqlStr = string.Format("select * from SA_SalesOrder where {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select SA_SalesOrder.* from SA_SalesOrder left join BS_UserInfo on SA_SalesOrder.ProjectLeaderId = BS_UserInfo.AutoId where {0} order by AutoId", sqlStr);
             return sqlStr;
         }
 
         /// <summary>
         /// 查询销售订单SQL
         /// </summary>
-        public string QuerySalesOrder_SQL(string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, string preparedStr, string commonStr)
+        public string QuerySalesOrder_SQL(string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, int creatorInt, string commonStr, bool nullTable)
         {
             string sqlStr = " 1=1";
+            if (nullTable)
+            {
+                sqlStr = " 1=2";
+            }
             if (soDateBeginStr != "")
             {
                 sqlStr += string.Format(" and SalesOrderDate between '{0}' and '{1}'", soDateBeginStr, soDateEndStr);
@@ -435,22 +440,22 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and ProjectNo = '{0}'", projectNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {
-                sqlStr += string.Format(" and (AutoSalesOrderNo like '%{0}%' or ProjectName like '%{0}%' or AutoQuotationNo like '%{0}%' or CustomerPoNo like '%{0}%' or CollectionTypeNo like '%{0}%' or ProjectLeader like '%{0}%' or Remark like '%{0}%')", commonStr);
+                sqlStr += string.Format(" and (AutoSalesOrderNo like '%{0}%' or ProjectNo like '%{0}%' or ProjectName like '%{0}%' or AutoQuotationNo like '%{0}%' or CustomerPoNo like '%{0}%' or CollectionTypeNo like '%{0}%' or EmpName like '%{0}%' or Remark like '%{0}%' or ParentAutoSalesOrderNo like '%{0}%' or ParentProjectNo like '%{0}%')", commonStr);
             }
 
-            sqlStr = string.Format("select * from SA_SalesOrder where {0} order by AutoId", sqlStr);
+            sqlStr = string.Format("select SA_SalesOrder.* from SA_SalesOrder left join BS_UserInfo on SA_SalesOrder.ProjectLeaderId = BS_UserInfo.AutoId where {0} order by AutoId", sqlStr);
             return sqlStr;
         }
 
-        public void QuerySalesOrder(DataTable queryDataTable, string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, string preparedStr, string commonStr)
+        public void QuerySalesOrder(DataTable queryDataTable, string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, int creatorInt, string commonStr, bool nullTable)
         {
-            string sqlStr = QuerySalesOrder_SQL(soDateBeginStr, soDateEndStr, bussinessBaseNoStr, projectNoStr, preparedStr, commonStr);
+            string sqlStr = QuerySalesOrder_SQL(soDateBeginStr, soDateEndStr, bussinessBaseNoStr, projectNoStr, creatorInt, commonStr,nullTable);
             BaseSQL.Query(sqlStr, queryDataTable);
         }
 
@@ -480,7 +485,7 @@ namespace PSAP.DAO.SADAO
         /// <summary>
         /// 查询未结账完的销售订单
         /// </summary>
-        public string QuerySalesOrder_NoSettle_SQL(string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, string preparedStr, string commonStr)
+        public string QuerySalesOrder_NoSettle_SQL(string soDateBeginStr, string soDateEndStr, string bussinessBaseNoStr, string projectNoStr, int creatorInt, string commonStr)
         {
             string sqlStr = " 1=1";
             if (soDateBeginStr != "")
@@ -495,9 +500,9 @@ namespace PSAP.DAO.SADAO
             {
                 sqlStr += string.Format(" and ProjectNo = '{0}'", projectNoStr);
             }
-            if (preparedStr != "")
+            if (creatorInt != 0)
             {
-                sqlStr += string.Format(" and Prepared = '{0}'", preparedStr);
+                sqlStr += string.Format(" and Creator = {0}", creatorInt);
             }
             if (commonStr != "")
             {
